@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/miniAtlantida.png">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.fw.png">
     <title>Kanban Board</title>
     <link rel="stylesheet" href="css/animate.min.css" />
     <link href="assets/node_modules/morrisjs/morris.css" rel="stylesheet">
@@ -44,8 +45,9 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="/default.aspx">
                         <span>
-                            <img src="/assets/images/logo-blanco.png" width="170" alt="homepage" />
+                            <img src="images/logo_texto_blanco.png" width="200" height="38" alt="homepage" />
                         </span>
+                       
                     </a>
                 </div>
                 <div class="navbar-collapse">

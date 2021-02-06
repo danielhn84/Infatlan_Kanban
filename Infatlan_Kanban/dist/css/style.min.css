@@ -15514,7 +15514,8 @@ address, legend {
 }
 
 .skin-default .topbar {
-    background: linear-gradient(120deg, #D9272E, #D9272E); /*#dee2e6*/
+
+    background: linear-gradient(120deg, #00468c, #00468c); /*#dee2e6*/
 }
 
     .skin-default .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
