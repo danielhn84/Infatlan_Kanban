@@ -288,7 +288,7 @@ namespace Infatlan_Kanban.pages
                 divTeamsSeleccionado.Visible = false;
                 UpdatePanel3.Update();
 
-                LbTitulo.Text = "Agregar equipos de trabajo a la gestión";
+                LbTitulo.Text = "Agregar Equipo de Trabajo";
                 DdlTeams.Items.Clear();
                 string vQuery = "GESTIONES_Generales 26";
                 DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
@@ -390,6 +390,11 @@ namespace Infatlan_Kanban.pages
             {
                 Mensaje(ex.Message, WarningType.Danger);
             }
+        }
+
+        protected void GVBusqueda_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+
         }
     }
 }

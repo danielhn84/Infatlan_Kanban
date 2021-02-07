@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/main.Master" AutoEventWireup="true" CodeBehind="gestiones.aspx.cs" Inherits="Infatlan_Kanban.pages.gestiones" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+
     <script type="text/javascript">
         var updateProgress = null;
         function postbackButtonClick() {
@@ -29,9 +30,25 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
 
-    <div class="row page-titles">
+
+                <div class="row page-titles">
+                    <div class="col-md-12">
+                        <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Configuraciones</a></li>
+                            <li class="breadcrumb-item active">Gestiones</li>
+                        </ol>
+                    </div>
+                </div>
+
+
+<%--    <div class="row page-titles">
         <div class="col-md-5 align-self-center">
-            <h4 class="card-title"><strong>Kanban Board Gestiones Técnicas </strong></h4>
+            <h4 class="card-title">
+                <img src="../images/GestionesTecnicas.JPG" /></h4>
         </div>
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
@@ -42,30 +59,33 @@
                 </ol>
             </div>
         </div>
-    </div>
+    </div>--%>
 
     <asp:UpdatePanel runat="server" ID="UpdatePanel">
         <ContentTemplate>
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">
-                        <label runat="server" id="LbTituloTarjeta">Tipo de Gestiones</label></h4>
+
+                    <h4 class="card-title">Tipo de Gestiones</h4>
                     <h6 class="card-subtitle">Listado activo de gestiones técnicas.</h6>
                   <%--  <br />--%>
                     <div class="card-body">
                         <div class="row col-7">
                             <label class="col-2 col-form-label">Búsqueda</label>
-                            <div class="col-8">
+                            <div class="col-7">
                                 <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxBusqueda" class="form-control text-uppercase" AutoPostBack="true" OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
                             </div>
-                            <asp:LinkButton ID="BtnNuevo" runat="server" title="Agregar" Text="Agregar" style="background-color:#D9272E;  color: #ffffff;" class="btn" OnClick="BtnNuevo_Click">
-                                        <i class="mdi mdi-plus text-white mr-2"></i>Agregar
+                            <asp:LinkButton ID="BtnNuevo" runat="server" title="Agregar" Text="Agregar"  Style="background-color: #00468c; color: #ffffff;"  class="btn" OnClick="BtnNuevo_Click">
+                                         <i class="fa fa-plus-circle text-white mr-2"></i>Nueva Gestión
                             </asp:LinkButton>
+
+
+
                         </div>
 
                         <div class="table-responsive m-t-20">
                             <asp:GridView ID="GVBusqueda" runat="server"
-                                CssClass="table table-bordered"
+                                CssClass="table  table-hover table-sm"
                                 PagerStyle-CssClass="pgr"
                                 HeaderStyle-CssClass="table"
                                 RowStyle-CssClass="rows" HeaderStyle-HorizontalAlign="center"
@@ -74,13 +94,15 @@
                                 GridLines="None"
                                 PageSize="10">
                                 <Columns>
-                                    <asp:BoundField DataField="idTipoGestion" HeaderText="No." ItemStyle-HorizontalAlign="center" />
-                                    <asp:BoundField DataField="nombreGestion" HeaderText="Tipo Gestión" />
-                                    <asp:TemplateField HeaderText="Seleccione" HeaderStyle-Width="13%" ItemStyle-HorizontalAlign="center">
+                                    <asp:BoundField DataField="idTipoGestion" HeaderText="No." ItemStyle-HorizontalAlign="Center" />
+                                    <asp:BoundField DataField="nombreGestion" HeaderText="Gestión" />
+                                    <asp:TemplateField HeaderText="Acción" HeaderStyle-Width="13%" ItemStyle-HorizontalAlign="center">
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="BtnEditar" Visible="true" title="Editar" runat="server" class="btn btn-info" CommandArgument='<%# Eval("idTipoGestion") %>' CommandName="EditarGestion">
-                                                <i class="icon-pencil" ></i>
-                                            </asp:LinkButton>
+                                            <asp:LinkButton ID="BtnEditar" Visible="true" title="Editar" runat="server" class="btn btn-cyan" CommandArgument='<%# Eval("idTipoGestion") %>' CommandName="EditarGestion">
+                                               <i class="icon-pencil" ></i>
+                                            </asp:LinkButton>            
+                                            
+
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
@@ -104,9 +126,6 @@
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdatePanelModal" runat="server">
@@ -114,14 +133,14 @@
                             <div class="row col-12">
                                 <div class="col-12">
                                     <div class="form-group row">
-                                        <div class="col-1">
+                                        <div class="col-2">
                                             <label class="col-form-label">Gestión</label>
                                         </div>
-                                        <div class="col-10">
+                                        <div class="col-9">
                                             <asp:TextBox ID="TxGestion" class="form-control text-uppercase" runat="server"></asp:TextBox>
                                         </div>
                                         <div class="col-1">
-                                            <asp:Button ID="BtnAddTeams" runat="server" Text="+" class="btn btn-info" OnClick="BtnAddTeams_Click" />
+                                            <asp:Button ID="BtnAddTeams" runat="server" Text="+"  Style="background-color: #00468c; color: #ffffff;"  class="btn" OnClick="BtnAddTeams_Click" />
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +163,7 @@
                                         <asp:UpdatePanel runat="server" ID="UpTeamsGestiones" UpdateMode="Conditional">
                                             <ContentTemplate>
                                                 <asp:GridView ID="GvGestionesTeams" runat="server"
-                                                    CssClass="table table-bordered" 
+                                                    CssClass="table table-hover table-sm"
                                                     PagerStyle-CssClass="pgr" 
                                                     HeaderStyle-CssClass="table" HeaderStyle-HorizontalAlign="center"
                                                     RowStyle-CssClass="rows"
@@ -154,11 +173,11 @@
                                                     PageSize="5"  >
                                                     <Columns>
                                                         <asp:BoundField DataField="id" HeaderText="Id" Visible="false"  />
-                                                        <asp:BoundField DataField="idTeams" HeaderText="Id Teams" ItemStyle-HorizontalAlign="center"  ControlStyle-Width="10%" />
-                                                        <asp:BoundField DataField="nombre" HeaderText="Teams" ControlStyle-Width="60%" />
+                                                        <asp:BoundField DataField="idTeams" HeaderText="Id Equipo" ItemStyle-HorizontalAlign="center"  ControlStyle-Width="10%" />
+                                                        <asp:BoundField DataField="nombre" HeaderText="Equipo" ControlStyle-Width="60%" />
                                                         <asp:TemplateField HeaderText="Acción" ItemStyle-HorizontalAlign="center">
                                                             <ItemTemplate>
-                                                                <asp:LinkButton ID="LbEliminar" class="btn btn-danger mr-2" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("id") %>'>                                           
+                                                                <asp:LinkButton ID="LbEliminar" class="btn btn-primary mr-2" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("id") %>'>                                           
                                             <i class="mdi mdi-delete" ></i>
                                                                 </asp:LinkButton>
                                                             </ItemTemplate>
@@ -182,7 +201,10 @@
                     <asp:UpdatePanel ID="UpdateModificacionBotones" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnAceptar" runat="server" Text="Aceptar" class="btn" style="background-color:#D9272E;  color: #ffffff;" OnClick="BtnAceptar_Click" />
+                         
+                            <asp:Button ID="BtnAceptar" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnAceptar_Click" />
+
+                        
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -211,7 +233,7 @@
                             <asp:DropDownList runat="server" ID="DdlTeams" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" OnSelectedIndexChanged="DdlTeams_SelectedIndexChanged"></asp:DropDownList>
                             <br />
                             <br />
-                            <div class="col-12" runat="server" id="divTeamsSeleccionado" visible="false" style="display: flex; background-color: #D9272E; justify-content: center">
+                            <div class="col-12 text-center" runat="server" id="divTeamsSeleccionado" visible="false" style="display: flex; background-color: #00468c; justify-content: center">
                                 <asp:Label runat="server" CssClass="col-form-label text-white" ID="lbAdvertenciaTeams"></asp:Label>
                             </div>
                         
@@ -222,7 +244,7 @@
                     <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnAnadirTeams" runat="server" Text="Añadir" class="btn" style="background-color:#D9272E;  color: #ffffff;" OnClick="BtnAnadirTeams_Click" />
+                            <asp:Button ID="BtnAnadirTeams" runat="server" Text="Añadir" class="btn" style="background-color:#00468c;  color: #ffffff;" OnClick="BtnAnadirTeams_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>

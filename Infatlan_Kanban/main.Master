@@ -13,10 +13,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.fw.png">
     <title>Kanban Board</title>
     <link rel="stylesheet" href="css/animate.min.css" />
-    <link href="assets/node_modules/morrisjs/morris.css" rel="stylesheet">
+<%--    <link href="assets/node_modules/morrisjs/morris.css" rel="stylesheet">
     <link href="assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
     <link href="dist/css/animate.min.css" rel="stylesheet" />
-    <link href="dist/css/style.min.css" rel="stylesheet">
+    <link href="dist/css/style.min.css" rel="stylesheet">--%>
+
+    <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
+    <link href="/assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <link href="/dist/css/animate.min.css" rel="stylesheet" />
+    <link href="/dist/css/style.min.css" rel="stylesheet">
+
+
+
 
     <script type="text/javascript"> 
         infatlan = {
@@ -45,7 +53,7 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="/default.aspx">
                         <span>
-                            <img src="images/logo_texto_blanco.png" width="200" height="38" alt="homepage" />
+                            <img src="../images/logo_texto_blanco.png" width="200" height="38" alt="homepage" />
                         </span>
                        
                     </a>
@@ -82,37 +90,26 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                     
-                       <li><a class="waves-effect waves-dark" href="/default.aspx" aria-expanded="false"><span class="hide-menu">Dashboard</span></a></li>
-                        <li><a class="waves-effect waves-dark" href="/pages/miTablero.aspx" aria-expanded="false"><span class="hide-menu">Mi Tablero</span></a></li>
-                       <li><a class="waves-effect waves-dark" href="/pages/creacionTareas.aspx" aria-expanded="false"><span class="hide-menu">Tarjeta</span></a></li>
-                     <%--  <li><a class="waves-effect waves-dark" href="/sites/gestiones/pages/tareas.aspx" aria-expanded="false"><i class="icon-basket-loaded"></i><span class="hide-menu">Tareas</span></a></li>--%>
-<%--                        <li><a class="waves-effect waves-dark" href="/sites/gestiones/pages/tareas.aspx" aria-expanded="false"><i class="icon-basket-loaded"></i><span class="hide-menu">Tareas</span></a></li>
-                    <li><a class="waves-effect waves-dark" href="/sites/inventario/pages/transacciones.aspx" aria-expanded="false"><i class="icon-folder-alt"></i><span class="hide-menu">Transacciones</span></a></li>
-                        <li><a class="waves-effect waves-dark" href="/sites/inventario/pages/articulos.aspx" aria-expanded="false"><i class="icon-home"></i><span class="hide-menu">Almacén</span></a></li>
-                        <li><a class="waves-effect waves-dark" href="/sites/inventario/pages/proveedores.aspx" aria-expanded="false"><i class="icon-people"></i><span class="hide-menu">Proveedores</span></a></li>--%>
-                        <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Configuraciones</span></a>
+
+
+                       <li><a class="waves-effect waves-dark" href="/default.aspx" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
+                        <li><a class="waves-effect waves-dark" href="/pages/miTablero.aspx" aria-expanded="false"><i class="ti-layout-grid2"></i><span class="hide-menu">Mi Tablero</span></a></li>
+                       <li><a class="waves-effect waves-dark" href="/pages/creacionTareas.aspx" aria-expanded="false"><i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tarjeta</span></a></li>
+                    
+<%--                        <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Configuraciones</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/pages/usuarios.aspx">Usuarios</a></li>      
                                 <li><a href="/pages/gestiones.aspx">Gestiones</a></li>
                                 <li><a href="/pages/teams.aspx">Equipos</a></li>
+                           </ul>
+                        </li>--%>
 
 
-
-
-                              <%--  <li runat="server" id="LIUsuarios" visible="true">
-                                    <a href="#" onclick="window.location.href = 'sites/gestiones/pages/usuarios.aspx?u=' + document.getElementById('<%= TxUser.ClientID %>').value">Usuarios</a>
-                                </li>
-
-                                <li runat="server" id="LI1" visible="true">
-                                    <a href="#" onclick="window.location.href = 'sites/gestiones/pages/gestiones.aspx?u=' + document.getElementById('<%= TxUser.ClientID %>').value">Gestiones</a>
-                                </li>
-
-                                <li runat="server" id="LITeams" visible="true">
-                                    <a href="#" onclick="window.location.href = 'sites/gestiones/pages/teams.aspx?u=' + document.getElementById('<%= TxUser.ClientID %>').value">Equipos</a>
-                                </li>--%>
-
-
-
+                        <li runat="server" visible="true" id="LIConfiguracion"><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-settings"></i><span class="hide-menu">Configuración<span class="badge badge-pill badge-cyan ml-auto">3</span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/pages/usuarios.aspx">Usuarios</a></li>      
+                                <li><a href="/pages/gestiones.aspx">Gestiones</a></li>
+                                <li><a href="/pages/teams.aspx">Equipos</a></li>
                             </ul>
                         </li>
                     </ul>

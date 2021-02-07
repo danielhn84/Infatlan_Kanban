@@ -26,7 +26,7 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
 
-    <div class="row page-titles">
+<%--    <div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="card-title"><strong>Kanban Board Gestiones Técnicas </strong></h4>
         </div>
@@ -39,31 +39,44 @@
                 </ol>
             </div>
         </div>
+    </div>--%>
+
+    <div class="row page-titles">
+        <div class="col-md-12">
+            <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
+        </div>
+        <div class="col-md-6">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Configuraciones</a></li>
+                <li class="breadcrumb-item active">Usuarios</li>
+            </ol>
+        </div>
     </div>
+
 
 
     <asp:UpdatePanel runat="server" ID="UpdatePanel">
         <ContentTemplate>
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">
-                        <label runat="server" id="LbTituloTarjeta">Usuarios </label></h4>
+                    <h4 class="card-title">Usuarios</h4>
                     <h6 class="card-subtitle">Listado activo de usuarios pertenecientes al mismo equipo de trabajo.</h6>
                    <%-- <br />--%>
                     <div class="card-body">
                         <div class="row col-7">
                             <label class="col-2 col-form-label">Búsqueda</label>
-                            <div class="col-8">
+                            <div class="col-7">
                                 <asp:TextBox runat="server" PlaceHolder="Ingrese nombre o código y presione Enter" ID="TxBusqueda" class="form-control text-uppercase" AutoPostBack="true"  OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
                             </div>
-                            <asp:LinkButton ID="BtnNuevo" runat="server" title="Agregar" Text="Agregar" style="background-color:#D9272E;  color: #ffffff;" class="btn" OnClick="BtnNuevo_Click" >
-                                        <i class="mdi mdi-plus text-white mr-2"></i>Agregar
+                            <asp:LinkButton ID="BtnNuevo" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnNuevo_Click" >
+                                        <i class="fa fa-plus-circle text-white mr-2"></i>Agregar Usuario
                             </asp:LinkButton>
                         </div>
 
                         <div class="table-responsive m-t-20">
                             <asp:GridView ID="GVBusqueda" runat="server"
-                                CssClass="table table-bordered"
+                                CssClass="table  table-hover table-sm"
                                 PagerStyle-CssClass="pgr"
                                 HeaderStyle-CssClass="table"
                                 RowStyle-CssClass="rows" HeaderStyle-HorizontalAlign="center"
@@ -78,9 +91,9 @@
                                     <asp:BoundField DataField="email" HeaderText="Correo"  />
                                     <asp:BoundField DataField="adUser" HeaderText="Usuario"  ItemStyle-HorizontalAlign="center" />
                                     <asp:BoundField DataField="codEmpleado" HeaderText="Codigo" ItemStyle-HorizontalAlign="center"  />
-                                    <asp:TemplateField HeaderText="Seleccione" HeaderStyle-Width="13%" ItemStyle-HorizontalAlign="center">
+                                    <asp:TemplateField HeaderText="Acción" HeaderStyle-Width="13%" ItemStyle-HorizontalAlign="center">
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="BtnEditar" Visible="true" title="Editar" runat="server" class="btn btn-info" CommandArgument='<%# Eval("idEmpleado") %>' CommandName="EditarEmpleado">
+                                            <asp:LinkButton ID="BtnEditar" Visible="true" title="Editar" runat="server" class="btn btn-cyan" CommandArgument='<%# Eval("idEmpleado") %>' CommandName="EditarEmpleado">
                                                 <i class="icon-pencil" ></i>
                                             </asp:LinkButton>
                                         </ItemTemplate>
@@ -108,9 +121,6 @@
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdatePanelModal" runat="server" UpdateMode="Conditional">
@@ -193,7 +203,7 @@
                             </div>
 
 
-                            <div class="col-12" runat="server" id="DivMensaje" visible="false" style="display: flex; background-color: #D9272E; justify-content: center">
+                            <div class="col-12" runat="server" id="DivMensaje" visible="false" style="display: flex; background-color: #00468c; justify-content: center">
                                 <asp:Label runat="server" CssClass="col-form-label text-white" ID="LbAdvertencia"></asp:Label>
                             </div>
                         </ContentTemplate>
@@ -203,7 +213,7 @@
                     <asp:UpdatePanel ID="UpdateModificacionBotones" runat="server">
                         <ContentTemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnAceptar" runat="server" Text="Enviar" class="btn" Style="background-color: #D9272E; color: #ffffff;" OnClick="BtnAceptar_Click" />
+                            <asp:Button ID="BtnAceptar" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnAceptar_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>

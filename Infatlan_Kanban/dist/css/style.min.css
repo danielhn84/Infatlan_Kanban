@@ -15514,7 +15514,6 @@ address, legend {
 }
 
 .skin-default .topbar {
-
     background: linear-gradient(120deg, #00468c, #00468c); /*#dee2e6*/
 }
 
@@ -20587,7 +20586,7 @@ button.close {
 .modal-body {
     position: relative;
     flex: 1 1 auto;
-    padding: 1rem
+    padding: 2rem
 }
 
 .modal-footer {
@@ -30114,9 +30113,8 @@ ul.list-inline li {
 
 .page-titles {
     background: #fff;
-    padding: 14px 10px;
-    box-shadow: 0 1px 4px 0 rgba(0,0,0,.1);
-    margin: 0 -25px 25px
+    padding: 14px 17px;
+    margin: 0 -25px 25px;
 }
 
     .page-titles h4 {

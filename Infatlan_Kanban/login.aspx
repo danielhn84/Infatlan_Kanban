@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/vendors/base/vendor.bundle.base.css">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="shortcut icon" href="/assets/images/miniAtlantida.png" />
+    <link rel="shortcut icon" href="/assets/images/favicon.fw.png" />
     <link href="/css/pages/login-register-lock.css" rel="stylesheet">
     <link href="/css/style.min.css" rel="stylesheet">
 </head>
@@ -20,7 +20,7 @@
         <div class="login-box card" style="border-radius: 20px">
             <div class="card-body">
                 <form class="form-horizontal form-material m-t-40 text-center" id="loginform" runat="server">
-                    <a class="db"><img src="../assets/images/logo-rojo.png" width="150" alt="Home" /></a>
+                    <a class="db"><img src="../assets/images/texto_logo_azul.png" width="210"  height="35" alt="Home" /></a>
                     <h3 class="m-t-20"><b>Bienvenidos | Kanban Board</b></h3>
                     <h6 class="font-weight-light">Ingrese sus credenciales.</h6>
                     <br />
@@ -37,7 +37,7 @@
                         <br />
 
                         <div class="form-group text-center">
-                                <asp:Button ID="BtnLogin" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color:#D9272E;  color: #ffffff;" runat="server" Text="Entrar"  OnClick="BtnLogin_Click" />                              
+                                <asp:Button ID="BtnLogin" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color:#00468c;  color: #ffffff;" runat="server" Text="Entrar"  OnClick="BtnLogin_Click" />                              
                         </div>
 
                     <asp:HiddenField ID="HiddenField1" runat="server" />
