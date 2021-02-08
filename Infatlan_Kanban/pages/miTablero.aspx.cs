@@ -870,7 +870,7 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
-  
+ 
                     validacionesCrearSolicitud();
 
                     GVDistribucion.DataSource = null;
