@@ -132,12 +132,12 @@ namespace Infatlan_Kanban.pages
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:10px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA ENTREGA: " + vFecha + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted'>PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
-                "<button id=\"btnModal"+vTicket+"\"  type=\"button\" class=\"btn\" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" +vTicket+ "\"><i><img src='/images/editar.png' style='width: 35px'/></i></button>" +
+                "<button id=\"btnModal"+vTicket+ "\"  type=\"button\" class='btn "+ vColorBoton + " btn-circle fa fa-clipboard'"+" \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket+ "\"></button>" +
                 "</div>" +
                 "</div>" +
                 "</div>";
@@ -201,20 +201,20 @@ namespace Infatlan_Kanban.pages
 
 
                 vString += "<div class='card'>" +
-               "<div class='card-header " + vColor + " text-white'>" +
-               "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-               "</div>" +
-               "<div class='card-body'>" +
-               "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-               "<h6 class='card-subtitle mb-2 text-dark' style='font-size:10px'><b>" + vGestion + "</b></h6><br>" +
-               "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA INICIO:  " + vFechaInicio + "</h6>" +
-               "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA ENTREGA: " + vFecha + "</h6>" +
-               "<h6 class='card-subtitle mb-2 text-muted'>PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-               "<div class='col-12 text-center' >" +
-                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class=\"btn\" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"><i><img src='/images/editar.png' style='width: 35px'/></i></button>" +
-               "</div>" +
-               "</div>" +
-               "</div>";
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
 
                 vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
                          "$(function () {" + Environment.NewLine +
@@ -275,20 +275,20 @@ namespace Infatlan_Kanban.pages
 
 
                 vString += "<div class='card'>" +
-               "<div class='card-header " + vColor + " text-white'>" +
-               "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-               "</div>" +
-               "<div class='card-body'>" +
-               "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-               "<h6 class='card-subtitle mb-2 text-dark' style='font-size:10px'><b>" + vGestion + "</b></h6><br>" +
-               "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA INICIO:  " + vFechaInicio + "</h6>" +
-               "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA ENTREGA: " + vFecha + "</h6>" +
-               "<h6 class='card-subtitle mb-2 text-muted'>PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-               "<div class='col-12 text-center' >" +
-               "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class=\"btn\" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"><i><img src='/images/editar.png' style='width: 35px'/></i></button>" +
-               "</div>" +
-               "</div>" +
-               "</div>";
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
 
                 vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
                          "$(function () {" + Environment.NewLine +
@@ -348,22 +348,20 @@ namespace Infatlan_Kanban.pages
                 }
 
                 vString += "<div class='card'>" +
-               "<div class='card-header " + vColor + " text-white'>" +
-               "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-               "</div>" +
-               "<div class='card-body'>" +
-               "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-               "<h6 class='card-subtitle mb-2 text-dark' style='font-size:10px'><b>" + vGestion + "</b></h6><br>" +
-               "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA INICIO:  " + vFechaInicio + "</h6>" +
-               "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA ENTREGA: " + vFecha + "</h6>" +
-               "<h6 class='card-subtitle mb-2 text-muted'>PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-               "<div class='col-12 text-center'>" +
-                "<h5><span class='label label-" + vColorPrioridad + "'>" + vEstadoNombre + "</span></h5><br>" +
-               //"<a href='miTablero.aspx?ex=" + vTicket + "&exLectura=1'><i><img src='/images/vistaPrevia.png' style='width: 35px'/></i></a>" +
-               "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class=\"btn\" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"><i><img src='/images/vistaPrevia.png' style='width: 35px'/></i></button>" +
-               "</div>" +
-               "</div>" +
-               "</div>";
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
 
 
                 vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
@@ -426,20 +424,20 @@ namespace Infatlan_Kanban.pages
 
 
                 vString += "<div class='card'>" +
-               "<div class='card-header " + vColor + " text-white'>" +
-               "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-               "</div>" +
-               "<div class='card-body'>" +
-               "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-               "<h6 class='card-subtitle mb-2 text-dark' style='font-size:10px'><b>" + vGestion + "</b></h6><br>" +
-               "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA INICIO:  " + vFechaInicio + "</h6>" +
-               "<h6 class='card-subtitle mb-2 text-muted'><i><img src='/images/calendario.png' style='width: 23px'; height='20px'/></i> FECHA ENTREGA: " + vFecha + "</h6>" +
-               "<h6 class='card-subtitle mb-2 text-muted'>PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-               "<div class='col-12 text-center' >" +
-                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class=\"btn\" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"><i><img src='/images/editar.png' style='width: 35px'/></i></button>" +
-               "</div>" +
-               "</div>" +
-               "</div>";
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
 
                 vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
                          "$(function () {" + Environment.NewLine +

@@ -40,8 +40,8 @@
             </div>
         </div>
     </div>--%>
-
-    <div class="row page-titles">
+   
+    <div class="row page-titles"  >
         <div class="col-md-12">
             <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
         </div>

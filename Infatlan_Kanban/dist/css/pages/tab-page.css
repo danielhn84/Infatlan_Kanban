@@ -41,13 +41,13 @@ Vertical tabs
       border-radius: 0.25rem 0 0 0.25rem; }
   .vtabs .tab-content {
     display: table-cell;
-    padding: 40px;
+    padding: 20px;
     vertical-align: top; }
 
 .tabs-vertical li .nav-link.active,
 .tabs-vertical li .nav-link:hover,
 .tabs-vertical li .nav-link.active:focus {
-    background: #D9272E;
+    background: #00468c;
     border: 0px;
     color: #fff;
 }

@@ -79,8 +79,6 @@
                                          <i class="fa fa-plus-circle text-white mr-2"></i>Nueva Gestión
                             </asp:LinkButton>
 
-
-
                         </div>
 
                         <div class="table-responsive m-t-20">
