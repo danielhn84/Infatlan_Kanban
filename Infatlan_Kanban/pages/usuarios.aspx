@@ -130,7 +130,7 @@
                                 <div class="col-12" runat="server" id="DivColaborador">
                                     <div class="form-group row">
                                         <div class="col-2">
-                                            <label class="col-form-label" >Colaborador</label>
+                                            <label class="col-form-label">Colaborador</label>
                                         </div>
                                         <div class="col-10">
                                             <asp:DropDownList ID="DdlColaborador" runat="server" class="form-control"  AutoPostBack="true"  OnSelectedIndexChanged="DdlColaborador_SelectedIndexChanged"></asp:DropDownList>

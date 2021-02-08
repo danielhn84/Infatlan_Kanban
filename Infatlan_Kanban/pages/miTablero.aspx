@@ -27,6 +27,11 @@
 
         function ModalTarjetaConfirmarOpen() { $('#ModalTarjetaConfirmar').modal('show'); }
         function ModalTarjetaConfirmarClose() { $('#ModalTarjetaConfirmar').modal('hide'); }
+
+        function ModalTarjetaCrearOpen() { $('#ModalTarjetaCrear').modal('show'); }
+        function ModalTarjetaCrearClose() { $('#ModalTarjetaCrear').modal('hide'); }
+
+        
     </script>
 
 
@@ -96,10 +101,19 @@
     </div>
 
 
+<%--<div class="card text-white mb-3" style="max-width: 18rem;">
+  <div class="card-header" style="background-color: #03a9f3">Header</div>
+  <div class="card-body" style="background-color:#EBF5FB >
+    <h5 class="card-title">Primary card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div>--%>
+
     <div class="row">
         <div class="col">
             <div class="card">
                 <div class="card-body">
+
                     <h4 class="card-title">Tablero Kanban Board</h4>
                     <h6 class="card-subtitle">Listado de tarjetas.</h6>
                     <div class="card-body">
@@ -111,10 +125,10 @@
                                         <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxBusqueda" AutoPostBack="true" class="form-control text-uppercase"></asp:TextBox>
                                     </div>
                                     <div class="col-3">
-                                        <asp:TextBox runat="server" Visible="false" PlaceHolder="Ingrese texto y presione Enter" ID="TextBox1" AutoPostBack="true" class="form-control text-uppercase"></asp:TextBox>
+                                        <asp:TextBox runat="server" Visible="true" PlaceHolder="Ingrese texto y presione Enter" ID="TextBox1" AutoPostBack="true" class="form-control text-uppercase"></asp:TextBox>
                                     </div>
                                     <div class="col-3">
-                                        <asp:TextBox runat="server" Visible="false" PlaceHolder="Ingrese texto y presione Enter" ID="TextBox2" AutoPostBack="true" class="form-control text-uppercase"></asp:TextBox>
+                                        <asp:TextBox runat="server" Visible="true" PlaceHolder="Ingrese texto y presione Enter" ID="TextBox2" AutoPostBack="true" class="form-control text-uppercase"></asp:TextBox>
                                     </div>
                                 </div>
 
@@ -309,124 +323,162 @@
                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#solucion" role="tab" runat="server" id="tabSolucion"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspSolución</span></a></li>
                         </ul>
                         <!-- Tab panes -->
-                        <div class="tab-content" style="height:550px; width:600px;">
-                            <div class="tab-pane active" id="home" role="tabpanel" style="height:450px; width:630px;">
+                        <div class="tab-content" style="height: 550px; width: 600px;">
+                            <div class="tab-pane active" id="home" role="tabpanel" style="height: 450px; width: 630px;">
                                 <asp:UpdatePanel runat="server" ID="UpdatePanel1">
-                                    <contenttemplate>
-                                <div class="row p-t-20">
-                                    <div class="col-8">
-                                        <label class="control-label">Título:</label>
-                                        <asp:TextBox ID="TxTitulo" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxTitulo_TextChanged"></asp:TextBox>
-                                    </div>
+                                    <ContentTemplate>
+                                        <div class="row p-t-20">
+                                            <div class="col-8">
+                                                <label class="control-label">Título:</label>
+                                                <asp:TextBox ID="TxTitulo" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxTitulo_TextChanged"></asp:TextBox>
+                                            </div>
 
-                                    <div class="col-4">
-                                        <label class="control-label">Tiempo (min):</label>
-                                        <asp:TextBox ID="TxMinProductivo" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
-                                    </div>
-                                </div>
+                                            <div class="col-4">
+                                                <label class="control-label">Tiempo (min):</label>
+                                                <asp:TextBox ID="TxMinProductivo_1" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
 
-                                <div class="row p-t-20">
-                                    <div class="col-4">
-                                        <label class="control-label">Fecha Solicitud:</label>
-                                        <asp:TextBox ID="TxFechaSolicitud" AutoPostBack="true" ReadOnly="true" runat="server" class="form-control"></asp:TextBox>
-                                    </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Solicitud:</label>
+                                                <asp:TextBox ID="TxFechaSolicitud_1" AutoPostBack="true" ReadOnly="true" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
 
-                                    <div class="col-4">
-                                        <label class="control-label">Fecha Inicio:</label>
-                                        <asp:TextBox ID="TxFechaInicio" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
-                                    </div>
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Inicio:</label>
+                                                <asp:TextBox ID="TxFechaInicio_1" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                            </div>
 
-                                    <div class="col-4">
-                                        <label class="control-label">Fecha Entrega:</label>
-                                        <asp:TextBox ID="TxFechaEntrega" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
-                                    </div>
-                                </div>
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Entrega:</label>
+                                                <asp:TextBox ID="TxFechaEntrega_1" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
 
-                                <div class="row p-t-20">
-                                    <div class="col-12">
-                                        <label class="control-label">Descripción:</label>
-                                        <asp:TextBox ID="TxDescripcion" AutoPostBack="true" TextMode="MultiLine" Rows="3" runat="server" class="form-control"></asp:TextBox>
-                                    </div>
-                                </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-12">
+                                                <label class="control-label">Descripción:</label>
+                                                <asp:TextBox ID="TxDescripcion_1" AutoPostBack="true" TextMode="MultiLine" Rows="3" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
 
-                                <div class="row p-t-20">
-                                    <div class="col-8">
-                                        <label class="control-label">Responsable:</label>
-                                        <asp:DropDownList runat="server" ID="DdlResponsable" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" OnSelectedIndexChanged="DdlResponsable_SelectedIndexChanged"></asp:DropDownList>
-                                    </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-8">
+                                                <label class="control-label">Responsable:</label>
+                                                <asp:DropDownList runat="server" ID="DdlResponsable_1" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" OnSelectedIndexChanged="DdlResponsable_SelectedIndexChanged"></asp:DropDownList>
+                                            </div>
 
-                                    <div class="col-4">
-                                        <label class="control-label">Prioridad:</label>
-                                        <asp:DropDownList ID="DdlPrioridad" runat="server" AutoPostBack="true" CssClass="form-control">
-                                            <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
-                                            <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
-                                            <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
-                                            <asp:ListItem Value="3" Text="Normal"></asp:ListItem>
-                                            <asp:ListItem Value="4" Text="Baja"></asp:ListItem>
-                                        </asp:DropDownList>
-                                    </div>
+                                            <div class="col-4">
+                                                <label class="control-label">Prioridad:</label>
+                                                <asp:DropDownList ID="DdlPrioridad_1" runat="server" AutoPostBack="true" CssClass="form-control">
+                                                    <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
+                                                    <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
+                                                    <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
+                                                    <asp:ListItem Value="3" Text="Normal"></asp:ListItem>
+                                                    <asp:ListItem Value="4" Text="Baja"></asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
 
-                                </div>
+                                        </div>
 
-                                <div class="row p-t-20">
-                                    <div class="col-12">
-                                        <label class="control-label">Tipo Gestión:</label>
-                                        <asp:DropDownList runat="server" ID="DdlTipoGestion" CssClass="select2 form-control custom-select" Style="width: 100%" AutoPostBack="true" Enabled="false"></asp:DropDownList>
-                                    </div>
-                                </div>
-                             
-                                    </contenttemplate>
+                                        <div class="row p-t-20">
+                                            <div class="col-12">
+                                                <label class="control-label">Tipo Gestión:</label>
+                                                <asp:DropDownList runat="server" ID="DdlTipoGestion_1" CssClass="select2 form-control custom-select" Style="width: 100%" AutoPostBack="true" Enabled="false"></asp:DropDownList>
+                                            </div>
+                                        </div>
+
+                                    </ContentTemplate>
                                 </asp:UpdatePanel>
                                 <div class="row p-t-20" runat="server" id="divAdjunto">
                                     <div class="col-12">
                                         <label class="control-label">Archivos Adjuntos:</label>
-                                        <asp:FileUpload ID="FuAdjunto" AllowMultiple="true" runat="server" class="form-control" />
+                                        <asp:FileUpload ID="FuAdjunto_1" AllowMultiple="true" runat="server" class="form-control" />
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="tab-pane" id="comentarios" role="tabpanel" style="height:550px; width:550px;">
+                  
+                            <div class="tab-pane" id="comentarios" role="tabpanel" style="height: 450px; width: 630px;">
                                 <asp:UpdatePanel runat="server" ID="UpdatePanel2">
-                                    <contenttemplate>
+                                    <ContentTemplate>
                                         <div class="row p-t-20" runat="server" id="divComentarioAdd">
-                                            <div class="col-3">
+                                            <div class="col-2">
                                                 <label class="control-label">Comentario:</label>
                                             </div>
-                                            <div class="col-7">
-                                                <asp:TextBox ID="TxComentario" TextMode="MultiLine" Rows="2" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxComentario_TextChanged"></asp:TextBox>
+                                            <div class="col-8">
+                                                <asp:TextBox ID="TxComentario_1" TextMode="MultiLine" Rows="1" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxComentario_1_TextChanged"></asp:TextBox>
                                             </div>
                                             <div class="col-2" style="text-align: center">
-                                                <asp:LinkButton ID="BtnAddComentario" runat="server" title="Añadir" class="btn" OnClick="BtnAddComentario_Click"><i><img src="../images/add.png" /></i></asp:LinkButton>
+                                                <asp:LinkButton ID="BtnAddComentario_1" runat="server" Text="+" title="Añadir" class="btn" Style="background-color: #00468c; color: #ffffff;"  OnClick="BtnAddComentario_1_Click"></asp:LinkButton>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12" runat="server" id="divAlertaComentario_1" visible="false" style="text-align: center">
+                                            <p>
+                                                <b><code>
+                                                    <label class="col-form-label" runat="server" id="LbAlertaComentario_1"></label>
+                                                </code></b>
+                                            </p>
+                                        </div>
+
+                        
+
+                                        <div class="col-md-12" runat="server" id="divComentarioLectura" visible="false">
+                                            <div class="row col-12 mt-3">
+                                                <div class="table-responsive">
+                                                    <asp:GridView ID="GvComentarioLectura" runat="server"
+                                                        CssClass="table table-hover table-sm"
+                                                        PagerStyle-CssClass="pgr"
+                                                        HeaderStyle-CssClass="table"
+                                                        HeaderStyle-HorizontalAlign="center"
+                                                        RowStyle-CssClass="rows"
+                                                        AutoGenerateColumns="false"
+                                                        AllowPaging="true"
+                                                        GridLines="None" OnPageIndexChanging="GvComentarioLectura_PageIndexChanging"
+                                                        PageSize="10">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="usuarioComentario" Visible="true" HeaderText="Usuario" ItemStyle-Width="35%" />
+                                                            <asp:BoundField DataField="comentario" HeaderText="Comentario" Visible="true" ItemStyle-Width="95%" />
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </div>
                                             </div>
                                         </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
 
-                                        <div class="col-md-12" runat="server" id="divAlertaComentario" visible="false" style="text-align: center">
-                                            <p><b><code>
-                                                <label class="col-form-label" runat="server" id="LbAlertaComentario"></label>
-                                            </code></b></p>
+                            </div>
+
+                            <div class="tab-pane" id="adjunto" role="tabpanel" style="height: 450px; width: 630px;">
+                                <asp:UpdatePanel runat="server" ID="UpdatePanel12">
+                                    <ContentTemplate>
+
+                                        <div class="col-md-12" runat="server" id="divAlertaNoAdjunto" visible="false" style="text-align: center">
+                                            <p><b><code>Tarea no cuenta con archivos adjuntos</code></b></p>
                                         </div>
 
-                                        <div class="row p-t-20" runat="server" id="divComentario" visible="false">
-                                            <div class="col-12">
+                                        <div class="col-md-12" runat="server" id="divAdjuntoLectura" visible="false">
+                                            <div class="row col-12 mt-3">
                                                 <div class="table-responsive">
-                                                    <asp:GridView ID="GvComentario" runat="server"
-                                                        CssClass="table table-bordered"
+                                                    <asp:GridView ID="GvAdjuntoLectura" runat="server"
+                                                        CssClass="table table-hover table-sm"
                                                         PagerStyle-CssClass="pgr"
-                                                        HeaderStyle-CssClass="table "
+                                                        HeaderStyle-CssClass="table"
                                                         RowStyle-CssClass="rows"
-                                                        HeaderStyle-HorizontalAlign="center"
                                                         AutoGenerateColumns="false"
-                                                        AllowPaging="true" OnPageIndexChanging="GvComentario_PageIndexChanging"
-                                                        GridLines="None" OnRowCommand="GvComentario_RowCommand"
-                                                        PageSize="4">
+                                                        HeaderStyle-HorizontalAlign="center"
+                                                        AllowPaging="true"
+                                                        GridLines="None" OnPageIndexChanging="GvAdjuntoLectura_PageIndexChanging"
+                                                        PageSize="10">
                                                         <Columns>
-                                                            <asp:BoundField DataField="idComentario" Visible="false" ItemStyle-Width="1%" />
-                                                            <asp:BoundField DataField="usuario" Visible="true" HeaderText="Usuario" ItemStyle-Width="30%" />
-                                                            <asp:BoundField DataField="comentario" HeaderText="Comentario" Visible="true" />
-                                                            <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center" ItemStyle-Width="15%">
+                                                            <asp:BoundField DataField="idRows" Visible="false" ItemStyle-Width="27%" />
+                                                            <asp:BoundField DataField="nombre" HeaderText="Archivo" Visible="true" ItemStyle-Width="95%" />
+                                                            <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center">
                                                                 <ItemTemplate>
-                                                                    <asp:LinkButton ID="BtnEliminarComen" runat="server" title="Eliminar" class="btn" CommandArgument='<%#Eval("idComentario")%>' CommandName="Eliminar">
-                                                                        <i><img src="../images/remove.png"  /></i>
+                                                                    <asp:LinkButton ID="BtnDescargar" runat="server" title="Descargar" class="btn btn-cyan" CommandArgument='<%# Eval("idRows") %>' CommandName="Descargar">
+                                                                  <i class="fa fa-download"></i>
                                                                     </asp:LinkButton>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
@@ -436,183 +488,118 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12" runat="server" id="divComentarioLectura" visible="false">
-                                                                <div class="row col-12 mt-3">
-                                                                    <div class="table-responsive">
-                                                                        <asp:GridView ID="GvComentarioLectura" runat="server"
-                                                                            CssClass="table table-bordered"
-                                                                            PagerStyle-CssClass="pgr"
-                                                                            HeaderStyle-CssClass="table"
-                                                                            HeaderStyle-HorizontalAlign="center"
-                                                                            RowStyle-CssClass="rows"
-                                                                            AutoGenerateColumns="false"
-                                                                            AllowPaging="true"
-                                                                            GridLines="None" OnPageIndexChanging="GvComentarioLectura_PageIndexChanging"
-                                                                            PageSize="5">
-                                                                            <Columns>
-                                                                                <asp:BoundField DataField="usuarioComentario" Visible="true" HeaderText="Usuario"   ItemStyle-Width="35%"/>
-                                                                                <asp:BoundField DataField="comentario" HeaderText="Comentario" Visible="true" ItemStyle-Width="95%" />
-                                                                            </Columns>
-                                                                        </asp:GridView>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                    </contenttemplate>
+                                    </ContentTemplate>
                                 </asp:UpdatePanel>
-
                             </div>
 
-                            <div class="tab-pane" id="adjunto" role="tabpanel" style="height: 550px; width: 550px;">
-                                <asp:UpdatePanel runat="server" ID="UpdatePanel12">
-                                    <contenttemplate>
+                            <div class="tab-pane" id="historial" role="tabpanel" style="height: 450px; width: 630px;">
+                                <asp:UpdatePanel runat="server" ID="UpdatePanel13">
+                                    <ContentTemplate>
+                                        <div class="row p-t-20" runat="server" id="divHistorial" visible="true">
+                                            <div class="col-12">
+                                                <!--Fin Fila 1-->
+                                                <div class="table-responsive">
+                                                    <asp:GridView ID="GvHistorial" runat="server"
+                                                        CssClass="table table-hover table-sm"
+                                                        PagerStyle-CssClass="pgr"
+                                                        HeaderStyle-CssClass="table"
+                                                        RowStyle-CssClass="rows"
+                                                        AutoGenerateColumns="false"
+                                                        HeaderStyle-HorizontalAlign="center"
+                                                        AllowPaging="true" OnPageIndexChanging="GvHistorial_PageIndexChanging"
+                                                        GridLines="None"
+                                                        PageSize="10">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="usuarioCambio" Visible="true" HeaderText="Usuario" ItemStyle-Width="30%" />
+                                                            <asp:BoundField DataField="cambio" Visible="true" HeaderText="Cambio" ItemStyle-Width="95%" />
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
 
-                                <div class="col-md-12" runat="server" id="divAlertaNoAdjunto" visible="false" style="text-align: center">
-                                    <p><b><code>Tarea no cuenta con archivos adjuntos</code></b></p>
-                                </div>
 
-                                <div class="col-md-12" runat="server" id="divAdjuntoLectura" visible="false">
-                                    <div class="row col-12 mt-3">
-                                        <div class="table-responsive">
-                                            <asp:GridView ID="GvAdjuntoLectura" runat="server"
-                                                CssClass="table table-bordered"
-                                                PagerStyle-CssClass="pgr"
-                                                HeaderStyle-CssClass="table"
-                                                RowStyle-CssClass="rows"
-                                                AutoGenerateColumns="false"
-                                                HeaderStyle-HorizontalAlign="center"
-                                                AllowPaging="true"
-                                                GridLines="None" OnPageIndexChanging="GvAdjuntoLectura_PageIndexChanging"
-                                                PageSize="5">
-                                                <Columns>
-                                                    <asp:BoundField DataField="idRows" Visible="false" ItemStyle-Width="27%" />
-                                                    <asp:BoundField DataField="nombre" HeaderText="Archivo" Visible="true" ItemStyle-Width="95%" />
-                                                    <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center">
-                                                        <ItemTemplate>
-                                                            <asp:LinkButton ID="BtnDescargar" runat="server" title="Descargar" class="btn" CommandArgument='<%# Eval("idRows") %>' CommandName="Descargar">
-                                                                 <i><img src="../images/descarga.png"  /></i>
-                                                            </asp:LinkButton>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
+                            <div class="tab-pane" id="solucion" role="tabpanel" style="height: 450px; width: 630px;">
+                                <div class="col-lg-12">
+                                    <asp:UpdatePanel runat="server" ID="UpdatePanel14" UpdateMode="Conditional">
+                                        <ContentTemplate>
+                                            <!--Inicio Fila 1-->
+                                            <div class="row p-t-20" runat="server" id="divAccion">
+                                                <div class="col-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-2">
+                                                            <label class="control-label">Acción:</label>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <asp:DropDownList ID="DdlAccion" runat="server" CssClass="form-control" AutoPostBack="true">
+                                                                <asp:ListItem Value="0" Text="Seleccione opción..."></asp:ListItem>
+
+                                                                <asp:ListItem Value="1" Text="Cerrar Tarjeta Kanban"></asp:ListItem>
+                                                                <asp:ListItem Value="2" Text="Solicitud Cambio Estado a Detenido"></asp:ListItem>
+                                                            </asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row p-t-20">
+                                                <div class="col-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-2">
+                                                            <label class="control-label">Detalle:</label>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <asp:TextBox ID="TxDetalle" AutoPostBack="true" TextMode="MultiLine" Rows="6" runat="server" class="form-control"></asp:TextBox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+
+
+                                    <div class="form-group row" runat="server" id="divSolucionAdjunto">
+
+                                        <!--Inicio Fila 1-->
+                                        <div class="row col-12">
+                                            <div class="col-2">
+                                                <label class="col-form-label" runat="server" id="Label1">Archivo:</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <asp:FileUpload ID="FuSolucion" runat="server" class="form-control" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                    </contenttemplate>
-                                </asp:UpdatePanel>
-                            </div>
-
-                            <div class="tab-pane" id="historial" role="tabpanel" style="height: 550px; width: 550px;">
-                                 <asp:UpdatePanel runat="server" ID="UpdatePanel13">
-                                                        <ContentTemplate>
-                                       <div class="row p-t-20" runat="server" id="divHistorial" visible="true">
-                                            <div class="col-12">
-                                                            <!--Fin Fila 1-->             
-                                                                    <div class="table-responsive">
-                                                                        <asp:GridView ID="GvHistorial" runat="server"
-                                                                            CssClass="table table-bordered"
-                                                                            PagerStyle-CssClass="pgr"
-                                                                            HeaderStyle-CssClass="table"
-                                                                            RowStyle-CssClass="rows"
-                                                                            AutoGenerateColumns="false"
-                                                                            HeaderStyle-HorizontalAlign="center"
-                                                                            AllowPaging="true" OnPageIndexChanging="GvHistorial_PageIndexChanging"
-                                                                            GridLines="None"
-                                                                            PageSize="6">
-                                                                            <Columns>
-                                                                                <asp:BoundField DataField="usuarioCambio" Visible="true" HeaderText="Usuario" ItemStyle-Width="30%" />
-                                                                                <asp:BoundField DataField="cambio" Visible="true" HeaderText="Cambio" ItemStyle-Width="95%" />
-                                                                            </Columns>
-                                                                        </asp:GridView>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </ContentTemplate>
-                                                    </asp:UpdatePanel>
-                            </div>
-
-
-                            <div class="tab-pane" id="solucion" role="tabpanel" style="height: 550px; width: 550px;">
-                                 <div class="col-lg-12">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel14" UpdateMode="Conditional">
-                                                    <ContentTemplate>
-                                                        <!--Inicio Fila 1-->
-                                                        <div class="row p-t-20" runat="server" id="divAccion">
-                                                            <div class="col-12">
-                                                                <div class="form-group row">
-                                                                    <div class="col-2">
-                                                                     <label class="control-label">Acción:</label>
-                                                                    </div>
-                                                                    <div class="col-10">
-                                                                        <asp:DropDownList ID="DdlAccion" runat="server" CssClass="form-control" AutoPostBack="true" >
-                                                                            <asp:ListItem Value="0" Text="Seleccione opción..."></asp:ListItem>
-                                                                          
-                                                                            <asp:ListItem Value="1" Text="Cerrar Tarjeta Kanban"></asp:ListItem>
-                                                                            <asp:ListItem Value="2" Text="Solicitud Cambio Estado a Detenido"></asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                        
-                                                        <div class="row p-t-20">
-                                                            <div class="col-12">
-                                                                <div class="form-group row">
-                                                                    <div class="col-2">
-                                                                       <label class="control-label">Detalle:</label>
-                                                                    </div>
-                                                                    <div class="col-10">
-                                                                        <asp:TextBox ID="TxDetalle" AutoPostBack="true" TextMode="MultiLine" Rows="6" runat="server" class="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                
-                                                    </ContentTemplate>
-                                                </asp:UpdatePanel>
-                                           
-                                         
-                                                <div class="form-group row" runat="server" id="divSolucionAdjunto">
-
-                                                    <!--Inicio Fila 1-->
-                                                    <div class="row col-12">
-                                                        <div class="col-2">
-                                                            <label class="col-form-label" runat="server" id="Label1">Archivo:</label>
-                                                        </div>
-                                                        <div class="col-10">
-                                                            <asp:FileUpload ID="FileUpload1" runat="server" class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>                                                   
-                                            </div>
                             </div>
                             <br />
-                
-
-                            <asp:UpdatePanel runat="server" ID="UpdatePanel3">
-                                <contenttemplate>
-                            <div class="col-md-12" runat="server" id="divAlertaGeneral" visible="false" style="text-align: center">
-                                <p>
-                                    <b><code>
-                                        <label class="col-form-label" runat="server" id="LbAdvertencia"></label>
-                                    </code></b>
-                                </p>
-                            </div>
-                                </contenttemplate>
-                            </asp:UpdatePanel>
-
                         </div>
                     </div>
-                        </contenttemplate>
+                        </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
+
+<%--                <asp:UpdatePanel runat="server" ID="UpdatePanel3">
+                    <ContentTemplate>
+                        <div class="col-md-12" runat="server" id="divAlertaGeneral" visible="false" style="text-align: center">
+                            <p>
+                                <b><code>
+                                    <label class="col-form-label" runat="server" id="LbAdvertencia"></label>
+                                </code></b>
+                            </p>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>--%>
 
                 <div class="modal-footer">
                     <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                         <contenttemplate>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnConfirmarTarea" runat="server" Text="Enviar"  OnClick="BtnConfirmarTarea_Click"   class="btn" Style="background-color: #00468c; color: #ffffff;"   />
+                            <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar"   OnClick="BtnConfirmarTarea_1_Click"  class="btn" Style="background-color: #00468c; color: #ffffff;"   />
                          </contenttemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -622,177 +609,14 @@
 
 
 
-    <%--MODAL DE CONFIRMACION--%>
-    <div class="modal fade" id="ModalTarjetaConfirmar" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 800px; height: 910px; top: 452px; left: 50%; transform: translate(-50%, -50%);">
-                <div class="modal-header">
-                    <asp:UpdatePanel ID="UpTituloConfirmar" runat="server" UpdateMode="Conditional">
-                        <contenttemplate>
-                            <h4 class="modal-title" >
-                                <strong>
-                                    <asp:Label ID="LbTituloConfirmar" runat="server" Text="" Style="margin-left: auto; margin-right: auto"></asp:Label></strong></h4>
-                        </contenttemplate>
-                    </asp:UpdatePanel>
-                </div>
 
-
-                <div class="modal-body" style="padding-left: 40px; padding-right: 40px; padding-top: 20px; padding-bottom: 20px;">
-                    <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional">
-                        <contenttemplate>
-
-                            <div class="row" runat="server" id="DivEstados">
-                                <div class="col-md-3">
-                                    <div class="card">
-                                        <div class="box text-center" style="background-color:#D9272E;  color: #ffffff;">
-                                            <h1 class="font-light text-white">
-                                                <asp:Label ID="LbEnColaModal" runat="server"></asp:Label></h1>
-                                            <h6 class="text-white">En Cola</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card">
-                                        <div class="box text-center" style="background-color:#D9272E;  color: #ffffff;">
-                                            <h1 class="font-light text-white">
-                                                <asp:Label ID="LbEjecucionModal" runat="server"></asp:Label></h1>
-                                            <h6 class="text-white">En Ejecución</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card">
-                                        <div class="box text-center" style="background-color:#D9272E;  color: #ffffff;">
-                                            <h1 class="font-light text-white">
-                                                <asp:Label ID="LbDetenidasModal" runat="server"></asp:Label></h1>
-                                            <h6 class="text-white">Detenidas</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card">
-                                        <div class="box text-center" style="background-color:#D9272E;  color: #ffffff;">
-                                            <h1 class="font-light text-white">
-                                                <asp:Label ID="LbAtrasadoModal" runat="server"></asp:Label></h1>
-                                            <h6 class="text-white">Atrasados</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                          <h6 style="color:#D9272E"><b>-Cargabilidad Minutos Diarios:</b></h6>
-                            <div class="table-responsive m-t-20">
-                                <asp:GridView ID="GVDistribucion" runat="server" Visible="true"
-                                    CssClass="table table-bordered"
-                                    PagerStyle-CssClass="pgr"
-                                    HeaderStyle-CssClass="table"
-                                    RowStyle-CssClass="rows" HeaderStyle-HorizontalAlign="center"
-                                    AutoGenerateColumns="false"
-                                    AllowPaging="true"  OnPageIndexChanging="GVDistribucion_PageIndexChanging"
-                                    GridLines="None"
-                                    PageSize="2">
-                                    <Columns>
-                                        <asp:BoundField DataField="fecha" HeaderText="Fecha" ItemStyle-HorizontalAlign="center" />
-                                        <asp:BoundField DataField="min" HeaderText="Mins Diarios" ItemStyle-HorizontalAlign="center" />
-                                    </Columns>
-                                </asp:GridView>
-                            </div>
-            
-                           <h6  style="color:#D9272E"><b>-Datos Generales:</b></h6>
-                            <div class="form-group row">
-                                <div class="col-md-2">
-                                    <label class="col-form-label">Título:</label>
-                                </div>
-                                <div class="col-md-10">
-                                    <asp:TextBox ID="TxTituloModal" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true"></asp:TextBox>
-                                </div>
-                            </div>
-
-                            <div class="form-group row" runat="server" id="divPrioridad">
-                                <div class="col-md-2">
-                                    <label class="col-form-label">Prioridad:</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <asp:TextBox ID="TxPrioridadModal" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true" style="text-align: center"></asp:TextBox>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="col-form-label">Tiempo:</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <asp:TextBox ID="TxTimeModal" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true" style="text-align: center"></asp:TextBox>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-md-2">
-                                    <label class="col-form-label">Inicio:</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <asp:TextBox ID="TxInicioModal" AutoPostBack="true" runat="server" class="form-control" TextMode="DateTimeLocal" ReadOnly="true" style="text-align: center"></asp:TextBox>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="col-form-label">Entrega:</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <asp:TextBox ID="TxEntregaModal" AutoPostBack="true" runat="server" class="form-control" TextMode="DateTimeLocal" ReadOnly="true" style="text-align: center"></asp:TextBox>
-                                </div>
-                            </div>
-
-                            <div class="form-group row" runat="server" visible="false" id="divSolucion">
-                                <div class="col-md-2">
-                                    <label class="col-form-label">Solución:</label>
-                                </div>
-                                <div class="col-md-10">
-                                    <asp:TextBox ID="TxSolucion" TextMode="MultiLine" Rows="2"  AutoPostBack="true" runat="server" class="form-control" ReadOnly="false"></asp:TextBox>
-                                </div>
-                            </div>
-
-                             <div class="form-group row" runat="server" visible="false" id="divAdjuntoSolucion">
-
-                                <div class="col-md-2">
-                                    <label class="col-form-label">Adjunto:</label>
-                                </div>
-                                <div class="col-md-10">
-                                    <asp:FileUpload ID="FuSolucion" AllowMultiple="false" runat="server" class="form-control" />
-                                </div> 
-                             </div>
-                       
-                            <div class="col-md-12" runat="server" style="text-align: center; color:#D9272E" visible="false" id="divComentariosAdjuntos">
-                                <p><b><asp:Label ID="LbAdvertenciaModal" runat="server" Text="" ></asp:Label></b></p>
-                            </div>
-
-                            <div class="col-md-12" runat="server" style="text-align: center; color:seagreen" visible="false" id="divDiaNoHabil">
-                                <p><b><asp:Label ID="LbDiaNoHabil" runat="server" Text="" ></asp:Label></b></p>
-                            </div>
-
-                            <div class="col-md-12" runat="server" style="text-align: center; color:seagreen" visible="false" id="divTareaFinalizada">
-                                <p><b><asp:Label ID="LbTareaFinalizada" runat="server" Text="La tarea se encuentra en estado Finalizada, la fecha de entrega es menor a la fecha actual del sistema" ></asp:Label></b></p>
-                            </div>
-                        </contenttemplate>
-                    </asp:UpdatePanel>
-                </div>
-
-                <div class="modal-footer">
-                    <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional">
-                        <contenttemplate>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="BtnEnviarInfo" runat="server" Text="Enviar" class="btn" style="background-color:#00468c;  color: #ffffff;"   OnClick="BtnEnviarInfo_Click"  />
-                        </contenttemplate>
-
-                        <%--                        <triggers>
-                                <asp:PostBackTrigger ControlID="BtnConfirmarTarea" />
-                        </triggers>--%>
-                    </asp:UpdatePanel>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <%--MODAL DE CONFIRMACION--%>
     <div class="modal fade" id="ModalTarjetaFinalizada" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 800px; height: 910px; top: 452px; left: 50%; transform: translate(-50%, -50%);">
+<%--            <div class="modal-content" style="width: 800px; height: 910px; top: 452px; left: 50%; transform: translate(-50%, -50%);">--%>
+                <div class="modal-content" style="width: 880px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
                     <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional">
                         <contenttemplate>
@@ -803,8 +627,8 @@
                     </asp:UpdatePanel>
                 </div>
 
-
-                <div class="modal-body" style="padding-left: 40px; padding-right: 40px; padding-top: 20px; padding-bottom: 20px;">
+                     <%--style="padding-left: 40px; padding-right: 40px; padding-top: 20px; padding-bottom: 20px;"--%>
+                <div class="modal-body">
                     <asp:UpdatePanel ID="UpdatePanel10" runat="server" UpdateMode="Conditional">
                         <contenttemplate>
 
@@ -936,6 +760,372 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+    <%--    MODAL INICIO--%>
+    <div class="modal fade" id="ModalTarjetaCrear" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 880px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
+
+                <div class="modal-header">
+                    <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
+                        <contenttemplate>
+                            <h4 class="modal-title">
+                                <strong>
+                                    <asp:Label ID="LbTituloCrear" runat="server" Text="" Style="margin-left: auto; margin-right: auto"></asp:Label></strong></h4>
+                        </contenttemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-body">
+                    <asp:HiddenField ID="HiddenField1" OnValueChanged="btnTickectEvento" runat="server" />
+                    <asp:UpdatePanel runat="server" ID="UpdatePanel5" UpdateMode="Conditional">
+                        <contenttemplate>
+                    <div class="vtabs">
+                        <ul class="nav nav-tabs tabs-vertical" role="tablist">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#homeCrear" role="tab" runat="server" id="A1"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspGenerales</span></a></li>                        
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#comentariosCrear" role="tab" runat="server" id="A3"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspComentarios</span></a></li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content" style="                                height: 550px;
+                                width: 600px;">
+                            <div class="tab-pane active" id="homeCrear" role="tabpanel" style="height: 450px; width: 630px;">
+                                <asp:UpdatePanel runat="server" ID="UpdatePanel15">
+                                    <ContentTemplate>
+                                        <div class="row p-t-20">
+                                            <div class="col-8">
+                                                <label class="control-label">Título:</label>
+                                                <asp:TextBox ID="TxTitulo_1" AutoPostBack="true" runat="server" class="form-control text-uppercase" ></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Tiempo (min):</label>
+                                                <asp:TextBox ID="TxMinProductivo" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Solicitud:</label>
+                                                <asp:TextBox ID="TxFechaSolicitud" AutoPostBack="true" ReadOnly="true" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Inicio:</label>
+                                                <asp:TextBox ID="TxFechaInicio" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Entrega:</label>
+                                                <asp:TextBox ID="TxFechaEntrega" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-12">
+                                                <label class="control-label">Descripción:</label>
+                                                <asp:TextBox ID="TxDescripcion" AutoPostBack="true" TextMode="MultiLine" Rows="3" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-8">
+                                                <label class="control-label">Responsable:</label>
+                                                <asp:DropDownList runat="server" ID="DdlResponsable" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" OnSelectedIndexChanged="DdlResponsable_SelectedIndexChanged"></asp:DropDownList>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Prioridad:</label>
+                                                <asp:DropDownList ID="DdlPrioridad" runat="server" AutoPostBack="true" CssClass="form-control">
+                                                    <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
+                                                    <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
+                                                    <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
+                                                    <asp:ListItem Value="3" Text="Normal"></asp:ListItem>
+                                                    <asp:ListItem Value="4" Text="Baja"></asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-12">
+                                                <label class="control-label">Tipo Gestión:</label>
+                                                <asp:DropDownList runat="server" ID="DdlTipoGestion" CssClass="select2 form-control custom-select" Style="width: 100%" AutoPostBack="true" Enabled="false"></asp:DropDownList>
+                                            </div>
+                                        </div>
+
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <div class="row p-t-20" runat="server" id="div2">
+                                    <div class="col-12">
+                                        <label class="control-label">Archivos Adjuntos:</label>
+                                        <asp:FileUpload ID="FuAdjunto" AllowMultiple="true" runat="server" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="comentariosCrear" role="tabpanel" style="height: 450px; width: 630px;">
+                                <asp:UpdatePanel runat="server" ID="UpdatePanel16">
+                                    <ContentTemplate>
+                                        <div class="row p-t-20" runat="server" id="div3">
+                                            <div class="col-2">
+                                                <label class="control-label">Comentario:</label>
+                                            </div>
+                                            <div class="col-8">
+                                                <asp:TextBox ID="TxComentario" TextMode="MultiLine" Rows="1" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxComentario_TextChanged"></asp:TextBox>
+                                            </div>
+                                            <div class="col-2" style="text-align: center">
+                                                <asp:LinkButton ID="BtnAddComentario" runat="server" Text="+" title="Añadir" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnAddComentario_Click"></asp:LinkButton>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12" runat="server" id="divAlertaComentario" visible="false" style="text-align: center">
+                                            <p>
+                                                <b><code>
+                                                    <label class="col-form-label" runat="server" id="LbAlertaComentario"></label>
+                                                </code></b>
+                                            </p>
+                                        </div>
+
+                                        <div class="row p-t-20" runat="server" id="divComentario" visible="false">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <asp:GridView ID="GvComentario" runat="server"
+                                                        CssClass="table table-hover table-sm"
+                                                        PagerStyle-CssClass="pgr"
+                                                        HeaderStyle-CssClass="table "
+                                                        RowStyle-CssClass="rows"
+                                                        HeaderStyle-HorizontalAlign="center"
+                                                        AutoGenerateColumns="false"
+                                                        AllowPaging="true" OnPageIndexChanging="GvComentario_PageIndexChanging"
+                                                        GridLines="None" OnRowCommand="GvComentario_RowCommand"
+                                                        PageSize="10">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="idComentario" Visible="false" ItemStyle-Width="1%" />
+                                                            <asp:BoundField DataField="usuario" Visible="true" HeaderText="Usuario" ItemStyle-Width="30%" />
+                                                            <asp:BoundField DataField="comentario" HeaderText="Comentario" Visible="true" />
+                                                            <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center" ItemStyle-Width="15%">
+                                                                <ItemTemplate>
+                                                                    <asp:LinkButton ID="BtnEliminarComen" runat="server" title="Eliminar" class="btn btn-primary mr-2" CommandArgument='<%#Eval("idComentario")%>' CommandName="Eliminar">
+                                                                        <i class="mdi mdi-delete" ></i>
+                                                                    </asp:LinkButton>
+
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+
+                <asp:UpdatePanel runat="server" ID="UpdatePanel21">
+                    <ContentTemplate>
+                        <div class="col-md-12" runat="server" id="divAlertaGeneral" visible="false" style="text-align: center">
+                            <p>
+                                <b><code>
+                                    <label class="col-form-label" runat="server" id="LbAdvertencia"></label>
+                                </code></b>
+                            </p>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+
+                <div class="modal-footer">
+                    <asp:UpdatePanel ID="UpdatePanel20" runat="server">
+                        <contenttemplate>
+        
+                            <asp:Button ID="BtnCancelarTarjeta" runat="server" Text="Cancelar" class="btn btn-secondary" OnClick="BtnCancelarTarjeta_Click"  />
+                            <asp:Button ID="BtnConfirmarTarea" runat="server" Text="Enviar"  OnClick="BtnConfirmarTarea_Click"   class="btn" Style="background-color: #00468c; color: #ffffff;"   />
+                         </contenttemplate>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+        <%--MODAL DE CONFIRMACION--%>
+    <div class="modal fade" id="ModalTarjetaConfirmar" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <%--<div class="modal-content" style="width: 800px; height: 910px; top: 452px; left: 50%; transform: translate(-50%, -50%);">--%>
+                 <div class="modal-content" style="width: 896px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
+                <div class="modal-header">
+                    <asp:UpdatePanel ID="UpTituloConfirmar" runat="server" UpdateMode="Conditional">
+                        <contenttemplate>
+                            <h4 class="modal-title" >
+                                <strong>
+                                    <asp:Label ID="LbTituloConfirmar" runat="server" Text="" Style="margin-left: auto; margin-right: auto"></asp:Label></strong></h4>
+                        </contenttemplate>
+                    </asp:UpdatePanel>
+                </div>
+
+               <%--  style="padding-left: 40px; padding-right: 40px; padding-top: 20px; padding-bottom: 20px;"--%>
+                <div class="modal-body" >
+                    <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional">
+                        <contenttemplate>
+
+                            <div class="row" runat="server" id="DivEstados">
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="box text-center" style="background-color:#00468c;  color: #ffffff;">
+                                            <h1 class="font-light text-white">
+                                                <asp:Label ID="LbEnColaModal" runat="server"></asp:Label></h1>
+                                            <h6 class="text-white">En Cola</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="box text-center" style="background-color:#00468c;  color: #ffffff;">
+                                            <h1 class="font-light text-white">
+                                                <asp:Label ID="LbEjecucionModal" runat="server"></asp:Label></h1>
+                                            <h6 class="text-white">En Ejecución</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="box text-center" style="background-color:#00468c;  color: #ffffff;">
+                                            <h1 class="font-light text-white">
+                                                <asp:Label ID="LbDetenidasModal" runat="server"></asp:Label></h1>
+                                            <h6 class="text-white">Detenidas</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="box text-center" style="background-color:#00468c;  color: #ffffff;">
+                                            <h1 class="font-light text-white">
+                                                <asp:Label ID="LbAtrasadoModal" runat="server"></asp:Label></h1>
+                                            <h6 class="text-white">Atrasados</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                          <h6 style="color:#00468c"><b>-Cargabilidad Minutos Diarios:</b></h6>
+                            <div class="table-responsive m-t-20">
+                                <asp:GridView ID="GVDistribucion" runat="server" Visible="true"
+                                    CssClass="table table-hover table-sm"
+                                    PagerStyle-CssClass="pgr"
+                                    HeaderStyle-CssClass="table"
+                                    RowStyle-CssClass="rows" HeaderStyle-HorizontalAlign="center"
+                                    AutoGenerateColumns="false"
+                                    AllowPaging="true"  OnPageIndexChanging="GVDistribucion_PageIndexChanging"
+                                    GridLines="None"
+                                    PageSize="2">
+                                    <Columns>
+                                        <asp:BoundField DataField="fecha" HeaderText="Fecha" ItemStyle-HorizontalAlign="center" />
+                                        <asp:BoundField DataField="min" HeaderText="Mins Diarios" ItemStyle-HorizontalAlign="center" />
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+            
+                           <h6  style="color:#00468c"><b>-Datos Generales:</b></h6>
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Título:</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <asp:TextBox ID="TxTituloModal" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" runat="server" id="divPrioridad">
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Prioridad:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="TxPrioridadModal" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true" style="text-align: center"></asp:TextBox>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Tiempo:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="TxTimeModal" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true" style="text-align: center"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Inicio:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="TxInicioModal" AutoPostBack="true" runat="server" class="form-control" TextMode="DateTimeLocal" ReadOnly="true" style="text-align: center"></asp:TextBox>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Entrega:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="TxEntregaModal" AutoPostBack="true" runat="server" class="form-control" TextMode="DateTimeLocal" ReadOnly="true" style="text-align: center"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" runat="server" visible="false" id="divSolucion">
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Solución:</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <asp:TextBox ID="TxSolucion" TextMode="MultiLine" Rows="2"  AutoPostBack="true" runat="server" class="form-control" ReadOnly="false"></asp:TextBox>
+                                </div>
+                            </div>
+
+                             <div class="form-group row" runat="server" visible="false" id="divAdjuntoSolucion">
+
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Adjunto:</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <asp:FileUpload ID="FuSolucion_Cerrar" AllowMultiple="false" runat="server" class="form-control" />
+                                </div> 
+                             </div>
+                       
+                            <div class="col-md-12" runat="server" style="text-align: center; color:#D9272E" visible="false" id="divComentariosAdjuntos">
+                                <p><b><asp:Label ID="LbAdvertenciaModal" runat="server" Text="" ></asp:Label></b></p>
+                            </div>
+
+                            <div class="col-md-12" runat="server" style="text-align: center; color:seagreen" visible="false" id="divDiaNoHabil">
+                                <p><b><asp:Label ID="LbDiaNoHabil" runat="server" Text="" ></asp:Label></b></p>
+                            </div>
+
+                            <div class="col-md-12" runat="server" style="text-align: center; color:seagreen" visible="false" id="divTareaFinalizada">
+                                <p><b><asp:Label ID="LbTareaFinalizada" runat="server" Text="La tarea se encuentra en estado Finalizada, la fecha de entrega es menor a la fecha actual del sistema" ></asp:Label></b></p>
+                            </div>
+                        </contenttemplate>
+                    </asp:UpdatePanel>
+                </div>
+
+                <div class="modal-footer">
+                    <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional">
+                        <contenttemplate>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <asp:Button ID="BtnEnviarInfo" runat="server" Text="Enviar" class="btn" style="background-color:#00468c;  color: #ffffff;"   OnClick="BtnEnviarInfo_Click"  />
+                        </contenttemplate>
+
+                        <%--                        <triggers>
+                                <asp:PostBackTrigger ControlID="BtnConfirmarTarea" />
+                        </triggers>--%>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 
