@@ -34,7 +34,7 @@ namespace Infatlan_Kanban
 
         public string obtenerCargabilidad()
         {
-            string vQuery = "GESTIONES_Generales 9";
+            string vQuery = "GESTIONES_Generales 9,'"+ Session["USUARIO"].ToString() + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
             var strDatos = "[['Fecha', 'Min','WIP'],";
@@ -54,7 +54,7 @@ namespace Infatlan_Kanban
         public string obtenerCargabilidadApilado()
         {
             var strDatosConcat = "";
-            string vQuery = "GESTIONES_Generales 18";
+            string vQuery = "GESTIONES_Generales 18,'"+ Session["USUARIO"].ToString() + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string encabezado = "";
             if (vDatos.Rows.Count > 0)

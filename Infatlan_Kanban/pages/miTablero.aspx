@@ -91,160 +91,156 @@
                 <li class="breadcrumb-item active">Mi Tablero</li>
             </ol>
         </div>
-        <div class="col-md-6 text-right">
-<%--                            <asp:UpdatePanel runat="server" ID="UpTarjetaAdd" UpdateMode="Conditional">
-                    <contenttemplate>
-                        <asp:Button ID="BtnAddTarjeta" class="btn btn-info d-none d-lg-block m-l-15" runat="server" Text="Crear Tarjeta" OnClick="BtnAddTarjeta_Click" />                       
-                    </contenttemplate>
-                </asp:UpdatePanel>--%>
-        </div>
+
     </div>
 
-
-<%--<div class="card text-white mb-3" style="max-width: 18rem;">
-  <div class="card-header" style="background-color: #03a9f3">Header</div>
-  <div class="card-body" style="background-color:#EBF5FB >
-    <h5 class="card-title">Primary card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-</div>--%>
 
     <div class="row">
         <div class="col">
             <div class="card">
                 <div class="card-body">
-
-                    <h4 class="card-title">Tablero Kanban Board</h4>
-                    <h6 class="card-subtitle">Listado de tarjetas.</h6>
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <div class="row col-12">
-                                <div class="row col-11">
-                                    <label class="col-1 col-form-label">Búsqueda</label>
-                                    <div class="col-3">
-                                        <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxBusqueda" AutoPostBack="true" class="form-control text-uppercase"></asp:TextBox>
-                                    </div>
-                                    <div class="col-3">
-                                        <asp:TextBox runat="server" Visible="true" PlaceHolder="Ingrese texto y presione Enter" ID="TextBox1" AutoPostBack="true" class="form-control text-uppercase"></asp:TextBox>
-                                    </div>
-                                    <div class="col-3">
-                                        <asp:TextBox runat="server" Visible="true" PlaceHolder="Ingrese texto y presione Enter" ID="TextBox2" AutoPostBack="true" class="form-control text-uppercase"></asp:TextBox>
-                                    </div>
-                                </div>
-
-                                <div class="row col-1">
-                                    <asp:UpdatePanel runat="server" ID="UpTarjetaAdd" UpdateMode="Conditional">
-                                        <ContentTemplate>
-                                            <asp:LinkButton ID="BtnAddTarjeta" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnAddTarjeta_Click">
-                                        <i class="fa fa-plus-circle text-white mr-2"></i>Crear Tarjeta
-                                            </asp:LinkButton>
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="row">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="EnCola">
-                                        <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseEnCola" aria-expanded="true" aria-controls="collapseOne13">
-                                            <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
-                                                <h1 class="font-light text-white">
-                                                    <asp:Label ID="LbEnCola" runat="server"></asp:Label></h1>
-                                                <h6 class="text-white">En Cola</h6>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div id="collapseEnCola" class="collapse show" role="tabpanel" aria-labelledby="EnCola">
-                                        <div class="card-body">
-                                            <asp:Literal Text="" ID="LitNotificacionesEnCola" runat="server" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="EnEjecucion">
-                                        <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseEnEjecucion" aria-expanded="true" aria-controls="collapseOne13">
-                                            <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
-                                                <h1 class="font-light text-white">
-                                                    <asp:Label ID="LbEjecucion" runat="server"></asp:Label></h1>
-                                                <h6 class="text-white">En Ejecución</h6>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div id="collapseEnEjecucion" class="collapse show" role="tabpanel" aria-labelledby="EnEjecucion">
-                                        <div class="card-body">
-                                            <asp:Literal Text="" ID="LitNotificacionesEjecucion" runat="server" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="Atrasados">
-                                        <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseAtrasados" aria-expanded="true" aria-controls="collapseOne13">
-                                            <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
-                                                <h1 class="font-light text-white">
-                                                    <asp:Label ID="LbAtrasados" runat="server"></asp:Label></h1>
-                                                <h6 class="text-white">Atrasados</h6>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div id="collapseAtrasados" class="collapse show" role="tabpanel" aria-labelledby="Atrasados">
-                                        <div class="card-body">
-                                            <asp:Literal Text="" ID="LitNotificacionesAtrasadas" runat="server" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="Detenidas">
-                                        <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseDetenidas" aria-expanded="true" aria-controls="collapseOne13">
-                                            <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
-                                                <h1 class="font-light text-white">
-                                                    <asp:Label ID="LbDetenidas" runat="server"></asp:Label></h1>
-                                                <h6 class="text-white">Detenidas</h6>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div id="collapseDetenidas" class="collapse show" role="tabpanel" aria-labelledby="Detenidas">
-                                        <div class="card-body">
-                                            <asp:Literal Text="" ID="LitNotificacionesDetenidas" runat="server" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="Completados">
-                                        <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseCompletados" aria-expanded="true" aria-controls="collapseOne13">
-                                            <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
-                                                <h1 class="font-light text-white">
-                                                    <asp:Label ID="LbCompletados" runat="server"></asp:Label></h1>
-                                                <h6 class="text-white">Completados Hoy</h6>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div id="collapseCompletados" class="collapse show" role="tabpanel" aria-labelledby="Completados">
-                                        <div class="card-body">
-                                            <asp:Literal Text="" ID="LitNotificacionesCompletadosHoy" runat="server" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                    <div class="row col-12">
+                        <h4 class="card-title">Tablero Kanban Board</h4>
                     </div>
+                    <div class="row col-12">
+                        <div class="col-10">
+                            <h6 class="card-subtitle">Listado de tarjetas.</h6>
+                        </div>
+                        <div class="col-2 text-right">
+                            <asp:UpdatePanel runat="server" ID="UpdatePanel18" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <asp:LinkButton ID="BtnAddTarjeta" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnAddTarjeta_Click">
+                                        <i class="fa fa-plus-circle text-white mr-2"></i>Crear Tarjeta
+                                    </asp:LinkButton>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <asp:UpdatePanel runat="server" ID="UpdatePanel17" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <div class="form-group row" runat="server" id="DivBusquedaReportes" >
+                                    <div class="row col-12">
+                                        <div class="row col-11"  runat="server" id="rowDetalle">
+                                            <label class="col-1 col-form-label">Búsqueda</label>
+                                            <div class="col-3">
+                                                <asp:DropDownList runat="server" ID="DdlTipoBusqueda" CssClass="select2 form-control custom-select" AutoPostBack="true" OnSelectedIndexChanged="DdlTipoBusqueda_SelectedIndexChanged"></asp:DropDownList>
+                                            </div>
+                                            <div class="col-6">
+                                                <asp:DropDownList runat="server" Visible="false" ID="DdlEquipoTrabajo" CssClass="select2 form-control custom-select" AutoPostBack="true" OnSelectedIndexChanged="DdlEquipoTrabajo_SelectedIndexChanged"></asp:DropDownList>
+                                                <asp:DropDownList runat="server" Visible="false" ID="DdlColaborador" CssClass="select2 form-control custom-select" AutoPostBack="true" OnSelectedIndexChanged="DdlColaborador_SelectedIndexChanged"></asp:DropDownList>
+                                                </div>
+                                        
+                                        </div>
+
+                                         </div>
+                                      </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+
+
+                        <asp:UpdatePanel runat="server" ID="UpdatePanel19" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="EnCola">
+                                                <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseEnCola" aria-expanded="true" aria-controls="collapseOne13">
+                                                    <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
+                                                        <h1 class="font-light text-white">
+                                                            <asp:Label ID="LbEnCola" runat="server"></asp:Label></h1>
+                                                        <h6 class="text-white">En Cola</h6>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div id="collapseEnCola" class="collapse show" role="tabpanel" aria-labelledby="EnCola">
+                                                <div class="card-body">
+                                                    <asp:Literal Text="" ID="LitNotificacionesEnCola" runat="server" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="EnEjecucion">
+                                                <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseEnEjecucion" aria-expanded="true" aria-controls="collapseOne13">
+                                                    <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
+                                                        <h1 class="font-light text-white">
+                                                            <asp:Label ID="LbEjecucion" runat="server"></asp:Label></h1>
+                                                        <h6 class="text-white">En Ejecución</h6>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div id="collapseEnEjecucion" class="collapse show" role="tabpanel" aria-labelledby="EnEjecucion">
+                                                <div class="card-body">
+                                                    <asp:Literal Text="" ID="LitNotificacionesEjecucion" runat="server" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="Atrasados">
+                                                <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseAtrasados" aria-expanded="true" aria-controls="collapseOne13">
+                                                    <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
+                                                        <h1 class="font-light text-white">
+                                                            <asp:Label ID="LbAtrasados" runat="server"></asp:Label></h1>
+                                                        <h6 class="text-white">Atrasados</h6>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div id="collapseAtrasados" class="collapse show" role="tabpanel" aria-labelledby="Atrasados">
+                                                <div class="card-body">
+                                                    <asp:Literal Text="" ID="LitNotificacionesAtrasadas" runat="server" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="Detenidas">
+                                                <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseDetenidas" aria-expanded="true" aria-controls="collapseOne13">
+                                                    <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
+                                                        <h1 class="font-light text-white">
+                                                            <asp:Label ID="LbDetenidas" runat="server"></asp:Label></h1>
+                                                        <h6 class="text-white">Detenidas</h6>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div id="collapseDetenidas" class="collapse show" role="tabpanel" aria-labelledby="Detenidas">
+                                                <div class="card-body">
+                                                    <asp:Literal Text="" ID="LitNotificacionesDetenidas" runat="server" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header" role="tab" id="Completados">
+                                                <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseCompletados" aria-expanded="true" aria-controls="collapseOne13">
+                                                    <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
+                                                        <h1 class="font-light text-white">
+                                                            <asp:Label ID="LbCompletados" runat="server"></asp:Label></h1>
+                                                        <h6 class="text-white">Completados Hoy</h6>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div id="collapseCompletados" class="collapse show" role="tabpanel" aria-labelledby="Completados">
+                                                <div class="card-body">
+                                                    <asp:Literal Text="" ID="LitNotificacionesCompletadosHoy" runat="server" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                  </ContentTemplate>
+                        </asp:UpdatePanel>
+                </div>
                 </div>
             </div>
         </div>
@@ -311,9 +307,10 @@
                     </asp:UpdatePanel>
                 </div>
                 <div class="modal-body">
-                    <asp:HiddenField ID="HiddenId" OnValueChanged="btnTickectEvento" runat="server" />
+                    
                     <asp:UpdatePanel runat="server" ID="UPFormulario" UpdateMode="Conditional">
                         <contenttemplate>
+                            <asp:HiddenField ID="HiddenId" OnValueChanged="btnTickectEvento" runat="server" />
                     <div class="vtabs">
                         <ul class="nav nav-tabs tabs-vertical" role="tablist">
                             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab" runat="server" id="tabGenerales"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspGenerales</span></a></li>
@@ -598,7 +595,7 @@
                 <div class="modal-footer">
                     <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                         <contenttemplate>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                             <asp:Button ID="BtnCancelarTarea_1" runat="server" Text="Cancelar"   OnClick="BtnCancelarTarea_1_Click" class="btn btn-secondary"    />
                             <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar"   OnClick="BtnConfirmarTarea_1_Click"  class="btn" Style="background-color: #00468c; color: #ffffff;"   />
                          </contenttemplate>
                     </asp:UpdatePanel>
@@ -1132,7 +1129,10 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
 
-    <script type="text/javascript">   
+
+
+
+<%--    <script type="text/javascript">   
         var UpdatePanel1 = '<%=UpdatePanel1.ClientID%>';
         $(function () {
             $("#btnModal").click(function () {
@@ -1140,12 +1140,29 @@
                 __doPostBack('<%= HiddenId.ClientID %>', '');
             });
         });
-    </script>
+    </script>--%>
 
-    <asp:Literal ID="LitEnCola" runat="server"></asp:Literal>
-    <asp:Literal ID="LitEnEjecucion" runat="server"></asp:Literal>
-    <asp:Literal ID="LitAtrasados" runat="server"></asp:Literal>
-    <asp:Literal ID="LitCompletadosHoy" runat="server"></asp:Literal>
-    <asp:Literal ID="LitDetenidas" runat="server"></asp:Literal>
+<%--        <script type="text/javascript">   
+            var UpdatePanel1 = '<%=UpdatePanel1.ClientID%>';
+            $(function () {
+                $("#btnModalBusqueda").click(function () {
+                    document.getElementById("<%=HiddenId.ClientID%>").value = $(this).data('titulo');
+                __doPostBack('<%= HiddenId.ClientID %>', '');
+            });
+        });
+    </script>--%>
+
+
+
+
+                    <asp:Literal ID="LitEnColaEquipo" runat="server"></asp:Literal>
+
+            <asp:Literal ID="LitEnCola" runat="server"></asp:Literal>
+            <asp:Literal ID="LitEnEjecucion" runat="server"></asp:Literal>
+            <asp:Literal ID="LitAtrasados" runat="server"></asp:Literal>
+            <asp:Literal ID="LitCompletadosHoy" runat="server"></asp:Literal>
+            <asp:Literal ID="LitDetenidas" runat="server"></asp:Literal>
+
+
 
 </asp:Content>

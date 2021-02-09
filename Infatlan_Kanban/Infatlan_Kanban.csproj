@@ -6191,6 +6191,7 @@
     <Content Include="login.aspx" />
     <Content Include="pages\gestiones.aspx" />
     <Content Include="pages\miTablero.aspx" />
+    <Content Include="pages\Tarjetas.aspx" />
     <Content Include="pages\teams.aspx" />
     <Content Include="pages\usuarios.aspx" />
     <Content Include="Web.config" />
@@ -6243,6 +6244,13 @@
     </Compile>
     <Compile Include="pages\miTablero.aspx.designer.cs">
       <DependentUpon>miTablero.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Tarjetas.aspx.cs">
+      <DependentUpon>Tarjetas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Tarjetas.aspx.designer.cs">
+      <DependentUpon>Tarjetas.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\teams.aspx.cs">
       <DependentUpon>teams.aspx</DependentUpon>

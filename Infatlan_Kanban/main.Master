@@ -94,7 +94,8 @@
 
                        <li><a class="waves-effect waves-dark" href="/default.aspx" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
                         <li><a class="waves-effect waves-dark" href="/pages/miTablero.aspx" aria-expanded="false"><i class="ti-layout-grid2"></i><span class="hide-menu">Mi Tablero</span></a></li>
-                       <li><a class="waves-effect waves-dark" href="/pages/creacionTareas.aspx" aria-expanded="false"><i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tarjeta</span></a></li>
+             <%--          <li><a class="waves-effect waves-dark" href="/pages/creacionTareas.aspx" aria-expanded="false"><i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tarjeta</span></a></li>--%>
+                           <li><a class="waves-effect waves-dark" href="/pages/Tarjetas.aspx" aria-expanded="false"><i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tarjeta</span></a></li>
                     
 <%--                        <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Configuraciones</span></a>
                             <ul aria-expanded="false" class="collapse">

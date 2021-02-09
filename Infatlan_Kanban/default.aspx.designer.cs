@@ -24,24 +24,6 @@ namespace Infatlan_Kanban
         protected global::System.Web.UI.UpdateProgress UpdateProgress1;
 
         /// <summary>
-        /// Control UpdatePanel5.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel5;
-
-        /// <summary>
-        /// Control BtnBusqueda.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnBusqueda;
-
-        /// <summary>
         /// Control UpdatePanel8.
         /// </summary>
         /// <remarks>

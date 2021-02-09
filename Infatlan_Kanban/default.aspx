@@ -128,7 +128,7 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
 
-        <div class="row page-titles">
+<%--        <div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="card-title"><strong>Kanban Board Gestiones Técnicas </strong></h4>
         </div>
@@ -146,8 +146,20 @@
                 </asp:UpdatePanel>
             </div>
         </div>
-    </div>
+    </div>--%>
 
+
+                    <div class="row page-titles">
+                    <div class="col-md-12">
+                        <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+                </div>
 
     <asp:UpdatePanel runat="server" ID="UpdatePanel8" UpdateMode="Conditional">
         <ContentTemplate>
@@ -236,7 +248,7 @@
                                 </div>--%>
                                 <br />
 
-                                 <div class="vtabs customvtab">
+    <%--                             <div class="vtabs customvtab">
                                     <ul class="nav nav-tabs customtab2" role="tablist">
                                     <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Home</span></a> </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
@@ -244,7 +256,7 @@
                                 </ul>
 
                    
-                                </div>
+                                </div>--%>
 
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="fa fa-calendar-minus-o"></i></span><span class="hidden-xs-down">Tareas en Ejecución</span></a> </li>

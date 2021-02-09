@@ -20,14 +20,29 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Session["USUARIO"] = "2536";
+           
             {
+
+                string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+
+                if (vIdRol == "2")
+                {
+                    DdlTipoBusqueda.Visible = false;
+                }
+                else
+                {
+                    DdlTipoBusqueda.Visible = true;
+                }
+                UpdatePanel17.Update();
+                
+
                 String vEx = Request.QueryString["ex"];
                 if (!Page.IsPostBack)
                 {
                     Session["GESTIONES_ID_TARJETA_CERRAR"] = null;
                     cargarInicialTarjeta();
                     cargarData();
+                    tipoBusqueda();
 
                     if (vEx == null)
                     {
@@ -455,7 +470,20 @@ namespace Infatlan_Kanban.pages
         }
 
 
-
+        void tipoBusqueda()
+        {
+            DdlTipoBusqueda.Items.Clear();
+            String vQuery = "GESTIONES_Solicitud 24,'" + Session["ID_ROL_USUARIO"].ToString() + "'";
+            DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            DdlTipoBusqueda.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+            if (vDatos.Rows.Count > 0)
+            {
+                foreach (DataRow item in vDatos.Rows)
+                {
+                    DdlTipoBusqueda.Items.Add(new ListItem { Value = item["nombre"].ToString(), Text = item["reporte"].ToString() });
+                }
+            }
+        }
         void cargarInicialTarjeta()
         {
             try
@@ -1611,7 +1639,12 @@ namespace Infatlan_Kanban.pages
                 DdlAccion.Enabled = false;
                 divSolucionAdjunto.Visible = false;
                 divComentarioAdd.Visible = false;
-                BtnConfirmarTarea.Visible = false;
+                BtnConfirmarTarea_1.Visible = false;
+                UpdatePanel14.Update();
+
+
+                LbTitulo.Text = "Tarjeta Kanban Cerrada: " + Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
+                UpTitulo.Update();
             }
         }
         protected void TxTitulo_TextChanged(object sender, EventArgs e)
@@ -1673,6 +1706,7 @@ namespace Infatlan_Kanban.pages
             ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCrearClose();", true);
             cargarInicialTarjeta();
             cargarData();
+            Response.Redirect("/pages/miTablero.aspx");
         }
 
 
@@ -1924,6 +1958,922 @@ namespace Infatlan_Kanban.pages
             {
                 Mensaje(ex.Message, WarningType.Danger);
             }
+        }
+
+        protected void BtnCancelarTarea_1_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaClose();", true);
+            Response.Redirect("/pages/miTablero.aspx");
+            cargarInicialTarjeta();
+            cargarData();
+
+        }
+
+        protected void DdlTipoBusqueda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+            if (DdlTipoBusqueda.SelectedValue == "2")//Reporte Equipo Trabajo
+            {
+                DdlEquipoTrabajo.Visible = true;
+                DdlColaborador.Visible = false;
+            
+
+                if (vIdRol== "1")
+                {
+                    DdlEquipoTrabajo.Items.Clear();
+                    String vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString()+ "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlEquipoTrabajo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+                }
+                else if(vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
+                {
+                    DdlEquipoTrabajo.Items.Clear();
+                    String vQuery = "GESTIONES_Solicitud 25";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlEquipoTrabajo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+                }
+            }else if (DdlTipoBusqueda.SelectedValue == "3")//Reporte Colaborador
+            {
+                DdlEquipoTrabajo.Visible = false;
+                DdlColaborador.Visible = true;
+
+                if (vIdRol == "1")
+                {
+                    DdlColaborador.Items.Clear();
+                    String vQuery = "GESTIONES_Solicitud 28,'"+ Session["USUARIO"].ToString()+ "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+                }
+                else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
+                {
+                    DdlColaborador.Items.Clear();
+                    String vQuery = "GESTIONES_Solicitud 26";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                DdlEquipoTrabajo.Visible = false;
+                DdlColaborador.Visible = false;
+                Response.Redirect("/pages/miTablero.aspx");
+            }
+        }
+
+        protected void DdlEquipoTrabajo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cargarDataEquipoTrabajo();
+            UpdatePanel19.Update();
+        }
+        void cargarDataEquipoTrabajo()
+        {
+
+            string vQuery = "GESTIONES_Generales 44,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vEnCola = vDatos.Rows[0]["cantCola"].ToString();
+
+            vQuery = "GESTIONES_Generales 45,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vEnEjecucion = vDatos.Rows[0]["cantEjecucion"].ToString();
+
+            vQuery = "GESTIONES_Generales 46,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vCompletadasHoy = vDatos.Rows[0]["cantCompletadasHoy"].ToString();
+
+            vQuery = "GESTIONES_Generales 47,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vAtrasado = vDatos.Rows[0]["cantAtrasado"].ToString();
+
+            vQuery = "GESTIONES_Generales 48,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vDetenidas = vDatos.Rows[0]["cantDetenidas"].ToString();
+
+            LbEnCola.Text = vEnCola;
+            LbEjecucion.Text = vEnEjecucion;
+            LbCompletados.Text = vCompletadasHoy;
+            LbAtrasados.Text = vAtrasado;
+            LbDetenidas.Text = vDetenidas;
+            string vString = "";
+            string vTest = "";
+            vQuery = "GESTIONES_Generales 49,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "";
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                
+                if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                {
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+
+
+                vString += "<div class='card'>" +
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+            }
+            LitNotificacionesEnCola.Text = vString;
+            LitEnCola.Text = vTest;
+
+
+            //SOLICITUDES EN EJECUCIÓN
+            vString = "";
+            vTest = "";
+            vQuery = "GESTIONES_Generales 50,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "";
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+
+                if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                {
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+
+                vString += "<div class='card'>" +
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+            }
+            LitNotificacionesEjecucion.Text = vString;
+            LitEnEjecucion.Text = vTest;
+
+
+            //SOLICITUDES ATRASADAS
+            vString = "";
+            vTest = "";
+            vQuery = "GESTIONES_Generales 51,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "";
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+
+                if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                {
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+
+
+                vString += "<div class='card'>" +
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+            }
+            LitNotificacionesAtrasadas.Text = vString;
+            LitAtrasados.Text = vTest;
+
+            //SOLICITUDES COMPLETADOS HOY
+            vString = "";
+            vTest = "";
+            DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+            vQuery = "GESTIONES_Generales 52,'" + DdlEquipoTrabajo.SelectedValue + "','" + vfechaActualCorta + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vEmpleado = "";
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vEstadoNombre = vDatos.Rows[i]["estado"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+
+                if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                {
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+                vString += "<div class='card'>" +
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<h5><span class='label label-" + vColorPrioridad + "'>" + vEstadoNombre + "</span></h5><br>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+
+            }
+            LitNotificacionesCompletadosHoy.Text = vString;
+            LitCompletadosHoy.Text = vTest;
+
+
+
+            //SOLICITUDES DETENIDAS
+            vString = "";
+            vTest = "";
+            vQuery = "GESTIONES_Generales 53,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "";
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+
+                if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                {
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+
+                vString += "<div class='card'>" +
+                "<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+            }
+            LitNotificacionesDetenidas.Text = vString;
+            LitDetenidas.Text = vTest;
+
+        }
+
+        protected void DdlColaborador_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cargarDataColaborador();
+            UpdatePanel19.Update();
+        }
+        void cargarDataColaborador()
+        {
+      
+                string vQuery = "GESTIONES_Generales 2,'" + DdlColaborador.SelectedValue + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vEnCola = vDatos.Rows[0]["cantCola"].ToString();
+
+                vQuery = "GESTIONES_Generales 3,'" + DdlColaborador.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vEnEjecucion = vDatos.Rows[0]["cantEjecucion"].ToString();
+
+                vQuery = "GESTIONES_Generales 4,'" + DdlColaborador.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vCompletadasHoy = vDatos.Rows[0]["cantCompletadasHoy"].ToString();
+
+                vQuery = "GESTIONES_Generales 5,'" + DdlColaborador.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vAtrasado = vDatos.Rows[0]["cantAtrasado"].ToString();
+
+                vQuery = "GESTIONES_Generales 40,'" + DdlColaborador.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vDetenidas = vDatos.Rows[0]["cantDetenidas"].ToString();
+
+
+
+                LbEnCola.Text = vEnCola;
+                LbEjecucion.Text = vEnEjecucion;
+                LbCompletados.Text = vCompletadasHoy;
+                LbAtrasados.Text = vAtrasado;
+                LbDetenidas.Text = vDetenidas;
+                string vString = "";
+                string vTest = "";
+                vQuery = "GESTIONES_Generales 21,'" + DdlColaborador.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "";
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+
+                    vString += "<div class='card'>" +
+                    "<div class='card-header " + vColor + " text-white'>" +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesEnCola.Text = vString;
+                LitEnCola.Text = vTest;
+
+
+
+                //SOLICITUDES EN EJECUCIÓN
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales 22,'" + DdlColaborador.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = ""; ;
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+                    vString += "<div class='card'>" +
+                    "<div class='card-header " + vColor + " text-white'>" +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesEjecucion.Text = vString;
+                LitEnEjecucion.Text = vTest;
+
+
+                //SOLICITUDES ATRASADAS
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales 23,'" + DdlColaborador.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = ""; ;
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+
+                    vString += "<div class='card'>" +
+                    "<div class='card-header " + vColor + " text-white'>" +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesAtrasadas.Text = vString;
+                LitAtrasados.Text = vTest;
+
+                //SOLICITUDES COMPLETADOS HOY
+                vString = "";
+                vTest = "";
+                DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+                vQuery = "GESTIONES_Generales 24,'" + DdlColaborador.SelectedValue + "','" + vfechaActualCorta + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = ""; ;
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vEstadoNombre = vDatos.Rows[i]["estado"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+                    vString += "<div class='card'>" +
+                    "<div class='card-header " + vColor + " text-white'>" +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'>" +
+                    "<h5><span class='label label-" + vColorPrioridad + "'>" + vEstadoNombre + "</span></h5><br>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+
+                }
+                LitNotificacionesCompletadosHoy.Text = vString;
+                LitCompletadosHoy.Text = vTest;
+
+
+
+                //SOLICITUDES DETENIDAS
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales 41,'" + DdlColaborador.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = ""; ;
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+                    vString += "<div class='card'>" +
+                    "<div class='card-header " + vColor + " text-white'>" +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesDetenidas.Text = vString;
+                LitDetenidas.Text = vTest;
+
+            
         }
     }
 }
