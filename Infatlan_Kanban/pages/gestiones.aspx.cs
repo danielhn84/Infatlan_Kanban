@@ -21,22 +21,18 @@ namespace Infatlan_Kanban.pages
             ScriptManager.RegisterStartupScript(this.Page, typeof(Page), "text", "infatlan.showNotification('top','center','" + vMensaje + "','" + type.ToString().ToLower() + "')", true);
         }
         protected void Page_Load(object sender, EventArgs e)
-        {
-            //String vUser = Request.QueryString["u"];
-            //String vQuery = "GESTIONES_Generales 38, '" + vUser + "'";
-            //DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-            //if (vDatos.Rows.Count > 0)
-            //{
-            //    Session["AUTHCLASS"] = vDatos;
-            //    Session["USUARIO"] = vDatos.Rows[0]["codEmpleado"].ToString();
-            //    Session["USUARIO_AD"] = vDatos.Rows[0]["adUser"].ToString();
-            //    Session["GESTIONES_TEAMS_USER_LOGEADO"] = vDatos.Rows[0]["idTeams"].ToString();
-            //    Session["GESTIONES_ID_JEFE_USER"] = vDatos.Rows[0]["idJefe"].ToString();
-            //    Session["GESTIONES_ID_SUPLENTE_USER"] = vDatos.Rows[0]["idSuplente"].ToString();
-
-            //    Session["AUTH"] = true;
-            //}
-            cargarDatos();
+        {         
+            if (!Page.IsPostBack)
+            {
+                if (Convert.ToBoolean(Session["AUTH"]))
+                {
+                    cargarDatos();
+                }
+                else
+                {
+                    Response.Redirect("/login.aspx");
+                }
+            }
         }
         protected void BtnNuevo_Click(object sender, EventArgs e)
         {

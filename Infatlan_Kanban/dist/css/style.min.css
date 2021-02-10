@@ -19090,7 +19090,7 @@ tbody.collapse.show {
 
     .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
         color: #fff;
-        background-color: #00468c
+        background-color: #D9272E
     }
 
 .nav-fill .nav-item {
@@ -30112,7 +30112,7 @@ ul.list-inline li {
 }
 
 .page-titles {
-    background: #fff;
+    background: url(../../../assets/images/heading-title-bg.jpg) center center/cover no-repeat;
     padding: 14px 17px;
     margin: 0 -25px 25px;
 }

@@ -21,51 +21,67 @@ namespace Infatlan_Kanban.pages
         protected void Page_Load(object sender, EventArgs e)
         {
            
-            {
+            
 
-                string vIdRol = Session["ID_ROL_USUARIO"].ToString();
-
-                if (vIdRol == "2")
-                {
-                    DdlTipoBusqueda.Visible = false;
-                }
-                else
-                {
-                    DdlTipoBusqueda.Visible = true;
-                }
-                UpdatePanel17.Update();
-                
-
-                String vEx = Request.QueryString["ex"];
                 if (!Page.IsPostBack)
                 {
+
+                String vEx = Request.QueryString["ex"];
+                if (Convert.ToBoolean(Session["AUTH"]))
+                    {
+
+                    string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+
+                    if (vIdRol == "2")
+                    {
+                        DdlTipoBusqueda.Visible = false;
+                    }
+                    else
+                    {
+                        DdlTipoBusqueda.Visible = true;
+                    }
+                    UpdatePanel17.Update();
+
+
                     Session["GESTIONES_ID_TARJETA_CERRAR"] = null;
                     cargarInicialTarjeta();
                     cargarData();
                     tipoBusqueda();
-
-                    if (vEx == null)
+                }
+                    else
                     {
-                        cargarData();
-                        string vMensaje = "Tarjeta creado con éxito";
-                        Mensaje(vMensaje, WarningType.Success);
+                        Response.Redirect("/login.aspx");
                     }
-                    else if (vEx.Equals("1"))
-                    {
-                        String vRe = "Tarjeta finalizada con éxito.";
-                        ScriptManager.RegisterClientScriptBlock(this.Page, this.Page.GetType(), "Pop", "window.alert('" + vRe + "')", true);
-                        cargarData();
-                    }
-                    else if (vEx.Equals("2"))
-                    {
-                        string  vMensaje = "Tarjeta creado con éxito";
-                        Mensaje(vMensaje, WarningType.Success);
-                        cargarData();
-                    }
-                   
                 }
 
-            }
+
+              
+                //if (!Page.IsPostBack)
+                //{
+
+
+                //    //if (vEx == null)
+                //    //{
+                //    //    cargarData();
+                //    //    string vMensaje = "Tarjeta creado con éxito";
+                //    //    Mensaje(vMensaje, WarningType.Success);
+                //    //}
+                //    //else if (vEx.Equals("1"))
+                //    //{
+                //    //    String vRe = "Tarjeta finalizada con éxito.";
+                //    //    ScriptManager.RegisterClientScriptBlock(this.Page, this.Page.GetType(), "Pop", "window.alert('" + vRe + "')", true);
+                //    //    cargarData();
+                //    //}
+                //    //else if (vEx.Equals("2"))
+                //    //{
+                //    //    string  vMensaje = "Tarjeta creado con éxito";
+                //    //    Mensaje(vMensaje, WarningType.Success);
+                //    //    cargarData();
+                //    //}
+                   
+                //}
+
+            
         }
 
         void cargarData()

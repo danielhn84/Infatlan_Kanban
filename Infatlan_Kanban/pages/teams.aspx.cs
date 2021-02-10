@@ -19,11 +19,16 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Session["USUARIO"] = "2536";
-
             if (!Page.IsPostBack)
             {
-                cargarDatos();
+                if (Convert.ToBoolean(Session["AUTH"]))
+                {
+                    cargarDatos();
+                }
+                else
+                {
+                    Response.Redirect("/login.aspx");
+                }
             }
         }
         private void cargarDatos()

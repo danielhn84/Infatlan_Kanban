@@ -21,27 +21,18 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            //string vUser = Request.QueryString["u"];
-            //string vQuery = "GESTIONES_Generales 38, '" + vUser + "'";
-            //DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-            //if (vDatos.Rows.Count > 0)
-            //{
-            //    Session["USUARIO"] = vDatos.Rows[0]["codEmpleado"].ToString();
-            //    Session["USUARIO_AD"] = vDatos.Rows[0]["adUser"].ToString();
-            //    Session["GESTIONES_TEAMS_USER_LOGEADO"] = vDatos.Rows[0]["idTeams"].ToString();
-            //    Session["GESTIONES_ID_JEFE_USER"] = vDatos.Rows[0]["idJefe"].ToString();
-            //    Session["GESTIONES_ID_SUPLENTE_USER"] = vDatos.Rows[0]["idSuplente"].ToString();
-            //}
 
-            //Session["USUARIO"] = "2536";
-            //Session["GESTIONES_TEAMS_USER"] = "14";
-            //Session["GESTIONES_ID_JEFE_USER"] = "80123";
-            //Session["GESTIONES_ID_SUPLENTE_USER"] = "2536";
             if (!Page.IsPostBack)
             {
-                cargarDatos();
+                if (Convert.ToBoolean(Session["AUTH"]))
+                {
+                    cargarDatos();
+                }
+                else
+                {
+                    Response.Redirect("/login.aspx");
+                }
             }
-
         }
 
         private void cargarDatos()

@@ -21,14 +21,21 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+   
             if (!Page.IsPostBack)
             {
-                cargarInicialTarjeta();
-                cargarInicialMisSolicitudes();
-                cargarDetenerSolicitudes();
-                cargarReasignarSolicitudes();
+                if (Convert.ToBoolean(Session["AUTH"]))
+                {
+                    cargarInicialTarjeta();
+                    cargarInicialMisSolicitudes();
+                    cargarDetenerSolicitudes();
+                    cargarReasignarSolicitudes();
+                }
+                else
+                {
+                    Response.Redirect("/login.aspx");
+                }
             }
-
         }
         void cargarInicialMisSolicitudes()
         {

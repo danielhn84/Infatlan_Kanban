@@ -67,13 +67,13 @@
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="/assets/images/users/face5.jpg" alt="user" class="">
+                              <%--  <img src="/assets/images/users/face5.jpg" alt="user" class="">--%>
                                 <span class="hidden-md-down">
                                     <asp:Literal Text="" ID="LitUsuario" runat="server" />
                                     &nbsp;<i class="fa fa-angle-down"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
-                                <a href="/logout.aspx" class="dropdown-item"><i class="fa fa-power-off"></i>Logout</a>
+                                <a href="/login.aspx" class="dropdown-item"><i class="fa fa-power-off"></i>Logout</a>
                                 <a class="dropdown-item" style="display: none">
                                     <input class="dropdown-item" type="Text" id="TxUser" value="" runat="server" clientidmode="AutoID" />
                                     <asp:Literal Text="" ID="LitUser" ClientIDMode="AutoID" runat="server" />

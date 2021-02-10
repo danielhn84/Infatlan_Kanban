@@ -400,6 +400,7 @@
     <Content Include="assets\images\gallery\chair3.jpg" />
     <Content Include="assets\images\gallery\chair4.jpg" />
     <Content Include="assets\images\heading-title-bg.jpg" />
+    <Content Include="assets\images\heading-title-bg.png" />
     <Content Include="assets\images\icon\assets-w.png" />
     <Content Include="assets\images\icon\assets.png" />
     <Content Include="assets\images\icon\danger.svg" />
@@ -6066,6 +6067,7 @@
     <Content Include="images\file-complete.png" />
     <Content Include="images\GestionesTecnicas.JPG" />
     <Content Include="images\grafico.png" />
+    <Content Include="images\heading-title-bg.jpg" />
     <Content Include="images\logo_texto_blanco.png" />
     <Content Include="images\new_file.png" />
     <Content Include="images\remove.png" />
