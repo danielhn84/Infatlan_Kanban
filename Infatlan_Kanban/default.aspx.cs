@@ -20,16 +20,26 @@ namespace Infatlan_Kanban
 
         protected void Page_Load(object sender, EventArgs e)
         {
+  
+
             if (!Page.IsPostBack)
             {
-  
-                Session["GESTIONES_TAREAS_FECHA_INICIO"] = "01/12/2020";
-                Session["GESTIONES_TAREAS_FECHA_FINAL"] = "27/01/2021";
-                obtenerEstados();
-                obtenerTipoGestion();
-                obtenerTareasCerradas();
-                obtenerCargabilidadApilado();
+                if (Convert.ToBoolean(Session["AUTH"]))
+                {
+
+                    Session["GESTIONES_TAREAS_FECHA_INICIO"] = "01/12/2020";
+                    Session["GESTIONES_TAREAS_FECHA_FINAL"] = "27/01/2021";
+                    obtenerEstados();
+                    obtenerTipoGestion();
+                    obtenerTareasCerradas();
+                    obtenerCargabilidadApilado();
+                }
+                else
+                {
+                    Response.Redirect("/login.aspx");
+                }
             }
+
         }
 
         public string obtenerCargabilidad()
