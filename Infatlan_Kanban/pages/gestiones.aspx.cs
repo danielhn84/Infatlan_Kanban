@@ -75,6 +75,7 @@ namespace Infatlan_Kanban.pages
             TxGestion.Text = string.Empty;
             LBTeams.Items.Clear();
             DivMensaje.Visible = false;
+            Session["GESTIONES_ID"] = null;
         }
         protected void BtnAceptar_Click(object sender, EventArgs e)
         {

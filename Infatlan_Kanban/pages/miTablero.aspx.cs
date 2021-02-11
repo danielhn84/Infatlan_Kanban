@@ -35,10 +35,12 @@ namespace Infatlan_Kanban.pages
                     if (vIdRol == "2")
                     {
                         DdlTipoBusqueda.Visible = false;
+                        BtnBusqueda.Visible = false;
                     }
                     else
                     {
                         DdlTipoBusqueda.Visible = true;
+                        BtnBusqueda.Visible = true;
                     }
                     UpdatePanel17.Update();
 
@@ -771,8 +773,16 @@ namespace Infatlan_Kanban.pages
             if (DdlPrioridad.SelectedValue.Equals("0"))
                 throw new Exception("Falta que seleccione tipo de prioridad.");
 
-            string vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable.SelectedValue + "'";
+
+            string vQuery = "GESTIONES_Generales 5,'" + DdlResponsable.SelectedValue + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vCantAtrasados = vDatos.Rows[0]["cantAtrasado"].ToString();
+            //if(Convert.ToInt32(vCantAtrasados)>=5)
+            //    throw new Exception("Límite establecido de tareas atrasadas: 5, y usted actualmete tiene: "+ vCantAtrasados + ", favor finalizar las tarjetas para que pyuedan asignarles nuevas.");
+
+
+            vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vTeams = vDatos.Rows[0]["idTeams"].ToString();
             Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
             Session["GESTIONES_TEAMS"] = vDatos.Rows[0]["idTeams"].ToString();
@@ -799,7 +809,17 @@ namespace Infatlan_Kanban.pages
 
 
             DateTime fecha_actual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+
+            TimeSpan fecha_actual_resta10min = new TimeSpan(Convert.ToDateTime(fecha_actual).Ticks);
+            fecha_actual_resta10min = fecha_actual_resta10min.Add(new TimeSpan(0, -10, 0));
+            String fecha_actual_resta = Convert.ToString(fecha_actual_resta10min); //Original Text
+            String[] result = fecha_actual_resta.Split('.');
+            string vHr = result[1].ToString();
+
             string fecha_actual_corta = fecha_actual.ToString("dd/MM/yyyy");
+            string fecha_actual_corta_masresta = fecha_actual.ToString("dd/MM/yyyy")+ " "+vHr;
+            DateTime fecha_actual_corta_masresta_evaluar = Convert.ToDateTime(fecha_actual_corta_masresta);
+
             DateTime fecha_actualIngreso = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
             DateTime fecha_actualEntrega = Convert.ToDateTime(fecha_fin.ToString("dd/MM/yyyy HH:mm"));
 
@@ -807,11 +827,10 @@ namespace Infatlan_Kanban.pages
             int vdiasSolicitud = Convert.ToInt16(timeSpan.TotalDays);
             Session["GESTIONES_DIAS_SOLICITUD"] = vdiasSolicitud;
 
-            if (DdlTipoGestion.SelectedValue != "4" && fecha_actualIngreso < fecha_actual)  //VALIDACION DIFERENTE A INCIDENTES QUE NO PODRAN INGRESARLA A CUALQUIER HORA
-            {
-                throw new Exception("No se puede crear la tarjeta, la fecha actual del sistema es mayor que la fecha de inicio de la tarjeta. Nota: Solo el tipo de gestión incidentes se pueden ingresar a cualquier hora del dia, las demas gestiones deben ser debidamente programadas. ");
-            }
 
+            if (DdlTipoGestion.SelectedValue != "4" && fecha_actualIngreso < fecha_actual_corta_masresta_evaluar)  //VALIDACION DIFERENTE A INCIDENTES QUE NO PODRAN INGRESARLA A CUALQUIER HORA           
+                throw new Exception("No se puede crear la tarjeta, la fecha actual del sistema es mayor que la fecha de inicio de la tarjeta. Nota: Solo el tipo de gestión incidentes se pueden ingresar a cualquier hora del dia, las demas gestiones deben ser debidamente programadas. ");
+            
             if (fecha_actualIngreso > fecha_actualEntrega)
                 throw new Exception("Favor verificar la fecha de inicio, no puede ser mayor que la fecha de entrega");
 
@@ -914,7 +933,6 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
- 
                     validacionesCrearSolicitud();
 
                     GVDistribucion.DataSource = null;
@@ -1396,11 +1414,11 @@ namespace Infatlan_Kanban.pages
             GVDistribucion.DataBind();
         }
 
-        protected void BtnBusqueda_Click(object sender, EventArgs e)
-        {
-            DivBusqueda.Visible = true;
-            UpdatePanel8.Update();
-        }
+        //protected void BtnBusqueda_Click(object sender, EventArgs e)
+        //{
+        //    DivBusqueda.Visible = true;
+        //    UpdatePanel8.Update();
+        //}
 
         private void validacionesCerrarTarea()
         {
@@ -1656,7 +1674,7 @@ namespace Infatlan_Kanban.pages
                 divSolucionAdjunto.Visible = false;
                 divComentarioAdd.Visible = false;
                 BtnConfirmarTarea_1.Visible = false;
-                UpdatePanel14.Update();
+                //UpdatePanel14.Update();
 
 
                 LbTitulo.Text = "Tarjeta Kanban Cerrada: " + Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
@@ -1672,7 +1690,7 @@ namespace Infatlan_Kanban.pages
             Session["GESTIONES_ID_TARJETA_CERRAR"] = vidTarjeta;
             cargarDatosTarjeta();
             tabAdjuntos.Visible = true;
-            divAdjunto.Visible = false;
+            //divAdjunto.Visible = false;
             DdlTipoGestion_1.Enabled = false;
             UPFormulario.Update();
         }
@@ -1746,7 +1764,7 @@ namespace Infatlan_Kanban.pages
             GvComentario.DataSource = null;
             GvComentario.DataBind();
 
-            divAdjunto.Visible = false;
+            //divAdjunto.Visible = false;
             divComentario.Visible = false;
         }
 
@@ -1848,132 +1866,134 @@ namespace Infatlan_Kanban.pages
             {
                 String vEx = null;
 
-                    vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
-   
-                    validacionesCerrarTarea();
-                    String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
-                    String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio_1.Text).ToString(vFormato);
-                    DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
-                    DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+                vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
 
-                    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio_1.Text.ToString());
-                    DateTime vFechaInicio = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
+                validacionesCerrarTarea();
+                String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
+                String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio_1.Text).ToString(vFormato);
+                DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+                DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
 
-                    DateTime fecha_entrega = DateTime.Parse(TxFechaEntrega_1.Text.ToString());
-                    DateTime vFechaEntrega = Convert.ToDateTime(fecha_entrega.ToString("dd/MM/yyyy HH:mm"));
+                DateTime fecha_inicio = DateTime.Parse(TxFechaInicio_1.Text.ToString());
+                DateTime vFechaInicio = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
 
-                    string vidEstado = "";
-                    string vidEstadoTexto = "";
-                    string vtarjetaEstado = "";
-                    string vCambio = "";
+                DateTime fecha_entrega = DateTime.Parse(TxFechaEntrega_1.Text.ToString());
+                DateTime vFechaEntrega = Convert.ToDateTime(fecha_entrega.ToString("dd/MM/yyyy HH:mm"));
 
-                    string vEstadoCargabilidad = "";
-                    if (DdlAccion.SelectedValue == "1")
+                string vidEstado = "";
+                string vidEstadoTexto = "";
+                string vtarjetaEstado = "";
+                string vCambio = "";
+
+                string vEstadoCargabilidad = "";
+                if (DdlAccion.SelectedValue == "1")
+                {
+                    if (vfechaActual < vFechaEntrega)
                     {
-                        if (vfechaActual < vFechaEntrega)
-                        {
-                            vidEstado = "5";
-                            vidEstadoTexto = "Realizado a Tiempo";
-                            vEstadoCargabilidad = "1";
-                        }
-                        else
-                        {
-                            vidEstado = "6";
-                            vidEstadoTexto = "Realizado fuera de tiempo";
-                            vEstadoCargabilidad = "1";
-                        }
+                        vidEstado = "5";
+                        vidEstadoTexto = "Realizado a Tiempo";
+                        vEstadoCargabilidad = "4";
                     }
-
                     else
                     {
-                        vidEstado = "9";
-                        vidEstadoTexto = "Solicitud Tarjeta a Estado Detenido";
-                        vEstadoCargabilidad = "3";
+                        vidEstado = "6";
+                        vidEstadoTexto = "Realizado fuera de tiempo";
+                        vEstadoCargabilidad = "4";
                     }
+                }
+
+                else
+                {
+                    vidEstado = "9";
+                    vidEstadoTexto = "Solicitud Tarjeta a Estado Detenido";
+                    vEstadoCargabilidad = "3";
+                }
 
 
-                    vCambio = "Finalizar Tarjeta, Estado: " + vidEstadoTexto + ", Detalle: " + TxDetalle.Text;
+                vCambio = "Finalizar Tarjeta, Estado: " + vidEstadoTexto + ", Detalle: " + TxDetalle.Text;
 
-                    String vNombreDepot1 = String.Empty;
-                    HttpPostedFile bufferDeposito1T = FuSolucion_Cerrar.PostedFile;
-                    byte[] vFileDeposito1 = null;
-                    String vExtension = String.Empty;
+                String vNombreDepot1 = String.Empty;
+                HttpPostedFile bufferDeposito1T = FuSolucion.PostedFile;
+                byte[] vFileDeposito1 = null;
+                String vExtension = String.Empty;
 
-                    if (bufferDeposito1T != null)
-                    {
-                        vNombreDepot1 = FuSolucion_Cerrar.FileName;
-                        Stream vStream = bufferDeposito1T.InputStream;
-                        BinaryReader vReader = new BinaryReader(vStream);
-                        vFileDeposito1 = vReader.ReadBytes((int)vStream.Length);
-                        vExtension = System.IO.Path.GetExtension(FuSolucion.FileName);
-                    }
-                    String vArchivo = String.Empty;
-                    if (vFileDeposito1 != null)
-                        vArchivo = Convert.ToBase64String(vFileDeposito1);
-                    //ACTUALIZAR LA SOLICITUD
-                    string vQuery = "GESTIONES_Solicitud 16,'" + vEx + "','" + vidEstado + "','" + TxDetalle.Text + "','" + Session["USUARIO"].ToString() + "','" + vArchivo + "'";
-                    Int32 vInfo1 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                if (bufferDeposito1T != null)
+                {
+                    vNombreDepot1 = FuSolucion_Cerrar.FileName;
+                    Stream vStream = bufferDeposito1T.InputStream;
+                    BinaryReader vReader = new BinaryReader(vStream);
+                    vFileDeposito1 = vReader.ReadBytes((int)vStream.Length);
+                    vExtension = System.IO.Path.GetExtension(FuSolucion.FileName);
+                }
+                String vArchivo = String.Empty;
+                if (vFileDeposito1 != null)
+                    vArchivo = Convert.ToBase64String(vFileDeposito1);
+                //ACTUALIZAR LA SOLICITUD
+                string vQuery = "GESTIONES_Solicitud 16,'" + vEx + "','" + vidEstado + "','" + TxDetalle.Text + "','" + Session["USUARIO"].ToString() + "','" + vArchivo + "'";
+                Int32 vInfo1 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
-                    //GUARDAR HISTORIAL
-                    vQuery = "GESTIONES_Solicitud 4,'" + vEx + "','" + vCambio + "','" + Session["USUARIO"].ToString() + "'";
-                    Int32 vInfo2 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
-
-
-
-                    vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable_1.SelectedValue + "'";
-                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                    string vTeams = vDatos.Rows[0]["idTeams"].ToString();
-                    Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
-
-                    vQuery = "GESTIONES_Solicitud 8,'" + vTeams + "'";
-                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                    Session["GESTIONES_CORREO_JEFE"] = vDatos.Rows[0]["correoJefe"].ToString();
-                    Session["GESTIONES_CORREO_SUPLENTE"] = vDatos.Rows[0]["correoSuplente"].ToString();
-                    Session["GESTIONES_NOMBRE_JEFE"] = vDatos.Rows[0]["nombreJefe"].ToString();
-                    Session["GESTIONES_NOMBRE_SUPLENTE"] = vDatos.Rows[0]["nombreSuplente"].ToString();
-
-                    if (DdlAccion.SelectedValue == "1")
-                    {
-                        //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
-                        string vAsunto = "Tarjeta Kanban Finalizada, Gestiones Técnicas: " + vEx;
-                        string vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
-
-                        string vQuery5 = "GESTIONES_Solicitud 5,'Tarjeta Kanban Finalizada','"
-                         + Session["GESTIONES_CORREO_RESPONSABLE"].ToString()
-                        + "','" + vCorreosCopia + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
-                        Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
-                    }
-                    else if (DdlAccion.SelectedValue == "2")
-                    {
-                        //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
-                        string vAsunto = "Solicitud Tarjeta Kanban a Estado Detenida, Gestiones Técnicas: " + vEx;
-                        string vCorreo = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
-
-                        string vQuery5 = "GESTIONES_Solicitud 5,'Solicitud Tarjeta Kanban a Detenido','"
-                         + vCorreo
-                        + "','" + Session["GESTIONES_CORREO_RESPONSABLE"].ToString() + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
-                        Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
-                    }
+                //GUARDAR HISTORIAL
+                vQuery = "GESTIONES_Solicitud 4,'" + vEx + "','" + vCambio + "','" + Session["USUARIO"].ToString() + "'";
+                Int32 vInfo2 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
 
-                    //CAMBIAR EL ESTADO DE LA CARGABILIDAD
-                    vQuery = "GESTIONES_Solicitud 22,'" + vEx + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
-                    Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
-                    string vMensaje = "";
-                    if (vInfo2 == 1)
-                    {
-                        TxDetalle.Text = "";
-                        DdlAccion.SelectedIndex = -1;
-                        vMensaje = "Tarjeta cerrada con éxito";
-                        Mensaje(vMensaje, WarningType.Success);
-                        Response.Redirect("/pages/miTablero.aspx");
-                    }
+                vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable_1.SelectedValue + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vTeams = vDatos.Rows[0]["idTeams"].ToString();
+                Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
+
+                vQuery = "GESTIONES_Solicitud 8,'" + vTeams + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                Session["GESTIONES_CORREO_JEFE"] = vDatos.Rows[0]["correoJefe"].ToString();
+                Session["GESTIONES_CORREO_SUPLENTE"] = vDatos.Rows[0]["correoSuplente"].ToString();
+                Session["GESTIONES_NOMBRE_JEFE"] = vDatos.Rows[0]["nombreJefe"].ToString();
+                Session["GESTIONES_NOMBRE_SUPLENTE"] = vDatos.Rows[0]["nombreSuplente"].ToString();
+
+                if (DdlAccion.SelectedValue == "1")
+                {
+                    //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
+                    string vAsunto = "Tarjeta Kanban Finalizada, Gestiones Técnicas: " + vEx;
+                    string vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+
+                    string vQuery5 = "GESTIONES_Solicitud 5,'Tarjeta Kanban Finalizada','"
+                     + Session["GESTIONES_CORREO_RESPONSABLE"].ToString()
+                    + "','" + vCorreosCopia + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
+                    Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
+                }
+                else if (DdlAccion.SelectedValue == "2")
+                {
+                    //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
+                    string vAsunto = "Solicitud Tarjeta Kanban a Estado Detenida, Gestiones Técnicas: " + vEx;
+                    string vCorreo = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+
+                    string vQuery5 = "GESTIONES_Solicitud 5,'Solicitud Tarjeta Kanban a Detenido','"
+                     + vCorreo
+                    + "','" + Session["GESTIONES_CORREO_RESPONSABLE"].ToString() + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
+                    Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
+                }
+
+
+                //CAMBIAR EL ESTADO DE LA CARGABILIDAD
+                vQuery = "GESTIONES_Solicitud 22,'" + vEx + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
+                Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                string vMensaje = "";
+                if (vInfo2 == 1)
+                {
+                    TxDetalle.Text = "";
+                    DdlAccion.SelectedIndex = -1;
+                    vMensaje = "Tarjeta cerrada con éxito";
+                    Mensaje(vMensaje, WarningType.Success);
+                    Response.Redirect("/pages/miTablero.aspx");
+                }
             }
             catch (Exception ex)
             {
-                Mensaje(ex.Message, WarningType.Danger);
+                LbAlertaGuardar.InnerText = ex.Message;
+                divAlertaGuardar.Visible = true;
             }
+      
         }
 
         protected void BtnCancelarTarea_1_Click(object sender, EventArgs e)
@@ -2890,6 +2910,12 @@ namespace Infatlan_Kanban.pages
                 LitDetenidas.Text = vTest;
 
             
+        }
+
+        protected void BtnBusqueda_Click1(object sender, EventArgs e)
+        {
+            DivBusquedaReportes.Visible = true;
+            UpdatePanel17.Update();
         }
     }
 }

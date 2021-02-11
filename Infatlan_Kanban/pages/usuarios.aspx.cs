@@ -39,17 +39,64 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
-                string vQuery = "";
-                DataTable vDatos = new DataTable();
-                vQuery = "GESTIONES_Generales 32,'"+ Session["GESTIONES_TEAMS_USER_LOGEADO"].ToString()+"'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
-                if (vDatos.Rows.Count > 0)
+                string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+                if (vIdRol == "1")
                 {
-                    GVBusqueda.DataSource = vDatos;
-                    GVBusqueda.DataBind();
-                    Session["GESTIONES_COLABORADOR_TEAMS"] = vDatos;
+                    DdlEquipo.Items.Clear();
+                    String vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString() + "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlEquipo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlEquipo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+
+                    string vQueryColaboradores = "";
+                    DataTable vDatosColaboradores = new DataTable();
+                    vQueryColaboradores = "GESTIONES_Generales 32,'" + Session["USUARIO"].ToString() + "'";
+                    vDatosColaboradores = vConexionGestiones.obtenerDataTableGestiones(vQueryColaboradores);
+
+                    if (vDatosColaboradores.Rows.Count > 0)
+                    {
+                        GVBusqueda.DataSource = vDatosColaboradores;
+                        GVBusqueda.DataBind();
+                        Session["GESTIONES_COLABORADOR_TEAMS"] = vDatosColaboradores;
+                    }
                 }
+                else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
+                {
+                    DdlEquipo.Items.Clear();
+                    String vQuery = "GESTIONES_Solicitud 25";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlEquipo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlEquipo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+
+
+                    string vQueryColaboradores = "";
+                    DataTable vDatosColaboradores = new DataTable();
+                    vQueryColaboradores = "GESTIONES_Generales 54";
+                    vDatosColaboradores = vConexionGestiones.obtenerDataTableGestiones(vQueryColaboradores);
+
+                    if (vDatosColaboradores.Rows.Count > 0)
+                    {
+                        GVBusqueda.DataSource = vDatosColaboradores;
+                        GVBusqueda.DataBind();
+                        Session["GESTIONES_COLABORADOR_TEAMS"] = vDatosColaboradores;
+                    }
+                }
+
+
+
             }
             catch (Exception ex)
             {
@@ -62,6 +109,7 @@ namespace Infatlan_Kanban.pages
             try
             {
                 limpiarModal();
+                Session["GESTIONES_ID_EMPLEADO"] = null;
                 DivColaborador.Visible = true;
                 DivMensaje.Visible = false;
                 UpdatePanelModal.Update();
@@ -73,7 +121,18 @@ namespace Infatlan_Kanban.pages
                 foreach (DataRow item in vDatos.Rows)
                 {
                     DdlColaborador.Items.Add(new ListItem { Value = item["idEmpleado"].ToString(), Text = item["idEmpleado"].ToString() + " - " + item["nombre"].ToString() });
-                } 
+                }
+
+                vQuery = "GESTIONES_Generales 42";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                DdlRol.Items.Clear();
+
+                DdlRol.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                foreach (DataRow item in vDatos.Rows)
+                {
+                    DdlRol.Items.Add(new ListItem { Value = item["idRol"].ToString(), Text = item["rol"].ToString() });
+
+                }
 
                 LbTituloModal.Text = "Agregar Colaborador";
                 UpdatePanelModal.Update();
@@ -145,6 +204,12 @@ namespace Infatlan_Kanban.pages
 
             if (TxUsuario.Text == "" || TxUsuario.Text == string.Empty)
                 throw new Exception("Favor verifiqué que el campo usuario no esté vacío.");
+
+            if (DdlRol.SelectedValue.Equals("0"))
+                throw new Exception("Favor verifiqué que el campo de rol sea válido.");
+
+            if (DdlEquipo.SelectedValue.Equals("0"))
+                throw new Exception("Favor verifiqué que el campo de equipo sea válido.");
         }
 
             protected void BtnAceptar_Click(object sender, EventArgs e)
@@ -159,13 +224,13 @@ namespace Infatlan_Kanban.pages
                 if (HttpContext.Current.Session["GESTIONES_ID_EMPLEADO"] == null)
                 {
                     validarDatos();
-                    vQuery = "GESTIONES_Generales 31,'" + Session["GESTIONES_TEAMS_USER"].ToString() + "','" + TxNombre.Text + "','" + TxCorreo.Text + "','" + TxColor.Text + "','" + TxUsuario.Text + "','" + TxCodigo.Text + "','" + Session["USUARIO"].ToString() + "',1,'"+ Session["GESTIONES_ID_JEFE_USER"].ToString()+"','"+ Session["GESTIONES_ID_SUPLENTE_USER"]+"'";
+                    vQuery = "GESTIONES_Generales 31,'" + DdlEquipo.SelectedValue + "','" + TxNombre.Text + "','" + TxCorreo.Text + "','" + TxColor.Text + "','" + TxUsuario.Text + "','" + TxCodigo.Text + "','" + Session["USUARIO"].ToString() + "',1,'"+ Session["GESTIONES_ID_JEFE_USER"].ToString()+"','"+ Session["GESTIONES_ID_SUPLENTE_USER"]+"','"+ DdlRol.SelectedValue+"'";
                     vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
                     vMensaje = "Colaborador registrado con éxito";
                 }
                 else
                 {
-                    vQuery = "GESTIONES_Generales 34,'" + Session["GESTIONES_ID_EMPLEADO"].ToString() + "','" + DdlEstadoUsuario.SelectedValue + "','" + TxColor.Text + "','" + Session["USUARIO"].ToString() + "'";
+                    vQuery = "GESTIONES_Generales 34,'" + Session["GESTIONES_ID_EMPLEADO"].ToString() + "','" + DdlEstadoUsuario.SelectedValue + "','" + TxColor.Text + "','" + Session["USUARIO"].ToString() + "','"+ DdlRol.SelectedValue+ "','"+ DdlEquipo.SelectedValue + "'";
                     vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
                     vMensaje = "Colaborador actualizado con éxito";
                 }
@@ -191,8 +256,20 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
-                DataTable vDatos = new DataTable();
-                String vQuery = "";
+
+                string vQuery = "GESTIONES_Generales 42";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                DdlRol.Items.Clear();
+
+                DdlRol.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                foreach (DataRow item in vDatos.Rows)
+                {
+                    DdlRol.Items.Add(new ListItem { Value = item["idRol"].ToString(), Text = item["rol"].ToString() });
+
+                }
+
+                //DataTable vDatos = new DataTable();
+                //String vQuery = "";
                 string vIEmpleado = e.CommandArgument.ToString();
                 Session["GESTIONES_ID_EMPLEADO"] = vIEmpleado;
                 if (e.CommandName == "EditarEmpleado")
@@ -209,6 +286,7 @@ namespace Infatlan_Kanban.pages
                     TxCodigo.Text = vDatos.Rows[0]["codEmpleado"].ToString();
                     TxUsuario.Text = vDatos.Rows[0]["adUser"].ToString();
                     DdlEstadoUsuario.SelectedValue ="1";
+                    DdlRol.SelectedValue = vDatos.Rows[0]["IdRol"].ToString();
                     TxColor.Text = vDatos.Rows[0]["colorTarjeta"].ToString();
                     DivColaborador.Visible = false;
 
@@ -252,7 +330,7 @@ namespace Infatlan_Kanban.pages
                 else
                 {
                     EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
-                        .Where(r => r.Field<String>("nombre").Contains(vBusqueda.ToUpper()));
+                        .Where(r => r.Field<String>("teams").Contains(vBusqueda.ToUpper()));
 
                     Boolean isNumeric = int.TryParse(vBusqueda, out int n);
 
@@ -295,6 +373,10 @@ namespace Infatlan_Kanban.pages
                 Mensaje(ex.Message, WarningType.Danger);
             }
         }
-    
+
+        protected void DdlEquipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

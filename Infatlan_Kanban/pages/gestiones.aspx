@@ -70,8 +70,8 @@
                     <h6 class="card-subtitle">Listado activo de gestiones técnicas.</h6>
                   <%--  <br />--%>
                     <div class="card-body">
-                        <div class="row col-7">
-                            <label class="col-2 col-form-label">Búsqueda</label>
+                        <div class="row col-12">
+                            <label class="col-1 col-form-label">Búsqueda</label>
                             <div class="col-7">
                                 <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxBusqueda" class="form-control text-uppercase" AutoPostBack="true" OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
                             </div>

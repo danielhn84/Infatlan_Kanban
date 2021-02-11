@@ -13,15 +13,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.fw.png">
     <title>Kanban Board</title>
     <link rel="stylesheet" href="css/animate.min.css" />
-<%--    <link href="assets/node_modules/morrisjs/morris.css" rel="stylesheet">
-    <link href="assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
-    <link href="dist/css/animate.min.css" rel="stylesheet" />
-    <link href="dist/css/style.min.css" rel="stylesheet">--%>
-
     <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
     <link href="/assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
     <link href="/dist/css/animate.min.css" rel="stylesheet" />
     <link href="/dist/css/style.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/images/favicon_blanco.fw.png" />
+
+
 
 
 
@@ -67,7 +65,9 @@
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <%--  <img src="/assets/images/users/face5.jpg" alt="user" class="">--%>
+                                <img src="/assets/images/users/face5.jpg" alt="user" class="">
+                              
+
                                 <span class="hidden-md-down">
                                     <asp:Literal Text="" ID="LitUsuario" runat="server" />
                                     &nbsp;<i class="fa fa-angle-down"></i></span>

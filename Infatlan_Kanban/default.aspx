@@ -15,7 +15,7 @@
         }
     </script>
 
-        <link href="dist/css/pages/tab-page.css" rel="stylesheet">
+    <link href="dist/css/pages/tab-page.css" rel="stylesheet">
     <link href="../dist/css/pages/tab-page.css" rel="stylesheet" />
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -128,38 +128,17 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
 
-<%--        <div class="row page-titles">
-        <div class="col-md-5 align-self-center">
-            <h4 class="card-title"><strong>Kanban Board Gestiones Técnicas </strong></h4>
+    <div class="row page-titles">
+        <div class="col-md-12">
+            <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
         </div>
-        <div class="col-md-7 align-self-center text-right">
-            <div class="d-flex justify-content-end align-items-center">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Módulos</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Gestiones Técnicas</a></li>
-                    <li class="breadcrumb-item active">Mi Tablero</li>
-                </ol>
-                <asp:UpdatePanel runat="server" ID="UpdatePanel5" UpdateMode="Conditional">
-                    <contenttemplate>                
-                        <asp:Button ID="BtnBusqueda" class="btn btn-success d-none d-lg-block m-l-15" runat="server" Text="Búsqueda" OnClick="BtnBusqueda_Click"  /> 
-                    </contenttemplate>
-                </asp:UpdatePanel>
-            </div>
+        <div class="col-md-6">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
         </div>
-    </div>--%>
-
-
-                    <div class="row page-titles">
-                    <div class="col-md-12">
-                        <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
-                    </div>
-                    <div class="col-md-6">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                    </div>
-                </div>
+    </div>
 
     <asp:UpdatePanel runat="server" ID="UpdatePanel8" UpdateMode="Conditional">
         <ContentTemplate>
@@ -204,20 +183,7 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
-<%--    <div class="row page-titles">
-        <div class="col-md-5 align-self-center">
-            <h4 class="card-title"><strong>Kanban Board Gestiones Técnicas </strong></h4>
-        </div>
-        <div class="col-md-7 align-self-center text-right">
-            <div class="d-flex justify-content-end align-items-center">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Módulos</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Gestiones Técnicas</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
-                </ol>
-            </div>
-        </div>
-    </div>--%>
+
 
     <div class="row p-t-20">
         <div class="col-lg-12">
@@ -269,7 +235,7 @@
                                         <div class="row p-t-20">
                                             <div class="col-lg-12">
                                                 <center>
-                                             <div id="columnchart_values" style="width: 1450px; height: 500px; align-items:center"></div>
+                                             <div id="columnchart_values" style="width: 1000px; height: 500px; align-items:center"></div>
                                             <center/>
                                             </div>
                                         </div>
@@ -278,11 +244,12 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <center>
-                                                    <div id="chart_div" style="width: 1450px; height: 500px; align-items:center"></div>
+                                                    <div id="chart_div" style="width: 1000px; height: 500px; align-items:center"></div>
                                                <center/>
                                             </div>
                                         </div>
                                     </div>
+
 
                                 </div>
 

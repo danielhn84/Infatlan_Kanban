@@ -14,6 +14,9 @@
         function cerrarModal() { $('#ModalTeams').modal('hide'); }
     </script>
 
+
+    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <asp:UpdateProgress ID="UpdateProgress1" runat="server">
@@ -61,8 +64,8 @@
                     <h4 class="card-title">Equipos de Trabajos</h4>
                     <h6 class="card-subtitle">Listado equipos de trabajos activos.</h6>
                     <div class="card-body">
-                        <div class="row col-7">
-                            <label class="col-2 col-form-label">Búsqueda</label>
+                        <div class="row col-12">
+                            <label class="col-1 col-form-label">Búsqueda</label>
                             <div class="col-7">
                                 <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxBusqueda" AutoPostBack="true" class="form-control text-uppercase" OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
                             </div>
@@ -105,7 +108,7 @@
     
     
     <%--    INICIO MODAL--%>
-    <div class="modal fade" id="ModalTeams" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
+    <div class="modal fade" id="ModalTeams"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -177,7 +180,7 @@
                                             <label class="col-form-label">Jefe</label>
                                         </div>
                                         <div class="col-10">
-                                            <asp:DropDownList ID="DDLJefe" runat="server" class="fstdropdown-select form-control" OnSelectedIndexChanged="DDLJefe_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                            <asp:DropDownList ID="DDLJefe" runat="server" CssClass="select2 form-control custom-select" style="width: 100%"  OnSelectedIndexChanged="DDLJefe_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +193,7 @@
                                             <label class="col-form-label">Suplente</label>
                                         </div>
                                         <div class="col-10">
-                                            <asp:DropDownList ID="DDLSuplente" runat="server" class="fstdropdown-select form-control"  OnSelectedIndexChanged="DDLSuplente_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                            <asp:DropDownList ID="DDLSuplente" runat="server" class="form-control"  OnSelectedIndexChanged="DDLSuplente_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
@@ -234,4 +237,15 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
+        <%--COMBO BUSCADOR--%>
+
+    <script src="../assets/node_modules/select2/dist/js/select2.js"></script>
+    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+    <style>
+        .select2-selection__rendered {line-height: 31px !important;}
+        .select2-container .select2-selection--single {height: 35px !important;}
+        .select2-selection__arrow {height: 34px !important;}
+    </style>
+  
+
 </asp:Content>

@@ -3238,6 +3238,7 @@
     <Content Include="assets\images\users\d4.jpg" />
     <Content Include="assets\images\users\d5.jpg" />
     <Content Include="assets\images\users\face5.jpg" />
+    <Content Include="assets\images\users\icono-usuario.png" />
     <Content Include="assets\images\users\profile.png" />
     <Content Include="assets\images\users\usuario.png" />
     <Content Include="assets\images\usuario.png" />

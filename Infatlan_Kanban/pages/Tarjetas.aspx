@@ -40,7 +40,6 @@
         </div>
     </div>
 
-
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -49,8 +48,7 @@
                         <div class="nav nav-pills " id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" runat="server" visible="true" id="nav_tarjetasCerradas_tab" data-toggle="tab" href="#nav-solicitudesCerradas" role="tab" aria-controls="nav-solicitudesCerradas" aria-selected="false"><i class="mdi mdi-book-open"></i>Mis Tarjetas Cerradas</a>
                             <a class="nav-item nav-link" runat="server" visible="true" id="nav_Reasignar" data-toggle="tab" href="#nav-Reasignar" role="tab" aria-controls="nav-Reasignar" aria-selected="false"><i class="mdi  mdi-pencil"></i>Reasignar Tarjetas</a>
-                            <a class="nav-item nav-link" runat="server" visible="true" id="nav_tarjetaDetenido_tab" data-toggle="tab" href="#nav-DetenidoTarjeta" role="tab" aria-controls="nav-nav_tarjetaDetenido" aria-selected="false"><i class="mdi mdi-clock"></i>Detener Tarjetas</a>
-                            
+                            <a class="nav-item nav-link" runat="server" visible="true" id="nav_tarjetaDetenido_tab" data-toggle="tab" href="#nav-DetenidoTarjeta" role="tab" aria-controls="nav-nav_tarjetaDetenido" aria-selected="false"><i class="mdi mdi-clock"></i>Detener Tarjetas</a>                            
                         </div>
                     </nav>
                     <br />

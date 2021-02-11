@@ -66,10 +66,10 @@
                     <h6 class="card-subtitle">Listado activo de usuarios pertenecientes al mismo equipo de trabajo.</h6>
                    <%-- <br />--%>
                     <div class="card-body">
-                        <div class="row col-7">
-                            <label class="col-2 col-form-label">Búsqueda</label>
+                        <div class="row col-12">
+                            <label class="col-1 col-form-label">Búsqueda</label>
                             <div class="col-7">
-                                <asp:TextBox runat="server" PlaceHolder="Ingrese nombre o código y presione Enter" ID="TxBusqueda" class="form-control text-uppercase" AutoPostBack="true"  OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
+                                <asp:TextBox runat="server" PlaceHolder="Búsqueda por equipo o código empleado y presione Enter" ID="TxBusqueda" class="form-control text-uppercase" AutoPostBack="true"  OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
                             </div>
                             <asp:LinkButton ID="BtnNuevo" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnNuevo_Click" >
                                         <i class="fa fa-plus-circle text-white mr-2"></i>Agregar Usuario
@@ -127,14 +127,21 @@
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdatePanelModal" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
-
                             <div class="row">
                                 <div class="col-12" runat="server" id="DivColaborador">
                                     <div class="form-group row">
+
+                                        <div class="col-1">
+                                            <label class="col-form-label">Equipo</label>
+                                        </div>
+                                        <div class="col-5">
+                                            <asp:DropDownList ID="DdlEquipo" runat="server" class="form-control" AutoPostBack="true"  OnSelectedIndexChanged="DdlEquipo_SelectedIndexChanged"></asp:DropDownList>
+                                        </div>
+
                                         <div class="col-2">
                                             <label class="col-form-label">Colaborador</label>
                                         </div>
-                                        <div class="col-10">
+                                        <div class="col-4">
                                             <asp:DropDownList ID="DdlColaborador" runat="server" class="form-control"  AutoPostBack="true"  OnSelectedIndexChanged="DdlColaborador_SelectedIndexChanged"></asp:DropDownList>
                                         </div>
                                     </div>
@@ -200,6 +207,20 @@
                                         <div class="col-4">
                                              <asp:TextBox runat="server" ID="TxColor" AutoPostBack="true" class="form-control" TextMode="Color" ></asp:TextBox>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <div class="col-1">
+                                            <label class="col-form-label">Rol</label>
+                                        </div>
+                                        <div class="col-11">
+                                           <asp:DropDownList ID="DdlRol" runat="server" class="form-control"  AutoPostBack="true"  ></asp:DropDownList>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
