@@ -20,8 +20,8 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-           
-            
+
+            select2();
 
                 if (!Page.IsPostBack)
                 {
@@ -86,6 +86,42 @@ namespace Infatlan_Kanban.pages
             
         }
 
+        private void select2()
+        {
+            String vScript = @"
+                    $(function test() {
+                        $('.select2').select2();
+                        $('.ajax').select2({
+                            ajax: {
+                                url: 'https://api.github.com/search/repositories',
+                                dataType: 'json',
+                                delay: 250,
+                                data: function (params) {
+                                    return {
+                                        q: params.term, // search term
+                                        page: params.page
+                                    };
+                                },
+                                processResults: function (data, params) {
+                                    params.page = params.page || 1;
+                                    return {
+                                        results: data.items,
+                                        pagination: {
+                                            more: (params.page * 30) < data.total_count
+                                        }
+                                    };
+                                },
+                                cache: true
+                            },
+                            escapeMarkup: function (markup) {
+                                return markup;
+                            },
+                            minimumInputLength: 1,
+                        });
+                    });
+                    ";
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "select2", vScript, true);
+        }
         void cargarData()
         {       
 
@@ -506,21 +542,106 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
+                string vIdRol = Session["ID_ROL_USUARIO"].ToString();
                 TxFechaSolicitud.Text = Convert.ToString(DateTime.Now);
-                DdlResponsable.Items.Clear();
-                DdlResponsable_1.Items.Clear();
-                String vQuery = "GESTIONES_Generales 37,'" + Session["USUARIO"].ToString() + "','" + Session["USUARIO"].ToString() + "'";
-                DataTable vDatosResponsables = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                DdlResponsable.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
-                DdlResponsable_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
-                if (vDatosResponsables.Rows.Count > 0)
+
+
+                String vQuery = "";
+                if (vIdRol == "1")
                 {
-                    foreach (DataRow item in vDatosResponsables.Rows)
+                    DdlResponsable.Items.Clear();
+                    DdlResponsable_1.Items.Clear();
+                    vQuery = "GESTIONES_Solicitud 28,'" + Session["USUARIO"].ToString() + "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlResponsable.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    DdlResponsable_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
                     {
-                        DdlResponsable.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
-                        DdlResponsable_1.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlResponsable.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                            DdlResponsable_1.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        }
                     }
                 }
+                else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
+                {
+                    DdlResponsable.Items.Clear();
+                    DdlResponsable_1.Items.Clear();
+                    vQuery = "GESTIONES_Solicitud 26";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlResponsable.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    DdlResponsable_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlResponsable.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                            DdlResponsable_1.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+                }
+                else if (vIdRol == "2")
+                {
+                    DdlResponsable.Items.Clear();
+                    DdlResponsable_1.Items.Clear();
+                    vQuery = "GESTIONES_Generales 38,'" + Session["USUARIO"].ToString() + "'";
+                    DataTable vDatosResponsables = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlResponsable.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    DdlResponsable_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatosResponsables.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatosResponsables.Rows)
+                        {
+                            DdlResponsable.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                            DdlResponsable_1.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //    String vQuery = "GESTIONES_Generales 37,'" + Session["USUARIO"].ToString() + "','" + Session["USUARIO"].ToString() + "'";
+                //DataTable vDatosResponsables = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                //DdlResponsable.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                //DdlResponsable_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                //if (vDatosResponsables.Rows.Count > 0)
+                //{
+                //    foreach (DataRow item in vDatosResponsables.Rows)
+                //    {
+                //        DdlResponsable.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                //        DdlResponsable_1.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                //    }
+                //}
+                //else
+                //{
+                //    vQuery = "GESTIONES_Generales 38,'" + Session["USUARIO"].ToString() + "'";
+                //    vDatosResponsables = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                //    DdlResponsable.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                //    DdlResponsable_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                //    if (vDatosResponsables.Rows.Count > 0)
+                //    {
+                //        foreach (DataRow item in vDatosResponsables.Rows)
+                //        {
+                //            DdlResponsable.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                //            DdlResponsable_1.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                //        }
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -749,7 +870,7 @@ namespace Infatlan_Kanban.pages
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
 
-
+     
         private void validacionesCrearSolicitud()
         {
             if (TxTitulo_1.Text.Equals(""))
@@ -773,12 +894,11 @@ namespace Infatlan_Kanban.pages
             if (DdlPrioridad.SelectedValue.Equals("0"))
                 throw new Exception("Falta que seleccione tipo de prioridad.");
 
-
             string vQuery = "GESTIONES_Generales 5,'" + DdlResponsable.SelectedValue + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vCantAtrasados = vDatos.Rows[0]["cantAtrasado"].ToString();
-            //if(Convert.ToInt32(vCantAtrasados)>=5)
-            //    throw new Exception("Límite establecido de tareas atrasadas: 5, y usted actualmete tiene: "+ vCantAtrasados + ", favor finalizar las tarjetas para que pyuedan asignarles nuevas.");
+            if (Convert.ToInt32(vCantAtrasados) >= 5 && DdlTipoGestion.SelectedValue !="4")
+                throw new Exception("Límite establecido de tareas atrasadas: 5, y usted actualmete tiene: " + vCantAtrasados + ", favor finalizar las tarjetas para que pyuedan asignarles nuevas.");
 
 
             vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable.SelectedValue + "'";
@@ -805,7 +925,32 @@ namespace Infatlan_Kanban.pages
             string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
 
             string vHrInicioSoli = fecha_inicio.ToString("HH:mm");
-            string vHrFinSoli = fecha_fin.ToString("HH:mm");
+            string vHrFinSolic = fecha_fin.ToString("HH:mm");
+
+            string vHrIniTeams = Session["GESTIONES_HR_INICIO"].ToString();
+            string[] valuesIniTeams = vHrIniTeams.Split(':');
+
+            string vHrFinTeams = Session["GESTIONES_HR_FIN"].ToString();
+            string[] valuesFinTeams = vHrIniTeams.Split(':');
+
+            TimeSpan vThrInicioTeams = new TimeSpan(Convert.ToInt32(valuesIniTeams[0]), Convert.ToInt32(valuesIniTeams[1]), 0);
+            TimeSpan vThrFinTeams = new TimeSpan(Convert.ToInt32(valuesIniTeams[0]), Convert.ToInt32(valuesIniTeams[1]), 0);
+
+
+            string vHrIniSoli = vHrInicioSoli;
+            string[] valuesIniSoli = vHrIniSoli.Split(':');
+
+            string vHrFinSoli = vHrFinSolic;
+            string[] valuesFinSoli = vHrFinSoli.Split(':');
+
+            TimeSpan vThrInicioSoli= new TimeSpan(Convert.ToInt32(valuesIniSoli[0]), Convert.ToInt32(valuesIniSoli[1]), 0);
+            TimeSpan vThrFinSoli = new TimeSpan(Convert.ToInt32(valuesFinSoli[0]), Convert.ToInt32(valuesFinSoli[1]), 0);
+
+            if (vThrInicioSoli < vThrInicioTeams && DdlTipoGestion.SelectedValue != "4" && fecha_inicio.DayOfWeek != DayOfWeek.Saturday && fecha_inicio.DayOfWeek != DayOfWeek.Sunday)
+                throw new Exception("Favor cambiar la hora de inicio de la tarjeta, está superando la hora de inicio establecido " + vThrInicioTeams);
+
+            if (vThrFinSoli > vThrFinTeams && DdlTipoGestion.SelectedValue != "4" && fecha_fin.DayOfWeek != DayOfWeek.Saturday && fecha_fin.DayOfWeek != DayOfWeek.Sunday)
+                throw new Exception("Favor cambiar la hora de entrega de la tarjeta, está superando la hora de fin establecido " + vThrFinTeams);
 
 
             DateTime fecha_actual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
@@ -1431,27 +1576,28 @@ namespace Infatlan_Kanban.pages
 
         protected void BtnEnviarInfo_Click(object sender, EventArgs e)
         {
-            //string vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
-            String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
-            String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio.Text).ToString(vFormato);
-            DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
-            DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+            try
+            {
+                //string vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
+                String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
+                String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio.Text).ToString(vFormato);
+                DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+                DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
 
-            DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
-            DateTime vFechaInicio = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
-
-
-            DateTime fecha_entrega = DateTime.Parse(TxFechaEntrega.Text.ToString());
-            DateTime vFechaEntrega = Convert.ToDateTime(fecha_entrega.ToString("dd/MM/yyyy HH:mm"));
-
-            string vidEstado = "";
-            string vidEstadoTexto = "";
-            string vtarjetaEstado = "";
-            string vCambio = "";
+                DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+                DateTime vFechaInicio = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
 
 
-      
-                if (vFechaInicio < vfechaActual && vFechaEntrega > vfechaActual)
+                DateTime fecha_entrega = DateTime.Parse(TxFechaEntrega.Text.ToString());
+                DateTime vFechaEntrega = Convert.ToDateTime(fecha_entrega.ToString("dd/MM/yyyy HH:mm"));
+
+                string vidEstado = "";
+                string vidEstadoFinalizadaCreacion = "";
+                string vidEstadoTexto = "";
+                string vtarjetaEstado = "";
+                string vCambio = "";
+
+                if (vFechaInicio <= vfechaActual && vFechaEntrega > vfechaActual)
                 {
                     vidEstado = "2";
                     vidEstadoTexto = "En Ejecución";
@@ -1465,9 +1611,14 @@ namespace Infatlan_Kanban.pages
                 }
                 else if (vFechaInicio < vfechaActual && vFechaEntrega <= vfechaActual)
                 {
-                    vidEstado = "5";
-                    vidEstadoTexto = "Realizada a Tiempo";
-                    vtarjetaEstado = "3";
+                    //vidEstado = "5";
+                    //vidEstadoTexto = "Realizada a Tiempo";
+                    //vtarjetaEstado = "4";
+                    vidEstadoFinalizadaCreacion = "5";
+                    vidEstado = "2";
+                    vidEstadoTexto = "En Ejecución";
+                    vtarjetaEstado = "1";
+
                 }
                 vCambio = "Creación de tarjeta, Estado: " + vidEstadoTexto + ", Prioridad: " + DdlPrioridad.SelectedItem;
 
@@ -1535,20 +1686,92 @@ namespace Infatlan_Kanban.pages
                 + "','" + vCorreosCopia + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + idSolicitud + "'";
                 Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
 
-                string vMensaje = "";
+
+
+                if (vidEstadoFinalizadaCreacion == "5")
+                {
+                    if (TxSolucion.Text.Equals(""))
+                        throw new Exception("Falta que ingrese ingrese la solución.");
+
+
+
+                    vidEstado = "5";
+                    vidEstadoTexto = "Realizada a Tiempo";
+                    vtarjetaEstado = "4";
+
+                    string vEstadoCargabilidad = "4";
+                    vCambio = "Finalizar Tarjeta, Estado: " + vidEstadoTexto + ", Detalle: " + TxSolucion.Text;
+
+                    String vNombreDepot1 = String.Empty;
+                    HttpPostedFile bufferDeposito1T = FuSolucion_Cerrar.PostedFile;
+                    byte[] vFileDeposito1 = null;
+                    String vExtension = String.Empty;
+
+                    if (bufferDeposito1T != null)
+                    {
+                        vNombreDepot1 = FuSolucion_Cerrar.FileName;
+                        Stream vStream = bufferDeposito1T.InputStream;
+                        BinaryReader vReader = new BinaryReader(vStream);
+                        vFileDeposito1 = vReader.ReadBytes((int)vStream.Length);
+                        vExtension = System.IO.Path.GetExtension(FuSolucion.FileName);
+                    }
+                    String vArchivo = String.Empty;
+                    if (vFileDeposito1 != null)
+                        vArchivo = Convert.ToBase64String(vFileDeposito1);
+                    //ACTUALIZAR LA SOLICITUD
+                    string vQuery = "GESTIONES_Solicitud 16,'" + idSolicitud + "','" + vidEstado + "','" + TxSolucion.Text + "','" + Session["USUARIO"].ToString() + "','" + vArchivo + "'";
+                    Int32 vInfo1 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                    //GUARDAR HISTORIAL
+                    vQuery = "GESTIONES_Solicitud 4,'" + idSolicitud + "','" + vCambio + "','" + Session["USUARIO"].ToString() + "'";
+                    Int32 vInfo2 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                    vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable.SelectedValue + "'";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string vTeams = vDatos.Rows[0]["idTeams"].ToString();
+                    Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
+
+                    vQuery = "GESTIONES_Solicitud 8,'" + vTeams + "'";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    Session["GESTIONES_CORREO_JEFE"] = vDatos.Rows[0]["correoJefe"].ToString();
+                    Session["GESTIONES_CORREO_SUPLENTE"] = vDatos.Rows[0]["correoSuplente"].ToString();
+                    Session["GESTIONES_NOMBRE_JEFE"] = vDatos.Rows[0]["nombreJefe"].ToString();
+                    Session["GESTIONES_NOMBRE_SUPLENTE"] = vDatos.Rows[0]["nombreSuplente"].ToString();
+
+                    //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
+                    vAsunto = "Tarjeta Kanban Finalizada, Gestiones Técnicas: " + idSolicitud;
+                    vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+
+                    vQuery5 = "GESTIONES_Solicitud 5,'Tarjeta Kanban Finalizada','"
+                        + Session["GESTIONES_CORREO_RESPONSABLE"].ToString()
+                    + "','" + vCorreosCopia + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + idSolicitud + "'";
+                    Int32 vInfo6 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
+
+
+                    //CAMBIAR EL ESTADO DE LA CARGABILIDAD
+                    vQuery = "GESTIONES_Solicitud 22,'" + idSolicitud + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
+                    Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                    TxSolucion.Text = "";
+                    divComentariosAdjuntos.Visible = false;
+                    UpdatePanel6.Update();
+
+                }
+
+
                 if (vInfo5 == 1)
                 {
-                    //limpiarCreacionTarea();
-
                     ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaConfirmarClose();", true);
                     ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaClose();", true);
-
-
-                    vMensaje = "Tarjeta creado con éxito";
-                    Mensaje(vMensaje, WarningType.Success);
                     Response.Redirect("/pages/miTablero.aspx");
                 }
-            //}
+            }
+            catch (Exception ex)
+            {
+                LbCamposVacios.Text = ex.Message;
+                divCamposVacios.Visible = true;
+                UpdatePanel6.Update();
+            }
 
         }
 
@@ -2916,6 +3139,38 @@ namespace Infatlan_Kanban.pages
         {
             DivBusquedaReportes.Visible = true;
             UpdatePanel17.Update();
+        }
+
+        protected void DdlResponsable_1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable_1.SelectedValue + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vTeams = vDatos.Rows[0]["idTeams"].ToString();
+                Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
+                Session["GESTIONES_TEAMS"] = vDatos.Rows[0]["idTeams"].ToString();
+
+                DdlTipoGestion_1.Items.Clear();
+                DdlTipoGestion_1.Enabled = true;
+                vQuery = "GESTIONES_Generales 1,'" + Session["GESTIONES_TEAMS"].ToString() + "'";
+                DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                DdlTipoGestion_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                if (vDatosTipo.Rows.Count > 0)
+                {
+                    foreach (DataRow item in vDatosTipo.Rows)
+                    {
+                        DdlTipoGestion_1.Items.Add(new ListItem { Value = item["idTipoGestion"].ToString(), Text = item["nombreGestion"].ToString() });
+                    }
+                }
+
+                vQuery = "GESTIONES_Solicitud 8,'" + vTeams + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                Session["GESTIONES_CORREO_JEFE"] = vDatos.Rows[0]["correoJefe"].ToString();
+                Session["GESTIONES_WIP"] = vDatos.Rows[0]["wip"].ToString();
+
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
     }
 }

@@ -92,7 +92,7 @@
                                     <asp:BoundField DataField="hrFin" HeaderText="Hr Fin" ItemStyle-HorizontalAlign="center" />
                                     <asp:TemplateField HeaderText="Acción" HeaderStyle-Width="13%" ItemStyle-HorizontalAlign="center">
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="BtnEditar" Title="Editar" Visible="true" runat="server" class="btn btn-cyan" CommandArgument='<%# Eval("idTeams") %>' CommandName="EditarTeams">
+                                            <asp:LinkButton ID="BtnEditar" Title="Editar" Visible="true" runat="server" class="btn" Style="background-color: #F1961B; color: #ffffff;" CommandArgument='<%# Eval("idTeams") %>' CommandName="EditarTeams">
                                                 <i class="icon-pencil" ></i>
                                             </asp:LinkButton>
                                         </ItemTemplate>
@@ -193,7 +193,7 @@
                                             <label class="col-form-label">Suplente</label>
                                         </div>
                                         <div class="col-10">
-                                            <asp:DropDownList ID="DDLSuplente" runat="server" class="form-control"  OnSelectedIndexChanged="DDLSuplente_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                            <asp:DropDownList ID="DDLSuplente" runat="server" CssClass="select2 form-control custom-select" style="width: 100%" OnSelectedIndexChanged="DDLSuplente_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>

@@ -21,7 +21,7 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            select2();
             if (!Page.IsPostBack)
             {
                 if (Convert.ToBoolean(Session["AUTH"]))
@@ -33,6 +33,44 @@ namespace Infatlan_Kanban.pages
                     Response.Redirect("/login.aspx");
                 }
             }
+        }
+
+        private void select2()
+        {
+            String vScript = @"
+                    $(function test() {
+                        $('.select2').select2();
+                        $('.ajax').select2({
+                            ajax: {
+                                url: 'https://api.github.com/search/repositories',
+                                dataType: 'json',
+                                delay: 250,
+                                data: function (params) {
+                                    return {
+                                        q: params.term, // search term
+                                        page: params.page
+                                    };
+                                },
+                                processResults: function (data, params) {
+                                    params.page = params.page || 1;
+                                    return {
+                                        results: data.items,
+                                        pagination: {
+                                            more: (params.page * 30) < data.total_count
+                                        }
+                                    };
+                                },
+                                cache: true
+                            },
+                            escapeMarkup: function (markup) {
+                                return markup;
+                            },
+                            minimumInputLength: 1,
+                        });
+                    });
+                    ";
+
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "select2", vScript, true);
         }
 
         private void cargarDatos()

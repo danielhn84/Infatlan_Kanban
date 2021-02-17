@@ -19090,7 +19090,7 @@ tbody.collapse.show {
 
     .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
         color: #fff;
-        background-color: #D9272E
+        background-color: #00468c
     }
 
 .nav-fill .nav-item {
@@ -28450,7 +28450,7 @@ ul.list-style-none li a:hover {
 
                 .sidebar-nav ul li a.active {
                     font-weight: 500;
-                    color: #343a40
+                    color: #ffffff
                 }
 
             .sidebar-nav ul li ul {
@@ -28489,7 +28489,7 @@ ul.list-style-none li a:hover {
             font-size: 16px;
             display: inline-block;
             vertical-align: middle;
-            color: #787f91
+            color: #ffffff
         }
 
     .sidebar-nav > ul > li {
@@ -28498,9 +28498,9 @@ ul.list-style-none li a:hover {
     }
 
         .sidebar-nav > ul > li.active > a {
-            color: #fb9678;
+            color: #ffffff;
             font-weight: 500;
-            border-left: 3px solid #fb9678
+            border-left: 3px solid #ffffff
         }
 
 form label, table th {
@@ -28508,7 +28508,7 @@ form label, table th {
 }
 
 .sidebar-nav > ul > li.active > a i {
-    color: #fb9678
+    color: #ffffff
 }
 
 .sidebar-nav .waves-effect {
@@ -30297,7 +30297,8 @@ html body .waves-notransition {
 }
 
 .fixed-layout .left-sidebar, .fixed-layout .topbar {
-    position: fixed
+    position: fixed;
+    background-color: #004285
 }
 
 .fixed-layout .topbar {

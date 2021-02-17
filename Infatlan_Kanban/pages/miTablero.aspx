@@ -29,7 +29,7 @@
         function ModalTarjetaCrearOpen() { $('#ModalTarjetaCrear').modal('show'); }
         function ModalTarjetaCrearClose() { $('#ModalTarjetaCrear').modal('hide'); }     
     </script>
-
+    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
     <link href="dist/css/pages/tab-page.css" rel="stylesheet">
     <link href="../dist/css/pages/tab-page.css" rel="stylesheet" />
 </asp:Content>
@@ -80,12 +80,20 @@
                         </div>
                     </div>
 
+
+                                
+              
+
+
                     <div class="card-body">
-                        <asp:UpdatePanel runat="server" ID="UpdatePanel17" UpdateMode="Conditional">
-                            <ContentTemplate>
-                                <div class="form-group row" runat="server" id="DivBusquedaReportes" visible="false">
-                                    <div class="row col-12">
-                                        <div class="row col-11" runat="server" id="rowDetalle">
+                    
+                       
+
+
+                            <asp:UpdatePanel runat="server" ID="UpdatePanel17" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <div class="card-header" role="tab" runat="server" id="DivBusquedaReportes" visible="false">
+                                        <div class="row col-12" runat="server" id="rowDetalle">
                                             <label class="col-1 col-form-label">Búsqueda</label>
                                             <div class="col-3">
                                                 <asp:DropDownList runat="server" ID="DdlTipoBusqueda" CssClass="select2 form-control custom-select" AutoPostBack="true" OnSelectedIndexChanged="DdlTipoBusqueda_SelectedIndexChanged"></asp:DropDownList>
@@ -96,10 +104,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        <br />
+                        
 
                         <asp:UpdatePanel runat="server" ID="UpdatePanel19" UpdateMode="Conditional">
                             <ContentTemplate>
@@ -239,26 +247,24 @@
                                     <div class="tab-pane active" id="home" role="tabpanel" style="height: 450px; width: 630px;">
                                         <asp:UpdatePanel runat="server" ID="UpdatePanel1">
                                             <ContentTemplate>
-                                
-
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="form-group row">
                                                             <div class="col-1">
-                                                               <label class="control-label">Título:</label>
+                                                                <label class="control-label">Título:</label>
                                                             </div>
                                                             <div class="col-7">
-                                                                 <asp:TextBox ID="TxTitulo" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxTitulo_TextChanged"></asp:TextBox>
+                                                                <asp:TextBox ID="TxTitulo" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxTitulo_TextChanged"></asp:TextBox>
                                                             </div>
-                                                             <div class="col-2">
-                                                              <label class="control-label">Tiempo (min):</label>
-                                                        </div>
-                                                              <div class="col-2">
-                                                             <asp:TextBox ID="TxMinProductivo_1" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
+                                                            <div class="col-2">
+                                                                <label class="control-label">Tiempo (min):</label>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <asp:TextBox ID="TxMinProductivo_1" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                    </div>
 
                                                 <div class="row">
                                                     <div class="col-4">
@@ -287,12 +293,12 @@
                                                 <div class="row p-t-20">
                                                     <div class="col-8">
                                                         <label class="control-label">Responsable:</label>
-                                                        <asp:DropDownList runat="server" ID="DdlResponsable_1" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" OnSelectedIndexChanged="DdlResponsable_SelectedIndexChanged"></asp:DropDownList>
+                                                        <asp:DropDownList runat="server" ID="DdlResponsable_1" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%"  OnSelectedIndexChanged="DdlResponsable_1_SelectedIndexChanged"></asp:DropDownList>
                                                     </div>
 
                                                     <div class="col-4">
                                                         <label class="control-label">Prioridad:</label>
-                                                        <asp:DropDownList ID="DdlPrioridad_1" runat="server" AutoPostBack="true" CssClass="form-control">
+                                                        <asp:DropDownList ID="DdlPrioridad_1" runat="server" AutoPostBack="true" CssClass="select2 form-control custom-select">
                                                             <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
                                                             <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
                                                             <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
@@ -323,7 +329,7 @@
                                                                 <label class="control-label">Acción:</label>
                                                             </div>
                                                             <div class="col-10">
-                                                                <asp:DropDownList ID="DdlAccion" runat="server" CssClass="form-control" AutoPostBack="true">
+                                                                <asp:DropDownList ID="DdlAccion" runat="server" CssClass="select2 form-control custom-select" AutoPostBack="true">
                                                                     <asp:ListItem Value="0" Text="Seleccione opción..."></asp:ListItem>
                                                                     <asp:ListItem Value="1" Text="Cerrar Tarjeta Kanban"></asp:ListItem>
                                                                     <asp:ListItem Value="2" Text="Solicitud Cambio Estado a Detenido"></asp:ListItem>
@@ -514,7 +520,7 @@
     </div>
 
     <%--MODAL DE CONFIRMACION--%>
-    <div class="modal fade" id="ModalTarjetaFinalizada" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="ModalTarjetaFinalizada" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
             <%--            <div class="modal-content" style="width: 800px; height: 910px; top: 452px; left: 50%; transform: translate(-50%, -50%);">--%>
             <div class="modal-content" style="width: 880px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
@@ -663,9 +669,9 @@
     </div>
 
     <%--    MODAL CREAR--%>
-    <div class="modal fade" id="ModalTarjetaCrear" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="ModalTarjetaCrear" data-backdrop="static" data-keyboard="false"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 880px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
+            <div class="modal-content" style="width: 875px; height: 795px; top: 386px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
                     <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
@@ -676,20 +682,17 @@
                     </asp:UpdatePanel>
                 </div>
                 <div class="modal-body">
- <%--                   <asp:HiddenField ID="HiddenField1" OnValueChanged="btnTickectEvento" runat="server" />--%>
-                <%--    <asp:UpdatePanel runat="server" ID="UpdatePanel5" UpdateMode="Conditional">
-                        <ContentTemplate>--%>
                             <div class="vtabs">
                                 <ul class="nav nav-tabs tabs-vertical" role="tablist">
                                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#homeCrear" role="tab" runat="server" id="A1"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspGenerales</span></a></li>
                                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#comentariosCrear" role="tab" runat="server" id="A3"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspComentarios</span></a></li>
                                 </ul>
                                 <!-- Tab panes -->
-                                <div class="tab-content" style="height: 550px; width: 600px;">
+                                <div class="tab-content" style="height: 400px; width: 600px;">
                                     <div class="tab-pane active" id="homeCrear" role="tabpanel" style="height: 450px; width: 630px;">
                                         <asp:UpdatePanel runat="server" ID="UpdatePanel15">
                                             <ContentTemplate>
-                                                <div class="row p-t-20">
+                                                <div class="row">
                                                     <div class="col-8">
                                                         <label class="control-label">Título:</label>
                                                         <asp:TextBox ID="TxTitulo_1" AutoPostBack="true" runat="server" class="form-control text-uppercase"></asp:TextBox>
@@ -733,7 +736,7 @@
 
                                                     <div class="col-4">
                                                         <label class="control-label">Prioridad:</label>
-                                                        <asp:DropDownList ID="DdlPrioridad" runat="server" AutoPostBack="true" CssClass="form-control">
+                                                        <asp:DropDownList ID="DdlPrioridad" runat="server" AutoPostBack="true" CssClass="select2 form-control custom-select" Style="width: 100%">
                                                             <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
                                                             <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
                                                             <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
@@ -764,7 +767,7 @@
                                     <div class="tab-pane" id="comentariosCrear" role="tabpanel" style="height: 450px; width: 630px;">
                                         <asp:UpdatePanel runat="server" ID="UpdatePanel16">
                                             <ContentTemplate>
-                                                <div class="row p-t-20" runat="server" id="div3">
+                                                <div class="row" runat="server" id="div3">
                                                     <div class="col-2">
                                                         <label class="control-label">Comentario:</label>
                                                     </div>
@@ -797,7 +800,7 @@
                                                                 AutoGenerateColumns="false"
                                                                 AllowPaging="true" OnPageIndexChanging="GvComentario_PageIndexChanging"
                                                                 GridLines="None" OnRowCommand="GvComentario_RowCommand"
-                                                                PageSize="10">
+                                                                PageSize="8">
                                                                 <Columns>
                                                                     <asp:BoundField DataField="idComentario" Visible="false" ItemStyle-Width="1%" />
                                                                     <asp:BoundField DataField="usuario" Visible="true" HeaderText="Usuario" ItemStyle-Width="30%" />
@@ -851,10 +854,10 @@
 
 
     <%--MODAL DE CONFIRMACION--%>
-    <div class="modal fade" id="ModalTarjetaConfirmar" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="ModalTarjetaConfirmar" data-backdrop="static" data-keyboard="false"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
             <%--<div class="modal-content" style="width: 800px; height: 910px; top: 452px; left: 50%; transform: translate(-50%, -50%);">--%>
-            <div class="modal-content" style="width: 896px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
+            <div class="modal-content" style="width: 895px; height: 900px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
                     <asp:UpdatePanel ID="UpTituloConfirmar" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
@@ -865,11 +868,10 @@
                     </asp:UpdatePanel>
                 </div>
 
-                <%--  style="padding-left: 40px; padding-right: 40px; padding-top: 20px; padding-bottom: 20px;"--%>
+
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
-
                             <div class="row" runat="server" id="DivEstados">
                                 <div class="col-md-3">
                                     <div class="card">
@@ -908,9 +910,10 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <h6 style="color: #00468c"><b>-Cargabilidad Minutos Diarios:</b></h6>
-                            <div class="table-responsive m-t-20">
+             
+                            <br />
+                            <h6 style="font-size:15px; " ><b>║Cargabilidad Minutos Diarios:</b></h6>
+                            <div class="table-responsive">
                                 <asp:GridView ID="GVDistribucion" runat="server" Visible="true"
                                     CssClass="table table-hover table-sm"
                                     PagerStyle-CssClass="pgr"
@@ -927,7 +930,8 @@
                                 </asp:GridView>
                             </div>
 
-                            <h6 style="color: #00468c"><b>-Datos Generales:</b></h6>
+                            <br />
+                             <h6 style="font-size:15px; " ><b>║Datos Generales:</b></h6>
                             <div class="form-group row">
                                 <div class="col-md-2">
                                     <label class="col-form-label">Título:</label>
@@ -986,24 +990,32 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12" runat="server" style="text-align: center; color: #D9272E" visible="false" id="divComentariosAdjuntos">
+                                              <div class="col-md-12" runat="server" style="text-align: center; color: #D9272E" visible="false" id="divComentariosAdjuntos">
                                 <p>
-                                    <b>
-                                        <asp:Label ID="LbAdvertenciaModal" runat="server" Text=""></asp:Label></b>
+                                    <code>
+                                        <asp:Label ID="LbAdvertenciaModal" runat="server" Text=""></asp:Label></code>
                                 </p>
                             </div>
 
                             <div class="col-md-12" runat="server" style="text-align: center; color: seagreen" visible="false" id="divDiaNoHabil">
                                 <p>
-                                    <b>
-                                        <asp:Label ID="LbDiaNoHabil" runat="server" Text=""></asp:Label></b>
+                                    <code>
+                                        <asp:Label ID="LbDiaNoHabil" runat="server" Text=""></asp:Label></code>
                                 </p>
                             </div>
 
                             <div class="col-md-12" runat="server" style="text-align: center; color: seagreen" visible="false" id="divTareaFinalizada">
                                 <p>
-                                    <b>
-                                        <asp:Label ID="LbTareaFinalizada" runat="server" Text="La tarea se encuentra en estado Finalizada, la fecha de entrega es menor a la fecha actual del sistema"></asp:Label></b>
+                                    <code>
+                                        <asp:Label ID="LbTareaFinalizada" runat="server" Text="La tarea se encuentra en estado Finalizada, la fecha de entrega es menor a la fecha actual del sistema"></asp:Label></code>
+                                </p>
+                            </div>
+
+
+                            <div class="col-md-12" runat="server" style="text-align: center; color: seagreen" visible="false" id="divCamposVacios">
+                                <p>
+                                    <code>
+                                        <asp:Label ID="LbCamposVacios" runat="server" ></asp:Label></code>
                                 </p>
                             </div>
                         </ContentTemplate>
@@ -1054,5 +1066,15 @@
     <asp:Literal ID="LitAtrasados" runat="server"></asp:Literal>
     <asp:Literal ID="LitCompletadosHoy" runat="server"></asp:Literal>
     <asp:Literal ID="LitDetenidas" runat="server"></asp:Literal>
+
+            <%--COMBO BUSCADOR--%>
+
+    <script src="../assets/node_modules/select2/dist/js/select2.js"></script>
+    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+    <style>
+        .select2-selection__rendered {line-height: 31px !important;}
+        .select2-container .select2-selection--single {height: 35px !important;}
+        .select2-selection__arrow {height: 34px !important;}
+    </style>
 
 </asp:Content>

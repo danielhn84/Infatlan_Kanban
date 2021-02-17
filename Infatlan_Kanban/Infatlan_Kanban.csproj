@@ -364,6 +364,8 @@
     <Content Include="assets\images\alert\model.png" />
     <Content Include="assets\images\alert\model2.png" />
     <Content Include="assets\images\alert\model3.png" />
+    <Content Include="assets\images\azul.jpg" />
+    <Content Include="assets\images\azulClaro.jpg" />
     <Content Include="assets\images\background\error-bg.jpg" />
     <Content Include="assets\images\background\login-register.jpg" />
     <Content Include="assets\images\background\megamenubg.jpg" />
@@ -3244,7 +3246,11 @@
     <Content Include="assets\images\usuario.png" />
     <Content Include="assets\images\vistaPrevia.jpg" />
     <Content Include="assets\images\vistaPrevia1.jpg" />
+    <Content Include="assets\images\z.jpg" />
+    <Content Include="assets\images\zz.jpg" />
     <Content Include="assets\images\zz.png" />
+    <Content Include="assets\images\zzz.jpg" />
+    <Content Include="assets\images\zzzz.jpg" />
     <Content Include="assets\node_modules\blockUI\jquery.blockUI.js" />
     <Content Include="assets\node_modules\bootstrap-datepicker\bootstrap-datepicker.min.css" />
     <Content Include="assets\node_modules\bootstrap-datepicker\bootstrap-datepicker.min.js" />
@@ -6071,6 +6077,8 @@
     <Content Include="images\heading-title-bg.jpg" />
     <Content Include="images\logo_texto_blanco.png" />
     <Content Include="images\new_file.png" />
+    <Content Include="images\NoData.JPG" />
+    <Content Include="images\NoDataFound.JPG" />
     <Content Include="images\remove.png" />
     <Content Include="images\vistaPrevia.png" />
     <Content Include="pages\creacionTareas.aspx" />

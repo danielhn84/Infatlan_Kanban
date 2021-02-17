@@ -1,7 +1,6 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="main.master.cs" Inherits="Infatlan_Kanban.main" %>
 
 <!DOCTYPE html>
-
 <html>
 <head runat="server">
     <meta charset="utf-8">
@@ -19,11 +18,6 @@
     <link href="/dist/css/style.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="/images/favicon_blanco.fw.png" />
 
-
-
-
-
-
     <script type="text/javascript"> 
         infatlan = {
             showNotification: function (from, align, mensaje, tipo) {
@@ -39,9 +33,7 @@
             }
         }
     </script>
-
     <asp:ContentPlaceHolder ID="Head" runat="server">
-       
     </asp:ContentPlaceHolder>
 </head>
 <body class="skin-default fixed-layout">
@@ -53,7 +45,6 @@
                         <span>
                             <img src="../images/logo_texto_blanco.png" width="200" height="38" alt="homepage" />
                         </span>
-                       
                     </a>
                 </div>
                 <div class="navbar-collapse">
@@ -66,11 +57,12 @@
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="/assets/images/users/face5.jpg" alt="user" class="">
-                              
 
                                 <span class="hidden-md-down">
                                     <asp:Literal Text="" ID="LitUsuario" runat="server" />
-                                    &nbsp;<i class="fa fa-angle-down"></i></span>
+                                    &nbsp;<i class="fa fa-angle-down"></i>
+
+                                </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <a href="/login.aspx" class="dropdown-item"><i class="fa fa-power-off"></i>Logout</a>
@@ -89,28 +81,14 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                    
-
-
-                       <li><a class="waves-effect waves-dark" href="/default.aspx" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
-                        <li><a class="waves-effect waves-dark" href="/pages/miTablero.aspx" aria-expanded="false"><i class="ti-layout-grid2"></i><span class="hide-menu">Mi Tablero</span></a></li>
-             <%--          <li><a class="waves-effect waves-dark" href="/pages/creacionTareas.aspx" aria-expanded="false"><i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tarjeta</span></a></li>--%>
-                           <li><a class="waves-effect waves-dark" href="/pages/Tarjetas.aspx" aria-expanded="false"><i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tarjeta</span></a></li>
-                    
-<%--                        <li><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Configuraciones</span></a>
+                        <li runat="server" id="LiDashboard" visible="false"><a class="waves-effect waves-dark" href="/default.aspx" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
+                        <li runat="server" id="LiTablero" visible="false"><a class="waves-effect waves-dark" href="/pages/miTablero.aspx" aria-expanded="false"><i class="ti-layout-grid2"></i><span class="hide-menu">Mi Tablero</span></a></li>                  
+                        <li runat="server" id="LiTarjeta" visible="false"><a class="waves-effect waves-dark" href="/pages/Tarjetas.aspx" aria-expanded="false"><i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tarjeta</span></a></li>
+                        <li runat="server" id="LiConfig" visible="false"><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-settings"></i><span class="hide-menu">Configuración<span class="badge badge-pill badge-cyan ml-auto">3</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="/pages/usuarios.aspx">Usuarios</a></li>      
-                                <li><a href="/pages/gestiones.aspx">Gestiones</a></li>
-                                <li><a href="/pages/teams.aspx">Equipos</a></li>
-                           </ul>
-                        </li>--%>
-
-
-                        <li runat="server" visible="true" id="LIConfiguracion"><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-settings"></i><span class="hide-menu">Configuración<span class="badge badge-pill badge-cyan ml-auto">3</span></span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="/pages/usuarios.aspx">Usuarios</a></li>      
-                                <li><a href="/pages/gestiones.aspx">Gestiones</a></li>
-                                <li><a href="/pages/teams.aspx">Equipos</a></li>
+                                <li runat="server" id="LiUsuario" visible="false"><a href="/pages/usuarios.aspx">Usuarios</a></li>
+                                <li runat="server" id="LiGestiones" visible="false"><a href="/pages/gestiones.aspx">Gestiones</a></li>
+                                <li runat="server" id="LiEquipos" visible="false"><a href="/pages/teams.aspx">Equipos</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -149,7 +127,7 @@
     <script src="/js/dashboard1.js"></script>
     <script src="/assets/node_modules/toast-master/js/jquery.toast.js"></script>
 
-    
+
     <script src="/js/off-canvas.js"></script>
     <script src="/js/hoverable-collapse.js"></script>
     <script src="/js/template.js"></script>

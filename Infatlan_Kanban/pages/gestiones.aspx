@@ -11,7 +11,7 @@
         }
     </script>
 
-    <link href="../../css/select2.css" rel="stylesheet" />
+
     <script type="text/javascript">
         function openModal() { $('#ModalGestiones').modal('show'); }
         function cerrarModal() { $('#ModalGestiones').modal('hide'); }
@@ -19,6 +19,8 @@
         function openModalTeams() { $('#ModalAddTeams').modal('show'); }
         function cerrarModalTeams() { $('#ModalAddTeams').modal('hide'); }
     </script>
+
+   <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <asp:UpdateProgress ID="UpdateProgress1" runat="server">
@@ -31,35 +33,18 @@
     </asp:UpdateProgress>
 
 
-                <div class="row page-titles">
-                    <div class="col-md-12">
-                        <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
-                    </div>
-                    <div class="col-md-6">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Configuraciones</a></li>
-                            <li class="breadcrumb-item active">Gestiones</li>
-                        </ol>
-                    </div>
-                </div>
-
-
-<%--    <div class="row page-titles">
-        <div class="col-md-5 align-self-center">
-            <h4 class="card-title">
-                <img src="../images/GestionesTecnicas.JPG" /></h4>
+    <div class="row page-titles">
+        <div class="col-md-12">
+            <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
         </div>
-        <div class="col-md-7 align-self-center text-right">
-            <div class="d-flex justify-content-end align-items-center">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Módulos</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Gestiones Técnicas</a></li>
-                    <li class="breadcrumb-item active">Tipos de Gestión</li>
-                </ol>
-            </div>
+        <div class="col-md-6">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Configuraciones</a></li>
+                <li class="breadcrumb-item active">Gestiones</li>
+            </ol>
         </div>
-    </div>--%>
+    </div>
 
     <asp:UpdatePanel runat="server" ID="UpdatePanel">
         <ContentTemplate>
@@ -96,7 +81,7 @@
                                     <asp:BoundField DataField="nombreGestion" HeaderText="Gestión" />
                                     <asp:TemplateField HeaderText="Acción" HeaderStyle-Width="13%" ItemStyle-HorizontalAlign="center">
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="BtnEditar" Visible="true" title="Editar" runat="server" class="btn btn-cyan" CommandArgument='<%# Eval("idTipoGestion") %>' CommandName="EditarGestion">
+                                            <asp:LinkButton ID="BtnEditar" Visible="true" title="Editar" runat="server" class="btn" Style="background-color: #F1961B; color: #ffffff;" CommandArgument='<%# Eval("idTipoGestion") %>' CommandName="EditarGestion">
                                                <i class="icon-pencil" ></i>
                                             </asp:LinkButton>            
                                             
@@ -113,7 +98,7 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
-    <div class="modal fade" id="ModalGestiones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
+    <div class="modal fade" id="ModalGestiones" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -212,7 +197,7 @@
 
 
     <%--MODAL DE CONFIRMACION--%>
-    <div class="modal fade" id="ModalAddTeams" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
+    <div class="modal fade" id="ModalAddTeams"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -228,7 +213,7 @@
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
-                            <asp:DropDownList runat="server" ID="DdlTeams" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" OnSelectedIndexChanged="DdlTeams_SelectedIndexChanged"></asp:DropDownList>
+                            <asp:DropDownList runat="server" ID="DdlTeams" CssClass="select2 form-control custom-select" style="width: 100%"  AutoPostBack="true"  OnSelectedIndexChanged="DdlTeams_SelectedIndexChanged"></asp:DropDownList>
                             <br />
                             <br />
                             <div class="col-12 text-center" runat="server" id="divTeamsSeleccionado" visible="false" style="display: flex; background-color: #00468c; justify-content: center">
@@ -252,6 +237,13 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
-    <script src="../../js/select2.js"></script>
-    <link href="../../css/select2.css" rel="stylesheet" />
+        <%--COMBO BUSCADOR--%>
+
+    <script src="../assets/node_modules/select2/dist/js/select2.js"></script>
+    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+    <style>
+        .select2-selection__rendered {line-height: 31px !important;}
+        .select2-container .select2-selection--single {height: 35px !important;}
+        .select2-selection__arrow {height: 34px !important;}
+    </style>
 </asp:Content>

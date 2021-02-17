@@ -27,12 +27,14 @@ namespace Infatlan_Kanban
                 if (Convert.ToBoolean(Session["AUTH"]))
                 {
 
-                    Session["GESTIONES_TAREAS_FECHA_INICIO"] = "01/12/2020";
-                    Session["GESTIONES_TAREAS_FECHA_FINAL"] = "27/01/2021";
+                    //Session["GESTIONES_TAREAS_FECHA_INICIO"] = "01/12/2020";
+                    //Session["GESTIONES_TAREAS_FECHA_FINAL"] = "27/01/2021";
                     obtenerEstados();
                     obtenerTipoGestion();
                     obtenerTareasCerradas();
                     obtenerCargabilidadApilado();
+                    obtenerCargabilidad();
+                    //UpGraficos.Update();
                 }
                 else
                 {
@@ -44,18 +46,25 @@ namespace Infatlan_Kanban
 
         public string obtenerCargabilidad()
         {
-            string vQuery = "GESTIONES_Generales 9,'"+ Session["USUARIO"].ToString() + "'";
+            string vQuery = "GESTIONES_Generales 9,'" + Session["USUARIO"].ToString() + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
-            var strDatos = "[['Fecha', 'Min','WIP'],";
+            var strDatos = "[['Fecha','Min','WIP'],";
             if (vDatos.Rows.Count > 0)
             {
+                divGraficoCargabilidad.Visible = true;
+                divImagenCragabilidad.Visible = false;
                 foreach (DataRow item in vDatos.Rows)
                 {
                     strDatos = strDatos + "[";
                     strDatos = strDatos + "'" + item["fecha"].ToString() + "'," + item["minutos"].ToString() + "," + item["wip"].ToString();
                     strDatos = strDatos + "],";
                 }
+            }
+            else
+            {
+                divGraficoCargabilidad.Visible = false;
+                divImagenCragabilidad.Visible = true;
             }
             strDatos = strDatos + "]";
             return strDatos;
@@ -69,10 +78,18 @@ namespace Infatlan_Kanban
             string encabezado = "";
             if (vDatos.Rows.Count > 0)
             {
+                divGraficoApilado.Visible = true;
+                divImagenApilado.Visible = false;
+
                 foreach (DataRow item in vDatos.Rows)
                 {
                     encabezado = encabezado + "'" + item["idSolicitud"].ToString() + "',";
                 }
+            }
+            else
+            {
+                divImagenApilado.Visible = true;
+                divGraficoApilado.Visible = false;
             }
             encabezado = encabezado + " { role: 'annotation' } ],";
 
@@ -86,7 +103,7 @@ namespace Infatlan_Kanban
                 for (int i = 0; i < vDatosFechas.Rows.Count; i++)
                 {
                     strDatos += "['" + vDatosFechas.Rows[i]["fecha"].ToString() + "',";
-                    vQuery = "GESTIONES_Generales 20,'" + vDatosFechas.Rows[i]["fecha"].ToString() + "'"; ;
+                    vQuery = "GESTIONES_Generales 20,'" + vDatosFechas.Rows[i]["fecha"].ToString() +"','"+ Session["USUARIO"].ToString() + "'"; ;
                     DataTable vDatosCuerpo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     foreach (DataRow item in vDatosCuerpo.Rows)
                     {
@@ -113,18 +130,24 @@ namespace Infatlan_Kanban
         public string obtenerEstados()
         {
 
-            string vQuery = "GESTIONES_Generales 6,'" + Session["GESTIONES_TAREAS_FECHA_INICIO"].ToString() + "','" + Session["GESTIONES_TAREAS_FECHA_FINAL"].ToString() + "'";
+            string vQuery = "GESTIONES_Generales 6,'" + Session["USUARIO"].ToString() + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
             var strDatos = "[['Estado', 'Tareas'],";
             if (vDatos.Rows.Count > 0)
             {
+                divGraficoEstados.Visible = true;
+                divImagenEstados.Visible = false;
                 foreach (DataRow item in vDatos.Rows)
                 {
                     strDatos = strDatos + "[";
                     strDatos = strDatos + "'" + item["estado"].ToString() + "'," + item["tareas"].ToString();
                     strDatos = strDatos + "],";
                 }
+            }else
+            {
+                divImagenEstados.Visible = true;
+                divGraficoEstados.Visible = false;
             }
             strDatos = strDatos + "]";
             return strDatos;
@@ -133,12 +156,14 @@ namespace Infatlan_Kanban
         public string obtenerTipoGestion()
         {
 
-            string vQuery = "GESTIONES_Generales 7,'" + Session["GESTIONES_TAREAS_FECHA_INICIO"].ToString() + "','" + Session["GESTIONES_TAREAS_FECHA_FINAL"].ToString() + "'";
+            string vQuery = "GESTIONES_Generales 7,'" + Session["USUARIO"].ToString() + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
             var strDatos = "[['Gestión', 'Tareas'],";
             if (vDatos.Rows.Count > 0)
             {
+                divGraficoGestiones.Visible = true;
+                divImagenGestiones.Visible = false;
                 foreach (DataRow item in vDatos.Rows)
                 {
                     strDatos = strDatos + "[";
@@ -146,26 +171,36 @@ namespace Infatlan_Kanban
                     strDatos = strDatos + "],";
                 }
             }
+            else
+            {
+                divImagenGestiones.Visible = true;
+                divGraficoGestiones.Visible = false;
+            }
             strDatos = strDatos + "]";
             return strDatos;
-
         }
 
 
         public string obtenerTareasCerradas()
         {
-            string vQuery = "GESTIONES_Generales 8,'" + Session["GESTIONES_TAREAS_FECHA_INICIO"].ToString() + "','" + Session["GESTIONES_TAREAS_FECHA_FINAL"].ToString() + "'";
+            string vQuery = "GESTIONES_Generales 8,'" + Session["USUARIO"].ToString()+ "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
             var strDatos = "[['Estado', 'Tareas'],";
             if (vDatos.Rows.Count > 0)
             {
+                divGraficoEstadosCerrados.Visible = true;
+                divImagenCerradas.Visible = false;
                 foreach (DataRow item in vDatos.Rows)
                 {
                     strDatos = strDatos + "[";
                     strDatos = strDatos + "'" + item["estado"].ToString() + "'," + item["tareas"].ToString();
                     strDatos = strDatos + "],";
                 }
+            }else
+            {
+                divGraficoEstadosCerrados.Visible = false;
+                divImagenCerradas.Visible = true;
             }
             strDatos = strDatos + "]";
             return strDatos;

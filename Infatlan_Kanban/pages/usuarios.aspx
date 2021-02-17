@@ -14,7 +14,7 @@
         function cerrarModal() { $('#ModalUsuario').modal('hide'); }
 
     </script>
-
+        <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
         <asp:UpdateProgress ID="UpdateProgress1" runat="server">
@@ -26,21 +26,6 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
 
-<%--    <div class="row page-titles">
-        <div class="col-md-5 align-self-center">
-            <h4 class="card-title"><strong>Kanban Board Gestiones Técnicas </strong></h4>
-        </div>
-        <div class="col-md-7 align-self-center text-right">
-            <div class="d-flex justify-content-end align-items-center">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Módulos</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Gestiones Técnicas</a></li>
-                    <li class="breadcrumb-item active">Usuarios</li>
-                </ol>
-            </div>
-        </div>
-    </div>--%>
-   
     <div class="row page-titles"  >
 
         <div class="col-md-12">
@@ -95,7 +80,7 @@
                                     <asp:BoundField DataField="codEmpleado" HeaderText="Codigo" ItemStyle-HorizontalAlign="center"  />
                                     <asp:TemplateField HeaderText="Acción" HeaderStyle-Width="13%" ItemStyle-HorizontalAlign="center">
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="BtnEditar" Visible="true" title="Editar" runat="server" class="btn btn-cyan" CommandArgument='<%# Eval("idEmpleado") %>' CommandName="EditarEmpleado">
+                                            <asp:LinkButton ID="BtnEditar" Visible="true" title="Editar" runat="server" class="btn" Style="background-color: #F1961B; color: #ffffff;" CommandArgument='<%# Eval("idEmpleado") %>' CommandName="EditarEmpleado">
                                                 <i class="icon-pencil" ></i>
                                             </asp:LinkButton>
                                         </ItemTemplate>
@@ -112,7 +97,7 @@
 
 
     <%--    INICIO MODAL--%>
-    <div class="modal fade" id="ModalUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
+    <div class="modal fade" id="ModalUsuario"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -135,14 +120,14 @@
                                             <label class="col-form-label">Equipo</label>
                                         </div>
                                         <div class="col-5">
-                                            <asp:DropDownList ID="DdlEquipo" runat="server" class="form-control" AutoPostBack="true"  OnSelectedIndexChanged="DdlEquipo_SelectedIndexChanged"></asp:DropDownList>
+                                            <asp:DropDownList ID="DdlEquipo" runat="server"  CssClass="select2 form-control custom-select" style="width: 100%" AutoPostBack="true"  OnSelectedIndexChanged="DdlEquipo_SelectedIndexChanged"></asp:DropDownList>
                                         </div>
 
                                         <div class="col-2">
                                             <label class="col-form-label">Colaborador</label>
                                         </div>
                                         <div class="col-4">
-                                            <asp:DropDownList ID="DdlColaborador" runat="server" class="form-control"  AutoPostBack="true"  OnSelectedIndexChanged="DdlColaborador_SelectedIndexChanged"></asp:DropDownList>
+                                            <asp:DropDownList ID="DdlColaborador" runat="server"  CssClass="select2 form-control custom-select" style="width: 100%"  AutoPostBack="true"  OnSelectedIndexChanged="DdlColaborador_SelectedIndexChanged"></asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
@@ -195,7 +180,7 @@
                                             <label class="col-form-label">Estado</label>
                                         </div>
                                         <div class="col-5">
-                                            <asp:DropDownList runat="server" ID="DdlEstadoUsuario" CssClass="form-control" AutoPostBack="true" >
+                                            <asp:DropDownList runat="server" ID="DdlEstadoUsuario"  CssClass="select2 form-control custom-select" style="width: 100%" AutoPostBack="true" >
                                                 <asp:ListItem Value="1" Text="Activo"></asp:ListItem>
                                                 <asp:ListItem Value="0" Text="Inactivo"></asp:ListItem>
                                             </asp:DropDownList>
@@ -218,7 +203,7 @@
                                             <label class="col-form-label">Rol</label>
                                         </div>
                                         <div class="col-11">
-                                           <asp:DropDownList ID="DdlRol" runat="server" class="form-control"  AutoPostBack="true"  ></asp:DropDownList>
+                                           <asp:DropDownList ID="DdlRol" runat="server"  CssClass="select2 form-control custom-select" style="width: 100%" AutoPostBack="true"  ></asp:DropDownList>
                                         </div>
 
                                     </div>
@@ -247,4 +232,12 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
+            <%--COMBO BUSCADOR--%>
+    <script src="../assets/node_modules/select2/dist/js/select2.js"></script>
+    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+    <style>
+        .select2-selection__rendered {line-height: 31px !important;}
+        .select2-container .select2-selection--single {height: 35px !important;}
+        .select2-selection__arrow {height: 34px !important;}
+    </style>
 </asp:Content>

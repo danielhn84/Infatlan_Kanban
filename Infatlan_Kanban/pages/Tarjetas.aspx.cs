@@ -9,6 +9,7 @@ using System.Data;
 using System.IO;
 using System.Net;
 using Infatlan_Kanban.classes;
+using System.Drawing;
 
 namespace Infatlan_Kanban.pages
 {
@@ -30,6 +31,16 @@ namespace Infatlan_Kanban.pages
                     cargarInicialMisSolicitudes();
                     cargarDetenerSolicitudes();
                     cargarReasignarSolicitudes();
+
+                    divTXBusqueda.Visible = false;
+
+                    lbInicio.Visible = false;
+                    divTxInicio.Visible = false;
+                    DivlbFin.Visible = false;
+                    divFechaFin.Visible = false;
+                    divBotones.Visible = false;
+                    UpdatePanel9.Update();
+
                 }
                 else
                 {
@@ -222,7 +233,16 @@ namespace Infatlan_Kanban.pages
         }
         protected void GvDetener_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-
+            try
+            {
+                GvDetener.PageIndex = e.NewPageIndex;
+                GvDetener.DataSource = (DataTable)Session["GESTIONES_DETENER_TARJETAS"];
+                GvDetener.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
         }
 
         protected void GvDetener_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -414,7 +434,16 @@ namespace Infatlan_Kanban.pages
 
         protected void GvReasignar_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-
+            try
+            {
+                GvReasignar.PageIndex = e.NewPageIndex;
+                GvReasignar.DataSource = (DataTable)Session["GESTIONES_REASIGNAR_TARJETAS"];
+                GvReasignar.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
         }
 
         protected void GvReasignar_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -437,6 +466,357 @@ namespace Infatlan_Kanban.pages
                 {
                     Mensaje(ex.Message, WarningType.Danger);
                 }
+            }
+        }
+
+
+        protected void GvSolicitudes_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                string vPrioridad = e.Row.Cells[0].Text;
+                string vEstado = e.Row.Cells[9].Text;
+
+
+                if (vPrioridad.Equals("Baja"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#03a9f3");
+                }
+                else if (vPrioridad.Equals("M&#225;xima Prioridad"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#e46a76");
+                }
+                else if (vPrioridad.Equals("Alta"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#fb9678");
+                }
+                else if (vPrioridad.Equals("Normal"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#fec107");
+                }
+
+
+                //if (vEstado.Equals("Realizado fuera de tiempo"))
+                //{
+                //    e.Row.Cells[9].BackColor = Color.FromName("#FFA08D");
+                //}
+                //else
+                //{
+                //    e.Row.Cells[9].BackColor = Color.FromName("#76DE7E");
+                //}
+            }        
+        }
+
+        protected void BtnBusqueda_Click(object sender, EventArgs e)
+        {
+            DivBusquedaReporte.Visible = true;
+            UpdatePanel9.Update();
+        }
+
+        protected void DdlTipoBusqueda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (DdlTipoBusqueda.SelectedValue == "1")
+            {
+                divTXBusqueda.Visible = true;
+
+                lbInicio.Visible = false;
+                divTxInicio.Visible = false;
+                DivlbFin.Visible = false;
+                divFechaFin.Visible = false;
+                divBotones.Visible = false;
+                UpdatePanel9.Update();
+            }
+            else if(DdlTipoBusqueda.SelectedValue=="2")
+            {
+                divTXBusqueda.Visible = false;
+
+                lbInicio.Visible = true;
+                divTxInicio.Visible = true;
+                DivlbFin.Visible = true;
+                divFechaFin.Visible = true;
+                divBotones.Visible = true;
+                UpdatePanel9.Update();
+
+            }
+            else
+            {
+                Response.Redirect("/pages/Tarjetas.aspx");
+            }
+        }
+
+        protected void GvSolicitudes_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            try
+            {
+                GvSolicitudes.PageIndex = e.NewPageIndex;
+                GvSolicitudes.DataSource = (DataTable)Session["GESTIONES_MIS_SOLICITUDES"];
+                GvSolicitudes.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        protected void TxBusqueda_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                cargarInicialMisSolicitudes();
+                String vBusqueda = TxBusqueda.Text;
+                DataTable vDatos = (DataTable)Session["GESTIONES_MIS_SOLICITUDES"];
+                if (vBusqueda.Equals(""))
+                {
+                    GvSolicitudes.DataSource = vDatos;
+                    GvSolicitudes.DataBind();
+                }
+                else
+                {
+                    EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
+                        .Where(r => r.Field<String>("titulo").Contains(vBusqueda.ToUpper()));
+
+                    Boolean isNumeric = int.TryParse(vBusqueda, out int n);
+
+                    if (isNumeric)
+                    {
+                        if (filtered.Count() == 0)
+                        {
+                            filtered = vDatos.AsEnumerable().Where(r =>
+                                Convert.ToInt32(r["idSolicitud"]) == Convert.ToInt32(vBusqueda));
+                        }
+                    }
+
+                    DataTable vDatosFiltrados = new DataTable();
+                    vDatosFiltrados.Columns.Add("prioridad");
+                    vDatosFiltrados.Columns.Add("idSolicitud");
+                    vDatosFiltrados.Columns.Add("titulo");
+                    vDatosFiltrados.Columns.Add("descripcion");
+                    vDatosFiltrados.Columns.Add("minSolicitud");
+                    vDatosFiltrados.Columns.Add("fechaInicio");
+                    vDatosFiltrados.Columns.Add("fechaEntrega");
+                    vDatosFiltrados.Columns.Add("nombreGestion");
+                    vDatosFiltrados.Columns.Add("userCreo");
+                    vDatosFiltrados.Columns.Add("nombreestado");
+
+                    foreach (DataRow item in filtered)
+                    {
+                        vDatosFiltrados.Rows.Add(
+                            item["prioridad"].ToString(),
+                            item["idSolicitud"].ToString(),
+                            item["titulo"].ToString(),
+                            item["descripcion"].ToString(),
+                            item["minSolicitud"].ToString(),
+                            item["fechaInicio"].ToString(),
+                            item["fechaEntrega"].ToString(),
+                            item["nombreGestion"].ToString(),
+                            item["userCreo"].ToString(),
+                            item["nombreestado"].ToString()
+                            );
+                    }
+
+                    GvSolicitudes.DataSource = vDatosFiltrados;
+                    GvSolicitudes.DataBind();
+                    Session["GESTIONES_MIS_SOLICITUDES"] = vDatosFiltrados;
+                    UpMisSolicitudes.Update();
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        protected void GvDetener_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                string vPrioridad = e.Row.Cells[0].Text;
+
+                if (vPrioridad.Equals("Baja"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#03a9f3");
+                }
+                else if (vPrioridad.Equals("M&#225;xima Prioridad"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#e46a76");
+                }
+                else if (vPrioridad.Equals("Alta"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#fb9678");
+                }
+                else if (vPrioridad.Equals("Normal"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#fec107");
+                }
+
+            }
+        }
+
+        protected void TxBusquedaDetener_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+               
+                 cargarDetenerSolicitudes();
+                String vBusqueda = TxBusquedaDetener.Text;
+                DataTable vDatos = (DataTable)Session["GESTIONES_DETENER_TARJETAS"];
+                if (vBusqueda.Equals(""))
+                {
+                    GvDetener.DataSource = vDatos;
+                    GvDetener.DataBind();
+                    UpdatePanel8.Update();
+                }
+                else
+                {
+                    EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
+                        .Where(r => r.Field<String>("nombreResponsable").Contains(vBusqueda.ToUpper()));
+
+                    Boolean isNumeric = int.TryParse(vBusqueda, out int n);
+
+                    if (isNumeric)
+                    {
+                        if (filtered.Count() == 0)
+                        {
+                            filtered = vDatos.AsEnumerable().Where(r =>
+                                Convert.ToInt32(r["idSolicitud"]) == Convert.ToInt32(vBusqueda));
+                        }
+                    }
+
+                    DataTable vDatosFiltrados = new DataTable();
+                    vDatosFiltrados.Columns.Add("prioridad");
+                    vDatosFiltrados.Columns.Add("idSolicitud");
+                    vDatosFiltrados.Columns.Add("titulo");
+                    vDatosFiltrados.Columns.Add("minSolicitud");
+                    vDatosFiltrados.Columns.Add("fechaInicio");
+                    vDatosFiltrados.Columns.Add("fechaEntrega");
+                    vDatosFiltrados.Columns.Add("nombreGestion");
+                    vDatosFiltrados.Columns.Add("detalleFinalizo");
+                    vDatosFiltrados.Columns.Add("nombreResponsable");
+                    vDatosFiltrados.Columns.Add("nombreTeams");
+
+                    foreach (DataRow item in filtered)
+                    {
+                        vDatosFiltrados.Rows.Add(
+                            item["prioridad"].ToString(),
+                            item["idSolicitud"].ToString(),
+                            item["titulo"].ToString(),
+                            item["minSolicitud"].ToString(),
+                            item["fechaInicio"].ToString(),
+                            item["fechaEntrega"].ToString(),
+                            item["nombreGestion"].ToString(),
+                            item["detalleFinalizo"].ToString(),
+                            item["nombreResponsable"].ToString(),
+                            item["nombreTeams"].ToString()
+                            );
+                    }
+
+                    GvDetener.DataSource = vDatosFiltrados;
+                    GvDetener.DataBind();
+                    Session["GESTIONES_DETENER_TARJETAS"]= vDatosFiltrados;
+                    UpdatePanel8.Update();
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        protected void GvReasignar_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                string vPrioridad = e.Row.Cells[0].Text;
+
+                if (vPrioridad.Equals("Baja"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#03a9f3");
+                }
+                else if (vPrioridad.Equals("M&#225;xima Prioridad"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#e46a76");
+                }
+                else if (vPrioridad.Equals("Alta"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#fb9678");
+                }
+                else if (vPrioridad.Equals("Normal"))
+                {
+                    e.Row.Cells[0].BackColor = Color.FromName("#fec107");
+                }
+
+            }
+        }
+
+        protected void TxBuscarReasignar_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                cargarReasignarSolicitudes();
+                String vBusqueda = TxBuscarReasignar.Text;
+                DataTable vDatos = (DataTable)Session["GESTIONES_REASIGNAR_TARJETAS"];
+                if (vBusqueda.Equals(""))
+                {
+                    GvReasignar.DataSource = vDatos;
+                    GvReasignar.DataBind();
+                    UpTablaReasignar.Update();
+                }
+                else
+                {
+                    EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
+                        .Where(r => r.Field<String>("nombreResponsable").Contains(vBusqueda.ToUpper()));
+
+                    Boolean isNumeric = int.TryParse(vBusqueda, out int n);
+
+                    if (isNumeric)
+                    {
+                        if (filtered.Count() == 0)
+                        {
+                            filtered = vDatos.AsEnumerable().Where(r =>
+                                Convert.ToInt32(r["idSolicitud"]) == Convert.ToInt32(vBusqueda));
+                        }
+                    }
+
+                    DataTable vDatosFiltrados = new DataTable();
+                    vDatosFiltrados.Columns.Add("prioridad");
+                    vDatosFiltrados.Columns.Add("idSolicitud");
+                    vDatosFiltrados.Columns.Add("titulo");
+                    vDatosFiltrados.Columns.Add("descripcion");
+                    vDatosFiltrados.Columns.Add("minSolicitud");
+                    vDatosFiltrados.Columns.Add("fechaInicio");
+                    vDatosFiltrados.Columns.Add("fechaEntrega");
+                    vDatosFiltrados.Columns.Add("nombreGestion");
+                    vDatosFiltrados.Columns.Add("nombreResponsable");
+                    vDatosFiltrados.Columns.Add("nombreTeams");
+
+                    foreach (DataRow item in filtered)
+                    {
+                        vDatosFiltrados.Rows.Add(
+                            item["prioridad"].ToString(),
+                            item["idSolicitud"].ToString(),
+                            item["titulo"].ToString(),
+                            item["descripcion"].ToString(),
+                            item["minSolicitud"].ToString(),
+                            item["fechaInicio"].ToString(),
+                            item["fechaEntrega"].ToString(),
+                            item["nombreGestion"].ToString(),
+                            item["nombreResponsable"].ToString(),
+                            item["nombreTeams"].ToString()
+                            );
+                    }
+
+                    GvReasignar.DataSource = vDatosFiltrados;
+                    GvReasignar.DataBind();
+                    Session["GESTIONES_REASIGNAR_TARJETAS"] = vDatosFiltrados;
+                    UpTablaReasignar.Update();
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
             }
         }
     }

@@ -1257,6 +1257,24 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.Label LbTareaFinalizada;
 
         /// <summary>
+        /// Control divCamposVacios.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCamposVacios;
+
+        /// <summary>
+        /// Control LbCamposVacios.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbCamposVacios;
+
+        /// <summary>
         /// Control UpdatePanel7.
         /// </summary>
         /// <remarks>
