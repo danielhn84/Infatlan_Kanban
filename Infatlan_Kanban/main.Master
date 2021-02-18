@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.fw.png">
     <title>Kanban Board</title>
     <link rel="stylesheet" href="css/animate.min.css" />
@@ -16,8 +15,7 @@
     <link href="/assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
     <link href="/dist/css/animate.min.css" rel="stylesheet" />
     <link href="/dist/css/style.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/images/favicon_blanco.fw.png" />
-
+    <link rel="shortcut icon" href="/images/favicon.fw.png" />
     <script type="text/javascript"> 
         infatlan = {
             showNotification: function (from, align, mensaje, tipo) {
@@ -57,11 +55,9 @@
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="/assets/images/users/face5.jpg" alt="user" class="">
-
                                 <span class="hidden-md-down">
                                     <asp:Literal Text="" ID="LitUsuario" runat="server" />
                                     &nbsp;<i class="fa fa-angle-down"></i>
-
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
@@ -81,10 +77,10 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li runat="server" id="LiDashboard" visible="false"><a class="waves-effect waves-dark" href="/default.aspx" aria-expanded="false"><i class="icon-speedometer"></i><span class="hide-menu">Dashboard</span></a></li>
-                        <li runat="server" id="LiTablero" visible="false"><a class="waves-effect waves-dark" href="/pages/miTablero.aspx" aria-expanded="false"><i class="ti-layout-grid2"></i><span class="hide-menu">Mi Tablero</span></a></li>                  
-                        <li runat="server" id="LiTarjeta" visible="false"><a class="waves-effect waves-dark" href="/pages/Tarjetas.aspx" aria-expanded="false"><i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tarjeta</span></a></li>
-                        <li runat="server" id="LiConfig" visible="false"><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-settings"></i><span class="hide-menu">Configuración<span class="badge badge-pill badge-cyan ml-auto">3</span></span></a>
+                        <li runat="server" id="LiDashboard" visible="false"><a class="waves-effect waves-dark" href="/default.aspx" aria-expanded="false"><i class="fa fa-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
+                        <li runat="server" id="LiTablero" visible="false"><a class="waves-effect waves-dark" href="/pages/miTablero.aspx" aria-expanded="false"><i class="fa fa-trello"></i><span class="hide-menu">Mi Tablero</span></a></li>
+                        <li runat="server" id="LiTarjeta" visible="false"><a class="waves-effect waves-dark" href="/pages/Tarjetas.aspx" aria-expanded="false"><i class="fa fa-file-text"></i><span class="hide-menu">Tarjeta</span></a></li>
+                        <li runat="server" id="LiConfig" visible="false"><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Configuración<span class="badge badge-pill badge-cyan ml-auto">3</span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li runat="server" id="LiUsuario" visible="false"><a href="/pages/usuarios.aspx">Usuarios</a></li>
                                 <li runat="server" id="LiGestiones" visible="false"><a href="/pages/gestiones.aspx">Gestiones</a></li>
@@ -112,7 +108,6 @@
             © 2021 Infatlan
         </footer>
     </div>
-
     <script src="/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
     <script src="/assets/node_modules/popper/popper.min.js"></script>
     <script src="/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -120,14 +115,11 @@
     <script src="/dist/js/waves.js"></script>
     <script src="/dist/js/sidebarmenu.js"></script>
     <script src="/dist/js/custom.min.js"></script>
-
     <script src="/assets/node_modules/raphael/raphael-min.js"></script>
     <script src="/assets/node_modules/morrisjs/morris.min.js"></script>
     <script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
     <script src="/js/dashboard1.js"></script>
     <script src="/assets/node_modules/toast-master/js/jquery.toast.js"></script>
-
-
     <script src="/js/off-canvas.js"></script>
     <script src="/js/hoverable-collapse.js"></script>
     <script src="/js/template.js"></script>
@@ -136,7 +128,6 @@
     <script src="/js/jquery.dataTables.js"></script>
     <script src="/js/dataTables.bootstrap4.js"></script>
     <script src="/js/bootstrap-notify.js"></script>
-
     <asp:ContentPlaceHolder ID="Script" runat="server">
     </asp:ContentPlaceHolder>
 </body>

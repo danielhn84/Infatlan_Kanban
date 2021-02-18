@@ -131,7 +131,8 @@
 
     <div class="row page-titles">
         <div class="col-md-12">
-            <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
+            <%-- <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>--%>
+            <img src="../images/bannerTexto.JPG" />
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb">

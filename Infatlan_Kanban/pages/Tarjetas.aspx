@@ -30,7 +30,8 @@
 
     <div class="row page-titles">
         <div class="col-md-12">
-            <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
+            <img src="../images/bannerTexto.JPG" />
+            <%--<h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>--%>
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb">
@@ -46,9 +47,9 @@
                 <div class="card-body"  style="border:none">
                     <nav>
                         <div class="nav nav-pills " id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" runat="server" visible="true" id="nav_tarjetasCerradas_tab" data-toggle="tab" href="#nav-solicitudesCerradas" role="tab" aria-controls="nav-solicitudesCerradas" aria-selected="false"><i class="mdi mdi-book-open"></i>Mis Tarjetas Cerradas</a>
-                            <a class="nav-item nav-link" runat="server" visible="true" id="nav_Reasignar" data-toggle="tab" href="#nav-Reasignar" role="tab" aria-controls="nav-Reasignar" aria-selected="false"><i class="mdi  mdi-pencil"></i>Reasignar Tarjetas</a>
-                            <a class="nav-item nav-link" runat="server" visible="true" id="nav_tarjetaDetenido_tab" data-toggle="tab" href="#nav-DetenidoTarjeta" role="tab" aria-controls="nav-nav_tarjetaDetenido" aria-selected="false"><i class="mdi mdi-clock"></i>Detener Tarjetas</a>                            
+                            <a class="nav-item nav-link active" runat="server" visible="false" id="nav_tarjetasCerradas_tab" data-toggle="tab" href="#nav-solicitudesCerradas" role="tab" aria-controls="nav-solicitudesCerradas" aria-selected="false"><i class="mdi mdi-book-open"></i> Mis Tarjetas Cerradas</a>
+                            <a class="nav-item nav-link" runat="server" visible="false" id="nav_Reasignar" data-toggle="tab" href="#nav-Reasignar" role="tab" aria-controls="nav-Reasignar" aria-selected="false"><i class="mdi  mdi-pencil"></i> Reasignar Tarjetas</a>
+                            <a class="nav-item nav-link" runat="server" visible="false" id="nav_tarjetaDetenido_tab" data-toggle="tab" href="#nav-DetenidoTarjeta" role="tab" aria-controls="nav-nav_tarjetaDetenido" aria-selected="false"><i class="mdi mdi-clock"></i> Detener Tarjetas</a>                            
                         </div>
                     </nav>
                     <br />
@@ -66,6 +67,13 @@
                                 <div class="col-4 text-right">
                                     <asp:UpdatePanel runat="server" ID="UpdatePanel18" UpdateMode="Conditional">
                                         <ContentTemplate>
+                                            <asp:Label ID="Label6" runat="server" Text="Prioridades:" ForeColor="Black"></asp:Label>
+                                            <span class="label label-danger">Máxima</span>
+                                            <span class="label label-primary">Alta</span>
+                                            <span class="label label-warning">Normal</span>
+                                            <span class="label label-info">Baja</span>
+                                            <asp:Label ID="Label7" runat="server" Text="   ccc" ForeColor="White"></asp:Label>
+
                                             <asp:LinkButton ID="BtnBusqueda" runat="server" title="Búsqueda" Text="Búsqueda" Style="background-color: #0AAC25; color: #ffffff;" class="btn" OnClick="BtnBusqueda_Click">
                                         <i class="fa  fa-search-plus text-white mr-2"></i>Búsqueda
                                             </asp:LinkButton>
@@ -162,14 +170,6 @@
                         </div>
 
                         <div class="tab-pane" id="nav-DetenidoTarjeta" role="tabpanel">
-                          <%--  <h4 class="card-title">
-                                <label runat="server" id="LbTituloDetenerTarjeta"></label>
-                            </h4>
-                            <h6 class="card-subtitle">Datos generales de la tarjeta a detener.</h6>
-                            <br />
-
-                            --%>
-
                             <div class="row col-12">
                                 <div class="col-8">
                                     <h4 class="card-title">
@@ -177,15 +177,6 @@
                                     </h4>
                                      <h6 class="card-subtitle">Datos generales de la tarjeta a detener.</h6>
                                 </div>
-             <%--                   <div class="col-4 text-right">
-                                    <asp:UpdatePanel runat="server" ID="UpdatePanel3" UpdateMode="Conditional">
-                                        <ContentTemplate>
-                                            <asp:LinkButton ID="BtnBusquedaDetener" runat="server" title="Búsqueda" Text="Búsqueda" Style="background-color: #0AAC25; color: #ffffff;" class="btn">
-                                        <i class="fa  fa-search-plus text-white mr-2"></i>Búsqueda
-                                            </asp:LinkButton>
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>
-                                </div>--%>
                             </div>
                             <asp:UpdatePanel runat="server" ID="UpdatePanel3" UpdateMode="Conditional">
                                 <ContentTemplate>
@@ -287,7 +278,7 @@
                                                             GridLines="None" 
                                                             PageSize="10">
                                                             <Columns>
-                                                                <asp:BoundField DataField="prioridad" HeaderText="Prioridad" Visible="true" ItemStyle-HorizontalAlign="center" ItemStyle-Width="8%" />
+                                                                <asp:BoundField DataField="prioridad" HeaderText="Prioridad" Visible="true" ItemStyle-HorizontalAlign="center" ItemStyle-Width="8%" ItemStyle-ForeColor="White" />
                                                                 <asp:BoundField DataField="idSolicitud" Visible="true" ItemStyle-HorizontalAlign="center" HeaderText="Tarjeta" ItemStyle-Width="2%" />
                                                                 <asp:BoundField DataField="titulo" HeaderText="Titulo" Visible="true" ItemStyle-Width="20%" />
                                                                 <asp:BoundField DataField="descripcion" HeaderText="Descripción" Visible="true" ItemStyle-Width="25%" />

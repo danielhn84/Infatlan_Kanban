@@ -22,6 +22,19 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+            if (vIdRol=="2")
+            {
+                nav_Reasignar.Visible = false;
+                nav_tarjetaDetenido_tab.Visible = false;
+                nav_tarjetasCerradas_tab.Visible = true;
+            }
+            else
+            {
+                nav_Reasignar.Visible = true;
+                nav_tarjetaDetenido_tab.Visible = true;
+                nav_tarjetasCerradas_tab.Visible = true;
+            }
    
             if (!Page.IsPostBack)
             {

@@ -45,7 +45,7 @@
 
     <div class="row page-titles">
         <div class="col-md-12">
-            <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>
+            <img src="../images/bannerTexto.JPG" />
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb">
@@ -63,12 +63,19 @@
                         <h4 class="card-title">Tablero Kanban Board</h4>
                     </div>
                     <div class="row col-12">
-                        <div class="col-8">
+                        <div class="col-6">
                             <h6 class="card-subtitle">Listado de tarjetas.</h6>
                         </div>
-                        <div class="col-4 text-right">
+
+                        <div class="col-6 text-right">
                             <asp:UpdatePanel runat="server" ID="UpdatePanel18" UpdateMode="Conditional">
                                 <ContentTemplate>
+                                    <asp:Label ID="Label6" runat="server" Text="Prioridades:" ForeColor="Black"></asp:Label>
+                                    <span class="label label-danger">Máxima</span>
+                                    <span class="label label-primary">Alta</span>
+                                    <span class="label label-warning">Normal</span>
+                                    <span class="label label-info">Baja</span>
+                                    <asp:Label ID="Label7" runat="server" Text="   ccc" ForeColor="White"></asp:Label>
                                     <asp:LinkButton ID="BtnAddTarjeta" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnAddTarjeta_Click">
                                         <i class="fa fa-plus-circle text-white mr-2"></i>Crear Tarjeta
                                     </asp:LinkButton>
@@ -80,16 +87,7 @@
                         </div>
                     </div>
 
-
-                                
-              
-
-
                     <div class="card-body">
-                    
-                       
-
-
                             <asp:UpdatePanel runat="server" ID="UpdatePanel17" UpdateMode="Conditional">
                                 <ContentTemplate>
                                     <div class="card-header" role="tab" runat="server" id="DivBusquedaReportes" visible="false">

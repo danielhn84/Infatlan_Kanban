@@ -931,10 +931,10 @@ namespace Infatlan_Kanban.pages
             string[] valuesIniTeams = vHrIniTeams.Split(':');
 
             string vHrFinTeams = Session["GESTIONES_HR_FIN"].ToString();
-            string[] valuesFinTeams = vHrIniTeams.Split(':');
+            string[] valuesFinTeams = vHrFinTeams.Split(':');
 
             TimeSpan vThrInicioTeams = new TimeSpan(Convert.ToInt32(valuesIniTeams[0]), Convert.ToInt32(valuesIniTeams[1]), 0);
-            TimeSpan vThrFinTeams = new TimeSpan(Convert.ToInt32(valuesIniTeams[0]), Convert.ToInt32(valuesIniTeams[1]), 0);
+            TimeSpan vThrFinTeams = new TimeSpan(Convert.ToInt32(valuesFinTeams[0]), Convert.ToInt32(valuesFinTeams[1]), 0);
 
 
             string vHrIniSoli = vHrInicioSoli;

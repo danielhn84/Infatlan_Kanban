@@ -6063,6 +6063,7 @@
     <Content Include="bin\roslyn\vbc.exe" />
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
     <Content Include="images\add.png" />
+    <Content Include="images\bannerTexto.JPG" />
     <Content Include="images\busqueda.png" />
     <Content Include="images\calendario.png" />
     <Content Include="images\delete-file.png" />
