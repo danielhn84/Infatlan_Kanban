@@ -348,15 +348,6 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.TextBox TxFechaEntrega_1;
 
         /// <summary>
-        /// Control TxDescripcion_1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxDescripcion_1;
-
-        /// <summary>
         /// Control DdlResponsable_1.
         /// </summary>
         /// <remarks>
@@ -373,6 +364,15 @@ namespace Infatlan_Kanban.pages
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlPrioridad_1;
+
+        /// <summary>
+        /// Control TxDescripcion_1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxDescripcion_1;
 
         /// <summary>
         /// Control DdlTipoGestion_1.

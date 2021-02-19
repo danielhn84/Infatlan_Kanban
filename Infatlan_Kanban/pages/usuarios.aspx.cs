@@ -326,6 +326,7 @@ namespace Infatlan_Kanban.pages
                     DdlEstadoUsuario.SelectedValue ="1";
                     DdlRol.SelectedValue = vDatos.Rows[0]["IdRol"].ToString();
                     TxColor.Text = vDatos.Rows[0]["colorTarjeta"].ToString();
+                    DdlEquipo.SelectedValue = vDatos.Rows[0]["idTeams"].ToString();
                     DivColaborador.Visible = false;
 
                     UpdatePanelModal.Update();

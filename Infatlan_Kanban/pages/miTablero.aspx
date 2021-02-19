@@ -246,24 +246,20 @@
                                         <asp:UpdatePanel runat="server" ID="UpdatePanel1">
                                             <ContentTemplate>
                                                 <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="form-group row">
-                                                            <div class="col-1">
-                                                                <label class="control-label">Título:</label>
-                                                            </div>
-                                                            <div class="col-7">
-                                                                <asp:TextBox ID="TxTitulo" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxTitulo_TextChanged"></asp:TextBox>
-                                                            </div>
-                                                            <div class="col-2">
-                                                                <label class="control-label">Tiempo (min):</label>
-                                                            </div>
-                                                            <div class="col-2">
-                                                                <asp:TextBox ID="TxMinProductivo_1" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
-                                                            </div>
-                                                        </div>
+                                                    <div class="col-8">
+                                                         <label class="control-label">Título:</label>
+                                                        <asp:TextBox ID="TxTitulo" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxTitulo_TextChanged"></asp:TextBox>
                                                     </div>
+
+                                                    <div class="col-4">
+                                                        <label class="control-label">Tiempo (min):</label>
+                                                        <asp:TextBox ID="TxMinProductivo_1" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
+                                                    </div>
+
                                                 </div>
 
+                                          
+                                                <br />
                                                 <div class="row">
                                                     <div class="col-4">
                                                         <label class="control-label">Fecha Solicitud:</label>
@@ -280,15 +276,9 @@
                                                         <asp:TextBox ID="TxFechaEntrega_1" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
+                                                <br />
 
-                                                <div class="row p-t-20">
-                                                    <div class="col-12">
-                                                        <label class="control-label">Descripción:</label>
-                                                        <asp:TextBox ID="TxDescripcion_1" AutoPostBack="true" TextMode="MultiLine" Rows="2" runat="server" class="form-control"></asp:TextBox>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row p-t-20">
+                                                <div class="row">
                                                     <div class="col-8">
                                                         <label class="control-label">Responsable:</label>
                                                         <asp:DropDownList runat="server" ID="DdlResponsable_1" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%"  OnSelectedIndexChanged="DdlResponsable_1_SelectedIndexChanged"></asp:DropDownList>
@@ -306,12 +296,27 @@
                                                     </div>
 
                                                 </div>
+                                                 <br />
 
-                                                <div class="row p-t-20">
+                                                <div class="row">
                                                     <div class="col-12">
                                                         <div class="form-group row">
                                                             <div class="col-2">
-                                                                <label class="control-label">Tipo Gestión:</label>
+                                                                  <label class="control-label">Descripción:</label>
+                                                            </div>
+                                                            <div class="col-10">
+                                                                <asp:TextBox ID="TxDescripcion_1" AutoPostBack="true" TextMode="MultiLine" Rows="2" ReadOnly="true" runat="server" class="form-control"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                              
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group row">
+                                                            <div class="col-2">
+                                                                <label class="control-label">Gestión:</label>
                                                             </div>
                                                             <div class="col-10">
                                                                 <asp:DropDownList runat="server" ID="DdlTipoGestion_1" CssClass="select2 form-control custom-select" Style="width: 100%" AutoPostBack="true" Enabled="false"></asp:DropDownList>
@@ -350,20 +355,22 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row" runat="server" id="divSolucionAdjunto">
-                                                    <!--Inicio Fila 1-->
-                                                    <div class="row col-12">
-                                                        <div class="col-2">
-                                                            <label class="col-form-label" runat="server" id="Label1">Archivo:</label>
-                                                        </div>
-                                                        <div class="col-10">
-                                                            <asp:FileUpload ID="FuSolucion" runat="server" class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                               
 
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
+
+                                        <div class="form-group row" runat="server" id="divSolucionAdjunto">
+                                            <!--Inicio Fila 1-->
+                                            <div class="row col-12">
+                                                <div class="col-2">
+                                                    <label class="col-form-label" runat="server" id="Label1">Archivo:</label>
+                                                </div>
+                                                <div class="col-10">
+                                                    <asp:FileUpload ID="FuSolucion" runat="server" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
                                         </div>
                                   
                                     <div class="tab-pane" id="comentarios" role="tabpanel" style="height: 450px; width: 630px;">
@@ -511,6 +518,9 @@
                             <asp:Button ID="BtnCancelarTarea_1" runat="server" Text="Cancelar" OnClick="BtnCancelarTarea_1_Click" class="btn btn-secondary" />
                             <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar" OnClick="BtnConfirmarTarea_1_Click" class="btn" Style="background-color: #00468c; color: #ffffff;" />
                         </ContentTemplate>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="BtnConfirmarTarea_1" />
+                        </Triggers>
                     </asp:UpdatePanel>
                 </div>
             </div>
@@ -757,7 +767,7 @@
                                         <div class="row p-t-20" runat="server" id="div2">
                                             <div class="col-12">
                                                 <label class="control-label">Archivos Adjuntos:</label>
-                                                <asp:FileUpload ID="FuAdjunto" AllowMultiple="true" runat="server" class="form-control" />
+                                                <asp:FileUpload ID="FuAdjunto" AllowMultiple="false" runat="server" class="form-control" />
                                             </div>
                                         </div>
                                     </div>
@@ -1027,9 +1037,9 @@
                             <asp:Button ID="BtnEnviarInfo" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnEnviarInfo_Click" />
                         </ContentTemplate>
 
-                        <%--                        <triggers>
-                                <asp:PostBackTrigger ControlID="BtnConfirmarTarea" />
-                        </triggers>--%>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="BtnEnviarInfo" />
+                        </Triggers>
                     </asp:UpdatePanel>
                 </div>
             </div>

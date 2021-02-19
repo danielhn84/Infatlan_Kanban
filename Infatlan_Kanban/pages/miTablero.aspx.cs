@@ -1578,8 +1578,9 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
-                //string vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
-                String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
+
+                    //string vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
+                    String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
                 String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio.Text).ToString(vFormato);
                 DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
                 DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
@@ -1675,7 +1676,48 @@ namespace Infatlan_Kanban.pages
                     }
                 }
 
-                string vQuery4 = "GESTIONES_Solicitud 4,'" + idSolicitud + "','" + vCambio + "','" + Session["USUARIO_AD"].ToString() + "'";
+
+
+
+                String vArchivoAdjunto = String.Empty;
+                String vNombreArchivo = String.Empty;
+                HttpPostedFile bufferDeposito = FuAdjunto.PostedFile;
+                byte[] vFileDepositoAdjunto = null;
+                String vExtensionAdjunto = String.Empty;
+
+                if (FuAdjunto.HasFile)
+                {
+                    if (bufferDeposito != null)
+                    {
+                        vNombreArchivo = FuAdjunto.FileName;
+                        Stream vStream = bufferDeposito.InputStream;
+                        BinaryReader vReader = new BinaryReader(vStream);
+                        vFileDepositoAdjunto = vReader.ReadBytes((int)vStream.Length);
+                        vExtensionAdjunto = System.IO.Path.GetExtension(FuAdjunto.FileName);
+                    }
+                    
+                    if (vFileDepositoAdjunto != null)
+                    {
+                        vArchivoAdjunto = Convert.ToBase64String(vFileDepositoAdjunto);
+                    }
+                    else
+                    {
+                        vArchivoAdjunto = "";
+                    }
+                }
+
+                if (vArchivoAdjunto != "")
+                {
+                    String vQuery3 = "GESTIONES_Solicitud 3,'" + idSolicitud +
+    "','" + vArchivoAdjunto +
+    "','" + vNombreArchivo + "'";
+                    Int32 vInfo3 = vConexionGestiones.ejecutarSqlGestiones(vQuery3);
+                }
+
+
+
+
+                    string vQuery4 = "GESTIONES_Solicitud 4,'" + idSolicitud + "','" + vCambio + "','" + Session["USUARIO_AD"].ToString() + "'";
                 Int32 vInfo4 = vConexionGestiones.ejecutarSqlGestiones(vQuery4);
 
                 string vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
@@ -1983,7 +2025,7 @@ namespace Infatlan_Kanban.pages
             Session["GESTIONES_TAREAS_MIN_DIARIOS"] = null;
             Session["GESTIONES_TAREAS_ADJUNTO"] = null;
             Session["GESTIONES_TAREAS_COMENTARIOS"] = null;
-
+     
             GvComentario.DataSource = null;
             GvComentario.DataBind();
 
@@ -2142,7 +2184,7 @@ namespace Infatlan_Kanban.pages
 
                 if (bufferDeposito1T != null)
                 {
-                    vNombreDepot1 = FuSolucion_Cerrar.FileName;
+                    vNombreDepot1 = FuSolucion.FileName;
                     Stream vStream = bufferDeposito1T.InputStream;
                     BinaryReader vReader = new BinaryReader(vStream);
                     vFileDeposito1 = vReader.ReadBytes((int)vStream.Length);
@@ -2204,12 +2246,15 @@ namespace Infatlan_Kanban.pages
                 string vMensaje = "";
                 if (vInfo2 == 1)
                 {
+
                     TxDetalle.Text = "";
                     DdlAccion.SelectedIndex = -1;
                     vMensaje = "Tarjeta cerrada con éxito";
                     Mensaje(vMensaje, WarningType.Success);
                     Response.Redirect("/pages/miTablero.aspx");
                 }
+
+                limpiarCreacionTarea();
             }
             catch (Exception ex)
             {
