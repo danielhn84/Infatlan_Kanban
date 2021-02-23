@@ -16,7 +16,7 @@
     
   <%--  <link href="dist/css/pages/tab-page.css" rel="stylesheet">--%>
     <link href="../dist/css/pages/tab-page.css" rel="stylesheet" />
-
+        <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
         <asp:UpdateProgress ID="UpdateProgress1" runat="server">
@@ -271,7 +271,7 @@
                                                             CssClass="table  table-hover table-sm"
                                                             PagerStyle-CssClass="pgr"
                                                             HeaderStyle-CssClass="table"
-                                                            HeaderStyle-HorizontalAlign="center"
+                                                            HeaderStyle-HorizontalAlign="center" 
                                                             RowStyle-CssClass="rows" OnRowCommand="GvReasignar_RowCommand"
                                                             AutoGenerateColumns="false" OnPageIndexChanging="GvReasignar_PageIndexChanging"
                                                             AllowPaging="true" OnRowDataBound="GvReasignar_RowDataBound"
@@ -318,7 +318,7 @@
 
 
     <%--    MODAL INICIO--%>
-    <div class="modal fade" id="ModalTarjeta" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="ModalTarjeta" data-backdrop="static" data-keyboard="false"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 880px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
 
@@ -388,7 +388,7 @@
                                                 <div class="row p-t-20">
                                                     <div class="col-8">
                                                         <label class="control-label">Responsable:</label>
-                                                        <asp:DropDownList runat="server" ID="DdlResponsable_1" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" ></asp:DropDownList>
+                                                        <asp:DropDownList runat="server" ID="DdlResponsable_1" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" OnSelectedIndexChanged="DdlResponsable_1_SelectedIndexChanged" ></asp:DropDownList>
                                                     </div>
 
                                                     <div class="col-4">
@@ -550,4 +550,13 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
+                <%--COMBO BUSCADOR--%>
+
+    <script src="../assets/node_modules/select2/dist/js/select2.js"></script>
+    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+    <style>
+        .select2-selection__rendered {line-height: 31px !important;}
+        .select2-container .select2-selection--single {height: 35px !important;}
+        .select2-selection__arrow {height: 34px !important;}
+    </style>
 </asp:Content>

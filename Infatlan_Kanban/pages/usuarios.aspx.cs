@@ -294,7 +294,6 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
-
                 string vQuery = "GESTIONES_Generales 42";
                 DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                 DdlRol.Items.Clear();
@@ -303,7 +302,6 @@ namespace Infatlan_Kanban.pages
                 foreach (DataRow item in vDatos.Rows)
                 {
                     DdlRol.Items.Add(new ListItem { Value = item["idRol"].ToString(), Text = item["rol"].ToString() });
-
                 }
 
                 //DataTable vDatos = new DataTable();

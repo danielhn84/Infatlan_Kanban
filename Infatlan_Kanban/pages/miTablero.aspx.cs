@@ -946,11 +946,11 @@ namespace Infatlan_Kanban.pages
             TimeSpan vThrInicioSoli= new TimeSpan(Convert.ToInt32(valuesIniSoli[0]), Convert.ToInt32(valuesIniSoli[1]), 0);
             TimeSpan vThrFinSoli = new TimeSpan(Convert.ToInt32(valuesFinSoli[0]), Convert.ToInt32(valuesFinSoli[1]), 0);
 
-            if (vThrInicioSoli < vThrInicioTeams && DdlTipoGestion.SelectedValue != "4" && fecha_inicio.DayOfWeek != DayOfWeek.Saturday && fecha_inicio.DayOfWeek != DayOfWeek.Sunday)
-                throw new Exception("Favor cambiar la hora de inicio de la tarjeta, está superando la hora de inicio establecido " + vThrInicioTeams);
+            //if (vThrInicioSoli < vThrInicioTeams && DdlTipoGestion.SelectedValue != "4" && fecha_inicio.DayOfWeek != DayOfWeek.Saturday && fecha_inicio.DayOfWeek != DayOfWeek.Sunday)
+            //    throw new Exception("Favor cambiar la hora de inicio de la tarjeta, está superando la hora de inicio establecido " + vThrInicioTeams);
 
-            if (vThrFinSoli > vThrFinTeams && DdlTipoGestion.SelectedValue != "4" && fecha_fin.DayOfWeek != DayOfWeek.Saturday && fecha_fin.DayOfWeek != DayOfWeek.Sunday)
-                throw new Exception("Favor cambiar la hora de entrega de la tarjeta, está superando la hora de fin establecido " + vThrFinTeams);
+            //if (vThrFinSoli > vThrFinTeams && DdlTipoGestion.SelectedValue != "4" && fecha_fin.DayOfWeek != DayOfWeek.Saturday && fecha_fin.DayOfWeek != DayOfWeek.Sunday)
+            //    throw new Exception("Favor cambiar la hora de entrega de la tarjeta, está superando la hora de fin establecido " + vThrFinTeams);
 
 
             DateTime fecha_actual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
