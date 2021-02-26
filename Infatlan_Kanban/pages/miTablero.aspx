@@ -28,6 +28,11 @@
 
         function ModalTarjetaCrearOpen() { $('#ModalTarjetaCrear').modal('show'); }
         function ModalTarjetaCrearClose() { $('#ModalTarjetaCrear').modal('hide'); }     
+
+        function ModalTarjetaCerrarOpen() { $('#ModalConfirmarCerrar').modal('show'); }
+        function ModalTarjetaCerrarClose() { $('#ModalConfirmarCerrar').modal('hide'); }     
+        
+
     </script>
     <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
     <link href="dist/css/pages/tab-page.css" rel="stylesheet">
@@ -247,7 +252,7 @@
                                             <ContentTemplate>
                                                 <div class="row">
                                                     <div class="col-8">
-                                                         <label class="control-label">Título:</label>
+                                                         <label class="control-label">Títuloxxxxxxx:</label>
                                                         <asp:TextBox ID="TxTitulo" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxTitulo_TextChanged"></asp:TextBox>
                                                     </div>
 
@@ -255,10 +260,8 @@
                                                         <label class="control-label">Tiempo (min):</label>
                                                         <asp:TextBox ID="TxMinProductivo_1" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
                                                     </div>
-
                                                 </div>
-
-                                          
+                                      
                                                 <br />
                                                 <div class="row">
                                                     <div class="col-4">
@@ -286,7 +289,7 @@
 
                                                     <div class="col-4">
                                                         <label class="control-label">Prioridad:</label>
-                                                        <asp:DropDownList ID="DdlPrioridad_1" runat="server" AutoPostBack="true" CssClass="select2 form-control custom-select">
+                                                        <asp:DropDownList ID="DdlPrioridad_1" runat="server" AutoPostBack="true" CssClass="select2 form-control custom-select" Style="width: 100%" >
                                                             <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
                                                             <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
                                                             <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
@@ -332,7 +335,7 @@
                                                                 <label class="control-label">Acción:</label>
                                                             </div>
                                                             <div class="col-10">
-                                                                <asp:DropDownList ID="DdlAccion" runat="server" CssClass="select2 form-control custom-select" AutoPostBack="true">
+                                                                <asp:DropDownList ID="DdlAccion" runat="server" CssClass="select2 form-control custom-select" AutoPostBack="true" Style="width: 100%" OnSelectedIndexChanged="DdlAccion_SelectedIndexChanged" >
                                                                     <asp:ListItem Value="0" Text="Seleccione opción..."></asp:ListItem>
                                                                     <asp:ListItem Value="1" Text="Cerrar Tarjeta Kanban"></asp:ListItem>
                                                                     <asp:ListItem Value="2" Text="Solicitud Cambio Estado a Detenido"></asp:ListItem>
@@ -355,22 +358,39 @@
                                                     </div>
                                                 </div>
 
-                                               
+                                                <div class="row" runat="server" id="divNuevasFechas" visible="false">
+                                                    <div class="col-12">
+                                                        <div class="form-group row">
+                                                            <div class="col-2">
+                                                                <label class="control-label">Fecha Inicio:</label>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                 <asp:TextBox ID="TxNewFechaInicio" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                                            </div>
+                                                             <div class="col-2">
+                                                                <label class="control-label">Fecha Entrega:</label>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                 <asp:TextBox ID="TxNewFechaEntrega" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                                <div class="form-group row" runat="server" id="divSolucionAdjunto">
+                                                    <!--Inicio Fila 1-->
+                                                    <div class="row col-12">
+                                                        <div class="col-2">
+                                                            <label class="col-form-label" runat="server" id="Label1">Archivo:</label>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <asp:FileUpload ID="FuSolucion" runat="server" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
 
-                                        <div class="form-group row" runat="server" id="divSolucionAdjunto">
-                                            <!--Inicio Fila 1-->
-                                            <div class="row col-12">
-                                                <div class="col-2">
-                                                    <label class="col-form-label" runat="server" id="Label1">Archivo:</label>
-                                                </div>
-                                                <div class="col-10">
-                                                    <asp:FileUpload ID="FuSolucion" runat="server" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
                                         </div>
                                   
                                     <div class="tab-pane" id="comentarios" role="tabpanel" style="height: 450px; width: 630px;">
@@ -513,14 +533,14 @@
                     </ContentTemplate>
                 </asp:UpdatePanel>
                 <div class="modal-footer">
-                    <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                    <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
                             <asp:Button ID="BtnCancelarTarea_1" runat="server" Text="Cancelar" OnClick="BtnCancelarTarea_1_Click" class="btn btn-secondary" />
                             <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar" OnClick="BtnConfirmarTarea_1_Click" class="btn" Style="background-color: #00468c; color: #ffffff;" />
                         </ContentTemplate>
-                        <Triggers>
+                        <%--<Triggers>
                             <asp:PostBackTrigger ControlID="BtnConfirmarTarea_1" />
-                        </Triggers>
+                        </Triggers>--%>
                     </asp:UpdatePanel>
                 </div>
             </div>
@@ -1046,6 +1066,34 @@
         </div>
     </div>
 
+
+  <%--MODAL DE CONFIRMACION CERRAR--%>
+    <div class="modal fade" id="ModalConfirmarCerrar" data-backdrop="static" data-keyboard="false"" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="ModalLabelConfirmar">
+                        <asp:UpdatePanel ID="UpdatePanel14" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <b><asp:Label Text="" runat="server" ID="LbTituloCerrar" CssClass="col-form-label"></asp:Label></b>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <asp:UpdatePanel ID="UpdatePanel8" runat="server">
+                        <ContentTemplate>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <asp:Button ID="BtnConfirmar" runat="server" Text="Aceptar" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnConfirmar_Click" />
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="BtnConfirmar" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">

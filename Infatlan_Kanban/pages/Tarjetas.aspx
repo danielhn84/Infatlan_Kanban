@@ -411,6 +411,13 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="row p-t-20" runat="server" visible="false" id="divNotasReasignar">
+                                                    <div class="col-12">
+                                                        <label class="control-label">Nota:</label>
+                                                        <asp:TextBox ID="TxNota" AutoPostBack="true" TextMode="MultiLine" Rows="3" runat="server" class="form-control"></asp:TextBox>
+                                                    </div>
+                                                </div>
+
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
         
@@ -540,13 +547,15 @@
                     <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                         <ContentTemplate>
                             <asp:Button ID="BtnCancelarTarea_1" runat="server" Text="Cancelar" class="btn btn-secondary" />
-                            <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;" />
+                            <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnConfirmarTarea_1_Click" />
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
