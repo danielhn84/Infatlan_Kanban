@@ -186,6 +186,15 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.DropDownList DDLEstado;
 
         /// <summary>
+        /// Control TxTarjetasAtrasadas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxTarjetasAtrasadas;
+
+        /// <summary>
         /// Control DivMensaje.
         /// </summary>
         /// <remarks>

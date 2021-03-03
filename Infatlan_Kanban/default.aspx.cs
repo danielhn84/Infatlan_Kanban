@@ -34,6 +34,7 @@ namespace Infatlan_Kanban
                     obtenerTareasCerradas();
                     obtenerCargabilidadApilado();
                     obtenerCargabilidad();
+                    obtenerCargabilidadFinalizado();
                     //UpGraficos.Update();
                 }
                 else
@@ -70,6 +71,32 @@ namespace Infatlan_Kanban
             return strDatos;
         }
 
+
+        public string obtenerCargabilidadFinalizado()
+        {
+            string vQuery = "GESTIONES_Generales 57,'" + Session["USUARIO"].ToString() + "'";
+            DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+            var strDatos = "[['Fecha','Min','WIP'],";
+            if (vDatos.Rows.Count > 0)
+            {
+                divGraficoFinalizada.Visible = true;
+                divImagenFinalizado.Visible = false;
+                foreach (DataRow item in vDatos.Rows)
+                {
+                    strDatos = strDatos + "[";
+                    strDatos = strDatos + "'" + item["fecha"].ToString() + "'," + item["minutos"].ToString() + "," + item["wip"].ToString();
+                    strDatos = strDatos + "],";
+                }
+            }
+            else
+            {
+                divGraficoFinalizada.Visible = false;
+                divImagenFinalizado.Visible = true;
+            }
+            strDatos = strDatos + "]";
+            return strDatos;
+        }
         public string obtenerCargabilidadApilado()
         {
             var strDatosConcat = "";

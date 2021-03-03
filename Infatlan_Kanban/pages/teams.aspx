@@ -158,7 +158,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <div class="row">
                                 <div class="col-12" runat="server" id="Div1">
                                     <div class="form-group row">
@@ -185,6 +185,7 @@
                                 </div>
                             </div>
 
+                           
 
                             <div class="row">
                                 <div class="col-12" runat="server" visible="false" id="DivEstado">
@@ -197,6 +198,19 @@
                                                 <asp:ListItem Value="1" Text="Activo"></asp:ListItem>
                                                 <asp:ListItem Value="0" Text="Inactivo"></asp:ListItem>
                                             </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12" runat="server">
+                                    <div class="form-group row">
+                                        <div class="col-2">
+                                            <label class="col-form-label">Cant. Tarjetas Atrasadas</label>
+                                        </div>
+                                        <div class="col-4">
+                                            <asp:TextBox ID="TxTarjetasAtrasadas" class="form-control" runat="server" TextMode="Number" AutoPostBack="true"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>

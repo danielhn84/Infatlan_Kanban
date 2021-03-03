@@ -31,6 +31,10 @@
 
         function ModalTarjetaCerrarOpen() { $('#ModalConfirmarCerrar').modal('show'); }
         function ModalTarjetaCerrarClose() { $('#ModalConfirmarCerrar').modal('hide'); }     
+
+
+
+        
         
 
     </script>
@@ -1018,7 +1022,7 @@
                                 </div>
                             </div>
 
-                                              <div class="col-md-12" runat="server" style="text-align: center; color: #D9272E" visible="false" id="divComentariosAdjuntos">
+                            <div class="col-md-12" runat="server" style="text-align: center; color: #D9272E" visible="false" id="divComentariosAdjuntos">
                                 <p>
                                     <code>
                                         <asp:Label ID="LbAdvertenciaModal" runat="server" Text=""></asp:Label></code>
@@ -1094,6 +1098,8 @@
             </div>
         </div>
     </div>
+
+
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">

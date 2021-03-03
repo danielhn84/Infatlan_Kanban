@@ -211,6 +211,8 @@ namespace Infatlan_Kanban.pages
             TxUsuario.Text = string.Empty;
             TxColor.Text = string.Empty;
             DivMensaje.Visible = false;
+            DdlEquipo.SelectedIndex = -1;
+
         }
         private void validarDatos()
         {
@@ -268,6 +270,18 @@ namespace Infatlan_Kanban.pages
                 }
                 else
                 {
+    
+                    if (DdlEstadoUsuario.SelectedValue=="0")
+                    {
+
+                        vQuery = "[GESTIONES_Generales] 56,'"+ TxCodigo.Text + "'";
+                        DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                        if (vDatos.Rows.Count > 0)
+                            throw new Exception("Colaborador no puede darse de baja, favor reasignar las tarjetas que tiene activas. Cantidad de tarjetas: " + vDatos.Rows.Count);
+                    }
+
+
                     vQuery = "GESTIONES_Generales 34,'" + Session["GESTIONES_ID_EMPLEADO"].ToString() + "','" + DdlEstadoUsuario.SelectedValue + "','" + TxColor.Text + "','" + Session["USUARIO"].ToString() + "','"+ DdlRol.SelectedValue+ "','"+ DdlEquipo.SelectedValue + "'";
                     vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
                     vMensaje = "Colaborador actualizado con éxito";

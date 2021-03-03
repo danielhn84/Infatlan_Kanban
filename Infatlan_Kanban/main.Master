@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.fw.png">
-    <title>Kanban Board</title>
+    <title>Infatlan | Kanban Board</title>
     <link rel="stylesheet" href="css/animate.min.css" />
     <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
     <link href="/assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">

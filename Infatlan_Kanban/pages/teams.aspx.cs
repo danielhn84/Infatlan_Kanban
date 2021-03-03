@@ -135,6 +135,7 @@ namespace Infatlan_Kanban.pages
             TxHrInicio.Text = string.Empty;
             TxHrFin.Text = string.Empty;
             DivMensaje.Visible = false;
+            TxTarjetasAtrasadas.Text = string.Empty;
         }
 
         private void validarDatos()
@@ -157,6 +158,9 @@ namespace Infatlan_Kanban.pages
             if (DDLSuplente.SelectedValue == "0")
                 throw new Exception("Falta que seleccione suplente del equipo de trabajo");
 
+            if (TxTarjetasAtrasadas.Text == "" || TxTarjetasAtrasadas.Text == string.Empty)
+                throw new Exception("Favor ingrese la cantidad límite de tareas atrasadas que puede tener cada integrante del equipo de trabajo");
+
         }
 
         protected void BtnAceptar_Click(object sender, EventArgs e)
@@ -170,7 +174,7 @@ namespace Infatlan_Kanban.pages
 
                 if (HttpContext.Current.Session["GESTIONES_ID"] == null)
                 {
-                    vQuery = "GESTIONES_Generales 14,'" + TxTeams.Text + "','" + TxWIP.Text + "','" + DDLJefe.SelectedValue + "','" + TxHrInicio.Text + "','" + TxHrFin.Text + "','" + Session["GESTIONES_CORREO_JEFE"].ToString() + "','" + Session["GESTIONES_NOMBRE_JEFE"].ToString() + "',1,'"+ DDLSuplente.SelectedValue+"','" + Session["GESTIONES_NOMBRE_SUPLENTE"].ToString()+"','"+ Session["GESTIONES_CORREO_SUPLENTE"].ToString()+"','"+ Session["USUARIO"].ToString()+"'";
+                    vQuery = "GESTIONES_Generales 14,'" + TxTeams.Text + "','" + TxWIP.Text + "','" + DDLJefe.SelectedValue + "','" + TxHrInicio.Text + "','" + TxHrFin.Text + "','" + Session["GESTIONES_CORREO_JEFE"].ToString() + "','" + Session["GESTIONES_NOMBRE_JEFE"].ToString() + "',1,'"+ DDLSuplente.SelectedValue+"','" + Session["GESTIONES_NOMBRE_SUPLENTE"].ToString()+"','"+ Session["GESTIONES_CORREO_SUPLENTE"].ToString()+"','"+ Session["USUARIO"].ToString()+"','"+ TxTarjetasAtrasadas.Text+ "'";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     string idTeams = vDatos.Rows[0]["idTeams"].ToString();
 
@@ -180,7 +184,7 @@ namespace Infatlan_Kanban.pages
                     vMensaje = "Equipo de trabajo registrado con éxito";
                 }
                 else{
-                    vQuery = "GESTIONES_Generales 16,'" + Session["GESTION_ID"].ToString() + "','" + TxTeams.Text + "','" + TxWIP.Text + "','" + DDLJefe.SelectedValue + "','" + TxHrInicio.Text + "','" + TxHrFin.Text + "','" + Session["GESTIONES_CORREO_JEFE"].ToString() + "','" + Session["GESTIONES_NOMBRE_JEFE"].ToString() + "','" + Session["USUARIO"].ToString() + "','"+ DDLSuplente.SelectedValue+"','"+ Session["GESTIONES_NOMBRE_SUPLENTE"].ToString()+"','" + Session["GESTIONES_CORREO_SUPLENTE"].ToString()+"','"+ DDLEstado.SelectedValue +"'";
+                    vQuery = "GESTIONES_Generales 16,'" + Session["GESTION_ID"].ToString() + "','" + TxTeams.Text + "','" + TxWIP.Text + "','" + DDLJefe.SelectedValue + "','" + TxHrInicio.Text + "','" + TxHrFin.Text + "','" + Session["GESTIONES_CORREO_JEFE"].ToString() + "','" + Session["GESTIONES_NOMBRE_JEFE"].ToString() + "','" + Session["USUARIO"].ToString() + "','"+ DDLSuplente.SelectedValue+"','"+ Session["GESTIONES_NOMBRE_SUPLENTE"].ToString()+"','" + Session["GESTIONES_CORREO_SUPLENTE"].ToString()+"','"+ DDLEstado.SelectedValue +"','"+ TxTarjetasAtrasadas.Text+ "'";
                     vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
                     vMensaje = "Equipo de trabajo actualizado con éxito";
 
@@ -249,6 +253,7 @@ namespace Infatlan_Kanban.pages
                     DDLSuplente.SelectedValue = vDatos.Rows[0]["idSuplente"].ToString();
                     TxHrInicio.Text = vDatos.Rows[0]["hrInicio"].ToString();
                     TxHrFin.Text = vDatos.Rows[0]["hrFin"].ToString();
+                    TxTarjetasAtrasadas.Text = vDatos.Rows[0]["tareasAtrasadas"].ToString();
                     Session["GESTIONES_CORREO_JEFE"] = vDatos.Rows[0]["correoJefe"].ToString();
                     Session["GESTIONES_NOMBRE_JEFE"] = vDatos.Rows[0]["nombreJefe"].ToString();
                     Session["GESTIONES_CORREO_SUPLENTE"] = vDatos.Rows[0]["correoSuplente"].ToString();
@@ -256,7 +261,6 @@ namespace Infatlan_Kanban.pages
                     Session["GESTIONES_WIP_ACTUAL"] = vDatos.Rows[0]["wip"].ToString();
                     TxEstado.Text = "Activo";
                     UpdatePanelModal.Update();
-
 
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
                 }

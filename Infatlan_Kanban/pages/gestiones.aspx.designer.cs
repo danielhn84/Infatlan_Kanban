@@ -123,6 +123,15 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.ListBox LBTeams;
 
         /// <summary>
+        /// Control togBtn.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox togBtn;
+
+        /// <summary>
         /// Control UpTeamsGestiones.
         /// </summary>
         /// <remarks>
@@ -166,6 +175,15 @@ namespace Infatlan_Kanban.pages
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdateModificacionBotones;
+
+        /// <summary>
+        /// Control BtnCancelar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCancelar;
 
         /// <summary>
         /// Control BtnAceptar.

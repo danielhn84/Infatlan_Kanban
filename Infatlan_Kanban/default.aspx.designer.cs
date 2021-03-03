@@ -123,6 +123,24 @@ namespace Infatlan_Kanban
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divImagenCragabilidad;
 
         /// <summary>
+        /// Control divGraficoFinalizada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divGraficoFinalizada;
+
+        /// <summary>
+        /// Control divImagenFinalizado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divImagenFinalizado;
+
+        /// <summary>
         /// Control divGraficoEstadosCerrados.
         /// </summary>
         /// <remarks>

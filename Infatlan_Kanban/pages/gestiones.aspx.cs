@@ -114,12 +114,12 @@ namespace Infatlan_Kanban.pages
             LBTeams.Items.Clear();
             DivMensaje.Visible = false;
             Session["GESTIONES_ID"] = null;
+            togBtn.Checked = false;
         }
         protected void BtnAceptar_Click(object sender, EventArgs e)
         {
             try
-            {
-                
+            {          
                 String vMensaje = "";
                 String vQuery = "";
                 int vInfo = 0;
@@ -131,7 +131,9 @@ namespace Infatlan_Kanban.pages
                 if (HttpContext.Current.Session["GESTIONES_ID"] == null)
                 {
                     validarDatos();
-                    vQuery = "GESTIONES_Generales 10,'" + TxGestion.Text + "','1','" + Session["USUARIO"].ToString() + "'";
+                    Boolean vValidacion= togBtn.Checked;
+                    String vValidacionQuery = Convert.ToString(vValidacion) == "True" ? "Si" : "No";
+                    vQuery = "GESTIONES_Generales 10,'" + TxGestion.Text + "','1','" + Session["USUARIO"].ToString()+"','"+ vValidacionQuery+"'";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     string idGestion = vDatos.Rows[0]["idTipoGestion"].ToString();
 
@@ -158,10 +160,26 @@ namespace Infatlan_Kanban.pages
                     if (TxGestion.Text == "" || TxGestion.Text == string.Empty)
                         throw new Exception("Favor ingrese tipo de gestión.");
 
-                    vQuery = "GESTIONES_Generales 12,'" + Session["GESTION_ID"].ToString() + "','" + TxGestion.Text + "','" + Session["USUARIO"].ToString() + "'";
+                    Boolean vValidacion = togBtn.Checked;
+                    String vValidacionQuery = Convert.ToString(vValidacion) == "True" ? "Si" : "No";
+
+                    vQuery = "GESTIONES_Generales 12,'" + Session["GESTION_ID"].ToString() + "','" + TxGestion.Text + "','" + Session["USUARIO"].ToString() + "','"+ vValidacionQuery + "'";
                     vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                    string vIdGestion = Session["GESTIONES_ID"].ToString();
+                    vQuery = "[GESTIONES_Generales] 28,'" + vIdGestion + "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                    if (vDatos.Rows.Count == 0)
+                    {
+                        vQuery = "[GESTIONES_Generales] 55,'" + vIdGestion + "','"+ Session["USUARIO"].ToString() + "'";
+                        vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                    }
+                    limpiarModal();
                     vMensaje = "Tipo de gestión actualizado con éxito";
+
                 }
+
 
                 if (vConteo == vDataRef.Rows.Count)
                 {
@@ -213,6 +231,11 @@ namespace Infatlan_Kanban.pages
                     vQuery = "[GESTIONES_Generales] 11," + vIdGestion + "";
                     vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     TxGestion.Text = vDatos.Rows[0]["nombreGestion"].ToString();
+                    
+                    String vValidacionQuery = vDatos.Rows[0]["validacion"].ToString() == "Si" ? "True" : "False";
+      
+
+                    togBtn.Checked= Convert.ToBoolean(vValidacionQuery);
 
                     vQuery = "[GESTIONES_Generales] 28," + vIdGestion + "";
                     vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
@@ -430,6 +453,31 @@ namespace Infatlan_Kanban.pages
         protected void GVBusqueda_RowDataBound(object sender, GridViewRowEventArgs e)
         {
 
+        }
+
+        protected void BtnCancelar_Click(object sender, EventArgs e)
+        {
+
+            if (HttpContext.Current.Session["GESTIONES_ID"] == null)
+            {
+                limpiarModal();
+                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "cerrarModal();", true);
+            }
+            else
+            {
+                string vIdGestion = Session["GESTIONES_ID"].ToString();
+                string vQuery = "[GESTIONES_Generales] 28,'" + vIdGestion + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                if (vDatos.Rows.Count == 0)
+                {
+                    vQuery = "[GESTIONES_Generales] 55,'" + vIdGestion + "','" + Session["USUARIO"].ToString() + "'";
+                    Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                }
+
+                limpiarModal();
+                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "cerrarModal();", true);
+            }
         }
     }
 }

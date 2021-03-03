@@ -11,7 +11,6 @@
         }
     </script>
 
-
     <script type="text/javascript">
         function openModal() { $('#ModalGestiones').modal('show'); }
         function cerrarModal() { $('#ModalGestiones').modal('hide'); }
@@ -21,6 +20,76 @@
     </script>
 
    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+
+
+
+
+ <style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 36px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ca2222;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 6px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 32px;
+  top: 2px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 6px;
+}
+
+input:checked + .slider {
+  background-color: #2ab934;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(55px);
+}
+
+.slider:after {
+  content:'No';
+  color: white;
+  display: block;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+input:checked + .slider:after {
+  content:'Si';
+}
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <asp:UpdateProgress ID="UpdateProgress1" runat="server">
@@ -54,7 +123,7 @@
 
                     <h4 class="card-title">Tipo de Gestiones</h4>
                     <h6 class="card-subtitle">Listado activo de gestiones técnicas.</h6>
-                  <%--  <br />--%>
+
                     <div class="card-body">
                         <div class="row col-12">
                             <label class="col-1 col-form-label">Búsqueda</label>
@@ -117,28 +186,46 @@
                             <div class="row col-12">
                                 <div class="col-12">
                                     <div class="form-group row">
-                                        <div class="col-2">
+                                        <div class="col-3">
                                             <label class="col-form-label">Gestión</label>
                                         </div>
-                                        <div class="col-9">
+                                        <div class="col-8">
                                             <asp:TextBox ID="TxGestion" class="form-control text-uppercase" runat="server"></asp:TextBox>
                                         </div>
                                         <div class="col-1">
-                                            <asp:Button ID="BtnAddTeams" runat="server" Text="+"  Style="background-color: #00468c; color: #ffffff;"  class="btn" OnClick="BtnAddTeams_Click" />
+                                            <asp:Button ID="BtnAddTeams" runat="server" Text="+" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnAddTeams_Click" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12" runat="server" id="divTeams">
                                     <div class="form-group row">
-                                        <div class="col-2">
+                                        <div class="col-3">
                                             <label class="col-form-label">Equipo</label>
                                         </div>
-                                        <div class="col-9">
+                                        <div class="col-8">
                                             <asp:ListBox runat="server" ID="LBTeams" CssClass="select2 form-control custom-select" name="states[]" multiple="multiple" Style="width: 100%" SelectionMode="Multiple" Rows="10"></asp:ListBox>
                                         </div>
                                     </div>
                                 </div>
+
+
+                                <div class="col-12">
+                                    <div class="form-group row ">
+                                        <div class="col-3">
+                                            <label class="col-form-label">Libre de validación </label>
+                                        </div>
+                                         <div class="col-8">
+                                       
+                                        <label class="switch">
+                                            <input type="checkbox" runat="server" id="togBtn">
+                                            <div class="slider"></div>
+                                        </label>
+                                    </div>
+                                         </div>
+                                </div>
+
                             </div>
+
 
 
                             <div class="row col-12">
@@ -184,8 +271,8 @@
                 <div class="modal-footer">
                     <asp:UpdatePanel ID="UpdateModificacionBotones" runat="server">
                         <ContentTemplate>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                         
+
+                            <asp:Button ID="BtnCancelar" runat="server" Text="Cancelar" class="btn btn-secondary"  OnClick="BtnCancelar_Click" />
                             <asp:Button ID="BtnAceptar" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnAceptar_Click" />
 
                         
@@ -241,10 +328,14 @@
         <%--COMBO BUSCADOR--%>
 
     <script src="../assets/node_modules/select2/dist/js/select2.js"></script>
-    <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+
     <style>
         .select2-selection__rendered {line-height: 31px !important;}
         .select2-container .select2-selection--single {height: 35px !important;}
         .select2-selection__arrow {height: 34px !important;}
     </style>
+
+
+
+   
 </asp:Content>

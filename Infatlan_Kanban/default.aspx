@@ -49,7 +49,7 @@
 
             var options = {
                 title: 'Tareas en Ejecución vrs WIP',
-                vAxis: { title: 'Minutos' },
+                //vAxis: { title: 'Minutos' },
                 hAxis: { title: 'Días' },
                 seriesType: 'bars',
                 width: 1000,
@@ -115,6 +115,30 @@
             var chart = new google.visualization.PieChart(document.getElementById('donutchartGestiones'));
             chart.draw(data, options);
         }
+    </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <script type="text/javascript">
+         google.charts.load('current', {'packages': ['corechart'] });
+         google.charts.setOnLoadCallback(drawVisualization);
+
+         function drawVisualization() {
+             // Some raw data (not necessarily accurate)strDatosConcat
+
+             var data = google.visualization.arrayToDataTable(<%=obtenerCargabilidadFinalizado()%>);
+
+             var options = {
+                 title: 'Tareas en Ejecución vrs WIP',
+                 //vAxis: { title: 'Minutos' },
+                 hAxis: { title: 'Días' },
+                 seriesType: 'bars',
+                 width: 1000,
+                 height: 500,
+                 series: { 1: { type: 'line' } }
+             };      
+             var chart = new google.visualization.ComboChart(document.getElementById('chart_Finalizado'));
+             chart.draw(data, options);
+         }
     </script>
 
 
@@ -200,8 +224,9 @@
 
                                 <br />
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="fa fa-calendar-minus-o"></i></span><span class="hidden-xs-down">Tareas en Ejecución</span></a> </li>
-                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIP" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-bars"></i></span><span class="hidden-xs-down">Tareas vrs WIP</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="fa fa-calendar-minus-o"></i></span><span class="hidden-xs-down"> Tareas en Ejecución</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIP" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-bars"></i></span><span class="hidden-xs-down"> Tareas en Ejecución vrs WIP</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIPFinalizadas" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-archive"></i></span><span class="hidden-xs-down"> Tareas Finalizadas vrs WIP</span></a> </li>
                                 </ul>
 
                                 <div class="tab-content tabcontent-border">
@@ -231,6 +256,23 @@
                                              <center/>
                                         </div>
                                         <div class="col-md-12 m-t-30" runat="server" id="divImagenCragabilidad" visible="false">
+                                            <center>
+                                   
+                                            <img src="images/NoData.JPG"/>
+                                        <center/>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane  p-20" id="tareasWIPFinalizadas" role="tabpanel">
+
+                                        <div class="col-md-12 m-t-30" runat="server" id="divGraficoFinalizada" visible="false">
+                                            <center>
+                                         <center>  
+                                         <div id="chart_Finalizado"  style="width: 1000px; height: 500px; align-items:center"></div>
+                                             <center/>
+                                        </div>
+                                        <div class="col-md-12 m-t-30" runat="server" id="divImagenFinalizado" visible="false">
                                             <center>
                                    
                                             <img src="images/NoData.JPG"/>
