@@ -252,7 +252,7 @@
     <%--    MODAL INICIO--%>
     <div class="modal fade" id="ModalTarjeta" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none; zoom: 75%;">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 880px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%); ">
+            <div class="modal-content" style="width: 880px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
                     <asp:UpdatePanel ID="UpTitulo" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
@@ -744,7 +744,7 @@
     <%--    MODAL CREAR--%>
     <div class="modal fade" id="ModalTarjetaCrear" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 875px; height: 795px; top: 386px; left: 50%; transform: translate(-50%, -50%); zoom:75%">
+            <div class="modal-content" style="width: 875px; height: 795px; top: 386px; left: 50%; transform: translate(-50%, -50%); zoom: 75%">
                 <div class="modal-header">
                     <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
@@ -804,8 +804,8 @@
                                         <div class="row p-t-20">
                                             <div class="col-8">
                                                 <label class="control-label">Responsable:</label>
-                                                
-                                                <asp:DropDownList runat="server" ID="DdlResponsable" CssClass="select2 form-control custom-select font-12" AutoPostBack="true" Style="width: 100%; zoom:75%" OnSelectedIndexChanged="DdlResponsable_SelectedIndexChanged"></asp:DropDownList>
+
+                                                <asp:DropDownList runat="server" ID="DdlResponsable" CssClass="select2 form-control custom-select font-12" AutoPostBack="true" Style="width: 100%; zoom: 75%" OnSelectedIndexChanged="DdlResponsable_SelectedIndexChanged"></asp:DropDownList>
                                             </div>
 
                                             <div class="col-4">
@@ -1209,18 +1209,6 @@
         </div>
     </div>
 
-
-    <asp:UpdatePanel ID="UpdateFooter" UpdateMode="Conditional" runat="server">
-        <ContentTemplate>
-                        <asp:Literal ID="Literal1" runat="server"></asp:Literal>
-            <asp:Literal ID="Literal2" runat="server"></asp:Literal>
-            <asp:Literal ID="Literal3" runat="server"></asp:Literal>
-            <asp:Literal ID="Literal4" runat="server"></asp:Literal>
-            <asp:Literal ID="Literal5" runat="server"></asp:Literal>
-
-        </ContentTemplate>
-    </asp:UpdatePanel>
-    
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
     <%--    <script type="text/javascript">   
@@ -1242,13 +1230,13 @@
             });
         });
     </script>--%>
-    
 
-                <asp:Literal ID="LitEnCola" runat="server"></asp:Literal>
-            <asp:Literal ID="LitEnEjecucion" runat="server"></asp:Literal>
-            <asp:Literal ID="LitAtrasados" runat="server"></asp:Literal>
-            <asp:Literal ID="LitCompletadosHoy" runat="server"></asp:Literal>
-            <asp:Literal ID="LitDetenidas" runat="server"></asp:Literal>
+
+    <asp:Literal ID="LitEnCola" runat="server"></asp:Literal>
+    <asp:Literal ID="LitEnEjecucion" runat="server"></asp:Literal>
+    <asp:Literal ID="LitAtrasados" runat="server"></asp:Literal>
+    <asp:Literal ID="LitCompletadosHoy" runat="server"></asp:Literal>
+    <asp:Literal ID="LitDetenidas" runat="server"></asp:Literal>
 
 
     <%--COMBO BUSCADOR--%>
@@ -1258,19 +1246,15 @@
     <style>
         .select2-selection__rendered {
             line-height: 31px !important;
-   
         }
 
         .select2-container .select2-selection--single {
             height: 35px !important;
-    
         }
 
         .select2-selection__arrow {
             height: 34px !important;
-
         }
-        
     </style>
 
 </asp:Content>

@@ -22,13 +22,13 @@ namespace Infatlan_Kanban.pages
         {
 
             select2();
-
-                if (!Page.IsPostBack)
-                {
+            String request = Request.QueryString["et"];
+            if (!Page.IsPostBack)
+            {
 
                 String vEx = Request.QueryString["ex"];
                 if (Convert.ToBoolean(Session["AUTH"]))
-                    {
+                {
 
                     string vIdRol = Session["ID_ROL_USUARIO"].ToString();
 
@@ -44,46 +44,50 @@ namespace Infatlan_Kanban.pages
                     }
                     UpdatePanel17.Update();
 
-
                     Session["GESTIONES_ID_TARJETA_CERRAR"] = null;
-                    cargarInicialTarjeta();
-                    cargarData();
-                    tipoBusqueda();
-                }
+                    if (!String.IsNullOrEmpty(request))
+                    {
+                        cargarDataEquipoTrabajo(request);
+                    }
                     else
                     {
-                        Response.Redirect("/login.aspx");
+                        cargarInicialTarjeta();
+                        cargarData();
+                        tipoBusqueda();
                     }
                 }
+                else
+                {
+                    Response.Redirect("/login.aspx");
+                }
+            }
+
+            //if (!Page.IsPostBack)
+            //{
 
 
-              
-                //if (!Page.IsPostBack)
-                //{
+            //    //if (vEx == null)
+            //    //{
+            //    //    cargarData();
+            //    //    string vMensaje = "Tarjeta creado con éxito";
+            //    //    Mensaje(vMensaje, WarningType.Success);
+            //    //}
+            //    //else if (vEx.Equals("1"))
+            //    //{
+            //    //    String vRe = "Tarjeta finalizada con éxito.";
+            //    //    ScriptManager.RegisterClientScriptBlock(this.Page, this.Page.GetType(), "Pop", "window.alert('" + vRe + "')", true);
+            //    //    cargarData();
+            //    //}
+            //    //else if (vEx.Equals("2"))
+            //    //{
+            //    //    string  vMensaje = "Tarjeta creado con éxito";
+            //    //    Mensaje(vMensaje, WarningType.Success);
+            //    //    cargarData();
+            //    //}
+
+            //}
 
 
-                //    //if (vEx == null)
-                //    //{
-                //    //    cargarData();
-                //    //    string vMensaje = "Tarjeta creado con éxito";
-                //    //    Mensaje(vMensaje, WarningType.Success);
-                //    //}
-                //    //else if (vEx.Equals("1"))
-                //    //{
-                //    //    String vRe = "Tarjeta finalizada con éxito.";
-                //    //    ScriptManager.RegisterClientScriptBlock(this.Page, this.Page.GetType(), "Pop", "window.alert('" + vRe + "')", true);
-                //    //    cargarData();
-                //    //}
-                //    //else if (vEx.Equals("2"))
-                //    //{
-                //    //    string  vMensaje = "Tarjeta creado con éxito";
-                //    //    Mensaje(vMensaje, WarningType.Success);
-                //    //    cargarData();
-                //    //}
-                   
-                //}
-
-            
         }
         private void select2()
         {
@@ -122,7 +126,7 @@ namespace Infatlan_Kanban.pages
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "select2", vScript, true);
         }
         void cargarData()
-        {       
+        {
 
             string vQuery = "GESTIONES_Generales 2,'" + Session["USUARIO"].ToString() + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
@@ -160,14 +164,14 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader="";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
                 vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
                 vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
-                vColorHeader= vDatos.Rows[i]["colorTarjeta"].ToString();
+                vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
                     vColor = "badge-danger";
@@ -196,7 +200,7 @@ namespace Infatlan_Kanban.pages
 
                 //style = 'zoom: 60%;'
                 vString += "<div class='card' >" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader +";'>" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
@@ -206,7 +210,7 @@ namespace Infatlan_Kanban.pages
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
-                "<button id=\"btnModal" +vTicket+ "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: "+ vColorHeader + "; color: #ffffff;'" +" \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket+ "\"></button>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "</div>" +
                 "</div>" +
                 "</div>";
@@ -235,7 +239,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader="";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -311,7 +315,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; 
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -388,7 +392,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = "" ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -398,8 +402,8 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
 
-                if (vEstadoNombre=="Realizado a Tiempo")
-                {  vColorEstado = "success"; }
+                if (vEstadoNombre == "Realizado a Tiempo")
+                { vColorEstado = "success"; }
                 else
                 {
 
@@ -628,13 +632,13 @@ namespace Infatlan_Kanban.pages
                 vQuery = "GESTIONES_Solicitud 29";
                 DataTable vDatosEliminarTarjeta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                 DdlMotivoEliminar.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
-              
+
                 if (vDatosEliminarTarjeta.Rows.Count > 0)
                 {
                     foreach (DataRow item in vDatosEliminarTarjeta.Rows)
                     {
                         DdlMotivoEliminar.Items.Add(new ListItem { Value = item["idMotivo"].ToString(), Text = item["motivo"].ToString() });
-                    }                      
+                    }
                 }
 
 
@@ -706,7 +710,7 @@ namespace Infatlan_Kanban.pages
                     vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
                 }
 
-                if (vEx != null && vEx!="")
+                if (vEx != null && vEx != "")
                 {
                     if (TxComentario.Text == "" || TxComentario.Text == string.Empty)
                         throw new Exception("El campo de comentario está vacío.");
@@ -931,9 +935,11 @@ namespace Infatlan_Kanban.pages
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vlibreValidacion = vDatos.Rows[0]["validacion"].ToString();
             string vgestionValidacion = "";
-            if (vlibreValidacion == "Si") {
+            if (vlibreValidacion == "Si")
+            {
                 vgestionValidacion = "Si";
-            }else
+            }
+            else
             {
                 vgestionValidacion = "";
             }
@@ -983,7 +989,7 @@ namespace Infatlan_Kanban.pages
             string vHrFinSoli = vHrFinSolic;
             string[] valuesFinSoli = vHrFinSoli.Split(':');
 
-            TimeSpan vThrInicioSoli= new TimeSpan(Convert.ToInt32(valuesIniSoli[0]), Convert.ToInt32(valuesIniSoli[1]), 0);
+            TimeSpan vThrInicioSoli = new TimeSpan(Convert.ToInt32(valuesIniSoli[0]), Convert.ToInt32(valuesIniSoli[1]), 0);
             TimeSpan vThrFinSoli = new TimeSpan(Convert.ToInt32(valuesFinSoli[0]), Convert.ToInt32(valuesFinSoli[1]), 0);
 
             //if (vThrInicioSoli < vThrInicioTeams && DdlTipoGestion.SelectedValue != "4" && fecha_inicio.DayOfWeek != DayOfWeek.Saturday && fecha_inicio.DayOfWeek != DayOfWeek.Sunday)
@@ -1002,7 +1008,7 @@ namespace Infatlan_Kanban.pages
             string vHr = result[1].ToString();
 
             string fecha_actual_corta = fecha_actual.ToString("dd/MM/yyyy");
-            string fecha_actual_corta_masresta = fecha_actual.ToString("dd/MM/yyyy")+ " "+vHr;
+            string fecha_actual_corta_masresta = fecha_actual.ToString("dd/MM/yyyy") + " " + vHr;
             DateTime fecha_actual_corta_masresta_evaluar = Convert.ToDateTime(fecha_actual_corta_masresta);
 
             DateTime fecha_actualIngreso = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
@@ -1012,11 +1018,11 @@ namespace Infatlan_Kanban.pages
             int vdiasSolicitud = Convert.ToInt16(timeSpan.TotalDays);
             Session["GESTIONES_DIAS_SOLICITUD"] = vdiasSolicitud;
 
-        
+
             //if (DdlTipoGestion.SelectedValue != "4" && DdlTipoGestion.SelectedValue != "15" && fecha_actualIngreso < fecha_actual_corta_masresta_evaluar)  //VALIDACION DIFERENTE A INCIDENTES QUE NO PODRAN INGRESARLA A CUALQUIER HORA           
-             if (vgestionValidacion =="" && fecha_actualIngreso < fecha_actual_corta_masresta_evaluar)  //VALIDACION DIFERENTE A INCIDENTES QUE NO PODRAN INGRESARLA A CUALQUIER HORA      
+            if (vgestionValidacion == "" && fecha_actualIngreso < fecha_actual_corta_masresta_evaluar)  //VALIDACION DIFERENTE A INCIDENTES QUE NO PODRAN INGRESARLA A CUALQUIER HORA      
                 throw new Exception("Nota: El tipo de gestión que seleccionó no permite ingresar tarjetas cuando la fecha actual del sistema es mayor que la fecha de inicio de la tarjeta. Tarjeta tenia que ser debidamente programada");
-            
+
             if (fecha_actualIngreso > fecha_actualEntrega)
                 throw new Exception("Favor verificar la fecha de inicio, no puede ser mayor que la fecha de entrega");
 
@@ -1149,217 +1155,146 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
-                
-                    validacionesCrearSolicitud();
 
-                    GVDistribucion.DataSource = null;
-                    GVDistribucion.DataBind();
-                    Session["GESTIONES_TAREAS_MIN_DIARIOS"] = null;
-                    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
-                    DateTime fecha_fin = DateTime.Parse(TxFechaEntrega.Text.ToString());
+                validacionesCrearSolicitud();
 
-                    String vFormato = "dd/MM/yyyy"; //"dd/MM/yyyy HH:mm:ss"
-                    String vFecha1 = Convert.ToDateTime(fecha_inicio).ToString(vFormato);
-                    String vFecha2 = Convert.ToDateTime(fecha_fin).ToString(vFormato);
+                GVDistribucion.DataSource = null;
+                GVDistribucion.DataBind();
+                Session["GESTIONES_TAREAS_MIN_DIARIOS"] = null;
+                DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+                DateTime fecha_fin = DateTime.Parse(TxFechaEntrega.Text.ToString());
 
-                    DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+                String vFormato = "dd/MM/yyyy"; //"dd/MM/yyyy HH:mm:ss"
+                String vFecha1 = Convert.ToDateTime(fecha_inicio).ToString(vFormato);
+                String vFecha2 = Convert.ToDateTime(fecha_fin).ToString(vFormato);
 
-                    DateTime vFechaInicio = DateTime.Parse(vFecha1);
+                DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
 
-                    double vMinDiarios = 0;
-                    double vWip = Convert.ToInt32(Session["GESTIONES_WIP"].ToString());
+                DateTime vFechaInicio = DateTime.Parse(vFecha1);
 
-                    DataTable vData = new DataTable();
-                    DataTable vDatosMin = (DataTable)Session["GESTIONES_TAREAS_MIN_DIARIOS"];
-                    vData.Columns.Add("id");
-                    vData.Columns.Add("fecha");
-                    vData.Columns.Add("min");
-                    string vFechaInicioSoli = fecha_inicio.ToString("dd/MM/yyyy");
-                    string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
-                    DateTime vFechaInicioConver = DateTime.Parse(vFechaInicioSoli);
-                    DateTime vFechaFinConver = DateTime.Parse(vFechaFinSoli);
+                double vMinDiarios = 0;
+                double vWip = Convert.ToInt32(Session["GESTIONES_WIP"].ToString());
 
-                    string vHrInicialSoli = fecha_inicio.ToString("HH:mm");
-                    string vHrFinalSoli = fecha_fin.ToString("HH:mm");
+                DataTable vData = new DataTable();
+                DataTable vDatosMin = (DataTable)Session["GESTIONES_TAREAS_MIN_DIARIOS"];
+                vData.Columns.Add("id");
+                vData.Columns.Add("fecha");
+                vData.Columns.Add("min");
+                string vFechaInicioSoli = fecha_inicio.ToString("dd/MM/yyyy");
+                string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
+                DateTime vFechaInicioConver = DateTime.Parse(vFechaInicioSoli);
+                DateTime vFechaFinConver = DateTime.Parse(vFechaFinSoli);
 
-                    TimeSpan vHrInicialSoliConver = TimeSpan.Parse(vHrInicialSoli);
-                    TimeSpan vHrFinSoliConver = TimeSpan.Parse(vHrFinalSoli);
+                string vHrInicialSoli = fecha_inicio.ToString("HH:mm");
+                string vHrFinalSoli = fecha_fin.ToString("HH:mm");
+
+                TimeSpan vHrInicialSoliConver = TimeSpan.Parse(vHrInicialSoli);
+                TimeSpan vHrFinSoliConver = TimeSpan.Parse(vHrFinalSoli);
 
 
-                    if (vFechaInicio.DayOfWeek != DayOfWeek.Saturday && vFechaInicio.DayOfWeek != DayOfWeek.Sunday)
+                if (vFechaInicio.DayOfWeek != DayOfWeek.Saturday && vFechaInicio.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    TimeSpan span = Convert.ToDateTime(vFechaFinConver) - Convert.ToDateTime(vFechaInicioConver);
+                    int businessDays = span.Days;
+                    int fullWeekCount = businessDays / 7;
+
+                    if (businessDays == 7)
                     {
-                        TimeSpan span = Convert.ToDateTime(vFechaFinConver) - Convert.ToDateTime(vFechaInicioConver);
-                        int businessDays = span.Days;
-                        int fullWeekCount = businessDays / 7;
-
-                        if (businessDays == 7)
-                        {
-                            businessDays = businessDays - 2;
-                        }
-                        else if (businessDays == 6)
-                        {
-                            businessDays = businessDays - 1;
-                        }
-                        else if (businessDays > fullWeekCount * 7)
-                        {
-                            int firstDayOfWeek = (int)vFechaInicioConver.DayOfWeek;
-                            int lastDayOfWeek = (int)vFechaFinConver.DayOfWeek;
-                            if (lastDayOfWeek < firstDayOfWeek)
-                                lastDayOfWeek += 7;
-                            if (firstDayOfWeek <= 6)
-                            {
-                                if (lastDayOfWeek >= 7)
-                                    businessDays -= 2;
-                                else if (lastDayOfWeek >= 6)
-                                    businessDays -= 1;
-                            }
-                            else if (firstDayOfWeek <= 7 && lastDayOfWeek >= 7)// Only Sunday is in the remaining time interval
-                                businessDays -= 1;
-
-                            //subtract the weekends during the full weeks in the interval
-                            businessDays -= fullWeekCount + fullWeekCount;
-                        }
-                        int vDias = businessDays + 1;
-                        Session["GESTIONES_DIAS"] = vDias;
-                        vMinDiarios = Convert.ToInt32(TxMinProductivo.Text) / vDias;
-
-                        int vCount = 0;
-                        int vResta = 0;
-
-                        double vMinsFaltante = 0;
-
-                        if (vDias == 1)
-                        {
-                            if (vDatosMin == null)
-                                vDatosMin = vData.Clone();
-                            if (vDatosMin != null)
-                            {
-                                vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
-                                vDatosMin.Rows.Add("1", vFechaInicioSoli, vMinDiarios);
-                            }
-                        }
-                        else
-                        {
-
-                            //VALIDACION INICIO TAREA SI TIENE MIN DISPNIBLES
-                            string vCantMinSolicitudes = "";
-                            string vQuerys = "GESTIONES_Solicitud 9,'" + DdlResponsable.SelectedValue + "','" + vFechaInicioSoli + "'";
-                            DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
-                            vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
-
-                            if (vCantMinSolicitudes != "")
-                            {
-                                if (Convert.ToDouble(vCantMinSolicitudes) >= Convert.ToDouble(vWip))
-                                    throw new Exception("Nota: La fecha seleccionada inicio de la tarjeta ya no cuenta con mins disponibles, su WIP está al limite, favor cambiar la fecha de inicio para poder realizar una mejor distribución de su cargabilidad. Minutos registrados de cargabilidad: " + vCantMinSolicitudes + ", WIP límite establecido: " + vWip);
-                            }
-
-
-                            for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
-                            {
-                                if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
-                                {
-                                    vCount = vCount + 1;
-                                    vResta = (vDias - vCount) + 1;
-
-                                    if (vMinsFaltante != 0)
-                                    {
-                                        vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
-                                        vMinsFaltante = 0;
-                                    }
-
-                                    string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
-                                    vQuerys = "GESTIONES_Solicitud 9,'" + DdlResponsable.SelectedValue + "','" + vFechaEvaluar + "'";
-                                    vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
-                                    vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
-                                    double vSobranteWIPCreacion = 0;
-
-                                    if (vCantMinSolicitudes.Equals(""))
-                                    {
-                                        vSobranteWIPCreacion = vWip;
-                                    }
-                                    else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
-                                    {
-                                        vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
-                                    }
-                                    else
-                                    {
-                                        vSobranteWIPCreacion = 0;
-                                    }
-
-
-                                    if (vMinDiarios <= vSobranteWIPCreacion)
-                                    {
-                                        if (vDatosMin == null)
-                                            vDatosMin = vData.Clone();
-                                        if (vDatosMin != null)
-                                        {
-                                            if (vDatosMin.Rows.Count < 1)
-                                            {
-                                                vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                            }
-                                            else
-                                            {
-                                                vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
-                                        vMinDiarios = vSobranteWIPCreacion;
-                                        if (vDatosMin == null)
-                                            vDatosMin = vData.Clone();
-                                        if (vDatosMin != null)
-                                        {
-                                            if (vDatosMin.Rows.Count < 1)
-                                            {
-                                                vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                            }
-                                            else
-                                            {
-                                                vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (vMinsFaltante != 0)
-                            throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
-
+                        businessDays = businessDays - 2;
                     }
-                    else if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday || vFechaInicio.DayOfWeek == DayOfWeek.Sunday)
+                    else if (businessDays == 6)
                     {
-                        calculoDias();
-                        int vDias = Convert.ToInt32(Session["GESTIONES_DIAS"].ToString());
-                        LbDiaNoHabil.Text = "Se debe iniciar a trabajar en la tarjeta un día de trabajo no hábil";
-                        divDiaNoHabil.Visible = true;
-                        if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday)
+                        businessDays = businessDays - 1;
+                    }
+                    else if (businessDays > fullWeekCount * 7)
+                    {
+                        int firstDayOfWeek = (int)vFechaInicioConver.DayOfWeek;
+                        int lastDayOfWeek = (int)vFechaFinConver.DayOfWeek;
+                        if (lastDayOfWeek < firstDayOfWeek)
+                            lastDayOfWeek += 7;
+                        if (firstDayOfWeek <= 6)
                         {
-                            if (vDias == 1)
-                            {
-                                if (vDatosMin == null)
-                                    vDatosMin = vData.Clone();
-                                if (vDatosMin != null)
-                                {
-                                    vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
-                                    vDatosMin.Rows.Add("1", vFechaInicioSoli, TxMinProductivo.Text);
-                                }
-                            }
-                            else
-                            {
-                                vDias = vDias + 2;
-                                vMinDiarios = Convert.ToInt32(TxMinProductivo.Text) / vDias;
-                                DateTime vFechaFinConverDomingo = vFechaInicioConver.AddDays(1);
-                                DateTime vFechaInicioSemana = vFechaFinConverDomingo.AddDays(1);
-                                int vCount = 0;
-                                int vResta = 0;
-                                double vMinsFaltante = 0;
+                            if (lastDayOfWeek >= 7)
+                                businessDays -= 2;
+                            else if (lastDayOfWeek >= 6)
+                                businessDays -= 1;
+                        }
+                        else if (firstDayOfWeek <= 7 && lastDayOfWeek >= 7)// Only Sunday is in the remaining time interval
+                            businessDays -= 1;
 
-                                for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConverDomingo; fecha = fecha.AddDays(1))
+                        //subtract the weekends during the full weeks in the interval
+                        businessDays -= fullWeekCount + fullWeekCount;
+                    }
+                    int vDias = businessDays + 1;
+                    Session["GESTIONES_DIAS"] = vDias;
+                    vMinDiarios = Convert.ToInt32(TxMinProductivo.Text) / vDias;
+
+                    int vCount = 0;
+                    int vResta = 0;
+
+                    double vMinsFaltante = 0;
+
+                    if (vDias == 1)
+                    {
+                        if (vDatosMin == null)
+                            vDatosMin = vData.Clone();
+                        if (vDatosMin != null)
+                        {
+                            vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
+                            vDatosMin.Rows.Add("1", vFechaInicioSoli, vMinDiarios);
+                        }
+                    }
+                    else
+                    {
+
+                        //VALIDACION INICIO TAREA SI TIENE MIN DISPNIBLES
+                        string vCantMinSolicitudes = "";
+                        string vQuerys = "GESTIONES_Solicitud 9,'" + DdlResponsable.SelectedValue + "','" + vFechaInicioSoli + "'";
+                        DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
+                        vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
+
+                        if (vCantMinSolicitudes != "")
+                        {
+                            if (Convert.ToDouble(vCantMinSolicitudes) >= Convert.ToDouble(vWip))
+                                throw new Exception("Nota: La fecha seleccionada inicio de la tarjeta ya no cuenta con mins disponibles, su WIP está al limite, favor cambiar la fecha de inicio para poder realizar una mejor distribución de su cargabilidad. Minutos registrados de cargabilidad: " + vCantMinSolicitudes + ", WIP límite establecido: " + vWip);
+                        }
+
+
+                        for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
+                        {
+                            if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
+                            {
+                                vCount = vCount + 1;
+                                vResta = (vDias - vCount) + 1;
+
+                                if (vMinsFaltante != 0)
                                 {
-                                    string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+                                    vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
+                                    vMinsFaltante = 0;
+                                }
+
+                                string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+                                vQuerys = "GESTIONES_Solicitud 9,'" + DdlResponsable.SelectedValue + "','" + vFechaEvaluar + "'";
+                                vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
+                                vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
+                                double vSobranteWIPCreacion = 0;
+
+                                if (vCantMinSolicitudes.Equals(""))
+                                {
+                                    vSobranteWIPCreacion = vWip;
+                                }
+                                else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
+                                {
+                                    vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
+                                }
+                                else
+                                {
+                                    vSobranteWIPCreacion = 0;
+                                }
+
+
+                                if (vMinDiarios <= vSobranteWIPCreacion)
+                                {
                                     if (vDatosMin == null)
                                         vDatosMin = vData.Clone();
                                     if (vDatosMin != null)
@@ -1373,89 +1308,56 @@ namespace Infatlan_Kanban.pages
                                             vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
                                         }
                                     }
-
                                 }
-
-                                for (DateTime fecha = vFechaInicioSemana; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
+                                else
                                 {
-                                    if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
+                                    vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
+                                    vMinDiarios = vSobranteWIPCreacion;
+                                    if (vDatosMin == null)
+                                        vDatosMin = vData.Clone();
+                                    if (vDatosMin != null)
                                     {
-                                        vCount = vCount + 1;
-                                        vResta = (vDias - vCount) + 1;
-
-                                        if (vMinsFaltante != 0)
+                                        if (vDatosMin.Rows.Count < 1)
                                         {
-                                            vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
-                                            vMinsFaltante = 0;
-                                        }
-
-                                        string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
-                                        string vCantMinSolicitudes = "";
-                                        string vQuerys = "GESTIONES_Solicitud 9,'" + DdlResponsable.SelectedValue + "','" + vFechaEvaluar + "'";
-                                        DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
-                                        vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
-                                        double vSobranteWIPCreacion = 0;
-
-                                        if (vCantMinSolicitudes.Equals(""))
-                                        {
-                                            vSobranteWIPCreacion = vWip;
-                                        }
-                                        else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
-                                        {
-                                            vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
+                                            vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
                                         }
                                         else
                                         {
-                                            vSobranteWIPCreacion = 0;
-                                        }
-
-
-                                        if (vMinDiarios <= vSobranteWIPCreacion)
-                                        {
-                                            if (vDatosMin == null)
-                                                vDatosMin = vData.Clone();
-                                            if (vDatosMin != null)
-                                            {
-                                                if (vDatosMin.Rows.Count < 1)
-                                                {
-                                                    vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                                }
-                                                else
-                                                {
-                                                    vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
-                                            vMinDiarios = vSobranteWIPCreacion;
-                                            if (vDatosMin == null)
-                                                vDatosMin = vData.Clone();
-                                            if (vDatosMin != null)
-                                            {
-                                                if (vDatosMin.Rows.Count < 1)
-                                                {
-                                                    vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                                }
-                                                else
-                                                {
-                                                    vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                                }
-                                            }
+                                            vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
 
-                                if (vMinsFaltante != 0)
-                                    throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                    if (vMinsFaltante != 0)
+                        throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+
+                }
+                else if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday || vFechaInicio.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    calculoDias();
+                    int vDias = Convert.ToInt32(Session["GESTIONES_DIAS"].ToString());
+                    LbDiaNoHabil.Text = "Se debe iniciar a trabajar en la tarjeta un día de trabajo no hábil";
+                    divDiaNoHabil.Visible = true;
+                    if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        if (vDias == 1)
+                        {
+                            if (vDatosMin == null)
+                                vDatosMin = vData.Clone();
+                            if (vDatosMin != null)
+                            {
+                                vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
+                                vDatosMin.Rows.Add("1", vFechaInicioSoli, TxMinProductivo.Text);
                             }
                         }
                         else
                         {
-                            vDias = vDias;
+                            vDias = vDias + 2;
                             vMinDiarios = Convert.ToInt32(TxMinProductivo.Text) / vDias;
-                            DateTime vFechaFinConverDomingo = vFechaInicioConver;
+                            DateTime vFechaFinConverDomingo = vFechaInicioConver.AddDays(1);
                             DateTime vFechaInicioSemana = vFechaFinConverDomingo.AddDays(1);
                             int vCount = 0;
                             int vResta = 0;
@@ -1553,69 +1455,173 @@ namespace Infatlan_Kanban.pages
 
                             if (vMinsFaltante != 0)
                                 throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                        }
+                    }
+                    else
+                    {
+                        vDias = vDias;
+                        vMinDiarios = Convert.ToInt32(TxMinProductivo.Text) / vDias;
+                        DateTime vFechaFinConverDomingo = vFechaInicioConver;
+                        DateTime vFechaInicioSemana = vFechaFinConverDomingo.AddDays(1);
+                        int vCount = 0;
+                        int vResta = 0;
+                        double vMinsFaltante = 0;
+
+                        for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConverDomingo; fecha = fecha.AddDays(1))
+                        {
+                            string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+                            if (vDatosMin == null)
+                                vDatosMin = vData.Clone();
+                            if (vDatosMin != null)
+                            {
+                                if (vDatosMin.Rows.Count < 1)
+                                {
+                                    vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+                                }
+                                else
+                                {
+                                    vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+                                }
+                            }
 
                         }
 
+                        for (DateTime fecha = vFechaInicioSemana; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
+                        {
+                            if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
+                            {
+                                vCount = vCount + 1;
+                                vResta = (vDias - vCount) + 1;
+
+                                if (vMinsFaltante != 0)
+                                {
+                                    vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
+                                    vMinsFaltante = 0;
+                                }
+
+                                string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+                                string vCantMinSolicitudes = "";
+                                string vQuerys = "GESTIONES_Solicitud 9,'" + DdlResponsable.SelectedValue + "','" + vFechaEvaluar + "'";
+                                DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
+                                vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
+                                double vSobranteWIPCreacion = 0;
+
+                                if (vCantMinSolicitudes.Equals(""))
+                                {
+                                    vSobranteWIPCreacion = vWip;
+                                }
+                                else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
+                                {
+                                    vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
+                                }
+                                else
+                                {
+                                    vSobranteWIPCreacion = 0;
+                                }
 
 
+                                if (vMinDiarios <= vSobranteWIPCreacion)
+                                {
+                                    if (vDatosMin == null)
+                                        vDatosMin = vData.Clone();
+                                    if (vDatosMin != null)
+                                    {
+                                        if (vDatosMin.Rows.Count < 1)
+                                        {
+                                            vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+                                        }
+                                        else
+                                        {
+                                            vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
+                                    vMinDiarios = vSobranteWIPCreacion;
+                                    if (vDatosMin == null)
+                                        vDatosMin = vData.Clone();
+                                    if (vDatosMin != null)
+                                    {
+                                        if (vDatosMin.Rows.Count < 1)
+                                        {
+                                            vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+                                        }
+                                        else
+                                        {
+                                            vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
-                        //if (vDiasTarjeta == 1)
-                        //{
-                        //    if (vDatosMin == null)
-                        //        vDatosMin = vData.Clone();
-                        //    if (vDatosMin != null)
-                        //    {
-                        //        vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
-                        //        vDatosMin.Rows.Add("1", vFechaInicioSoli, TxMinProductivo.Text);
-                        //    }
-                        //}
+                        if (vMinsFaltante != 0)
+                            throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+
                     }
 
 
-                    Session["GESTIONES_TAREAS_MIN_DIARIOS"] = vDatosMin;
-                    GVDistribucion.DataSource = vDatosMin;
-                    GVDistribucion.DataBind();
 
-                    DataTable vDatosComentarios = (DataTable)Session["GESTIONES_TAREAS_COMENTARIOS"];
-                    DataTable vDatosAdjuntos = (DataTable)Session["GESTIONES_TAREAS_ADJUNTO"];
 
-                    if (vDatosComentarios == null && vDatosAdjuntos == null)
-                    {
-                        LbAdvertenciaModal.Text = "Nota: Los adjuntos y comentarios no son campos obligatorios. Para mayor seguridad se notifica que la tarjeta no cuenta con adjuntos ni comentarios. Si esta seguro dar clic en “Enviar”.";
-                    }
-                    else if (vDatosComentarios == null && vDatosAdjuntos != null)
-                    {
-                        LbAdvertenciaModal.Text = "Nota: Los adjuntos y comentarios no son campos obligatorios. Para mayor seguridad se notifica que la tarjeta no cuenta con comentarios. Si esta seguro dar clic en “Enviar”.";
-                    }
-                    else if (vDatosComentarios != null && vDatosAdjuntos == null)
-                    {
-                        LbAdvertenciaModal.Text = "Nota: Los adjuntos y comentarios no son campos obligatorios. Para mayor seguridad se notifica que la tarjeta no cuenta con adjuntos. Si esta seguro dar clic en “Enviar”.";
-                    }
-                    else
-                    {
-                        LbAdvertenciaModal.Text = "";
-                    }
+                    //if (vDiasTarjeta == 1)
+                    //{
+                    //    if (vDatosMin == null)
+                    //        vDatosMin = vData.Clone();
+                    //    if (vDatosMin != null)
+                    //    {
+                    //        vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
+                    //        vDatosMin.Rows.Add("1", vFechaInicioSoli, TxMinProductivo.Text);
+                    //    }
+                    //}
+                }
 
-                    if (fecha_fin <= vfechaActual)
-                    {
-                        divSolucion.Visible = true;
-                        divAdjuntoSolucion.Visible = true;
-                        divTareaFinalizada.Visible = true;
-                        divDiaNoHabil.Visible = false;
-                        divPrioridad.Visible = false;
-                    }
-                    else
-                    {
-                        divSolucion.Visible = false;
-                        divAdjuntoSolucion.Visible = false;
-                        divTareaFinalizada.Visible = false;
-                        divPrioridad.Visible = true;
-                    }
 
-                    divComentariosAdjuntos.Visible = true;
-                    cargarModal();
-                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaConfirmarOpen();", true);
-                
+                Session["GESTIONES_TAREAS_MIN_DIARIOS"] = vDatosMin;
+                GVDistribucion.DataSource = vDatosMin;
+                GVDistribucion.DataBind();
+
+                DataTable vDatosComentarios = (DataTable)Session["GESTIONES_TAREAS_COMENTARIOS"];
+                DataTable vDatosAdjuntos = (DataTable)Session["GESTIONES_TAREAS_ADJUNTO"];
+
+                if (vDatosComentarios == null && vDatosAdjuntos == null)
+                {
+                    LbAdvertenciaModal.Text = "Nota: Los adjuntos y comentarios no son campos obligatorios. Para mayor seguridad se notifica que la tarjeta no cuenta con adjuntos ni comentarios. Si esta seguro dar clic en “Enviar”.";
+                }
+                else if (vDatosComentarios == null && vDatosAdjuntos != null)
+                {
+                    LbAdvertenciaModal.Text = "Nota: Los adjuntos y comentarios no son campos obligatorios. Para mayor seguridad se notifica que la tarjeta no cuenta con comentarios. Si esta seguro dar clic en “Enviar”.";
+                }
+                else if (vDatosComentarios != null && vDatosAdjuntos == null)
+                {
+                    LbAdvertenciaModal.Text = "Nota: Los adjuntos y comentarios no son campos obligatorios. Para mayor seguridad se notifica que la tarjeta no cuenta con adjuntos. Si esta seguro dar clic en “Enviar”.";
+                }
+                else
+                {
+                    LbAdvertenciaModal.Text = "";
+                }
+
+                if (fecha_fin <= vfechaActual)
+                {
+                    divSolucion.Visible = true;
+                    divAdjuntoSolucion.Visible = true;
+                    divTareaFinalizada.Visible = true;
+                    divDiaNoHabil.Visible = false;
+                    divPrioridad.Visible = false;
+                }
+                else
+                {
+                    divSolucion.Visible = false;
+                    divAdjuntoSolucion.Visible = false;
+                    divTareaFinalizada.Visible = false;
+                    divPrioridad.Visible = true;
+                }
+
+                divComentariosAdjuntos.Visible = true;
+                cargarModal();
+                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaConfirmarOpen();", true);
+
             }
             catch (Exception ex)
             {
@@ -1651,7 +1657,7 @@ namespace Infatlan_Kanban.pages
             {
                 //ccc
                 //TAREA A  DETENER
-                if (DdlAccion.SelectedValue=="2")
+                if (DdlAccion.SelectedValue == "2")
                 {
                     DateTime vdateActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
 
@@ -1665,7 +1671,7 @@ namespace Infatlan_Kanban.pages
 
 
 
-                    //string vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
+                //string vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
                 String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
                 String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio.Text).ToString(vFormato);
                 DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
@@ -1761,7 +1767,7 @@ namespace Infatlan_Kanban.pages
                         vFileDepositoAdjunto = vReader.ReadBytes((int)vStream.Length);
                         vExtensionAdjunto = System.IO.Path.GetExtension(FuAdjunto.FileName);
                     }
-                    
+
                     if (vFileDepositoAdjunto != null)
                     {
                         vArchivoAdjunto = Convert.ToBase64String(vFileDepositoAdjunto);
@@ -1803,7 +1809,7 @@ namespace Infatlan_Kanban.pages
                     {
                         vsolucion = TxSolucion.Text;
                     }
-                        
+
                     vidEstado = "5";
                     vidEstadoTexto = "Realizada a Tiempo";
                     vtarjetaEstado = "4";
@@ -1925,7 +1931,7 @@ namespace Infatlan_Kanban.pages
             string vQuery = "GESTIONES_Solicitud 12,'" + vEx + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
-            if (vDatos.Rows[0]["idEstado"].ToString()== "4")
+            if (vDatos.Rows[0]["idEstado"].ToString() == "4")
             {
                 DdlAccion.SelectedValue = "1";
                 DdlAccion.Enabled = false;
@@ -1942,15 +1948,14 @@ namespace Infatlan_Kanban.pages
             TxFechaInicio_1.Text = Convert.ToDateTime(vFechaInicio).ToString(vFormato);
             TxFechaEntrega_1.Text = Convert.ToDateTime(vFechaFin).ToString(vFormato);
             DdlPrioridad_1.SelectedValue = vDatos.Rows[0]["prioridad"].ToString();
-           string vEstadoTarjeta= vDatos.Rows[0]["idEstado"].ToString();
+            string vEstadoTarjeta = vDatos.Rows[0]["idEstado"].ToString();
 
             Session["GESTIONES_USUARIO_CREO"] = vDatos.Rows[0]["usuarioCreo"].ToString();
-
 
             vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable_1.SelectedValue + "'";
             DataTable vDatosTeams = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vTeams = vDatosTeams.Rows[0]["idTeams"].ToString();
-       
+            
             DdlTipoGestion_1.Items.Clear();
             DdlTipoGestion_1.Enabled = true;
             vQuery = "GESTIONES_Generales 1,'" + vTeams + "'";
@@ -2018,10 +2023,10 @@ namespace Infatlan_Kanban.pages
 
 
 
-            if(vEstadoTarjeta=="5" || vEstadoTarjeta == "6")
+            if (vEstadoTarjeta == "5" || vEstadoTarjeta == "6")
             {
                 DdlAccion.SelectedValue = "1";
-                TxDetalle.Text= vDatos.Rows[0]["detalleFinalizo"].ToString();
+                TxDetalle.Text = vDatos.Rows[0]["detalleFinalizo"].ToString();
                 TxDetalle.ReadOnly = true;
                 DdlAccion.Enabled = false;
                 divSolucionAdjunto.Visible = false;
@@ -2054,7 +2059,7 @@ namespace Infatlan_Kanban.pages
         protected void TxTitulo_TextChanged(object sender, EventArgs e)
         {
             string vidTarjeta = TxTitulo.Text;
-            LbTitulo.Text = "Cerrar Tarjeta Kanban: "+ vidTarjeta;
+            LbTitulo.Text = "Cerrar Tarjeta Kanban: " + vidTarjeta;
             UpTitulo.Update();
 
             Session["GESTIONES_ID_TARJETA_CERRAR"] = vidTarjeta;
@@ -2070,7 +2075,7 @@ namespace Infatlan_Kanban.pages
         protected void TxTituloVer_TextChanged(object sender, EventArgs e)
         {
             string vidTarjeta = TxTitulo.Text;
-           
+
         }
         protected void GvComentarioLectura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -2138,7 +2143,7 @@ namespace Infatlan_Kanban.pages
             Session["GESTIONES_TAREAS_MIN_DIARIOS"] = null;
             Session["GESTIONES_TAREAS_ADJUNTO"] = null;
             Session["GESTIONES_TAREAS_COMENTARIOS"] = null;
-     
+
             GvComentario.DataSource = null;
             GvComentario.DataBind();
 
@@ -2224,7 +2229,7 @@ namespace Infatlan_Kanban.pages
                     TxComentario_1.Text = "";
 
                 }
-             
+
             }
             catch (Exception ex)
             {
@@ -2251,11 +2256,13 @@ namespace Infatlan_Kanban.pages
                     LbTituloCerrar.Text = "Está seguro de " + DdlAccion.SelectedItem.Text + ": " + vEx;
                     UpdatePanel14.Update();
                     ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
-                }else if (DdlAccion.SelectedValue == "3"){
+                }
+                else if (DdlAccion.SelectedValue == "3")
+                {
                     validacionesCerrarTarea();
                     if (DdlMotivoEliminar.SelectedValue.Equals("0"))
                         throw new Exception("Falta que seleccione motivo por el cúal solicita eliminar la tarjeta.");
-                
+
                     LbTituloCerrar.Text = "Está seguro de la " + DdlAccion.SelectedItem.Text + ": " + vEx;
                     divNuevasFechas.Visible = false;
                     divMotivoEliminar.Visible = true;
@@ -2274,7 +2281,7 @@ namespace Infatlan_Kanban.pages
                     if (vUsuarioCreo == vResponsable)
                     {
                         validacionesDetenerTarjeta();
-                        cargarModalDetener();               
+                        cargarModalDetener();
 
                         GVDistribucion.DataSource = null;
                         GVDistribucion.DataBind();
@@ -2735,8 +2742,8 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-                
-            
+
+
 
 
             }
@@ -2745,7 +2752,7 @@ namespace Infatlan_Kanban.pages
                 LbAlertaGuardar.InnerText = ex.Message;
                 divAlertaGuardar.Visible = true;
             }
-      
+
         }
 
         protected void BtnCancelarTarea_1_Click(object sender, EventArgs e)
@@ -2764,12 +2771,12 @@ namespace Infatlan_Kanban.pages
             {
                 DdlEquipoTrabajo.Visible = true;
                 DdlColaborador.Visible = false;
-            
 
-                if (vIdRol== "1")
+
+                if (vIdRol == "1")
                 {
                     DdlEquipoTrabajo.Items.Clear();
-                    String vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString()+ "'";
+                    String vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString() + "'";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
                     if (vDatos.Rows.Count > 0)
@@ -2780,7 +2787,7 @@ namespace Infatlan_Kanban.pages
                         }
                     }
                 }
-                else if(vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
+                else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
                 {
                     DdlEquipoTrabajo.Items.Clear();
                     String vQuery = "GESTIONES_Solicitud 25";
@@ -2794,7 +2801,8 @@ namespace Infatlan_Kanban.pages
                         }
                     }
                 }
-            }else if (DdlTipoBusqueda.SelectedValue == "3")//Reporte Colaborador
+            }
+            else if (DdlTipoBusqueda.SelectedValue == "3")//Reporte Colaborador
             {
                 DdlEquipoTrabajo.Visible = false;
                 DdlColaborador.Visible = true;
@@ -2802,7 +2810,7 @@ namespace Infatlan_Kanban.pages
                 if (vIdRol == "1")
                 {
                     DdlColaborador.Items.Clear();
-                    String vQuery = "GESTIONES_Solicitud 28,'"+ Session["USUARIO"].ToString()+ "'";
+                    String vQuery = "GESTIONES_Solicitud 28,'" + Session["USUARIO"].ToString() + "'";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
                     if (vDatos.Rows.Count > 0)
@@ -2839,29 +2847,35 @@ namespace Infatlan_Kanban.pages
 
         protected void DdlEquipoTrabajo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cargarDataEquipoTrabajo();
-            UpdatePanel19.Update();
+
+            Response.Redirect("miTablero.aspx?et=" + DdlEquipoTrabajo.SelectedValue);
+
+
+            //cargarDataEquipoTrabajo(DdlEquipoTrabajo.SelectedValue);
+            //UpdatePanel19.Update();
         }
-        void cargarDataEquipoTrabajo()
+        void cargarDataEquipoTrabajo(String et)
         {
 
-            string vQuery = "GESTIONES_Generales 44,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            String equipoTrabajo = et;
+
+            string vQuery = "GESTIONES_Generales 44,'" + equipoTrabajo + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vEnCola = vDatos.Rows[0]["cantCola"].ToString();
 
-            vQuery = "GESTIONES_Generales 45,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vQuery = "GESTIONES_Generales 45,'" + equipoTrabajo + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vEnEjecucion = vDatos.Rows[0]["cantEjecucion"].ToString();
 
-            vQuery = "GESTIONES_Generales 46,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vQuery = "GESTIONES_Generales 46,'" + equipoTrabajo + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vCompletadasHoy = vDatos.Rows[0]["cantCompletadasHoy"].ToString();
 
-            vQuery = "GESTIONES_Generales 47,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vQuery = "GESTIONES_Generales 47,'" + equipoTrabajo + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vAtrasado = vDatos.Rows[0]["cantAtrasado"].ToString();
 
-            vQuery = "GESTIONES_Generales 48,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vQuery = "GESTIONES_Generales 48,'" + equipoTrabajo + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vDetenidas = vDatos.Rows[0]["cantDetenidas"].ToString();
 
@@ -2872,7 +2886,7 @@ namespace Infatlan_Kanban.pages
             LbDetenidas.Text = vDetenidas;
             string vString = "";
             string vTest = "";
-            vQuery = "GESTIONES_Generales 49,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vQuery = "GESTIONES_Generales 49,'" + equipoTrabajo + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             for (int i = 0; i < vDatos.Rows.Count; i++)
             {
@@ -2928,7 +2942,7 @@ namespace Infatlan_Kanban.pages
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
-               //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
@@ -2940,22 +2954,22 @@ namespace Infatlan_Kanban.pages
                                          "$(function () {" + Environment.NewLine +
                                          "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
                                          "document.getElementById('" + TxTitulo.ClientID + "').value =$(this).data('titulo');" + Environment.NewLine +
-                                           //"__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                                            //"__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
 
-                                           //"__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                                            //"__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
                                             "__doPostBack('btnModal246', ''); " + Environment.NewLine +
                                          "});" + Environment.NewLine +
                                          "});" + Environment.NewLine +
                                          "</script>" + Environment.NewLine;
             }
             LitNotificacionesEnCola.Text = vString;
-            Literal1.Text = vTest;
-            UpdateFooter.Update();
+            LitEnCola.Text = vTest;
+            
 
             //SOLICITUDES EN EJECUCIÓN
             vString = "";
             vTest = "";
-            vQuery = "GESTIONES_Generales 50,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vQuery = "GESTIONES_Generales 50,'" + equipoTrabajo + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             for (int i = 0; i < vDatos.Rows.Count; i++)
             {
@@ -3034,14 +3048,14 @@ namespace Infatlan_Kanban.pages
             //SOLICITUDES ATRASADAS
             vString = "";
             vTest = "";
-            vQuery = "GESTIONES_Generales 51,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vQuery = "GESTIONES_Generales 51,'" + equipoTrabajo + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             for (int i = 0; i < vDatos.Rows.Count; i++)
             {
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "",  vColorHeader = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "";
                 ;
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
@@ -3114,7 +3128,7 @@ namespace Infatlan_Kanban.pages
             vString = "";
             vTest = "";
             DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
-            vQuery = "GESTIONES_Generales 52,'" + DdlEquipoTrabajo.SelectedValue + "','" + vfechaActualCorta + "'";
+            vQuery = "GESTIONES_Generales 52,'" + equipoTrabajo + "','" + vfechaActualCorta + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             for (int i = 0; i < vDatos.Rows.Count; i++)
             {
@@ -3122,7 +3136,7 @@ namespace Infatlan_Kanban.pages
                 String vColorBoton = "";
                 String vColorPrioridad = "";
                 String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "";
-                
+
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -3198,7 +3212,7 @@ namespace Infatlan_Kanban.pages
             //SOLICITUDES DETENIDAS
             vString = "";
             vTest = "";
-            vQuery = "GESTIONES_Generales 53,'" + DdlEquipoTrabajo.SelectedValue + "'";
+            vQuery = "GESTIONES_Generales 53,'" + equipoTrabajo + "'";
             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             for (int i = 0; i < vDatos.Rows.Count; i++)
             {
@@ -3282,419 +3296,419 @@ namespace Infatlan_Kanban.pages
         }
         void cargarDataColaborador()
         {
-      
-                string vQuery = "GESTIONES_Generales 2,'" + DdlColaborador.SelectedValue + "'";
-                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                string vEnCola = vDatos.Rows[0]["cantCola"].ToString();
 
-                vQuery = "GESTIONES_Generales 3,'" + DdlColaborador.SelectedValue + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                string vEnEjecucion = vDatos.Rows[0]["cantEjecucion"].ToString();
+            string vQuery = "GESTIONES_Generales 2,'" + DdlColaborador.SelectedValue + "'";
+            DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vEnCola = vDatos.Rows[0]["cantCola"].ToString();
 
-                vQuery = "GESTIONES_Generales 4,'" + DdlColaborador.SelectedValue + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                string vCompletadasHoy = vDatos.Rows[0]["cantCompletadasHoy"].ToString();
+            vQuery = "GESTIONES_Generales 3,'" + DdlColaborador.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vEnEjecucion = vDatos.Rows[0]["cantEjecucion"].ToString();
 
-                vQuery = "GESTIONES_Generales 5,'" + DdlColaborador.SelectedValue + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                string vAtrasado = vDatos.Rows[0]["cantAtrasado"].ToString();
+            vQuery = "GESTIONES_Generales 4,'" + DdlColaborador.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vCompletadasHoy = vDatos.Rows[0]["cantCompletadasHoy"].ToString();
 
-                vQuery = "GESTIONES_Generales 40,'" + DdlColaborador.SelectedValue + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                string vDetenidas = vDatos.Rows[0]["cantDetenidas"].ToString();
+            vQuery = "GESTIONES_Generales 5,'" + DdlColaborador.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vAtrasado = vDatos.Rows[0]["cantAtrasado"].ToString();
 
-
-
-                LbEnCola.Text = vEnCola;
-                LbEjecucion.Text = vEnEjecucion;
-                LbCompletados.Text = vCompletadasHoy;
-                LbAtrasados.Text = vAtrasado;
-                LbDetenidas.Text = vDetenidas;
-                string vString = "";
-                string vTest = "";
-                vQuery = "GESTIONES_Generales 21,'" + DdlColaborador.SelectedValue + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                for (int i = 0; i < vDatos.Rows.Count; i++)
-                {
-                    String vColor = "";
-                    String vColorBoton = "";
-                    String vColorPrioridad = "";
-                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
-                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
-                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
-                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
-                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
-                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
-                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
-                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
-
-                if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
-                    {
-                        vColor = "badge-danger";
-                        vColorBoton = "btn-danger";
-                        vColorPrioridad = "danger";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
-                    {
-                        vColor = "bg-primary";
-                        vColorBoton = "btn-primary";
-                        vColorPrioridad = "primary";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
-                    {
-                        vColor = "bg-warning";
-                        vColorBoton = "btn-warning";
-                        vColorPrioridad = "warning";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
-                    {
-                        vColor = "badge-info";
-                        vColorBoton = "btn-info";
-                        vColorPrioridad = "info";
-                    }
+            vQuery = "GESTIONES_Generales 40,'" + DdlColaborador.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vDetenidas = vDatos.Rows[0]["cantDetenidas"].ToString();
 
 
 
-                    vString += "<div class='card'>" +
-                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                    //"<div class='card-header " + vColor + " text-white'>" +
-                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-                    "</div>" +
-                    "<div class='card-body'>" +
-                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                    "<div class='col-12 text-center'>" +
-                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-
-                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
-                             "$(function () {" + Environment.NewLine +
-                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
-                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
-                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "</script>" + Environment.NewLine;
-                }
-                LitNotificacionesEnCola.Text = vString;
-                LitEnCola.Text = vTest;
-
-
-
-                //SOLICITUDES EN EJECUCIÓN
-                vString = "";
-                vTest = "";
-                vQuery = "GESTIONES_Generales 22,'" + DdlColaborador.SelectedValue + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                for (int i = 0; i < vDatos.Rows.Count; i++)
-                {
-                    String vColor = "";
-                    String vColorBoton = "";
-                    String vColorPrioridad = "";
-                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
-                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
-                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
-                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
-                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
-                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
-                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
-                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+            LbEnCola.Text = vEnCola;
+            LbEjecucion.Text = vEnEjecucion;
+            LbCompletados.Text = vCompletadasHoy;
+            LbAtrasados.Text = vAtrasado;
+            LbDetenidas.Text = vDetenidas;
+            string vString = "";
+            string vTest = "";
+            vQuery = "GESTIONES_Generales 21,'" + DdlColaborador.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
-                    {
-                        vColor = "badge-danger";
-                        vColorBoton = "btn-danger";
-                        vColorPrioridad = "danger";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
-                    {
-                        vColor = "bg-primary";
-                        vColorBoton = "btn-primary";
-                        vColorPrioridad = "primary";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
-                    {
-                        vColor = "bg-warning";
-                        vColorBoton = "btn-warning";
-                        vColorPrioridad = "warning";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
-                    {
-                        vColor = "badge-info";
-                        vColorBoton = "btn-info";
-                        vColorPrioridad = "info";
-                    }
-
-
-                    vString += "<div class='card'>" +
-                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                    //"<div class='card-header " + vColor + " text-white'>" +
-                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-                    "</div>" +
-                    "<div class='card-body'>" +
-                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                    "<div class='col-12 text-center'>" +
-                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-
-                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
-                             "$(function () {" + Environment.NewLine +
-                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
-                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
-                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "</script>" + Environment.NewLine;
-                }
-                LitNotificacionesEjecucion.Text = vString;
-                LitEnEjecucion.Text = vTest;
-
-
-                //SOLICITUDES ATRASADAS
-                vString = "";
-                vTest = "";
-                vQuery = "GESTIONES_Generales 23,'" + DdlColaborador.SelectedValue + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                for (int i = 0; i < vDatos.Rows.Count; i++)
                 {
-                    String vColor = "";
-                    String vColorBoton = "";
-                    String vColorPrioridad = "";
-                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
-                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
-                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
-                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
-                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
-                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
-                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
-                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+
+
+                vString += "<div class='card'>" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                //"<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+            }
+            LitNotificacionesEnCola.Text = vString;
+            LitEnCola.Text = vTest;
+
+
+
+            //SOLICITUDES EN EJECUCIÓN
+            vString = "";
+            vTest = "";
+            vQuery = "GESTIONES_Generales 22,'" + DdlColaborador.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
-                    {
-                        vColor = "badge-danger";
-                        vColorBoton = "btn-danger";
-                        vColorPrioridad = "danger";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
-                    {
-                        vColor = "bg-primary";
-                        vColorBoton = "btn-primary";
-                        vColorPrioridad = "primary";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
-                    {
-                        vColor = "bg-warning";
-                        vColorBoton = "btn-warning";
-                        vColorPrioridad = "warning";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
-                    {
-                        vColor = "badge-info";
-                        vColorBoton = "btn-info";
-                        vColorPrioridad = "info";
-                    }
-
-
-                    vString += "<div class='card'>" +
-                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                    //"<div class='card-header " + vColor + " text-white'>" +
-                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-                    "</div>" +
-                    "<div class='card-body'>" +
-                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                    "<div class='col-12 text-center'>" +
-                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-
-                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
-                             "$(function () {" + Environment.NewLine +
-                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
-                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
-                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "</script>" + Environment.NewLine;
-                }
-                LitNotificacionesAtrasadas.Text = vString;
-                LitAtrasados.Text = vTest;
-
-                //SOLICITUDES COMPLETADOS HOY
-                vString = "";
-                vTest = "";
-                DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
-                vQuery = "GESTIONES_Generales 24,'" + DdlColaborador.SelectedValue + "','" + vfechaActualCorta + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                for (int i = 0; i < vDatos.Rows.Count; i++)
                 {
-                    String vColor = "";
-                    String vColorBoton = "";
-                    String vColorPrioridad = "";
-                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = ""; ;
-                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
-                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
-                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
-                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
-                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
-                    vEstadoNombre = vDatos.Rows[i]["estado"].ToString();
-                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
-                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+
+                vString += "<div class='card'>" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                //"<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+            }
+            LitNotificacionesEjecucion.Text = vString;
+            LitEnEjecucion.Text = vTest;
+
+
+            //SOLICITUDES ATRASADAS
+            vString = "";
+            vTest = "";
+            vQuery = "GESTIONES_Generales 23,'" + DdlColaborador.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
-                    {
-                        vColor = "badge-danger";
-                        vColorBoton = "btn-danger";
-                        vColorPrioridad = "danger";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
-                    {
-                        vColor = "bg-primary";
-                        vColorBoton = "btn-primary";
-                        vColorPrioridad = "primary";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
-                    {
-                        vColor = "bg-warning";
-                        vColorBoton = "btn-warning";
-                        vColorPrioridad = "warning";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
-                    {
-                        vColor = "badge-info";
-                        vColorBoton = "btn-info";
-                        vColorPrioridad = "info";
-                    }
-
-                    vString += "<div class='card'>" +
-                    //"<div class='card-header " + vColor + " text-white'>" +
-                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-                    "</div>" +
-                    "<div class='card-body'>" +
-                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                    "<div class='col-12 text-center'>" +
-                    "<h5><span class='label label-" + vColorPrioridad + "'>" + vEstadoNombre + "</span></h5><br>" +
-                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-
-
-                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
-                             "$(function () {" + Environment.NewLine +
-                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
-                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
-                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "</script>" + Environment.NewLine;
-
-                }
-                LitNotificacionesCompletadosHoy.Text = vString;
-                LitCompletadosHoy.Text = vTest;
-
-
-
-                //SOLICITUDES DETENIDAS
-                vString = "";
-                vTest = "";
-                vQuery = "GESTIONES_Generales 41,'" + DdlColaborador.SelectedValue + "'";
-                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                for (int i = 0; i < vDatos.Rows.Count; i++)
                 {
-                    String vColor = "";
-                    String vColorBoton = "";
-                    String vColorPrioridad = "";
-                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
-                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
-                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
-                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
-                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
-                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
-                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
-                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+
+                vString += "<div class='card'>" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                //"<div class='card-header " + vColor + " text-white'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+            }
+            LitNotificacionesAtrasadas.Text = vString;
+            LitAtrasados.Text = vTest;
+
+            //SOLICITUDES COMPLETADOS HOY
+            vString = "";
+            vTest = "";
+            DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+            vQuery = "GESTIONES_Generales 24,'" + DdlColaborador.SelectedValue + "','" + vfechaActualCorta + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = ""; ;
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vEstadoNombre = vDatos.Rows[i]["estado"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
-                    {
-                        vColor = "badge-danger";
-                        vColorBoton = "btn-danger";
-                        vColorPrioridad = "danger";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
-                    {
-                        vColor = "bg-primary";
-                        vColorBoton = "btn-primary";
-                        vColorPrioridad = "primary";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
-                    {
-                        vColor = "bg-warning";
-                        vColorBoton = "btn-warning";
-                        vColorPrioridad = "warning";
-                    }
-                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
-                    {
-                        vColor = "badge-info";
-                        vColorBoton = "btn-info";
-                        vColorPrioridad = "info";
-                    }
-
-
-                    vString += "<div class='card'>" +
-                    //"<div class='card-header " + vColor + " text-white'>" +
-                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
-                    "</div>" +
-                    "<div class='card-body'>" +
-                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
-                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                    "<div class='col-12 text-center'>" +
-                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-
-                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
-                             "$(function () {" + Environment.NewLine +
-                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
-                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
-                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "});" + Environment.NewLine +
-                             "</script>" + Environment.NewLine;
+                {
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
                 }
-                LitNotificacionesDetenidas.Text = vString;
-                LitDetenidas.Text = vTest;
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
 
-            
+                vString += "<div class='card'>" +
+                //"<div class='card-header " + vColor + " text-white'>" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<h5><span class='label label-" + vColorPrioridad + "'>" + vEstadoNombre + "</span></h5><br>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+
+            }
+            LitNotificacionesCompletadosHoy.Text = vString;
+            LitCompletadosHoy.Text = vTest;
+
+
+
+            //SOLICITUDES DETENIDAS
+            vString = "";
+            vTest = "";
+            vQuery = "GESTIONES_Generales 41,'" + DdlColaborador.SelectedValue + "'";
+            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            for (int i = 0; i < vDatos.Rows.Count; i++)
+            {
+                String vColor = "";
+                String vColorBoton = "";
+                String vColorPrioridad = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
+                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+
+                if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                {
+                    vColor = "badge-danger";
+                    vColorBoton = "btn-danger";
+                    vColorPrioridad = "danger";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                {
+                    vColor = "bg-primary";
+                    vColorBoton = "btn-primary";
+                    vColorPrioridad = "primary";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                {
+                    vColor = "bg-warning";
+                    vColorBoton = "btn-warning";
+                    vColorPrioridad = "warning";
+                }
+                else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                {
+                    vColor = "badge-info";
+                    vColorBoton = "btn-info";
+                    vColorPrioridad = "info";
+                }
+
+
+                vString += "<div class='card'>" +
+                //"<div class='card-header " + vColor + " text-white'>" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                "</div>" +
+                "<div class='card-body'>" +
+                "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                "<div class='col-12 text-center'>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+                vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                         "$(function () {" + Environment.NewLine +
+                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "});" + Environment.NewLine +
+                         "</script>" + Environment.NewLine;
+            }
+            LitNotificacionesDetenidas.Text = vString;
+            LitDetenidas.Text = vTest;
+
+
         }
 
         protected void BtnBusqueda_Click1(object sender, EventArgs e)
@@ -3745,7 +3759,7 @@ namespace Infatlan_Kanban.pages
             String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
             String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio_1.Text).ToString(vFormato);
             //DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
-           
+
             DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
 
             DateTime fecha_inicio = DateTime.Parse(TxFechaInicio_1.Text.ToString());
@@ -3783,12 +3797,12 @@ namespace Infatlan_Kanban.pages
                 }
                 vCambio = "Finalizar Tarjeta, Estado: " + vidEstadoTexto + ", Detalle: " + TxDetalle.Text;
             }
-            else if(DdlAccion.SelectedValue == "3")
+            else if (DdlAccion.SelectedValue == "3")
             {
                 vidEstado = "10";
                 vidEstadoTexto = "Solicitud Eliminar Tarjeta";
                 vEstadoCargabilidad = "6";
-                vCambio = vidEstadoTexto + ", Detalle: " + DdlMotivoEliminar.SelectedItem.ToString()+", "+ TxDetalle.Text;
+                vCambio = vidEstadoTexto + ", Detalle: " + DdlMotivoEliminar.SelectedItem.ToString() + ", " + TxDetalle.Text;
             }
             else
             {
@@ -3875,7 +3889,7 @@ namespace Infatlan_Kanban.pages
                 string vidEstadoActual = vDatos.Rows[0]["idEstado"].ToString();
 
                 //ACTUALIZAR LA SOLICITUD
-                vQuery = "GESTIONES_Solicitud 31,'" + vEx + "','" + vidEstado + "','" + TxDetalle.Text + "','" + Session["USUARIO"].ToString() + "','" + vidEstadoActual + "','"+ DdlMotivoEliminar.SelectedValue+"'";
+                vQuery = "GESTIONES_Solicitud 31,'" + vEx + "','" + vidEstado + "','" + TxDetalle.Text + "','" + Session["USUARIO"].ToString() + "','" + vidEstadoActual + "','" + DdlMotivoEliminar.SelectedValue + "'";
                 Int32 vInfo1 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
                 //GUARDAR HISTORIAL
@@ -4050,7 +4064,7 @@ namespace Infatlan_Kanban.pages
 
             DateTime fecha_inicio = DateTime.Parse(TxNewFechaInicio.Text.ToString());
             DateTime fecha_fin = DateTime.Parse(TxNewFechaEntrega.Text.ToString());
-  
+
             string vFechaInicioSoli = fecha_inicio.ToString("dd/MM/yyyy");
             string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
 
@@ -4068,11 +4082,12 @@ namespace Infatlan_Kanban.pages
 
         protected void DdlAccion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (DdlAccion.SelectedValue=="1")
+            if (DdlAccion.SelectedValue == "1")
             {
                 divNuevasFechas.Visible = false;
                 divSolucionAdjunto.Visible = true;
-            }else if (DdlAccion.SelectedValue == "3")
+            }
+            else if (DdlAccion.SelectedValue == "3")
             {
                 divNuevasFechas.Visible = false;
                 divSolucionAdjunto.Visible = false;
