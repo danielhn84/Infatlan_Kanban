@@ -28450,7 +28450,7 @@ ul.list-style-none li a:hover {
 
                 .sidebar-nav ul li a.active {
                     font-weight: 500;
-                    color: #ffffff
+                    color: #00468c
                 }
 
             .sidebar-nav ul li ul {
@@ -28489,7 +28489,7 @@ ul.list-style-none li a:hover {
             font-size: 16px;
             display: inline-block;
             vertical-align: middle;
-            color: #ffffff
+            color: #8d97ad
         }
 
     .sidebar-nav > ul > li {
@@ -28498,7 +28498,7 @@ ul.list-style-none li a:hover {
     }
 
         .sidebar-nav > ul > li.active > a {
-            color: #ffffff;
+            color: #00468c;
             font-weight: 500;
             border-left: 3px solid #ffffff
         }
@@ -28508,7 +28508,7 @@ form label, table th {
 }
 
 .sidebar-nav > ul > li.active > a i {
-    color: #ffffff
+    color: #00468c
 }
 
 .sidebar-nav .waves-effect {
@@ -30298,7 +30298,7 @@ html body .waves-notransition {
 
 .fixed-layout .left-sidebar, .fixed-layout .topbar {
     position: fixed;
-    background-color: #004285
+    background-color: #edf1f5
 }
 
 .fixed-layout .topbar {

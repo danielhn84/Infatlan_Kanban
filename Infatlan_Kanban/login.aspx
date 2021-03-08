@@ -15,10 +15,10 @@
     <link href="/css/style.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="MyDiv" runat="server" ></div>
+    <div id="MyDiv" runat="server"  ></div>
     <section id="wrapper" class="login-register ">
-        <div class="login-box card" style="border-radius: 20px">
-            <div class="card-body">
+        <div class="login-box card" style="border-radius: 20px; zoom:75%">
+            <div class="card-body" >
                 <form class="form-horizontal form-material m-t-40 text-center" id="loginform" runat="server">
                     <a class="db"><img src="../assets/images/texto_logo_azul.png" width="210"  height="35" alt="Home" /></a>
                     <h3 class="m-t-20"><b>Bienvenidos | Kanban Board</b></h3>

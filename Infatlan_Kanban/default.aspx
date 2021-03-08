@@ -211,7 +211,7 @@
 
 
 
-    <div class="row p-t-20">
+    <div class="row p-t-20" style="zoom:80%">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">

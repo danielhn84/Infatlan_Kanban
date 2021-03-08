@@ -38,13 +38,27 @@
     <div id="main-wrapper">
         <header class="topbar">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-                <div class="navbar-header">
+<%--                <div class="navbar-header">
                     <a class="navbar-brand" href="/default.aspx">
                         <span>
-                            <img src="../images/logo_texto_blanco.png" width="200" height="38" alt="homepage" />
+                            <img src="../images/logo_texto_blanco_INFA.png" width="200" height="38" alt="homepage" />
                         </span>
                     </a>
+                </div>--%>
+
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/default.aspx">
+                        <%--<b style="margin-left: 10px">--%>
+                            <img src="/assets/images/favicon_blanco.fw.png" width="30"  height="25" alt="homepage" class="light-logo" />
+                       <%-- </b>--%>
+                        <span>
+                            <img src="../assets/images/logo_texto_blanco_INFA.png"" width="145" height="35" class="light-logo " alt="homepage" />
+                        </span>
+                        
+                    </a>
                 </div>
+
+
                 <div class="navbar-collapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a class="nav-link nav-toggler d-block d-sm-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a></li>

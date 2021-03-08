@@ -432,6 +432,7 @@
     <Content Include="assets\images\logo.png" />
     <Content Include="assets\images\logo_INFA.png" />
     <Content Include="assets\images\logo_mini.png" />
+    <Content Include="assets\images\logo_texto_blanco_INFA.png" />
     <Content Include="assets\images\miniAtlantida.png" />
     <Content Include="assets\images\news\gradiant-bg.png" />
     <Content Include="assets\images\news\slide1.jpg" />

@@ -85,7 +85,6 @@ namespace Infatlan_Kanban.pages
 
             
         }
-
         private void select2()
         {
             String vScript = @"
@@ -194,20 +193,20 @@ namespace Infatlan_Kanban.pages
                     vColorPrioridad = "info";
                 }
 
-               
 
-                vString += "<div class='card'>" +
-                "<div class='card-header text-white' style='background-color:"+ vColorHeader +";'>" +
+                //style = 'zoom: 60%;'
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader +";'>" +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
-                "<button id=\"btnModal"+vTicket+ "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: "+ vColorHeader + "; color: #ffffff;'" +" \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket+ "\"></button>" +
+                "<button id=\"btnModal" +vTicket+ "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: "+ vColorHeader + "; color: #ffffff;'" +" \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket+ "\"></button>" +
                 "</div>" +
                 "</div>" +
                 "</div>";
@@ -270,8 +269,8 @@ namespace Infatlan_Kanban.pages
                     vColorPrioridad = "info";
                 }
 
-
-                vString += "<div class='card'>" +
+                //style = 'zoom: 60%;'
+                vString += "<div class='card' >" +
                 //"<div class='card-header " + vColor + " text-white'>" +
                 "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
@@ -279,8 +278,8 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
@@ -347,8 +346,8 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-
-                vString += "<div class='card'>" +
+                //style = 'zoom: 60%;'
+                vString += "<div class='card' >" +
                 //"<div class='card-header " + vColor + " text-white'>" +
                 "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
@@ -356,8 +355,8 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
@@ -389,7 +388,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = "" ;
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -398,6 +397,16 @@ namespace Infatlan_Kanban.pages
                 vEstadoNombre = vDatos.Rows[i]["estado"].ToString();
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+
+                if (vEstadoNombre=="Realizado a Tiempo")
+                {  vColorEstado = "success"; }
+                else
+                {
+
+                    vColorEstado = "danger";
+                }
+
+
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
                     vColor = "badge-danger";
@@ -422,8 +431,8 @@ namespace Infatlan_Kanban.pages
                     vColorBoton = "btn-info";
                     vColorPrioridad = "info";
                 }
-
-                vString += "<div class='card'>" +
+                //style = 'zoom: 60%;'
+                vString += "<div class='card' >" +
                 //"<div class='card-header " + vColor + " text-white'>" +
                 "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
@@ -431,11 +440,11 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
-                "<h5><span class='label label-" + vColorPrioridad + "'>" + vEstadoNombre + "</span></h5><br>" +
+                "<h5><span class='label label-" + vColorEstado + "'>" + vEstadoNombre + "</span></h5><br>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "</div>" +
@@ -476,6 +485,8 @@ namespace Infatlan_Kanban.pages
                 vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+
+
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
                     vColor = "badge-danger";
@@ -501,8 +512,8 @@ namespace Infatlan_Kanban.pages
                     vColorPrioridad = "info";
                 }
 
-
-                vString += "<div class='card'>" +
+                //style = 'zoom: 75%;'
+                vString += "<div class='card' >" +
                 //"<div class='card-header " + vColor + " text-white'>" +
                 "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
@@ -510,8 +521,8 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
@@ -532,9 +543,10 @@ namespace Infatlan_Kanban.pages
             LitNotificacionesDetenidas.Text = vString;
             LitDetenidas.Text = vTest;
 
+
+
+
         }
-
-
         void tipoBusqueda()
         {
             DdlTipoBusqueda.Items.Clear();
@@ -574,6 +586,7 @@ namespace Infatlan_Kanban.pages
                             DdlResponsable_1.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
                         }
                     }
+
                 }
                 else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
                 {
@@ -611,17 +624,18 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-
-
-
-
-
-
-
-
-
-
-
+                DdlMotivoEliminar.Items.Clear();
+                vQuery = "GESTIONES_Solicitud 29";
+                DataTable vDatosEliminarTarjeta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                DdlMotivoEliminar.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+              
+                if (vDatosEliminarTarjeta.Rows.Count > 0)
+                {
+                    foreach (DataRow item in vDatosEliminarTarjeta.Rows)
+                    {
+                        DdlMotivoEliminar.Items.Add(new ListItem { Value = item["idMotivo"].ToString(), Text = item["motivo"].ToString() });
+                    }                      
+                }
 
 
 
@@ -671,8 +685,6 @@ namespace Infatlan_Kanban.pages
             ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCrearOpen();", true);
 
         }
-
-
         protected void btnTickectEvento(object sender, EventArgs e)
         {
             string vDato = "";
@@ -800,7 +812,6 @@ namespace Infatlan_Kanban.pages
                 divAlertaComentario.Visible = true;
             }
         }
-
         protected void GvComentario_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             try
@@ -814,7 +825,6 @@ namespace Infatlan_Kanban.pages
                 Mensaje(ex.Message, WarningType.Danger);
             }
         }
-
         protected void GvComentario_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             try
@@ -845,12 +855,10 @@ namespace Infatlan_Kanban.pages
                 Mensaje(ex.Message, WarningType.Danger);
             }
         }
-
         protected void TxComentario_TextChanged(object sender, EventArgs e)
         {
             divAlertaComentario.Visible = false;
         }
-
         protected void DdlResponsable_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -882,8 +890,6 @@ namespace Infatlan_Kanban.pages
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
-
-
         private void validacionesCrearSolicitud()
         {
             if (TxTitulo_1.Text.Equals(""))
@@ -1017,7 +1023,6 @@ namespace Infatlan_Kanban.pages
             if (fecha_actualEntrega < fecha_actualIngreso)
                 throw new Exception("Favor verificar la fecha de entrega, no puede ser menor que la fecha de inicio");
         }
-
         private void cargarModal()
         {
             string vQuery = "GESTIONES_Generales 2,'" + DdlResponsable.SelectedValue + "'";
@@ -1050,7 +1055,6 @@ namespace Infatlan_Kanban.pages
             TxInicioModal.Text = TxFechaInicio.Text;
             UpdatePanel6.Update();
         }
-
         private void cargarModalDetener()
         {
             string vQuery = "GESTIONES_Generales 2,'" + DdlResponsable_1.SelectedValue + "'";
@@ -1083,7 +1087,6 @@ namespace Infatlan_Kanban.pages
             TxInicioModal.Text = TxFechaInicio_1.Text;
             UpdatePanel6.Update();
         }
-
         void calculoDias()
         {
             DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
@@ -1620,7 +1623,6 @@ namespace Infatlan_Kanban.pages
                 divAlertaGeneral.Visible = true;
             }
         }
-
         protected void GVDistribucion_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             GVDistribucion.PageIndex = e.NewPageIndex;
@@ -1647,6 +1649,22 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
+                //ccc
+                //TAREA A  DETENER
+                if (DdlAccion.SelectedValue=="2")
+                {
+                    DateTime vdateActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+
+
+
+
+
+
+
+                }
+
+
+
                     //string vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
                 String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
                 String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio.Text).ToString(vFormato);
@@ -1876,7 +1894,7 @@ namespace Infatlan_Kanban.pages
             {
                 LbCamposVacios.Text = ex.Message;
                 divCamposVacios.Visible = true;
-                
+                Response.Redirect("/pages/miTablero.aspx");
                 //UpdatePanel6.Update();
             }
 
@@ -1900,13 +1918,18 @@ namespace Infatlan_Kanban.pages
         void cargarDatosTarjeta()
         {
             camposDeshabilitados();
-
             tabAdjuntos.Visible = true;
             String vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
 
             //DATOS GENERALES
             string vQuery = "GESTIONES_Solicitud 12,'" + vEx + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+            if (vDatos.Rows[0]["idEstado"].ToString()== "4")
+            {
+                DdlAccion.SelectedValue = "1";
+                DdlAccion.Enabled = false;
+            }
 
             string vFormato = "yyyy-MM-ddTHH:mm";
             string vFechaInicio = vDatos.Rows[0]["fechaInicio"].ToString();
@@ -2010,6 +2033,23 @@ namespace Infatlan_Kanban.pages
                 LbTitulo.Text = "Tarjeta Kanban Cerrada: " + Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
                 UpTitulo.Update();
             }
+
+
+
+            DdlMotivoEliminar.Items.Clear();
+            vQuery = "GESTIONES_Solicitud 30";
+            DataTable vDatosEliminarTarjeta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            DdlMotivoEliminar.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+
+            if (vDatosEliminarTarjeta.Rows.Count > 0)
+            {
+                foreach (DataRow item in vDatosEliminarTarjeta.Rows)
+                {
+                    DdlMotivoEliminar.Items.Add(new ListItem { Value = item["idMotivo"].ToString(), Text = item["motivo"].ToString() });
+                }
+            }
+
+
         }
         protected void TxTitulo_TextChanged(object sender, EventArgs e)
         {
@@ -2020,9 +2060,17 @@ namespace Infatlan_Kanban.pages
             Session["GESTIONES_ID_TARJETA_CERRAR"] = vidTarjeta;
             cargarDatosTarjeta();
             tabAdjuntos.Visible = true;
-            //divAdjunto.Visible = false;
             DdlTipoGestion_1.Enabled = false;
+
+
+
             UPFormulario.Update();
+        }
+
+        protected void TxTituloVer_TextChanged(object sender, EventArgs e)
+        {
+            string vidTarjeta = TxTitulo.Text;
+           
         }
         protected void GvComentarioLectura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -2203,6 +2251,16 @@ namespace Infatlan_Kanban.pages
                     LbTituloCerrar.Text = "Está seguro de " + DdlAccion.SelectedItem.Text + ": " + vEx;
                     UpdatePanel14.Update();
                     ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
+                }else if (DdlAccion.SelectedValue == "3"){
+                    validacionesCerrarTarea();
+                    if (DdlMotivoEliminar.SelectedValue.Equals("0"))
+                        throw new Exception("Falta que seleccione motivo por el cúal solicita eliminar la tarjeta.");
+                
+                    LbTituloCerrar.Text = "Está seguro de la " + DdlAccion.SelectedItem.Text + ": " + vEx;
+                    divNuevasFechas.Visible = false;
+                    divMotivoEliminar.Visible = true;
+                    UpdatePanel14.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
                 }
                 else
                 {
@@ -2216,10 +2274,7 @@ namespace Infatlan_Kanban.pages
                     if (vUsuarioCreo == vResponsable)
                     {
                         validacionesDetenerTarjeta();
-                        cargarModalDetener();
-
-                       
-
+                        cargarModalDetener();               
 
                         GVDistribucion.DataSource = null;
                         GVDistribucion.DataBind();
@@ -2232,7 +2287,6 @@ namespace Infatlan_Kanban.pages
                         String vFecha2 = Convert.ToDateTime(fecha_fin).ToString(vFormato);
 
                         DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
-
                         DateTime vFechaInicio = DateTime.Parse(vFecha1);
 
 
@@ -2870,29 +2924,33 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
-                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+               //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
                 "</div>" +
                 "</div>" +
                 "</div>";
 
                 vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
-                         "$(function () {" + Environment.NewLine +
-                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
-                         "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
-                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
-                         "});" + Environment.NewLine +
-                         "});" + Environment.NewLine +
-                         "</script>" + Environment.NewLine;
+                                         "$(function () {" + Environment.NewLine +
+                                         "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                                         "document.getElementById('" + TxTitulo.ClientID + "').value =$(this).data('titulo');" + Environment.NewLine +
+                                           //"__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+
+                                           //"__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                                            "__doPostBack('btnModal246', ''); " + Environment.NewLine +
+                                         "});" + Environment.NewLine +
+                                         "});" + Environment.NewLine +
+                                         "</script>" + Environment.NewLine;
             }
             LitNotificacionesEnCola.Text = vString;
-            LitEnCola.Text = vTest;
-
+            Literal1.Text = vTest;
+            UpdateFooter.Update();
 
             //SOLICITUDES EN EJECUCIÓN
             vString = "";
@@ -2948,12 +3006,13 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
                 "</div>" +
                 "</div>" +
@@ -3027,12 +3086,13 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
                 "</div>" +
                 "</div>" +
@@ -3106,13 +3166,14 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
                 "<h5><span class='label label-" + vColorPrioridad + "'>" + vEstadoNombre + "</span></h5><br>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
                 "</div>" +
                 "</div>" +
@@ -3188,12 +3249,13 @@ namespace Infatlan_Kanban.pages
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
-                "<br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
                 "</div>" +
                 "</div>" +
@@ -3301,10 +3363,11 @@ namespace Infatlan_Kanban.pages
                     "<div class='card-body'>" +
                     "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                     "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                     "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                     "<div class='col-12 text-center'>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     "</div>" +
                     "</div>" +
@@ -3377,10 +3440,11 @@ namespace Infatlan_Kanban.pages
                     "<div class='card-body'>" +
                     "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                     "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                     "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                     "<div class='col-12 text-center'>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     "</div>" +
                     "</div>" +
@@ -3452,10 +3516,11 @@ namespace Infatlan_Kanban.pages
                     "<div class='card-body'>" +
                     "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                     "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                     "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                     "<div class='col-12 text-center'>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     "</div>" +
                     "</div>" +
@@ -3527,11 +3592,12 @@ namespace Infatlan_Kanban.pages
                     "<div class='card-body'>" +
                     "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                     "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                     "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                     "<div class='col-12 text-center'>" +
                     "<h5><span class='label label-" + vColorPrioridad + "'>" + vEstadoNombre + "</span></h5><br>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     "</div>" +
                     "</div>" +
@@ -3606,10 +3672,11 @@ namespace Infatlan_Kanban.pages
                     "<div class='card-body'>" +
                     "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                     "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA INICIO:  " + vFechaInicio + "</h6>" +
-                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  FECHA ENTREGA: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
                     "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                     "<div class='col-12 text-center'>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                     "</div>" +
                     "</div>" +
@@ -3716,6 +3783,13 @@ namespace Infatlan_Kanban.pages
                 }
                 vCambio = "Finalizar Tarjeta, Estado: " + vidEstadoTexto + ", Detalle: " + TxDetalle.Text;
             }
+            else if(DdlAccion.SelectedValue == "3")
+            {
+                vidEstado = "10";
+                vidEstadoTexto = "Solicitud Eliminar Tarjeta";
+                vEstadoCargabilidad = "6";
+                vCambio = vidEstadoTexto + ", Detalle: " + DdlMotivoEliminar.SelectedItem.ToString()+", "+ TxDetalle.Text;
+            }
             else
             {
                 vidEstado = "9";
@@ -3727,7 +3801,6 @@ namespace Infatlan_Kanban.pages
 
 
             string vMensaje = "";
-
             if (DdlAccion.SelectedValue == "1")
             {
                 String vNombreDepot1 = String.Empty;
@@ -3794,6 +3867,58 @@ namespace Infatlan_Kanban.pages
                 limpiarCreacionTarea();
 
             }
+            if (DdlAccion.SelectedValue == "3")
+            {
+
+                string vQuery = "GESTIONES_Solicitud 32,'" + vEx + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vidEstadoActual = vDatos.Rows[0]["idEstado"].ToString();
+
+                //ACTUALIZAR LA SOLICITUD
+                vQuery = "GESTIONES_Solicitud 31,'" + vEx + "','" + vidEstado + "','" + TxDetalle.Text + "','" + Session["USUARIO"].ToString() + "','" + vidEstadoActual + "','"+ DdlMotivoEliminar.SelectedValue+"'";
+                Int32 vInfo1 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                //GUARDAR HISTORIAL
+                vQuery = "GESTIONES_Solicitud 4,'" + vEx + "','" + vCambio + "','" + Session["USUARIO"].ToString() + "'";
+                Int32 vInfo2 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable_1.SelectedValue + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vTeams = vDatos.Rows[0]["idTeams"].ToString();
+                Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
+
+                vQuery = "GESTIONES_Solicitud 8,'" + vTeams + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                Session["GESTIONES_CORREO_JEFE"] = vDatos.Rows[0]["correoJefe"].ToString();
+                Session["GESTIONES_CORREO_SUPLENTE"] = vDatos.Rows[0]["correoSuplente"].ToString();
+                Session["GESTIONES_NOMBRE_JEFE"] = vDatos.Rows[0]["nombreJefe"].ToString();
+                Session["GESTIONES_NOMBRE_SUPLENTE"] = vDatos.Rows[0]["nombreSuplente"].ToString();
+
+                //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
+                string vAsunto = "Solicitud Tarjeta a Eliminar, Gestiones Técnicas: " + vEx;
+                string vCorreo = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+
+                string vQuery5 = "GESTIONES_Solicitud 5,'Solicitud Tarjeta Kanban a Eliminar','"
+                 + vCorreo
+                + "','" + Session["GESTIONES_CORREO_RESPONSABLE"].ToString() + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
+                Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
+
+                //CAMBIAR EL ESTADO DE LA CARGABILIDAD
+                vQuery = "GESTIONES_Solicitud 22,'" + vEx + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
+                Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+
+                if (vInfo1 == 1)
+                {
+                    TxDetalle.Text = "";
+                    DdlMotivoEliminar.SelectedIndex = -1;
+                    vMensaje = "Solicitud Tarjeta a Eliminar con éxito";
+                    Mensaje(vMensaje, WarningType.Success);
+                    Response.Redirect("/pages/miTablero.aspx");
+                }
+
+
+            }
             else
             {
                 string vArchivo = "";
@@ -3833,7 +3958,6 @@ namespace Infatlan_Kanban.pages
                 Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
             }
-
 
 
 
@@ -3912,7 +4036,6 @@ namespace Infatlan_Kanban.pages
         private void validacionesDetenerTarjeta()
         {
 
-
             if (DdlAccion.SelectedValue.Equals("0"))
                 throw new Exception("Falta que seleccione la acción a realizar.");
 
@@ -3949,6 +4072,11 @@ namespace Infatlan_Kanban.pages
             {
                 divNuevasFechas.Visible = false;
                 divSolucionAdjunto.Visible = true;
+            }else if (DdlAccion.SelectedValue == "3")
+            {
+                divNuevasFechas.Visible = false;
+                divSolucionAdjunto.Visible = false;
+                divMotivoEliminar.Visible = true;
             }
             else
             {
@@ -3974,5 +4102,15 @@ namespace Infatlan_Kanban.pages
 
             }
         }
+
+
+
+        //Todo Relacionado Tarjeta Operativa
+        //protected void BtnAddOperativa_Click(object sender, EventArgs e)
+        //{
+        //    LbTituloCrearOperativa.Text = "Crear Tarjeta Kanban Operativa";
+        //    UpdatePanel22.Update();
+        //    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCrearOpeOpen();", true);
+        //}
     }
 }

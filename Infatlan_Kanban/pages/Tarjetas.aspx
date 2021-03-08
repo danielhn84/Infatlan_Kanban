@@ -44,7 +44,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body"  style="border:none">
+                <div class="card-body"  style="border:none;">
                     <nav>
                         <div class="nav nav-pills " id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" runat="server" visible="false" id="nav_tarjetasCerradas_tab" data-toggle="tab" href="#nav-solicitudesCerradas" role="tab" aria-controls="nav-solicitudesCerradas" aria-selected="false"><i class="mdi mdi-book-open"></i> Mis Tarjetas Cerradas</a>
@@ -57,14 +57,14 @@
                     <div class="tab-content tabcontent-border">
                         <div class="tab-pane fade show active" id="nav-solicitudesCerradas" role="tabpanel">
                             <div class="row col-12">
-                                <div class="col-8">
+                                <div class="col-6">
 
                                     <h4 class="card-title">
                                         <label runat="server" id="LbTituloTarjeta"></label>
                                     </h4>
                                     <h6 class="card-subtitle">Datos generales de las tarjetas kanban.</h6>
                                 </div>
-                                <div class="col-4 text-right">
+                                <div class="col-6 text-right" style="zoom: 75%">
                                     <asp:UpdatePanel runat="server" ID="UpdatePanel18" UpdateMode="Conditional">
                                         <ContentTemplate>
                                             <asp:Label ID="Label6" runat="server" Text="Prioridades:" ForeColor="Black"></asp:Label>
@@ -132,7 +132,7 @@
                                     <div class="row p-t-20">
                                         <div class="col-lg-12">
 
-                                            <div class="col-md-12" runat="server" id="divMisSolicitudes" visible="true">
+                                            <div class="col-md-12" runat="server" id="divMisSolicitudes" visible="true" style="zoom:75%">
                                                 <div class="row col-12 mt-3">
                                                     <div class="table-responsive">
                                                         <asp:GridView ID="GvSolicitudes" runat="server"
