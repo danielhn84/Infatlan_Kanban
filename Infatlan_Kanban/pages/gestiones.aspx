@@ -124,7 +124,7 @@ input:checked + .slider:after {
                     <h4 class="card-title">Tipo de Gestiones</h4>
                     <h6 class="card-subtitle">Listado activo de gestiones técnicas.</h6>
 
-                    <div class="card-body">
+                    <div class="card-body" style="zoom:75%">
                         <div class="row col-12">
                             <label class="col-1 col-form-label">Búsqueda</label>
                             <div class="col-7">

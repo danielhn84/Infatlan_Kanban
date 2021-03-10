@@ -105,12 +105,13 @@
                 <div class="card-body">
                     <div class="row col-12">
                         <h4 class="card-title">Tablero Kanban Board</h4>
+                        
                     </div>
                     <div class="row col-12">
                         <div class="col-3">
-                            <h6 class="card-subtitle">Listado de tarjetas.</h6>
+                             <h6 class="card-subtitle">Listado de tarjetas.</h6>
                         </div>
-
+                       
                         <div class="col-9 text-right" style="zoom: 75%">
                             <asp:Label ID="Label6" runat="server" Text="Prioridades:" ForeColor="Black"></asp:Label>
                             <span class="label label-danger">Máxima</span>
@@ -121,7 +122,7 @@
                     </div>
 
                     <div class="card-body">
-                        <asp:UpdatePanel runat="server" ID="UpdatePanel17" UpdateMode="Conditional">
+                        <asp:UpdatePanel runat="server" ID="UpdatePanel17"  UpdateMode="Conditional">
                             <ContentTemplate>
                                 <div class="card-header" role="tab" runat="server" id="DivBusquedaReportes" visible="false">
                                     <div class="row col-12 font-12" runat="server" id="rowDetalle">
@@ -146,7 +147,6 @@
                                     <div class="col">
                                         <div class="card">
                                             <div class="card-header" role="tab" id="EnCola">
-
                                                 <a class="link" data-toggle="collapse" data-parent="#accordion2" href="#collapseEnCola" aria-expanded="true" aria-controls="collapseOne13">
                                                     <div class="box text-center" style="background-color: #00468c; color: #ffffff; opacity: 0.9;">
                                                         <h1 class="font-light text-white">
@@ -250,7 +250,7 @@
 
 
     <%--    MODAL INICIO--%>
-    <div class="modal fade" id="ModalTarjeta" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none; zoom: 75%;">
+    <div class="modal fade" id="ModalTarjeta" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 880px; height: 860px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
@@ -283,7 +283,7 @@
                                             <ContentTemplate>
                                                 <div class="row">
                                                     <div class="col-8">
-                                                        <label class="control-label">Títuloxxxxxxx:</label>
+                                                        <label class="control-label">Título:</label>
                                                         <asp:TextBox ID="TxTitulo" AutoPostBack="true" runat="server" class="form-control text-uppercase" OnTextChanged="TxTitulo_TextChanged"></asp:TextBox>
                                                     </div>
 
@@ -744,7 +744,7 @@
     <%--    MODAL CREAR--%>
     <div class="modal fade" id="ModalTarjetaCrear" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 875px; height: 795px; top: 386px; left: 50%; transform: translate(-50%, -50%); zoom: 75%">
+            <div class="modal-content" style="width: 875px; height: 795px; top: 386px; left: 50%; transform: translate(-50%, -50%);">
                 <div class="modal-header">
                     <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
@@ -927,7 +927,7 @@
     </div>
 
     <%--MODAL DE CONFIRMACION--%>
-    <div class="modal fade" id="ModalTarjetaConfirmar" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none; zoom: 75%">
+    <div class="modal fade" id="ModalTarjetaConfirmar" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none; ">
         <div class="modal-dialog" role="document">
             <%--<div class="modal-content" style="width: 800px; height: 910px; top: 452px; left: 50%; transform: translate(-50%, -50%);">--%>
             <div class="modal-content" style="width: 895px; height: 900px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
@@ -1114,7 +1114,7 @@
 
     <%--    zoom:75%"--%>
     <%--MODAL DE CONFIRMACION CERRAR--%>
-    <div class="modal fade" id="ModalConfirmarCerrar" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none; zoom: 75%">
+    <div class="modal fade" id="ModalConfirmarCerrar" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1243,18 +1243,44 @@
 
     <script src="../assets/node_modules/select2/dist/js/select2.js"></script>
     <link href="../assets/node_modules/select2/dist/css/select2.css" rel="stylesheet" />
+
+
     <style>
-        .select2-selection__rendered {
-            line-height: 31px !important;
-        }
-
-        .select2-container .select2-selection--single {
-            height: 35px !important;
-        }
-
-        .select2-selection__arrow {
-            height: 34px !important;
-        }
+        .select2-selection__rendered {line-height: 31px !important;}
+        .select2-container .select2-selection--single {height: 35px !important;}
+        .select2-selection__arrow {height: 34px !important;}
     </style>
+    <script>
+        $(function () {
+            $(".select2").select2();
+            $(".ajax").select2({
+                ajax: {
+                    url: "https://api.github.com/search/repositories",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                minimumInputLength: 1,
+            });
+        });
+    </script>
 
 </asp:Content>

@@ -51,11 +51,9 @@ namespace Infatlan_Kanban
                         Session["AUTHCLASS"] = vDatos;
                         Session["USUARIO"] = item["codEmpleado"].ToString();
                         Session["ID_ROL_USUARIO"] = item["idRol"].ToString();
-
                         Session["AUTH"] = true;
 
                         Response.Redirect("/default.aspx");
-
                     }
                 }
                 else

@@ -22,6 +22,7 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+
             select2();
             string vIdRol = Session["ID_ROL_USUARIO"].ToString();
             if (vIdRol=="2")

@@ -49,7 +49,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Equipos de Trabajos</h4>
                     <h6 class="card-subtitle">Listado equipos de trabajos activos.</h6>
-                    <div class="card-body">
+                    <div class="card-body" style="zoom:75%">
                         <div class="row col-12">
                             <label class="col-1 col-form-label">Búsqueda</label>
                             <div class="col-7">
