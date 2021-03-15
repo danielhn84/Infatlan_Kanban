@@ -65,31 +65,34 @@
                                     <h6 class="card-subtitle">Datos generales de las tarjetas kanban.</h6>
                                 </div>
                                 <div class="col-6 text-right" style="zoom: 75%">
-                                    <asp:UpdatePanel runat="server" ID="UpdatePanel18" UpdateMode="Conditional">
-                                        <ContentTemplate>
-                                            <asp:Label ID="Label6" runat="server" Text="Prioridades:" ForeColor="Black"></asp:Label>
-                                            <span class="label label-danger">Máxima</span>
-                                            <span class="label label-primary">Alta</span>
-                                            <span class="label label-warning">Normal</span>
-                                            <span class="label label-info">Baja</span>
-                                            <asp:Label ID="Label7" runat="server" Text="   ccc" ForeColor="White"></asp:Label>
+                                    <asp:Label ID="Label6" runat="server" Text="Prioridades:" ForeColor="Black"></asp:Label>
+                                    <span class="label label-danger">Máxima</span>
+                                    <span class="label label-primary">Alta</span>
+                                    <span class="label label-warning">Normal</span>
+                                    <span class="label label-info">Baja</span>
 
-                                            <asp:LinkButton ID="BtnBusqueda" runat="server" title="Búsqueda" Text="Búsqueda" Style="background-color: #0AAC25; color: #ffffff;" class="btn" OnClick="BtnBusqueda_Click">
+
+                    <%--                <asp:UpdatePanel runat="server" ID="UpdatePanel18" UpdateMode="Conditional">
+                                        <ContentTemplate>
+ 
+                                            <asp:Label ID="Label7" runat="server" Text="   ccc" ForeColor="White"></asp:Label>--%>
+
+<%--                                            <asp:LinkButton ID="BtnBusqueda" runat="server" title="Búsqueda" Text="Búsqueda" Style="background-color: #0AAC25; color: #ffffff;" class="btn" OnClick="BtnBusqueda_Click">
                                         <i class="fa  fa-search-plus text-white mr-2"></i>Búsqueda
-                                            </asp:LinkButton>
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>
+                                            </asp:LinkButton>--%>
+                                    <%--    </ContentTemplate>
+                                    </asp:UpdatePanel>--%>
                                 </div>
                             </div>
                            
                       
                             <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional">
                                 <ContentTemplate>
-                                     <div class="card-header" role="tab" runat="server" id="DivBusquedaReporte" visible="false">
+                                     <div class="card-header" role="tab" runat="server" id="DivBusquedaReporte" visible="true" style="zoom:85%">
                                         <div class="row col-12" runat="server" id="rowDetalle">
-                                            <label class="col-1 col-form-label">Búscar por:</label>
-                                            <div class="col-3">                                                                                       
-                                            <asp:DropDownList ID="DdlTipoBusqueda" runat="server" AutoPostBack="true" CssClass="select2 form-control custom-select" OnSelectedIndexChanged="DdlTipoBusqueda_SelectedIndexChanged">
+                                            <label class="col-2 col-form-label">Búscar por:</label>
+                                            <div class="col-2">                                                                                       
+                                            <asp:DropDownList ID="DdlTipoBusqueda" runat="server" AutoPostBack="true" CssClass="form-control custom-select" OnSelectedIndexChanged="DdlTipoBusqueda_SelectedIndexChanged">
                                                             <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
                                                             <asp:ListItem Value="1" Text="Id Tarjeta"></asp:ListItem>
                                                             <asp:ListItem Value="2" Text="Rango de Fechas"></asp:ListItem>

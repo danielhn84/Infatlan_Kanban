@@ -92,6 +92,16 @@ namespace Infatlan_Kanban
                 LiGestiones.Visible = true;
                 LiEquipos.Visible = true;
             }
+            else if (vRol == 4)//REPORTE
+            {
+                LiDashboard.Visible = false;
+                LiTablero.Visible = true;
+                LiTarjeta.Visible = false;
+                LiConfig.Visible = false;
+                LiUsuario.Visible = false;
+                LiGestiones.Visible = false;
+                LiEquipos.Visible = false;
+            }
         }
     }
 }

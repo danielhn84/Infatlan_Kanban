@@ -24,25 +24,31 @@ namespace Infatlan_Kanban.pages
         {
 
             select2();
-            string vIdRol = Session["ID_ROL_USUARIO"].ToString();
-            if (vIdRol=="2")
-            {
-                nav_Reasignar.Visible = false;
-                nav_tarjetaDetenido_tab.Visible = false;
-                nav_tarjetasCerradas_tab.Visible = true;
-            }
-            else
-            {
-                nav_Reasignar.Visible = true;
-                nav_tarjetaDetenido_tab.Visible = true;
-                nav_tarjetasCerradas_tab.Visible = true;
-            }
+
    
             if (!Page.IsPostBack)
             {
-                select2();
+                
+
+
                 if (Convert.ToBoolean(Session["AUTH"]))
                 {
+
+                    string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+                    if (vIdRol == "2")
+                    {
+                        nav_Reasignar.Visible = false;
+                        nav_tarjetaDetenido_tab.Visible = false;
+                        nav_tarjetasCerradas_tab.Visible = true;
+                    }
+                    else
+                    {
+                        nav_Reasignar.Visible = true;
+                        nav_tarjetaDetenido_tab.Visible = true;
+                        nav_tarjetasCerradas_tab.Visible = true;
+                    }
+
+
                     cargarInicialTarjeta();
                     cargarInicialMisSolicitudes();
                     cargarDetenerSolicitudes();
@@ -63,6 +69,7 @@ namespace Infatlan_Kanban.pages
                     Response.Redirect("/login.aspx");
                 }
             }
+            UpdatePanel9.Update();
         }
         private void select2()
         {
@@ -592,11 +599,11 @@ namespace Infatlan_Kanban.pages
             }        
         }
 
-        protected void BtnBusqueda_Click(object sender, EventArgs e)
-        {
-            DivBusquedaReporte.Visible = true;
-            UpdatePanel9.Update();
-        }
+        //protected void BtnBusqueda_Click(object sender, EventArgs e)
+        //{
+        //    DivBusquedaReporte.Visible = true;
+        //    UpdatePanel9.Update();
+        //}
 
         protected void DdlTipoBusqueda_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -628,6 +635,7 @@ namespace Infatlan_Kanban.pages
             {
                 Response.Redirect("/pages/Tarjetas.aspx");
             }
+            UpdatePanel9.Update();
         }
 
         protected void GvSolicitudes_PageIndexChanging(object sender, GridViewPageEventArgs e)

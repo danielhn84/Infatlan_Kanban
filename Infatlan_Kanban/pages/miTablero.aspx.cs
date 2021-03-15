@@ -2310,10 +2310,6 @@ namespace Infatlan_Kanban.pages
             tabAdjuntos.Visible = true;
             DdlTipoGestion_1.Enabled = false;
 
-
-
-
-
             UPFormulario.Update();
         }
 
@@ -3264,10 +3260,7 @@ namespace Infatlan_Kanban.pages
                                          "$(function () {" + Environment.NewLine +
                                          "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
                                          "document.getElementById('" + TxTitulo.ClientID + "').value =$(this).data('titulo');" + Environment.NewLine +
-                                            //"__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
-
-                                            //"__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
-                                            "__doPostBack('btnModal246', ''); " + Environment.NewLine +
+                                         "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
                                          "});" + Environment.NewLine +
                                          "});" + Environment.NewLine +
                                          "</script>" + Environment.NewLine;
@@ -4132,6 +4125,21 @@ namespace Infatlan_Kanban.pages
                     vidEstado = "5";
                     vidEstadoTexto = "Realizado a Tiempo";
                     vEstadoCargabilidad = "4";
+
+                   // string vFechaEntregaBusqueda = Convert.ToDateTime(vfechaActualCorta).AddDays(1).ToString("dd/MM/yyyy");
+                   // string vFechaCierraTarea = Convert.ToDateTime(vfechaActualCorta).ToString("dd/MM/yyyy");
+
+                   // string vQuery = "GESTIONES_Generales 64,'" + vResponsableTarjeta + "','"+ vFechaEntregaBusqueda+"','"+ vEx+"'";
+                   // DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                   // string vMinRestante = vDatos.Rows[0]["minDiariosFaltantes"].ToString();
+
+                   //vQuery = "GESTIONES_Generales 65,'" + vResponsableTarjeta + "','" + vFechaCierraTarea + "','" + vEx + "'";
+                   //vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                   //string vMinActual = vDatos.Rows[0]["minDiariosActual"].ToString();
+
+                   // String 
+
+
                 }
                 else
                 {
