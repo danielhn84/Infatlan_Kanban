@@ -46,6 +46,7 @@ namespace Infatlan_Kanban.pages
                         nav_Reasignar.Visible = true;
                         nav_tarjetaDetenido_tab.Visible = true;
                         nav_tarjetasCerradas_tab.Visible = true;
+                        nav_tarjetasCerradasColaborador_tab.Visible = true;
                     }
 
 
@@ -53,15 +54,82 @@ namespace Infatlan_Kanban.pages
                     cargarInicialMisSolicitudes();
                     cargarDetenerSolicitudes();
                     cargarReasignarSolicitudes();
+                    cargarInicialSolicitudesColaboradoresJefes();
 
                     divTXBusqueda.Visible = false;
-
                     lbInicio.Visible = false;
                     divTxInicio.Visible = false;
                     DivlbFin.Visible = false;
                     divFechaFin.Visible = false;
-                    divBotones.Visible = false;
+
+
+                    divIdTarjeta.Visible = false;
+                    //divLbFechaInicio.Visible = false;
+                    divTxFechaInicio.Visible = false;
+                    //divLbFechaFin.Visible = false;
+                    divTxFechaFin.Visible = false;
+                    divOpciones.Visible = false;
+                    divBotonBusqueda.Visible = false;
+
                     UpdatePanel9.Update();
+
+
+                    if (vIdRol == "1")
+                    {
+                        DdlEquipoTrabajo.Items.Clear();
+                        String vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString() + "'";
+                        DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                        DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                        if (vDatos.Rows.Count > 0)
+                        {
+                            foreach (DataRow item in vDatos.Rows)
+                            {
+                                DdlEquipoTrabajo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                            }
+                        }
+
+
+                        DdlColaborador.Items.Clear();
+                        vQuery = "GESTIONES_Solicitud 28,'" + Session["USUARIO"].ToString() + "'";
+                        vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                        DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                        if (vDatos.Rows.Count > 0)
+                        {
+                            foreach (DataRow item in vDatos.Rows)
+                            {
+                                DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                            }
+                        }
+
+                    }
+                    else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
+                    {
+                        DdlEquipoTrabajo.Items.Clear();
+                        String vQuery = "GESTIONES_Solicitud 25";
+                        DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                        DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                        if (vDatos.Rows.Count > 0)
+                        {
+                            foreach (DataRow item in vDatos.Rows)
+                            {
+                                DdlEquipoTrabajo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                            }
+                        }
+
+
+                        DdlColaborador.Items.Clear();
+                        vQuery = "GESTIONES_Solicitud 26";
+                        vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                        DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                        if (vDatos.Rows.Count > 0)
+                        {
+                            foreach (DataRow item in vDatos.Rows)
+                            {
+                                DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                            }
+                        }
+                    }
+
 
                 }
                 else
@@ -121,6 +189,71 @@ namespace Infatlan_Kanban.pages
                 UpMisSolicitudes.Update();
                 Session["GESTIONES_MIS_SOLICITUDES"] = vDatos;
 
+
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        void cargarInicialSolicitudesColaboradoresJefes()
+        {
+            try
+            {
+                LbTituloSoliCerradas.InnerText = "Tarjetas Cerradas Colaboradores";
+                string vQuery = "GESTIONES_Solicitud 7,'" + Session["USUARIO"].ToString() + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vTeams = vDatos.Rows[0]["idTeams"].ToString();
+
+
+                string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+                if (vIdRol == "1")
+                {
+                    vQuery = "GESTIONES_Solicitud 36,'" + vTeams + "'";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                }
+                else
+                {
+
+                   DdlResponsable_1.Items.Clear();
+                   vQuery = "GESTIONES_Generales 35";
+                   DataTable vDatosResponsables = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                    DdlResponsable_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatosResponsables.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatosResponsables.Rows)
+                        {
+
+                            DdlResponsable_1.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+
+
+
+                    vQuery = "GESTIONES_Generales 39" ;
+                    DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlTipoGestion_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatosTipo.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatosTipo.Rows)
+                        {
+                            DdlTipoGestion_1.Items.Add(new ListItem { Value = item["idTipoGestion"].ToString(), Text = item["nombreGestion"].ToString() });
+                        }
+                    }
+
+
+
+                    vQuery = "GESTIONES_Solicitud 37";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                }
+
+
+                GvSolicitudesColaborador.DataSource = vDatos;
+                GvSolicitudesColaborador.DataBind();
+                UpSolicitudesColaboradores.Update();
+                Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
 
             }
             catch (Exception ex)
@@ -358,17 +491,30 @@ namespace Infatlan_Kanban.pages
             tabAdjuntos.Visible = true;
             String vEx = "";
      
-            if (Session["GESTIONES_ID_TARJETA_REASIGNAR"] == null)
+            //if (Session["GESTIONES_ID_TARJETA_REASIGNAR"] == null)
+            //{
+            //    vEx = Session["GESTIONES_ID_TARJETA_DETENER"].ToString();
+            //}
+            //else
+            //{
+            //    vEx = Session["GESTIONES_ID_TARJETA_REASIGNAR"].ToString();
+            //}
+
+
+            if (Session["GESTIONES_ID_TARJETA_VER"] == null)
             {
-                vEx = Session["GESTIONES_ID_TARJETA_DETENER"].ToString();
+                vEx = Session["GESTIONES_ID_TARJETA_VER"].ToString();
             }
             else
             {
-                vEx = Session["GESTIONES_ID_TARJETA_REASIGNAR"].ToString();
+                vEx = Session["GESTIONES_ID_TARJETA_VER"].ToString();
             }
+            
 
-                //DATOS GENERALES
-                string vQuery = "GESTIONES_Solicitud 12,'" + vEx + "'";
+
+
+            //DATOS GENERALES
+            string vQuery = "GESTIONES_Solicitud 12,'" + vEx + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
             string vFormato = "yyyy-MM-ddTHH:mm";
@@ -382,18 +528,17 @@ namespace Infatlan_Kanban.pages
             TxFechaInicio_1.Text = Convert.ToDateTime(vFechaInicio).ToString(vFormato);
             TxFechaEntrega_1.Text = Convert.ToDateTime(vFechaFin).ToString(vFormato);
             DdlPrioridad_1.SelectedValue = vDatos.Rows[0]["prioridad"].ToString();
+            TxSolucion.Text= vDatos.Rows[0]["detalleFinalizo"].ToString();
             string vEstadoTarjeta = vDatos.Rows[0]["idEstado"].ToString();
 
             Session["GESTIONES_USUARIO_CREO"] = vDatos.Rows[0]["usuarioCreo"].ToString();
-
-
             vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable_1.SelectedValue + "'";
             DataTable vDatosTeams = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vTeams = vDatosTeams.Rows[0]["idTeams"].ToString();
 
             DdlTipoGestion_1.Items.Clear();
             DdlTipoGestion_1.Enabled = true;
-            vQuery = "GESTIONES_Generales 1,'" + vTeams + "'";
+            vQuery = "GESTIONES_Generales 63,'" + vTeams + "'";
             DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             DdlTipoGestion_1.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
             if (vDatosTipo.Rows.Count > 0)
@@ -616,7 +761,7 @@ namespace Infatlan_Kanban.pages
                 divTxInicio.Visible = false;
                 DivlbFin.Visible = false;
                 divFechaFin.Visible = false;
-                divBotones.Visible = false;
+            
                 UpdatePanel9.Update();
             }
             else if(DdlTipoBusqueda.SelectedValue=="2")
@@ -627,7 +772,7 @@ namespace Infatlan_Kanban.pages
                 divTxInicio.Visible = true;
                 DivlbFin.Visible = true;
                 divFechaFin.Visible = true;
-                divBotones.Visible = true;
+                
                 UpdatePanel9.Update();
 
             }
@@ -745,6 +890,11 @@ namespace Infatlan_Kanban.pages
                 }
 
             }
+
+
+            UpSolicitudesColaboradores.Update();
+
+
         }
 
         protected void TxBusquedaDetener_TextChanged(object sender, EventArgs e)
@@ -1533,6 +1683,155 @@ namespace Infatlan_Kanban.pages
             //    LbAdvertencia.InnerText = ex.Message;
             //    divAlertaGeneral.Visible = true;
             //}
+        }
+
+        protected void GvSolicitudesColaborador_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            try
+            {
+                GvSolicitudesColaborador.PageIndex = e.NewPageIndex;
+                GvSolicitudesColaborador.DataSource = (DataTable)Session["GESTIONES_SOLICITUDES_COLABORADORES"];
+                GvSolicitudesColaborador.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        protected void GvSolicitudesColaborador_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                string vPrioridad = e.Row.Cells[9].Text;
+                string vEstado = e.Row.Cells[10].Text;
+
+                if (vPrioridad.Equals("Baja"))
+                {
+                    e.Row.Cells[9].BackColor = Color.FromName("#03a9f3");
+                }
+                else if (vPrioridad.Equals("M&#225;xima Prioridad"))
+                {
+                    e.Row.Cells[9].BackColor = Color.FromName("#e46a76");
+                }
+                else if (vPrioridad.Equals("Alta"))
+                {
+                    e.Row.Cells[9].BackColor = Color.FromName("#fb9678");
+                }
+                else if (vPrioridad.Equals("Normal"))
+                {
+                    e.Row.Cells[9].BackColor = Color.FromName("#fec107");
+                }
+
+
+                if (vEstado.Equals("Realizado fuera de tiempo"))
+                {
+                    e.Row.Cells[10].BackColor = Color.FromName("#FFA08D");
+                }
+                else
+                {
+                    e.Row.Cells[10].BackColor = Color.FromName("#76DE7E");
+                }
+            }
+        }
+
+        protected void GvSolicitudesColaborador_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+                DataTable vDatos = new DataTable();
+                String vQuery = "";
+                string vIdTarjeta = e.CommandArgument.ToString();
+                Session["GESTIONES_ID_TARJETA_VER"] = vIdTarjeta;
+                if (e.CommandName == "Ver")
+                {
+                    try
+                    {
+                        LbTitulo.Text = "Detener Tarjeta Kanban: " + vIdTarjeta;
+                        UpTitulo.Update();
+
+                        cargarDatosTarjeta();
+                        DdlTipoGestion_1.Enabled = false;
+                        UPFormulario.Update();
+                        
+                        GvSolicitudesColaborador.DataSource = (DataTable)Session["GESTIONES_SOLICITUDES_COLABORADORES"];
+                        GvSolicitudesColaborador.DataBind();
+                        UpSolicitudesColaboradores.Update();
+                        BtnConfirmarTarea_1.Visible = false;
+                        ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaOpen();", true);
+                    }
+                    catch (Exception ex)
+                    {
+                        Mensaje(ex.Message, WarningType.Danger);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        protected void BtnCancelarTarea_1_Click(object sender, EventArgs e)
+        {
+            //Response.Redirect("/pages/Tarjetas.aspx");
+            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaClose();", true);
+            //UpSolicitudesColaboradores.Update();
+        }
+
+        protected void ddlTipoBusquedaCerradas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlTipoBusquedaCerradas.SelectedValue == "1")
+            {
+                divIdTarjeta.Visible = true;
+
+                //divLbFechaInicio.Visible = false;
+                divTxFechaInicio.Visible = false;
+                //divLbFechaFin.Visible = false;
+                divTxFechaFin.Visible = false;
+                divOpciones.Visible = false;
+                DdlEquipoTrabajo.Visible = false;
+                DdlColaborador.Visible = false;
+                divBotonBusqueda.Visible = false;
+
+                UpdatePanel6.Update();
+            }
+            else if (ddlTipoBusquedaCerradas.SelectedValue == "2")
+            {
+                divIdTarjeta.Visible = false;
+
+                //divLbFechaInicio.Visible = true;
+                divTxFechaInicio.Visible = true;
+                //divLbFechaFin.Visible = true;
+                divTxFechaFin.Visible = true;
+                divOpciones.Visible = false;
+                divOpciones.Visible = true;
+                DdlEquipoTrabajo.Visible = false;
+                DdlColaborador.Visible = true;
+                divBotonBusqueda.Visible = true;
+
+                UpdatePanel6.Update();
+            }
+            else if (ddlTipoBusquedaCerradas.SelectedValue == "3")
+            {
+                divIdTarjeta.Visible = false;
+
+                //divLbFechaInicio.Visible = true;
+                divTxFechaInicio.Visible = true;
+                //divLbFechaFin.Visible = true;
+                divTxFechaFin.Visible = true;
+                divOpciones.Visible = true;
+                DdlEquipoTrabajo.Visible = true;
+                DdlColaborador.Visible = false;
+                divBotonBusqueda.Visible = true;
+
+                UpdatePanel6.Update();
+            }
+            else
+            {
+                Response.Redirect("/pages/Tarjetas.aspx");
+            }
+            UpdatePanel9.Update();
         }
     }
 }
