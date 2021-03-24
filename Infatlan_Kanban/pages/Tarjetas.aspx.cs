@@ -76,7 +76,9 @@ namespace Infatlan_Kanban.pages
 
                     if (vIdRol == "1")
                     {
+
                         DdlEquipoTrabajo.Items.Clear();
+                        DdlEquipoTrabajo.Font.Size = 10;
                         String vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString() + "'";
                         DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                         DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
@@ -1832,6 +1834,95 @@ namespace Infatlan_Kanban.pages
                 Response.Redirect("/pages/Tarjetas.aspx");
             }
             UpdatePanel9.Update();
+        }
+
+        protected void TxIdTrajetaCerrada_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                cargarInicialSolicitudesColaboradoresJefes();
+                
+                String vBusqueda = TxIdTrajetaCerrada.Text;
+                DataTable vDatos = (DataTable)Session["GESTIONES_SOLICITUDES_COLABORADORES"];
+                if (vBusqueda.Equals(""))
+                {
+                    GvSolicitudesColaborador.DataSource = vDatos;
+                    GvSolicitudesColaborador.DataBind();
+                }
+                else
+                {
+                    EnumerableRowCollection<DataRow> filtered = vDatos.AsEnumerable()
+                        .Where(r => r.Field<String>("titulo").Contains(vBusqueda.ToUpper()));
+
+                    Boolean isNumeric = int.TryParse(vBusqueda, out int n);
+
+                    if (isNumeric)
+                    {
+                        
+                        //if (filtered.Count() == 0)
+                        //{
+                            filtered = vDatos.AsEnumerable().Where(r =>
+                                Convert.ToInt32(r["idSolicitud"]) == Convert.ToInt32(vBusqueda));
+                        //}
+                    }
+
+                    DataTable vDatosFiltrados = new DataTable();
+                    vDatosFiltrados.Columns.Add("idSolicitud");
+                    vDatosFiltrados.Columns.Add("titulo");
+                    vDatosFiltrados.Columns.Add("minSolicitud");
+                    vDatosFiltrados.Columns.Add("fechaInicio");
+                    vDatosFiltrados.Columns.Add("fechaEntrega");
+                    vDatosFiltrados.Columns.Add("fechaFinalizoTarjeta");
+                    vDatosFiltrados.Columns.Add("nombreGestion");
+                    vDatosFiltrados.Columns.Add("nombreResponsable");
+                    vDatosFiltrados.Columns.Add("prioridad");
+                    vDatosFiltrados.Columns.Add("nombreestado");
+
+                    foreach (DataRow item in filtered)
+                    {
+                        vDatosFiltrados.Rows.Add(
+                            item["idSolicitud"].ToString(),
+                            item["titulo"].ToString(),
+                            item["minSolicitud"].ToString(),
+                            item["fechaInicio"].ToString(),
+                            item["fechaEntrega"].ToString(),
+                            item["fechaFinalizoTarjeta"].ToString(),
+                            item["nombreGestion"].ToString(),
+                            item["nombreResponsable"].ToString(),
+                            item["prioridad"].ToString(),
+                            item["nombreestado"].ToString()
+                            );
+                    }
+
+                    GvSolicitudesColaborador.DataSource = vDatosFiltrados;
+                    GvSolicitudesColaborador.DataBind();
+                    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatosFiltrados;
+                    UpSolicitudesColaboradores.Update();
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        protected void BtnBuscarColaboradores_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (ddlTipoBusquedaCerradas.SelectedValue == "2")
+                {
+
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
         }
     }
 }

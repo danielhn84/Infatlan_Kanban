@@ -162,7 +162,7 @@
 
 
 
-                        <div class="tab-pane fade show active" id="nav-solicitudesCerradasColaborador" role="tabpanel">
+                        <div class="tab-pane" id="nav-solicitudesCerradasColaborador" role="tabpanel">
                             <div class="row col-12">
                                 <div class="col-6">
 
@@ -185,9 +185,9 @@
                                 <ContentTemplate>
                                     <div class="card-header" role="tab" runat="server" id="Div2" visible="true">
                                         <div class="row col-12" runat="server" id="Div4">
-                                            <label class="col-1 col-form-label">Búsqueda:</label>
+                                            <label class="col-1 col-form-label" style="font-size:80%">Búsqueda:</label>
                                             <div class="col-3">
-                                                <asp:DropDownList ID="ddlTipoBusquedaCerradas" runat="server" AutoPostBack="true" CssClass="form-control custom-select" OnSelectedIndexChanged="ddlTipoBusquedaCerradas_SelectedIndexChanged" >
+                                                <asp:DropDownList ID="ddlTipoBusquedaCerradas" Font-Size="80%"  runat="server" AutoPostBack="true" CssClass="form-control custom-select" OnSelectedIndexChanged="ddlTipoBusquedaCerradas_SelectedIndexChanged" >
                                                     <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
                                                     <asp:ListItem Value="1" Text="Id Tarjeta"></asp:ListItem>
                                                     <asp:ListItem Value="2" Text="Rango de Fechas Colaborador"></asp:ListItem>
@@ -195,27 +195,27 @@
                                                 </asp:DropDownList>
                                             </div>
                                             <div class="col-3" runat="server" id="divIdTarjeta" visible="false">
-                                                <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxIdTrajetaCerrada" AutoPostBack="true" class="form-control text-uppercase" ></asp:TextBox>
+                                                <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter"   style="font-size:80%" ID="TxIdTrajetaCerrada" AutoPostBack="true" class="form-control text-uppercase" OnTextChanged="TxIdTrajetaCerrada_TextChanged" ></asp:TextBox>
                                             </div>
                                          <%--   <div class="col-1 col-form-label text-right" runat="server" id="divLbFechaInicio" visible="false">
                                                 <asp:Label Text="Inicio" runat="server" />
                                             </div>--%>
                                             <div class="col-2" runat="server" id="divTxFechaInicio" visible="false">
-                                                <asp:TextBox ID="TxFechaInicio" AutoPostBack="true" runat="server" TextMode="Date" class="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="TxFechaInicio" AutoPostBack="true" runat="server" TextMode="Date"  style="font-size:80%" class="form-control"></asp:TextBox>
                                             </div>
                                     <%--        <div class="col-1 col-form-label text-right" runat="server" id="divLbFechaFin" visible="false">
                                                 <asp:Label Text="Fin" runat="server" />
                                             </div>--%>
-                                            <div class="col-2" runat="server" id="divTxFechaFin" visile="false">
-                                                <asp:TextBox ID="TextBox3" AutoPostBack="true" runat="server" TextMode="Date" class="form-control"></asp:TextBox>
+                                            <div class="col-2" runat="server" id="divTxFechaFin" visile="false" >
+                                                <asp:TextBox ID="TextBox3" AutoPostBack="true" runat="server" TextMode="Date" style="font-size:80%"  class="form-control"></asp:TextBox>
                                             </div>
                                             <div class="col-3" runat="server" id="divOpciones" visile="false">
-                                                <asp:DropDownList runat="server" Visible="false" ID="DdlEquipoTrabajo" CssClass="select2 form-control custom-select" AutoPostBack="true" ></asp:DropDownList>
-                                                <asp:DropDownList runat="server" Visible="false" ID="DdlColaborador" CssClass="select2 form-control custom-select" AutoPostBack="true" ></asp:DropDownList>
+                                                <asp:DropDownList runat="server" Visible="false" ID="DdlEquipoTrabajo" Font-Size="80%" CssClass="select2 form-control custom-select" AutoPostBack="true" ></asp:DropDownList>
+                                                <asp:DropDownList runat="server" Visible="false" ID="DdlColaborador" Font-Size="80%" CssClass="select2 form-control custom-select" AutoPostBack="true" ></asp:DropDownList>
                                             </div>
 
                                              <div class="col-1 text-right" runat="server" id="divBotonBusqueda" visile="false" >
-                                               <asp:LinkButton ID="LinkButton1" runat="server" title="Buscar" class="btn btn-primary"><i class="mdi mdi-search-web text-white"></i></asp:LinkButton>
+                                               <asp:LinkButton ID="BtnBuscarColaboradores" runat="server" title="Buscar" class="btn btn-primary" OnClick="BtnBuscarColaboradores_Click"><i class="mdi mdi-search-web text-white"></i></asp:LinkButton>
                                             </div>
 
 
@@ -262,7 +262,7 @@
                                                                 <asp:BoundField DataField="minSolicitud" ItemStyle-HorizontalAlign="center" HeaderText="Mins" Visible="true" />
                                                                 <asp:BoundField DataField="fechaInicio" ItemStyle-HorizontalAlign="center" HeaderText="Inicio" Visible="true" />
                                                                 <asp:BoundField DataField="fechaEntrega" ItemStyle-HorizontalAlign="center" HeaderText="Entrega" Visible="true" />
-                                                                <asp:BoundField DataField="fechaEntrega" ItemStyle-HorizontalAlign="center" HeaderText="Finalizó" Visible="true" />
+                                                                <asp:BoundField DataField="fechaFinalizoTarjeta" ItemStyle-HorizontalAlign="center" HeaderText="Finalizó" Visible="true" />
                                                                 <asp:BoundField DataField="nombreGestion" HeaderText="Gestión" Visible="true" />
                                                                 <asp:BoundField DataField="nombreResponsable" HeaderText="Responsable" Visible="true"  ItemStyle-HorizontalAlign="center"/>
                                                                 <asp:BoundField DataField="prioridad" HeaderText="Prioridad" Visible="true" ItemStyle-ForeColor="White" ItemStyle-HorizontalAlign="center" />

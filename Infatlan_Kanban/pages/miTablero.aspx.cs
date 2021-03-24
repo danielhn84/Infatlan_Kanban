@@ -1864,7 +1864,10 @@ namespace Infatlan_Kanban.pages
                     //vQuery = "GESTIONES_Generales 60,'" + vEx + "','" + vdateActualCambio + "'";
                     //Int32 vInfoMenor = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
-                    vQuery = "GESTIONES_Generales 68,'" + vEx + "','" + vdateActualCambio + "'";
+                    //vQuery = "GESTIONES_Generales 68,'" + vEx + "','" + vdateActualCambio + "'";
+                    //Int32 vInfoMayor = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                    vQuery = "GESTIONES_Generales 71,'" + vEx + "'";
                     Int32 vInfoMayor = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
 
@@ -2480,7 +2483,7 @@ namespace Infatlan_Kanban.pages
                         Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
                     }
                     TxComentario_1.Text = "";
-                    Session["GESTIONES_ID_TARJETA_CERRAR"] = null;
+                    //Session["GESTIONES_ID_TARJETA_CERRAR"] = null;
                     Session["GESTIONES_TAREAS_COMENTARIOS"] = null;
 
                 }
@@ -2613,7 +2616,7 @@ namespace Infatlan_Kanban.pages
 
 
 
-                        vQuery = "GESTIONES_Generales 62,'" + vResponsableTarjeta + "','"+ vfechaActualDetenerEvaluar +"','"+ vEx+"'";
+                        vQuery = "GESTIONES_Generales 62,'" + vResponsableTarjeta +"','"+ vEx+"'";
                         vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                         string vMinFaltantesDetener = vDatos.Rows[0]["minDiariosFaltantes"].ToString();
 
@@ -4089,15 +4092,19 @@ namespace Infatlan_Kanban.pages
             String vEx = null;
             vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
 
+            string vQueryEstado = "GESTIONES_Solicitud 12,'" + vEx + "'";
+            DataTable vDatosEstado = vConexionGestiones.obtenerDataTableGestiones(vQueryEstado);
+            string vEstadoTarjeta = vDatosEstado.Rows[0]["idEstado"].ToString();
+
             string vResponsableTarjeta = Session["GESTIONES_RESPONSABLE_TARJETA_CERRAR"].ToString();
             string vNombreResponsableTarjeta =Session["GESTIONES_NOMBRE_RESPONSABLE_TARJETA_CERRAR"].ToString();
-
 
             String vFormato = "dd/MM/yyyy HH:mm"; //"dd/MM/yyyy HH:mm:ss"
             String vFechaInicioTarea = Convert.ToDateTime(TxFechaInicio_1.Text).ToString(vFormato);
             //DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
 
             DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+            string vfechaActualString= DateTime.Now.ToString("dd/MM/yyyy");
 
             DateTime fecha_inicio = DateTime.Parse(TxFechaInicio_1.Text.ToString());
             DateTime vFechaInicio = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
@@ -4109,6 +4116,7 @@ namespace Infatlan_Kanban.pages
             //string vFechaEntrega_60Mins = Convert.ToDateTime(vFechaEntrega).AddMinutes(60).ToString("yyyy-MM-dd HH:mm");
 
             string vFechaEntregaFinDia = Convert.ToDateTime(vFechaEntrega).AddDays(1).ToString("yyyy-MM-dd");
+            string vFechaEntregaTarjeta = Convert.ToDateTime(vFechaEntrega).ToString("yyyy-MM-dd");
             string vFechaActualConvertida = DateTime.Now.ToString("yyyy-MM-dd");
             DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
 
@@ -4137,7 +4145,7 @@ namespace Infatlan_Kanban.pages
                     vidEstadoTexto = "Realizado a Tiempo";
                     vEstadoCargabilidad = "4";
 
-                    string vQuery = "GESTIONES_Generales 64,'" + vResponsableTarjeta + "','" + vFechaEntregaBusqueda + "','" + vEx + "'";
+                    string vQuery = "GESTIONES_Generales 64,'" + vResponsableTarjeta + "','" + vEx + "'";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     string vMinRestanteString = vDatos.Rows[0]["minDiariosFaltantes"].ToString();
 
@@ -4150,29 +4158,112 @@ namespace Infatlan_Kanban.pages
                         vMinRestante = Convert.ToDouble(vMinRestanteString);
                     }
 
-                    vQuery = "GESTIONES_Generales 65,'" + vResponsableTarjeta + "','" + vFechaCierraTarea + "','" + vEx + "'";
-                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string correlativo = "1";
 
-                    string vMinActualString = "";
-
-                    if (vDatos.Rows[0]["minDiariosActual"].ToString() != "")
+                    if (vEstadoTarjeta == "1")
                     {
-                        vMinActualString = vDatos.Rows[0]["minDiariosActual"].ToString();
+                        string vQueryCant = "GESTIONES_Solicitud 38,'" + vResponsableTarjeta + "','" + vEx + "','"+ vfechaActualString+"'";
+                        DataTable vDatosCant = vConexionGestiones.obtenerDataTableGestiones(vQueryCant);
+                        string vCantFechas = vDatosCant.Rows[0]["cant"].ToString();
+
+                        if (vCantFechas=="0")
+                        {
+                            String vQuery6 = "GESTIONES_Solicitud 11,'" + vEx +
+                                            "','" + correlativo +
+                                            "','" + vfechaActualString +
+                                            "','" + vMinRestante +
+                                             "','" + vEstadoCargabilidad +
+                                             "','" + vResponsableTarjeta + "'";
+                            Int32 vInfo6 = vConexionGestiones.ejecutarSqlGestiones(vQuery6);
+
+                            vQuery = "GESTIONES_Generales 67,'" + vEx + "'";
+                            Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                        }
+                        else
+                        {
+                            vQuery = "GESTIONES_Generales 69,'" + vResponsableTarjeta + "','" + vfechaActualString + "','" + vEx + "'";
+                            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                            vidCargabilidadMin = vDatos.Rows[0]["id"].ToString();
+
+                            vQuery = "GESTIONES_Solicitud 39,'" + vidCargabilidadMin + "','" + vResponsableTarjeta + "','" + vEstadoCargabilidad + "','"+ vMinRestante+"'";
+                            Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                            vQuery = "GESTIONES_Generales 67,'" + vEx + "'";
+                            Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                        }
+
+                    }else if (vEstadoTarjeta == "2")
+                    {
+
+                        string vQueryCant = "GESTIONES_Solicitud 38,'" + vResponsableTarjeta + "','" + vEx + "','" + vfechaActualString + "'";
+                        DataTable vDatosCant = vConexionGestiones.obtenerDataTableGestiones(vQueryCant);
+                        string vCantFechas = vDatosCant.Rows[0]["cant"].ToString();
+
+                        if (vCantFechas != "0")
+ 
+                        {
+                            vQuery = "GESTIONES_Generales 69,'" + vResponsableTarjeta + "','" + vfechaActualString + "','" + vEx + "'";
+                            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                            vidCargabilidadMin = vDatos.Rows[0]["id"].ToString();
+
+                            vQuery = "GESTIONES_Solicitud 39,'" + vidCargabilidadMin + "','" + vResponsableTarjeta + "','" + vEstadoCargabilidad + "','" + vMinRestante + "'";
+                            Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                            vQuery = "GESTIONES_Generales 67,'" + vEx + "'";
+                            Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                        }
+
+                    }
+                    else if (vEstadoTarjeta == "4")
+                    {
+
+
+                        vQuery = "GESTIONES_Generales 70,'" + vResponsableTarjeta  + "','" + vEx + "'";
+                        vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                         vidCargabilidadMin = vDatos.Rows[0]["id"].ToString();
+
+                        vQuery = "GESTIONES_Solicitud 39,'" + vidCargabilidadMin + "','" + vResponsableTarjeta + "','" + vEstadoCargabilidad + "','" + vMinRestante + "'";
+                        Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
                     }
-                
-                      
-                   
-                    if (vMinActualString == "")
+                    else if (vEstadoTarjeta == "3")
                     {
-                        vMinActual = 0;
-                    }
-                    else
-                    {
-                        vMinActual = Convert.ToDouble(vMinActualString);
+
+                        string vQueryCant = "GESTIONES_Solicitud 38,'" + vResponsableTarjeta + "','" + vEx + "','" + vfechaActualString + "'";
+                        DataTable vDatosCant = vConexionGestiones.obtenerDataTableGestiones(vQueryCant);
+                        string vCantFechas = vDatosCant.Rows[0]["cant"].ToString();
+
+                        if (vCantFechas == "0")
+                        {
+                            String vQuery6 = "GESTIONES_Solicitud 11,'" + vEx +
+                                            "','" + correlativo +
+                                            "','" + vfechaActualString +
+                                            "','" + vMinRestante +
+                                             "','" + vEstadoCargabilidad +
+                                             "','" + vResponsableTarjeta + "'";
+                            Int32 vInfo6 = vConexionGestiones.ejecutarSqlGestiones(vQuery6);
+
+                            vQuery = "GESTIONES_Generales 67,'" + vEx + "'";
+                            Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                        }
+                        else
+                        {
+                            vQuery = "GESTIONES_Generales 69,'" + vResponsableTarjeta + "','" + vfechaActualString + "','" + vEx + "'";
+                            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                            vidCargabilidadMin = vDatos.Rows[0]["id"].ToString();
+
+                            vQuery = "GESTIONES_Solicitud 39,'" + vidCargabilidadMin + "','" + vResponsableTarjeta + "','" + vEstadoCargabilidad + "','" + vMinRestante + "'";
+                            Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                            vQuery = "GESTIONES_Generales 67,'" + vEx + "'";
+                            Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                        }
+
+
                     }
 
-                    vSumMinutos = Convert.ToDouble(vMinActual) + Convert.ToDouble(vMinRestante);
+
+
                 }
                 else
                 {
@@ -4180,11 +4271,26 @@ namespace Infatlan_Kanban.pages
                     vidEstadoTexto = "Realizado fuera de tiempo";
                     vEstadoCargabilidad = "4";
 
-
-                    string vQuery = "GESTIONES_Generales 65,'" + vResponsableTarjeta + "','" + vFechaRealEntrega + "','" + vEx + "'";
+                    string vQuery = "GESTIONES_Generales 64,'" + vResponsableTarjeta + "','" + vEx + "'";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string vMinRestanteString = vDatos.Rows[0]["minDiariosFaltantes"].ToString();
+
+                    if (vMinRestanteString == "")
+                    {
+                        vMinRestante = 0;
+                    }
+                    else
+                    {
+                        vMinRestante = Convert.ToDouble(vMinRestanteString);
+                    }
+
+
+                    vQuery = "GESTIONES_Generales 70,'" + vResponsableTarjeta + "','" + vEx + "'";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     vidCargabilidadMin = vDatos.Rows[0]["id"].ToString();
 
+                    vQuery = "GESTIONES_Solicitud 39,'" + vidCargabilidadMin + "','" + vResponsableTarjeta + "','" + vEstadoCargabilidad + "','" + vMinRestante + "'";
+                    Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
                 }
                 vCambio = "Finalizar Tarjeta, Estado: " + vidEstadoTexto + ", Detalle: " + TxDetalle.Text;
@@ -4256,20 +4362,20 @@ namespace Infatlan_Kanban.pages
                 + "','" + vCorreosCopia + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
                 Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
 
+               
+                //if (vMinRestante != 0 )
+                //{
+                //    vQuery = "GESTIONES_Generales 67,'" + vEx + "','" + vFechaEntregaBusqueda + "'";
+                //    Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
-                if (vMinRestante != 0 )
-                {
-                    vQuery = "GESTIONES_Generales 67,'" + vEx + "','" + vFechaEntregaBusqueda + "'";
-                    Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
-
-                    vQuery = "GESTIONES_Generales 66,'" + vidCargabilidadMin + "','" + vFechaCierraTarea + "','"+ vResponsableTarjeta+"','"+ vSumMinutos+"'";
-                    Int32 vInfoUpdateFechaActual = vConexionGestiones.ejecutarSqlGestiones(vQuery);
-                }
+                //    vQuery = "GESTIONES_Generales 66,'" + vidCargabilidadMin + "','" + vFechaCierraTarea + "','"+ vResponsableTarjeta+"','"+ vSumMinutos+"'";
+                //    Int32 vInfoUpdateFechaActual = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                //}
 
                 //CAMBIAR EL ESTADO DE LA CARGABILIDAD
                 //CAMBIO vQuery = "GESTIONES_Solicitud 22,'" + vEx + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
-                vQuery = "GESTIONES_Solicitud 35,'" + vidCargabilidadMin + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
-                Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                //vQuery = "GESTIONES_Solicitud 35,'" + vidCargabilidadMin + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
+                //Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
                 if (vInfo2 == 1)
                 {
