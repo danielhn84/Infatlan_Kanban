@@ -42,7 +42,7 @@
 
                     <asp:HiddenField ID="HiddenField1" runat="server" />
 
-                        <div class="my-2 d-flex justify-content-center align-center" style="display: flex; background-color: #D9272E; justify-content: center">
+                        <div class="my-2 d-flex justify-content-center align-center" style="display: flex; color: #D9272E; justify-content: center">
                             <asp:Label ID="LbMensaje" runat="server" Text=""></asp:Label>
                         </div>
                 </form>

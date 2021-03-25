@@ -57,9 +57,9 @@ namespace Infatlan_Kanban.pages
                     cargarInicialSolicitudesColaboradoresJefes();
 
                     divTXBusqueda.Visible = false;
-                    lbInicio.Visible = false;
+                    //lbInicio.Visible = false;
                     divTxInicio.Visible = false;
-                    DivlbFin.Visible = false;
+                    //DivlbFin.Visible = false;
                     divFechaFin.Visible = false;
 
 
@@ -511,8 +511,7 @@ namespace Infatlan_Kanban.pages
             {
                 vEx = Session["GESTIONES_ID_TARJETA_VER"].ToString();
             }
-            
-
+           
 
 
             //DATOS GENERALES
@@ -710,41 +709,43 @@ namespace Infatlan_Kanban.pages
 
         protected void GvSolicitudes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
+
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-
-                string vPrioridad = e.Row.Cells[0].Text;
-                string vEstado = e.Row.Cells[9].Text;
-
+                string vPrioridad = e.Row.Cells[9].Text;
+                string vEstado = e.Row.Cells[10].Text;
 
                 if (vPrioridad.Equals("Baja"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#03a9f3");
+                    e.Row.Cells[9].BackColor = Color.FromName("#03a9f3");
                 }
                 else if (vPrioridad.Equals("M&#225;xima Prioridad"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#e46a76");
+                    e.Row.Cells[9].BackColor = Color.FromName("#e46a76");
                 }
                 else if (vPrioridad.Equals("Alta"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#fb9678");
+                    e.Row.Cells[9].BackColor = Color.FromName("#fb9678");
                 }
                 else if (vPrioridad.Equals("Normal"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#fec107");
+                    e.Row.Cells[9].BackColor = Color.FromName("#fec107");
                 }
 
 
-                //if (vEstado.Equals("Realizado fuera de tiempo"))
-                //{
-                //    e.Row.Cells[9].BackColor = Color.FromName("#FFA08D");
-                //}
-                //else
-                //{
-                //    e.Row.Cells[9].BackColor = Color.FromName("#76DE7E");
-                //}
-            }        
+                if (vEstado.Equals("Realizado fuera de tiempo"))
+                {
+                    e.Row.Cells[10].BackColor = Color.FromName("#FFA08D");
+                }
+                else
+                {
+                    e.Row.Cells[10].BackColor = Color.FromName("#76DE7E");
+                }
+            }
         }
+
+
+
 
         //protected void BtnBusqueda_Click(object sender, EventArgs e)
         //{
@@ -759,9 +760,9 @@ namespace Infatlan_Kanban.pages
             {
                 divTXBusqueda.Visible = true;
 
-                lbInicio.Visible = false;
+                //lbInicio.Visible = false;
                 divTxInicio.Visible = false;
-                DivlbFin.Visible = false;
+                //DivlbFin.Visible = false;
                 divFechaFin.Visible = false;
             
                 UpdatePanel9.Update();
@@ -770,11 +771,11 @@ namespace Infatlan_Kanban.pages
             {
                 divTXBusqueda.Visible = false;
 
-                lbInicio.Visible = true;
+                //lbInicio.Visible = true;
                 divTxInicio.Visible = true;
-                DivlbFin.Visible = true;
+                //DivlbFin.Visible = true;
                 divFechaFin.Visible = true;
-                
+                divBotones.Visible = true;
                 UpdatePanel9.Update();
 
             }
@@ -831,11 +832,11 @@ namespace Infatlan_Kanban.pages
                     DataTable vDatosFiltrados = new DataTable();
                     vDatosFiltrados.Columns.Add("prioridad");
                     vDatosFiltrados.Columns.Add("idSolicitud");
-                    vDatosFiltrados.Columns.Add("titulo");
-                    vDatosFiltrados.Columns.Add("descripcion");
+                    vDatosFiltrados.Columns.Add("titulo");                    
                     vDatosFiltrados.Columns.Add("minSolicitud");
                     vDatosFiltrados.Columns.Add("fechaInicio");
                     vDatosFiltrados.Columns.Add("fechaEntrega");
+                    vDatosFiltrados.Columns.Add("fechaFinalizoTarjeta");
                     vDatosFiltrados.Columns.Add("nombreGestion");
                     vDatosFiltrados.Columns.Add("userCreo");
                     vDatosFiltrados.Columns.Add("nombreestado");
@@ -846,10 +847,10 @@ namespace Infatlan_Kanban.pages
                             item["prioridad"].ToString(),
                             item["idSolicitud"].ToString(),
                             item["titulo"].ToString(),
-                            item["descripcion"].ToString(),
                             item["minSolicitud"].ToString(),
                             item["fechaInicio"].ToString(),
                             item["fechaEntrega"].ToString(),
+                            item["fechaFinalizoTarjeta"].ToString(),
                             item["nombreGestion"].ToString(),
                             item["userCreo"].ToString(),
                             item["nombreestado"].ToString()
@@ -872,23 +873,23 @@ namespace Infatlan_Kanban.pages
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                string vPrioridad = e.Row.Cells[0].Text;
+                string vPrioridad = e.Row.Cells[10].Text;
 
                 if (vPrioridad.Equals("Baja"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#03a9f3");
+                    e.Row.Cells[10].BackColor = Color.FromName("#03a9f3");
                 }
                 else if (vPrioridad.Equals("M&#225;xima Prioridad"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#e46a76");
+                    e.Row.Cells[10].BackColor = Color.FromName("#e46a76");
                 }
                 else if (vPrioridad.Equals("Alta"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#fb9678");
+                    e.Row.Cells[10].BackColor = Color.FromName("#fb9678");
                 }
                 else if (vPrioridad.Equals("Normal"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#fec107");
+                    e.Row.Cells[10].BackColor = Color.FromName("#fec107");
                 }
 
             }
@@ -973,23 +974,23 @@ namespace Infatlan_Kanban.pages
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                string vPrioridad = e.Row.Cells[0].Text;
+                string vPrioridad = e.Row.Cells[10].Text;
 
                 if (vPrioridad.Equals("Baja"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#03a9f3");
+                    e.Row.Cells[10].BackColor = Color.FromName("#03a9f3");
                 }
                 else if (vPrioridad.Equals("M&#225;xima Prioridad"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#e46a76");
+                    e.Row.Cells[10].BackColor = Color.FromName("#e46a76");
                 }
                 else if (vPrioridad.Equals("Alta"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#fb9678");
+                    e.Row.Cells[10].BackColor = Color.FromName("#fb9678");
                 }
                 else if (vPrioridad.Equals("Normal"))
                 {
-                    e.Row.Cells[0].BackColor = Color.FromName("#fec107");
+                    e.Row.Cells[10].BackColor = Color.FromName("#fec107");
                 }
 
             }
@@ -1749,7 +1750,7 @@ namespace Infatlan_Kanban.pages
                 {
                     try
                     {
-                        LbTitulo.Text = "Detener Tarjeta Kanban: " + vIdTarjeta;
+                        LbTitulo.Text = "Información Tarjeta Kanban: " + vIdTarjeta;
                         UpTitulo.Update();
 
                         cargarDatosTarjeta();
@@ -1783,6 +1784,13 @@ namespace Infatlan_Kanban.pages
 
         protected void ddlTipoBusquedaCerradas_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            TxFechaInicio.Text = string.Empty;
+            TxFechaFin.Text = string.Empty;
+            DdlColaborador.SelectedIndex = -1;
+            DdlEquipoTrabajo.SelectedIndex = -1;
+            cargarInicialSolicitudesColaboradoresJefes();
+
             if (ddlTipoBusquedaCerradas.SelectedValue == "1")
             {
                 divIdTarjeta.Visible = true;
@@ -1913,11 +1921,92 @@ namespace Infatlan_Kanban.pages
 
                 if (ddlTipoBusquedaCerradas.SelectedValue == "2")
                 {
+                    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
+                        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
 
+                    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
+                        throw new Exception("Favor ingrese fecha final de la búsqueda.");
 
+                    if (DdlColaborador.SelectedValue.Equals("0"))
+                        throw new Exception("Falta que seleccione el colaborador.");
 
+                    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+                    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
+
+                    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
+                    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
+
+                    string vQuery = "GESTIONES_Solicitud 40,'"+ DdlColaborador.SelectedValue+"','"+ vFechaInicioSoli+"','"+ vFechaFinSoli+"'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    
+                    GvSolicitudesColaborador.DataSource = vDatos;
+                    GvSolicitudesColaborador.DataBind();
+                    UpSolicitudesColaboradores.Update();
+                    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
+                }
+                else if (ddlTipoBusquedaCerradas.SelectedValue == "3")
+                {
+                    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
+                        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
+
+                    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
+                        throw new Exception("Favor ingrese fecha final de la búsqueda.");
+
+                    if (DdlEquipoTrabajo.SelectedValue.Equals("0"))
+                        throw new Exception("Falta que seleccione el equipo de trabajo.");
+
+                    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+                    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
+
+                    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
+                    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
+
+                    string vQuery = "GESTIONES_Solicitud 41,'" + DdlEquipoTrabajo.SelectedValue + "','" + vFechaInicioSoli + "','" + vFechaFinSoli + "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                    GvSolicitudesColaborador.DataSource = vDatos;
+                    GvSolicitudesColaborador.DataBind();
+                    UpSolicitudesColaboradores.Update();
+                    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
                 }
 
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        protected void GvSolicitudes_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+                DataTable vDatos = new DataTable();
+                String vQuery = "";
+                string vIdTarjeta = e.CommandArgument.ToString();
+                Session["GESTIONES_ID_TARJETA_VER"] = vIdTarjeta;
+                if (e.CommandName == "Ver")
+                {
+                    try
+                    {
+                        LbTitulo.Text = "Información Tarjeta Kanban: " + vIdTarjeta;
+                        UpTitulo.Update();
+
+                        cargarDatosTarjeta();
+                        DdlTipoGestion_1.Enabled = false;
+                        UPFormulario.Update();
+                       
+                        GvSolicitudes.DataSource = (DataTable)Session["GESTIONES_MIS_SOLICITUDES"];
+                        GvSolicitudes.DataBind();
+                        UpMisSolicitudes.Update();
+                        BtnConfirmarTarea_1.Visible = false;
+                        ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaOpen();", true);
+                    }
+                    catch (Exception ex)
+                    {
+                        Mensaje(ex.Message, WarningType.Danger);
+                    }
+                }
             }
             catch (Exception ex)
             {

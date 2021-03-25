@@ -62,13 +62,27 @@
                     <div class="card-body" style="zoom:75%">
                         <div class="row col-12">
                             <label class="col-1 col-form-label">Búsqueda</label>
-                            <div class="col-7">
+                            <div class="col-6">
                                 <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxBusqueda" class="form-control text-uppercase" AutoPostBack="true" OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
                             </div>
-                            <asp:LinkButton ID="BtnNuevo" runat="server" title="Agregar" Text="Agregar"  Style="background-color: #00468c; color: #ffffff;"  class="btn" OnClick="BtnNuevo_Click">
-                                         <i class="fa fa-plus-circle text-white mr-2"></i>Nueva Gestión
-                            </asp:LinkButton>
+                            <div class="col-2 text-right">
+                                <asp:LinkButton ID="BtnNuevo" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnNuevo_Click">
+                                         <i class="fa fa-plus-circle text-white mr-2"></i>Agregar Gestión
+                                </asp:LinkButton>
+                            </div>
 
+
+
+                            <div class="col-2">
+                               <%-- <asp:UpdatePanel runat="server">
+                                    <ContentTemplate>--%>
+                                        <asp:LinkButton ID="BtnDescargar" runat="server" title="Descargar" Text="Descargar Gestiones" Style="background-color: #62D559; color: #ffffff;" class="btn" OnClick="BtnDescargar_Click">
+                                         <i class="fa fa-download text-white mr-2"></i>Descargar Gestión
+                                        </asp:LinkButton>
+
+                                   <%-- </ContentTemplate>
+                                </asp:UpdatePanel>--%>
+                            </div>
                         </div>
 
                         <div class="table-responsive m-t-20">

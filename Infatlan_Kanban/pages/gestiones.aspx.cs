@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Infatlan_Kanban.classes;
 using System.Data;
+using System.Net;
 
 
 
@@ -478,6 +479,49 @@ namespace Infatlan_Kanban.pages
                 limpiarModal();
                 ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "cerrarModal();", true);
             }
+        }
+
+        protected void BtnDescargar_Click(object sender, EventArgs e)
+        {
+
+
+            String vQuery = "GESTIONES_Generales 39";
+            DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+            if (vDatos.Rows.Count > 0)
+            {
+                ReportExecutionService.ReportExecutionService vRSE = new ReportExecutionService.ReportExecutionService();
+                vRSE.Credentials = new NetworkCredential("report_user", "kEbn2HUzd$Fs2T", "adbancat.hn");
+                vRSE.Url = "http://10.128.0.52/reportserver/reportexecution2005.asmx";
+
+                vRSE.ExecutionHeaderValue = new ReportExecutionService.ExecutionHeader();
+                var vEInfo = new ReportExecutionService.ExecutionInfo();
+                vEInfo = vRSE.LoadReport("/GestionesTecnicas/GestionesListadoActivas", null);
+
+                string Parametro1 = "1";
+                List<ReportExecutionService.ParameterValue> vParametros = new List<ReportExecutionService.ParameterValue>();
+                vParametros.Add(new ReportExecutionService.ParameterValue { Name = "Parametro1", Value = Parametro1 });
+                //vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAM2", Value = Parametro2 });
+                //vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAM3", Value = Parametro3 });
+
+                vRSE.SetExecutionParameters(vParametros.ToArray(), "en-US");
+                String deviceinfo = "<DeviceInfo><Toolbar>false</Toolbar></DeviceInfo>";
+                String mime;
+                String encoding;
+                string[] stream;
+                ReportExecutionService.Warning[] warning;
+
+                byte[] vResultado = vRSE.Render("EXCEL", deviceinfo, out mime, out encoding, out encoding, out warning, out stream);
+
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.AppendHeader("Content-Type", "application/vnd.ms-excel");
+                byte[] bytFile = vResultado;
+                Response.OutputStream.Write(bytFile, 0, bytFile.Length);
+                Response.AddHeader("Content-disposition", "attachment;filename=Gestiones.xls");
+                Response.End();
+
+            }
+
         }
     }
 }
