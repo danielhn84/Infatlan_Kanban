@@ -48,6 +48,8 @@
         function ModalTarjetaCrearOpeOpen() { $('#ModalTarjetaCrearOperativa').modal('show'); }
         function ModalTarjetaCrearOpeClose() { $('#ModalTarjetaCrearOperativa').modal('hide'); }
 
+        function ModalTarjetaCrearOpeOpenConfirmar() { $('#ModalTarjetaConfirmarOperativa').modal('show'); }
+        function ModalTarjetaCrearOpeCloseConfirmar() { $('#ModalTarjetaConfirmarOperativa').modal('hide'); }
 
 
     </script>
@@ -82,13 +84,13 @@
 
                         <asp:Label ID="Label7" runat="server" Text="   ccc" ForeColor="White"></asp:Label>
 
-                        <%--   <asp:LinkButton ID="BtnAddOperativa" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn"  OnClick="BtnAddOperativa_Click">
-                                        <i class="fa fa-plus-circle text-white mr-2"></i>Crear Tarjeta Operativa
-                                    </asp:LinkButton>--%>
+                           <asp:LinkButton ID="BtnAddOperativa" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn"  OnClick="BtnAddOperativa_Click" >
+                                        <i class="fa fa-plus-circle text-white mr-2"></i>Tarjeta Operativa
+                                    </asp:LinkButton>
 
 
                         <asp:LinkButton ID="BtnAddTarjeta" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnAddTarjeta_Click">
-                                        <i class="fa fa-plus-circle text-white mr-2"></i>Crear Tarjeta
+                                        <i class="fa fa-plus-circle text-white mr-2"></i>Tarjeta Técnica
                         </asp:LinkButton>
                         <asp:LinkButton ID="BtnBusqueda" runat="server" title="Buscar Tarjeta" Text="Búsqueda" Style="background-color: #0AAC25; color: #ffffff;" class="btn" OnClick="BtnBusqueda_Click1">
                                         <i class="fa  fa-search-plus text-white mr-2"></i>Buscar Tarjeta
@@ -126,7 +128,7 @@
                             <ContentTemplate>
                                 <div class="card-header" role="tab" runat="server" id="DivBusquedaReportes" visible="false">
                                     <div class="row col-12 font-12" runat="server" id="rowDetalle">
-                                        <label class="col-2 col-form-label ">Búsqueda  por:</label>
+                                        <label class="col-2 col-form-label">Búsqueda  por:</label>
                                         <div class="col-3">
                                             <asp:DropDownList runat="server" ID="DdlTipoBusqueda" CssClass="select2 form-control custom-select " AutoPostBack="true" OnSelectedIndexChanged="DdlTipoBusqueda_SelectedIndexChanged"></asp:DropDownList>
                                         </div>
@@ -1166,15 +1168,151 @@
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content" style="height: 400px; width: 600px;">
-                            <div class="tab-pane active" id="homeCrear" role="tabpanel" style="height: 450px; width: 630px;">
+                            <div class="tab-pane active" id="homeCrearOperativa" role="tabpanel" style="height: 450px; width: 630px;">
                                 <asp:UpdatePanel runat="server" ID="UpdatePanel23">
                                     <ContentTemplate>
+                                        <div class="row">
+                                          
+                                            <div class="col-4">                   
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Solicitud:</label>
+                                                <asp:TextBox ID="TxFechaSolicitudOperativa" AutoPostBack="true" ReadOnly="true" runat="server" class="form-control" ></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Fin Tarjeta:</label>
+                                                <asp:TextBox ID="TextBox3" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                            </div>
+
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-4">
+                                                <label class="control-label">Frecuencia:</label>
+                                                <asp:DropDownList ID="DdlFrecuencia" runat="server" AutoPostBack="true" CssClass="form-control custom-select" Style="width: 100%;" OnSelectedIndexChanged="DdlFrecuencia_SelectedIndexChanged">
+                                                    <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
+                                                    <asp:ListItem Value="1" Text="Diaria"></asp:ListItem>
+                                                    <asp:ListItem Value="2" Text="Semanal"></asp:ListItem>
+                                                    <asp:ListItem Value="3" Text="Quincenal"></asp:ListItem>
+                                                    <asp:ListItem Value="4" Text="Mensual"></asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Inicio:</label>
+                                                <asp:TextBox ID="TxFechaInicioOperativa" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Fecha Entrega:</label>
+                                                <asp:TextBox ID="TxFechaEntregaOperativa" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row p-t-20" style="zoom: 75%; text-align: center" runat="server" visible="false" id="DivFrecuenciaDiaria">
+                                            <div class="col-1">
+                                            </div>
+                                            <div class="col-1">
+                                            </div>
+                                    
+                                            <div class="col-1">
+                                                <asp:CheckBoxList ID="ckpasos1" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
+                                                    <asp:ListItem Value="1" Text="Dom"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+                                            <div class="col-1">
+                                                <asp:CheckBoxList ID="CheckBoxList2" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
+                                                    <asp:ListItem Value="2" Text="Lun"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+                                            <div class="col-1">
+                                                <asp:CheckBoxList ID="CheckBoxList1" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
+                                                    <asp:ListItem Value="3" Text="Mar"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+
+                                            <div class="col-1">
+                                                <asp:CheckBoxList ID="CheckBoxList3" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
+                                                    <asp:ListItem Value="4" Text="Mie"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+
+                                            <div class="col-1">
+                                                <asp:CheckBoxList ID="CheckBoxList4" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
+                                                    <asp:ListItem Value="5" Text="Jue"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+
+                                            <div class="col-1">
+                                                <asp:CheckBoxList ID="CheckBoxList5" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
+                                                    <asp:ListItem Value="6" Text="Vie"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+                                            <div class="col-1">
+                                                <asp:CheckBoxList ID="CheckBoxList6" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
+                                                    <asp:ListItem Value="7" Text="Sab"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-8">
+                                                <label class="control-label">Título:</label>
+                                                <asp:TextBox ID="TxTituloOperativa" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Tiempo (min):</label>
+                                                <asp:TextBox ID="TxMinProductivoOperativa" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-12">
+                                                <label class="control-label">Descripción:</label>
+                                                <asp:TextBox ID="TextBox6" AutoPostBack="true" TextMode="MultiLine" Rows="3" runat="server" class="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-8">
+                                                <label class="control-label">Responsable:</label>
+                                                <asp:DropDownList runat="server" ID="DdlResponsableOperativa" CssClass="select2 form-control custom-select font-12" AutoPostBack="true" Style="width: 100%;" OnSelectedIndexChanged="DdlResponsableOperativa_SelectedIndexChanged"></asp:DropDownList>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label class="control-label">Prioridad:</label>
+                                                <asp:DropDownList ID="DdlPrioridadOperativa" runat="server" AutoPostBack="true" CssClass="form-control custom-select" Style="width: 100%;">
+                                                    <asp:ListItem Value="0" Text="Seleccione"></asp:ListItem>
+                                                    <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
+                                                    <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
+                                                    <asp:ListItem Value="3" Text="Normal"></asp:ListItem>
+                                                    <asp:ListItem Value="4" Text="Baja"></asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-8">
+                                                <label class="control-label">Tipo Gestión:</label>
+                                                <asp:DropDownList runat="server" ID="DdlGestionOperativa" CssClass="select2 form-control custom-select  font-12" Style="width: 100%" AutoPostBack="true" Enabled="false"></asp:DropDownList>
+                                            </div>
+
+                                            <div class="col-1">
+                                                <label class="control-label">Escalación:</label>
+                                                <asp:CheckBoxList ID="CheckBoxList7" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
+                                                    <asp:ListItem Value="2" Text=""></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+                                        </div>
+
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
 
                             </div>
 
-                            <div class="tab-pane" id="comentariosCrear" role="tabpanel" style="height: 450px; width: 630px;">
+                            <div class="tab-pane" id="comentariosCrearOperativa" role="tabpanel" style="height: 450px; width: 630px;">
                                 <asp:UpdatePanel runat="server" ID="UpdatePanel24">
                                     <ContentTemplate>
                                     </ContentTemplate>
@@ -1201,8 +1339,107 @@
                     <asp:UpdatePanel ID="UpdatePanel26" runat="server">
                         <ContentTemplate>
                             <asp:Button ID="Button1" runat="server" Text="Cancelar" class="btn btn-secondary" />
-                            <asp:Button ID="Button3" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;" />
+                            <asp:Button ID="BtnEnviarOperativa" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnEnviarOperativa_Click" />
                         </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%--MODAL DE CONFIRMACION TARJETA OPERATIVA--%>
+    <div class="modal fade" id="ModalTarjetaConfirmarOperativa" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 895px; height: 900px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
+                <div class="modal-header">
+                    <asp:UpdatePanel ID="UpdatePanel27" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <h4 class="modal-title">
+                                <strong>
+                                    <asp:Label ID="LbTituloConfirmarOpe" runat="server" Text="" Style="margin-left: auto; margin-right: auto"></asp:Label></strong></h4>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+
+
+                <div class="modal-body">
+                    <asp:UpdatePanel ID="UpdatePanel28" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <h6 style="font-size: 15px;"><b>║Cargabilidad Minutos Diarios:</b></h6>
+                            <div class="table-responsive">
+                                <asp:GridView ID="GVDistribucionOperativa" runat="server" Visible="true"
+                                    CssClass="table table-hover table-sm"
+                                    PagerStyle-CssClass="pgr"
+                                    HeaderStyle-CssClass="table"
+                                    RowStyle-CssClass="rows" HeaderStyle-HorizontalAlign="center"
+                                    AutoGenerateColumns="false"
+                                    AllowPaging="true" OnPageIndexChanging="GVDistribucion_PageIndexChanging"
+                                    GridLines="None"
+                                    PageSize="2">
+                                    <Columns>
+                                        <asp:BoundField DataField="fecha" HeaderText="Fecha" ItemStyle-HorizontalAlign="center" />
+                                        <asp:BoundField DataField="min" HeaderText="Mins Diarios" ItemStyle-HorizontalAlign="center" />
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+
+                            <br />
+                            <h6 style="font-size: 15px;"><b>║Datos Generales:</b></h6>
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Título:</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <asp:TextBox ID="TxTituloConfirmarOpe" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" runat="server" id="div5">
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Prioridad:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="TxPrioridadConfirmarOpe" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true" Style="text-align: center"></asp:TextBox>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Tiempo:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="TxTiempoConfirmarOpe" AutoPostBack="true" runat="server" class="form-control" ReadOnly="true" Style="text-align: center"></asp:TextBox>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Inicio:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="TxInicioConfirmarOpe" AutoPostBack="true" runat="server" class="form-control" TextMode="DateTimeLocal" ReadOnly="true" Style="text-align: center"></asp:TextBox>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="col-form-label">Entrega:</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <asp:TextBox ID="TxEntregaConfirmarOpe" AutoPostBack="true" runat="server" class="form-control" TextMode="DateTimeLocal" ReadOnly="true" Style="text-align: center"></asp:TextBox>
+                                </div>
+                            </div>
+
+
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+
+                <div class="modal-footer">
+                    <asp:UpdatePanel ID="UpdatePanel29" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <asp:Button ID="Button3" runat="server" Text="Enviar" class="btn" Style="background-color: #00468c; color: #ffffff;"/>
+                        </ContentTemplate>
+
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="BtnEnviarInfo" />
+                        </Triggers>
                     </asp:UpdatePanel>
                 </div>
             </div>

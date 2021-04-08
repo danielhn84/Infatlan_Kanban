@@ -484,6 +484,8 @@ namespace Infatlan_Kanban.pages
         protected void BtnDescargar_Click(object sender, EventArgs e)
         {
 
+            try
+            {
 
             String vQuery = "GESTIONES_Generales 39";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
@@ -522,6 +524,12 @@ namespace Infatlan_Kanban.pages
 
             }
 
+
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
         }
     }
 }

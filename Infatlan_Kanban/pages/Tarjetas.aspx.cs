@@ -40,6 +40,7 @@ namespace Infatlan_Kanban.pages
                         nav_Reasignar.Visible = false;
                         nav_tarjetaDetenido_tab.Visible = false;
                         nav_tarjetasCerradas_tab.Visible = true;
+
                     }
                     else
                     {
@@ -47,6 +48,7 @@ namespace Infatlan_Kanban.pages
                         nav_tarjetaDetenido_tab.Visible = true;
                         nav_tarjetasCerradas_tab.Visible = true;
                         nav_tarjetasCerradasColaborador_tab.Visible = true;
+                        nav_eliminarTarjeta_tab.Visible = true;
                     }
 
 

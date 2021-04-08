@@ -49,7 +49,8 @@
                             <a class="nav-item nav-link active" runat="server" visible="false" id="nav_tarjetasCerradas_tab" data-toggle="tab" href="#nav-solicitudesCerradas" role="tab" aria-controls="nav-solicitudesCerradas" aria-selected="false"><i class="mdi mdi-book-open"></i> Mis Tarjetas Cerradas</a>
                             <a class="nav-item nav-link" runat="server" visible="false" id="nav_tarjetasCerradasColaborador_tab" data-toggle="tab" href="#nav-solicitudesCerradasColaborador" role="tab" aria-controls="nav-solicitudesCerradasColaborador" aria-selected="false"><i class="mdi mdi-book-open"></i> Tarjetas Cerradas Colaborador</a>
                             <a class="nav-item nav-link" runat="server" visible="false" id="nav_Reasignar" data-toggle="tab" href="#nav-Reasignar" role="tab" aria-controls="nav-Reasignar" aria-selected="false"><i class="mdi  mdi-pencil"></i> Reasignar Tarjetas</a>
-                            <a class="nav-item nav-link" runat="server" visible="false" id="nav_tarjetaDetenido_tab" data-toggle="tab" href="#nav-DetenidoTarjeta" role="tab" aria-controls="nav-nav_tarjetaDetenido" aria-selected="false"><i class="mdi mdi-clock"></i> Detener Tarjetas</a>                            
+                            <a class="nav-item nav-link" runat="server" visible="false" id="nav_tarjetaDetenido_tab" data-toggle="tab" href="#nav-DetenidoTarjeta" role="tab" aria-controls="nav-nav_tarjetaDetenido" aria-selected="false"><i class="mdi mdi-clock"></i> Detener Tarjetas</a> 
+                            <a class="nav-item nav-link" runat="server" visible="false" id="nav_eliminarTarjeta_tab" data-toggle="tab" href="#nav-EliminarTarjeta" role="tab" aria-controls="nav-nav_tarjetaEliminar" aria-selected="false"><i class="mdi mdi-delete"></i> Eliminar Tarjetas</a>  
                         </div>
                     </nav>
                     <br />
@@ -170,8 +171,6 @@
                             </asp:UpdatePanel>
                         </div>
 
-
-
                         <div class="tab-pane" id="nav-solicitudesCerradasColaborador" role="tabpanel">
                             <div class="row col-12">
                                 <div class="col-6">
@@ -284,8 +283,6 @@
                             </asp:UpdatePanel>
                         </div>
 
-
-
                         <div class="tab-pane" id="nav-DetenidoTarjeta" role="tabpanel">
                             <div class="row col-12">
                                 <div class="col-8">
@@ -359,7 +356,6 @@
                             </asp:UpdatePanel>
                         </div>
 
-
                         <div class="tab-pane" id="nav-Reasignar" role="tabpanel" >
                             <h4 class="card-title">
                                 <label runat="server" id="LbTituloModificarTarjeta"></label>
@@ -400,6 +396,84 @@
                                                             RowStyle-CssClass="rows" OnRowCommand="GvReasignar_RowCommand"
                                                             AutoGenerateColumns="false" OnPageIndexChanging="GvReasignar_PageIndexChanging"
                                                             AllowPaging="true" OnRowDataBound="GvReasignar_RowDataBound"
+                                                            GridLines="None" 
+                                                            PageSize="10">
+                                                            <Columns>
+
+                                                                <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center">
+                                                                    <ItemTemplate>
+                                                                        <asp:LinkButton ID="BtnReasignar" runat="server" title="Reasignar" class="btn" Style="background-color: #F1961B; color: #ffffff;" CommandArgument='<%# Eval("idSolicitud")%>' CommandName="Reasignar">
+                                                                <i class="mdi  mdi-pencil text-white"></i>
+                                                                        </asp:LinkButton>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                
+                                                                <asp:BoundField DataField="idSolicitud" Visible="true" ItemStyle-HorizontalAlign="center" HeaderText="Tarjeta" ItemStyle-Width="2%" />
+                                                                <asp:BoundField DataField="titulo" HeaderText="Titulo" Visible="true" ItemStyle-Width="20%" />
+                                                                <asp:BoundField DataField="descripcion" HeaderText="Descripción" Visible="true" ItemStyle-Width="25%" />
+                                                                <asp:BoundField DataField="minSolicitud" ItemStyle-HorizontalAlign="center" HeaderText="Mins" Visible="true" ItemStyle-Width="3%" />
+                                                                <asp:BoundField DataField="fechaInicio" ItemStyle-HorizontalAlign="center" HeaderText="Inicio" Visible="true" ItemStyle-Width="7%" />
+                                                                <asp:BoundField DataField="fechaEntrega" ItemStyle-HorizontalAlign="center" HeaderText="Entrega" Visible="true" ItemStyle-Width="7%" />
+                                                                <asp:BoundField DataField="nombreGestion" HeaderText="Gestión" Visible="true" ItemStyle-Width="10%" ItemStyle-HorizontalAlign="center" />
+                                                                
+                                                          
+                                                                <asp:BoundField DataField="nombreResponsable" HeaderText="Responsable" Visible="true" ItemStyle-Width="30%" ItemStyle-HorizontalAlign="center" />
+                                                                <asp:BoundField DataField="nombreTeams" HeaderText="Equipo" Visible="true" ItemStyle-Width="30%" ItemStyle-HorizontalAlign="center" />
+                                                                <asp:BoundField DataField="prioridad" HeaderText="Prioridad" Visible="true" ItemStyle-HorizontalAlign="center" ItemStyle-Width="8%" ItemStyle-ForeColor="White" />
+                                                                
+
+                                                            </Columns>
+                                                        </asp:GridView>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </div>
+
+                         <div class="tab-pane" id="nav-EliminarTarjeta" role="tabpanel" >
+                            <h4 class="card-title">
+                                <label runat="server" id="Label1"></label>
+                            </h4>
+                            <h6 class="card-subtitle">Datos generales de la tarjeta a Eliminar.</h6>
+                           <%-- <br />--%>
+
+                            <asp:UpdatePanel runat="server" ID="UpdatePanel7" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                     <div class="card-header" role="tab" runat="server" id="Div6" visible="true" style="zoom:85%">
+                                    <div class="row col-10">
+                                        <div class="col-2  ">
+                                            <label class="control-label col-form-label">Búsqueda:</label>
+                                        </div>
+                                        <div class="col-8">
+                                            <asp:TextBox runat="server" ID="TextBox1" class="form-control text-uppercase" placeholder="Búsqueda por Id Tarjeta o Nombre del colaborador."  AutoPostBack="true"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                          </div>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>  
+                            
+
+                                                   
+
+                            <asp:UpdatePanel runat="server" ID="UpdatePanel10" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <div class="row p-t-20">
+                                        <div class="col-lg-12">
+                                            <div class="col-md-12" runat="server" id="div8" visible="true" style="zoom:75%">
+                                                <div class="row col-12 mt-3">
+                                                    <div class="table-responsive">
+                                                        <asp:GridView ID="GridView1" runat="server"
+                                                            CssClass="table  table-hover table-sm"
+                                                            PagerStyle-CssClass="pgr"
+                                                            HeaderStyle-CssClass="table"
+                                                            HeaderStyle-HorizontalAlign="center" 
+                                                            RowStyle-CssClass="rows" 
+                                                            AutoGenerateColumns="false" 
+                                                            AllowPaging="true" 
                                                             GridLines="None" 
                                                             PageSize="10">
                                                             <Columns>

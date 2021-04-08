@@ -128,11 +128,11 @@
              var data = google.visualization.arrayToDataTable(<%=obtenerCargabilidadFinalizado()%>);
 
              var options = {
-                 title: 'Tareas en Ejecución vrs WIP',
+                 title: 'WIP Tarjetas Finalizadas',
                  //vAxis: { title: 'Minutos' },
                  hAxis: { title: 'Días' },
                  seriesType: 'bars',
-                 width: 1000,
+                 width: 1200,
                  height: 500,
                  series: { 1: { type: 'line' } }
              };      
@@ -269,7 +269,7 @@
                                         <div class="col-md-12 m-t-30" runat="server" id="divGraficoFinalizada" visible="false">
                                             <center>
                                          <center>  
-                                         <div id="chart_Finalizado"  style="width: 1000px; height: 500px; align-items:center"></div>
+                                         <div id="chart_Finalizado"  style="width: 1100px; height: 500px; align-items:center"></div>
                                              <center/>
                                         </div>
                                         <div class="col-md-12 m-t-30" runat="server" id="divImagenFinalizado" visible="false">

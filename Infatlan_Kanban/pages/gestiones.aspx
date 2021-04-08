@@ -51,24 +51,32 @@
         </div>
     </div>
 
-    <asp:UpdatePanel runat="server" ID="UpdatePanel">
-        <ContentTemplate>
+
             <div class="card">
                 <div class="card-body">
-
                     <h4 class="card-title">Tipo de Gestiones</h4>
                     <h6 class="card-subtitle">Listado activo de gestiones técnicas.</h6>
 
-                    <div class="card-body" style="zoom:75%">
+                    <div class="card-body" style="zoom: 75%">
                         <div class="row col-12">
                             <label class="col-1 col-form-label">Búsqueda</label>
                             <div class="col-6">
-                                <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxBusqueda" class="form-control text-uppercase" AutoPostBack="true" OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
+                                <asp:UpdatePanel runat="server" ID="UpdatePanel5">
+                                    <ContentTemplate>
+
+                                        <asp:TextBox runat="server" PlaceHolder="Ingrese texto y presione Enter" ID="TxBusqueda" class="form-control text-uppercase" AutoPostBack="true" OnTextChanged="TxBusqueda_TextChanged"></asp:TextBox>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                             </div>
                             <div class="col-2 text-right">
+                                <asp:UpdatePanel runat="server" ID="UpdatePanel6">
+                                    <ContentTemplate>
                                 <asp:LinkButton ID="BtnNuevo" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnNuevo_Click">
                                          <i class="fa fa-plus-circle text-white mr-2"></i>Agregar Gestión
                                 </asp:LinkButton>
+
+                                          </ContentTemplate>
+                                </asp:UpdatePanel>  
                             </div>
 
 
@@ -80,12 +88,15 @@
                                          <i class="fa fa-download text-white mr-2"></i>Descargar Gestión
                                         </asp:LinkButton>
 
-                                   <%-- </ContentTemplate>
-                                </asp:UpdatePanel>--%>
+                                 
                             </div>
                         </div>
+                         
 
+                     
                         <div class="table-responsive m-t-20">
+                               <asp:UpdatePanel runat="server" ID="UpdatePanel">
+                            <ContentTemplate>
                             <asp:GridView ID="GVBusqueda" runat="server"
                                 CssClass="table  table-hover table-sm"
                                 PagerStyle-CssClass="pgr"
@@ -110,12 +121,14 @@
 
                                 </Columns>
                             </asp:GridView>
+                                  </ContentTemplate>
+                                </asp:UpdatePanel>
                         </div>
                     </div>
                 </div>
             </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
+       <%-- </ContentTemplate>
+    </asp:UpdatePanel>--%>
 
     <div class="modal fade" id="ModalGestiones" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="display: none;">
         <div class="modal-dialog modal-lg" role="document">
