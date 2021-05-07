@@ -2617,6 +2617,11 @@ namespace Infatlan_Kanban.pages
             divAlertaComentario_1.Visible = false;
         }
 
+        public void OpenModalLoad()
+        {
+            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "document.addEventListener(\"DOMContentLoaded\", function (event) { ModalTarjetaCerrarOpen(); });", true);
+        }
+
         protected void BtnConfirmarTarea_1_Click(object sender, EventArgs e)
         {
             try
@@ -2688,8 +2693,8 @@ namespace Infatlan_Kanban.pages
 
                     LbTituloCerrar.Text = "Está seguro de " + DdlAccion.SelectedItem.Text + ": " + vEx;
                     UpdatePanel14.Update();
-                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
-        
+                    //ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
+                    OpenModalLoad();
                 }
                 else if (DdlAccion.SelectedValue == "3")
                 {

@@ -10,6 +10,13 @@
         }
     </script>
 
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            console.log("DOM fully loaded and parsed");
+            getloc();
+        });
+    </script>
+
     <%--    <script type="text/javascript">   
         var UpdatePanel1 = '<%=UpdatePanel1.ClientID%>';
         $(function () {
@@ -624,12 +631,12 @@
                 <div class="modal-footer">
                     <asp:UpdatePanel ID="UpdatePanel4" runat="server">
                         <ContentTemplate>
-                            <asp:Button ID="BtnCancelarTarea_1" runat="server" Text="Cancelar" OnClick="BtnCancelarTarea_1_Click" class="btn btn-secondary" />
+                            <asp:Button ID="BtnCancelarTarea_1" runat="server" Text="Cancelar" OnClick="BtnCancelarTarea_1_Click" class="btn btn-secondary"   /> <!--  data-dismiss="ModalTarjeta"  aria-hidden="true" -->
                             <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar" OnClick="BtnConfirmarTarea_1_Click" class="btn" Style="background-color: #00468c; color: #ffffff;" />
                         </ContentTemplate>
-                      <%--  <Triggers>
+                        <Triggers>
                             <asp:PostBackTrigger ControlID="BtnConfirmarTarea_1" />
-                        </Triggers>--%>
+                        </Triggers>
                     </asp:UpdatePanel>
                 </div>
             </div>
