@@ -1839,6 +1839,19 @@ namespace Infatlan_Kanban.pages
 
                 UpdatePanel6.Update();
             }
+            else if (ddlTipoBusquedaCerradas.SelectedValue == "4")
+            {
+                divIdTarjeta.Visible = false;
+
+                divTxFechaInicio.Visible = true;
+                divTxFechaFin.Visible = true;
+                divOpciones.Visible = true;
+                DdlEquipoTrabajo.Visible = false;
+                DdlColaborador.Visible = false;
+                divBotonBusqueda.Visible = true;
+
+                UpdatePanel6.Update();
+            }
             else
             {
                 Response.Redirect("/pages/Tarjetas.aspx");
@@ -1964,6 +1977,28 @@ namespace Infatlan_Kanban.pages
                     string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
 
                     string vQuery = "GESTIONES_Solicitud 41,'" + DdlEquipoTrabajo.SelectedValue + "','" + vFechaInicioSoli + "','" + vFechaFinSoli + "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                    GvSolicitudesColaborador.DataSource = vDatos;
+                    GvSolicitudesColaborador.DataBind();
+                    UpSolicitudesColaboradores.Update();
+                    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
+                }
+                else if (ddlTipoBusquedaCerradas.SelectedValue == "4")
+                {
+                    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
+                        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
+
+                    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
+                        throw new Exception("Favor ingrese fecha final de la búsqueda.");
+
+                    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+                    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
+
+                    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
+                    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
+
+                    string vQuery = "GESTIONES_Solicitud 42,'" + Session["USUARIO"].ToString() + "','" + vFechaInicioSoli + "','" + vFechaFinSoli + "'";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
                     GvSolicitudesColaborador.DataSource = vDatos;

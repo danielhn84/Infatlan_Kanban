@@ -85,7 +85,7 @@ namespace Infatlan_Kanban
                 foreach (DataRow item in vDatos.Rows)
                 {
                     strDatos = strDatos + "[";
-                    strDatos = strDatos + "'" + item["fecha"].ToString() + "'," + item["minutos"].ToString() + "," + item["wip"].ToString();
+                    strDatos = strDatos + "'" + Convert.ToDateTime(item["fecha"].ToString()).ToString("yyyy-MM-dd") + "'," + item["minutos"].ToString() + "," + item["wip"].ToString();
                     strDatos = strDatos + "],";
                 }
             }

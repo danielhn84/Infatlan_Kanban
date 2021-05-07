@@ -201,6 +201,7 @@
                                                     <asp:ListItem Value="1" Text="Id Tarjeta"></asp:ListItem>
                                                     <asp:ListItem Value="2" Text="Rango de Fechas Colaborador"></asp:ListItem>
                                                     <asp:ListItem Value="3" Text="Rango de Fechas Equipo"></asp:ListItem>
+                                                    <asp:ListItem Value="4" Text="Rango de Fechas Tarjetas Asignadas"></asp:ListItem>
                                                 </asp:DropDownList>
                                             </div>
                                             <div class="col-3" runat="server" id="divIdTarjeta" visible="false">
