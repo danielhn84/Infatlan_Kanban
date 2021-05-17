@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/main.Master" AutoEventWireup="true" CodeBehind="miTablero.aspx.cs" Inherits="Infatlan_Kanban.pages.miTablero" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+
+
     <script type="text/javascript">
         var updateProgress = null;
         function postbackButtonClick() {
@@ -9,32 +11,35 @@
             return true;
         }
     </script>
+    <script type="text/javascript">  
+        function Calculation(e, value) {
+            var grid = document.getElementById("<%= GvCheckList.ClientID %>");
+            var rowData = e.parentNode.parentNode;
+            var rowIndex = rowData.rowIndex;
 
-    <script type="text/javascript">
+            if (value != '') {
+                for (var rowId = 1; rowId < grid.rows.length; rowId++) {
+                    if (rowIndex === rowId) {
+                        var txtbx = grid.rows[rowId].cells[0].children[0];
+                        txtbx.value = "Si";
+                    }
+                }
+            } else {
+                for (var rowId = 1; rowId < grid.rows.length; rowId++) {
+                    if (rowIndex === rowId) {
+                        var txtbx = grid.rows[rowId].cells[0].children[0];
+                        txtbx.value = "No";
+                    }
+                }
+            }         
+        }
+    </script>
+
+ 
+     <%--   <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function (event) {
             console.log("DOM fully loaded and parsed");
             getloc();
-        });
-    </script>
-
-    <%--    <script type="text/javascript">   
-        var UpdatePanel1 = '<%=UpdatePanel1.ClientID%>';
-        $(function () {
-            $("#btnModal").click(function () {
-                document.getElementById("<%=TxTitulo.ClientID%>").value = $(this).data('titulo');
-                    __doPostBack(UpdatePanel1, '');
-                });
-            });
-    </script>--%>
-
-    <%--
-            <script type="text/javascript">   
-            var UpdatePanel1 = '<%=UpdatePanel1.ClientID%>';
-            $(function () {
-                $("#btnModalBusqueda").click(function () {
-                    document.getElementById("<%=HiddenId.ClientID%>").value = $(this).data('titulo');
-                __doPostBack('<%= HiddenId.ClientID %>', '');
-            });
         });
     </script>--%>
 
@@ -64,10 +69,12 @@
     <link href="dist/css/pages/tab-page.css" rel="stylesheet">
     <link href="../dist/css/pages/tab-page.css" rel="stylesheet" />
 
-      <link href="../dist/css/pages/ribbon-page.css" rel="stylesheet">
-
+    <link href="../dist/css/pages/ribbon-page.css" rel="stylesheet">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
+
+
+
     <asp:UpdateProgress ID="UpdateProgress1" runat="server">
         <ProgressTemplate>
             <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #ffffff; opacity: 0.7; margin: 0;">
@@ -94,9 +101,9 @@
 
                         <asp:Label ID="Label7" runat="server" Text="   ccc" ForeColor="White"></asp:Label>
 
-                           <asp:LinkButton ID="BtnAddOperativa" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn"  OnClick="BtnAddOperativa_Click" >
+                        <asp:LinkButton ID="BtnAddOperativa" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnAddOperativa_Click">
                                         <i class="fa fa-plus-circle text-white mr-2"></i>Tarjeta Operativa
-                                    </asp:LinkButton>
+                        </asp:LinkButton>
 
 
                         <asp:LinkButton ID="BtnAddTarjeta" runat="server" title="Agregar" Text="Agregar" Style="background-color: #00468c; color: #ffffff;" class="btn" OnClick="BtnAddTarjeta_Click">
@@ -117,13 +124,13 @@
                 <div class="card-body">
                     <div class="row col-12">
                         <h4 class="card-title">Tablero Kanban Board</h4>
-                        
+
                     </div>
                     <div class="row col-12">
                         <div class="col-3">
-                             <h6 class="card-subtitle">Listado de tarjetas.</h6>
+                            <h6 class="card-subtitle">Listado de tarjetas.</h6>
                         </div>
-                       
+
                         <div class="col-9 text-right" style="zoom: 75%">
                             <asp:Label ID="Label6" runat="server" Text="Prioridades:" ForeColor="Black"></asp:Label>
                             <span class="label label-danger">Máxima</span>
@@ -134,7 +141,7 @@
                     </div>
 
                     <div class="card-body">
-                        <asp:UpdatePanel runat="server" ID="UpdatePanel17"  UpdateMode="Conditional">
+                        <asp:UpdatePanel runat="server" ID="UpdatePanel17" UpdateMode="Conditional">
                             <ContentTemplate>
                                 <div class="card-header" role="tab" runat="server" id="DivBusquedaReportes" visible="false">
                                     <div class="row col-12 font-12" runat="server" id="rowDetalle">
@@ -279,7 +286,7 @@
                         <ContentTemplate>
                             <asp:HiddenField ID="HiddenId" OnValueChanged="btnTickectEvento" runat="server" />
 
-
+                     
                             <div class="vtabs">
                                 <ul class="nav nav-tabs tabs-vertical" role="tablist">
                                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab" runat="server" id="tabGenerales"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspGenerales</span></a></li>
@@ -574,44 +581,53 @@
                                     </div>
 
                                     <div class="tab-pane" id="verificacion" role="tabpanel" style="height: 450px; width: 630px;">
-                                       <%-- <asp:UpdatePanel runat="server" ID="UpdatePanel32" UpdateMode="Conditional" >
+                                        <%-- <asp:UpdatePanel runat="server" ID="UpdatePanel32" UpdateMode="Conditional" >
                                             <ContentTemplate>--%>
-                                                <div class="row p-t-20" runat="server" id="div11" visible="true">
-                                                    <div class="col-12">
-                                                        <!--Fin Fila 1-->
-                                                        <div class="table-responsive">
-                                                            <asp:GridView ID="GvCheckList" runat="server"
-                                                                CssClass="table table-hover table-sm"
-                                                                PagerStyle-CssClass="pgr"
-                                                                HeaderStyle-CssClass="table"
-                                                                RowStyle-CssClass="rows"
-                                                                AutoGenerateColumns="false"
-                                                                HeaderStyle-HorizontalAlign="center"
-                                                                AllowPaging="true"  OnRowDataBound="GvCheckList_RowDataBound"
-                                                                GridLines="None"
-                                                                PageSize="10">
-                                                                <Columns>
-                                                                    <asp:BoundField DataField="tipo" Visible="true" HeaderText="Tipo" ItemStyle-Width="1%" />
-                                                                    <asp:BoundField DataField="pregunta" Visible="true" HeaderText="Pregunta" ItemStyle-Width="30%" />
-                                                                  
-                                                                    <asp:TemplateField HeaderText="Respuesta" ItemStyle-HorizontalAlign="center" ItemStyle-Width="90%">
-                                                                        <ItemTemplate>
-                                                                            <%--<input type="file" id="FuRespuesta"  runat="server" class="form-control" />--%>
-                                                                            <asp:FileUpload ID="FuRespuesta" runat="server"  class="form-control" />
-                                                                            <asp:TextBox ID="TxRespuesta" TextMode="MultiLine" Width="100%" Rows="3" Visible="false" runat="server" ></asp:TextBox>                                                                    
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
+                                        <div class="col-12" style="text-align: center">
+                                                <%--<div style="text-align: center;">--%>
+                                                    <asp:CheckBoxList ID="ckEscalacion" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green" AutoPostBack="false" >
+                                                        <asp:ListItem Value="1" Text="&nbspTarjeta Requiere Escalación.  Nota: (Se enviará notificación a los responsables)."></asp:ListItem>
+                                                    </asp:CheckBoxList> 
+                                               <%-- </div>--%>
+                                         </div>
+                                        <div class="row p-t-20" runat="server" id="div11" visible="true">                                             
+                                            <div class="col-12">                                          
+                                                <!--Fin Fila 1-->
+                                                <div class="table-responsive">
+                                                    <asp:GridView ID="GvCheckList" runat="server"
+                                                        CssClass="table table-hover table-sm"
+                                                        PagerStyle-CssClass="pgr"
+                                                        HeaderStyle-CssClass="table"
+                                                        RowStyle-CssClass="rows"
+                                                        AutoGenerateColumns="false"
+                                                        HeaderStyle-HorizontalAlign="center"
+                                                        AllowPaging="true" OnRowDataBound="GvCheckList_RowDataBound"
+                                                        GridLines="None"
+                                                        PageSize="10">
+                                                        <Columns>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <asp:TextBox ID="txtEvtTo" runat="server" Text="No" Width="2px" Height="2px" ReadOnly="false"  Visible="true" BackColor="#00468c" BorderColor="#00468c"></asp:TextBox>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:BoundField DataField="tipo" Visible="true" HeaderText="Pregunta" ItemStyle-Width="1%" />
+                                                            <asp:BoundField DataField="pregunta" Visible="true" HeaderText="Respuesta" ItemStyle-Width="30%" />
+                                                            <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="center" ItemStyle-Width="90%">
+                                                                <ItemTemplate>
+                                                                    <asp:FileUpload ID="FuRespuesta"  runat="server" class="form-control" onchange="Calculation(this, this.value)"  />
+                                                                    <asp:TextBox ID="TxRespuesta" TextMode="MultiLine" Width="100%" Rows="3" Visible="false" runat="server"></asp:TextBox>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>                                                     
 
-                                                                </Columns>
-                                                            </asp:GridView>
-                                                        </div>
-                                                    </div>
+                                                        </Columns>
+                                                    </asp:GridView>
                                                 </div>
-                                           <%-- </ContentTemplate>
+                                            </div>
+                                        </div>
+                                        <%-- </ContentTemplate>
                                         </asp:UpdatePanel>--%>
                                     </div>
-
-                                    <br />
+                                    <br />                                     
                                 </div>
                             </div>
                         </ContentTemplate>
@@ -619,24 +635,25 @@
                 </div>
                 <asp:UpdatePanel runat="server" ID="UpdatePanel5">
                     <ContentTemplate>
-                        <div class="col-md-12" runat="server" id="divAlertaGuardar" visible="false" style="text-align: center">
+                        <div class="col-md-12" runat="server" id="divAlertaGuardar" visible="true" style="text-align: center">
                             <p>
                                 <b><code>
                                     <label class="col-form-label" runat="server" id="LbAlertaGuardar"></label>
                                 </code></b>
-                            </p>
+                            </p>                          
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
                 <div class="modal-footer">
-                    <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                    <asp:UpdatePanel ID="UpdatePanel4" runat="server" >
                         <ContentTemplate>
-                            <asp:Button ID="BtnCancelarTarea_1" runat="server" Text="Cancelar" OnClick="BtnCancelarTarea_1_Click" class="btn btn-secondary"   /> <!--  data-dismiss="ModalTarjeta"  aria-hidden="true" -->
-                            <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar" OnClick="BtnConfirmarTarea_1_Click" class="btn" Style="background-color: #00468c; color: #ffffff;" />
+                            <asp:Button ID="BtnCancelarTarea_1" runat="server" Text="Cancelar" OnClick="BtnCancelarTarea_1_Click" class="btn btn-secondary" />
+                            <asp:Button ID="BtnConfirmarTarea_1" runat="server" Text="Enviar" OnClick="BtnConfirmarTarea_1_Click" class="btn" Style="background-color: #00468c; color: #ffffff;" Visible="true" />
+                          <%--  <asp:Button ID="BtnValidar" runat="server" Text="Validar" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnValidar_Click" />--%>
                         </ContentTemplate>
-                        <Triggers>
+<%--                        <Triggers>
                             <asp:PostBackTrigger ControlID="BtnConfirmarTarea_1" />
-                        </Triggers>
+                        </Triggers>--%>
                     </asp:UpdatePanel>
                 </div>
             </div>
@@ -658,7 +675,6 @@
                     </asp:UpdatePanel>
                 </div>
 
-                <%--style="padding-left: 40px; padding-right: 40px; padding-top: 20px; padding-bottom: 20px;"--%>
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdatePanel10" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
@@ -976,7 +992,7 @@
     </div>
 
     <%--MODAL DE CONFIRMACION--%>
-    <div class="modal fade" id="ModalTarjetaConfirmar" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none; ">
+    <div class="modal fade" id="ModalTarjetaConfirmar" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
             <%--<div class="modal-content" style="width: 800px; height: 910px; top: 452px; left: 50%; transform: translate(-50%, -50%);">--%>
             <div class="modal-content" style="width: 895px; height: 900px; top: 414px; left: 50%; transform: translate(-50%, -50%);">
@@ -1212,8 +1228,8 @@
                         <ul class="nav nav-tabs tabs-vertical" role="tablist">
                             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#homeCrearOperativa" role="tab" runat="server" id="A2"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspGenerales</span></a></li>
                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#comentariosCrearOperativa" role="tab" runat="server" id="A4"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspComentarios</span></a></li>
-                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#NotificacionCrearOperativa" role="tab" runat="server" id="A5"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspNotificaciones</span></a></li>
-                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#LVCrearOperativa" role="tab" runat="server" id="A6"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspCheck List</span></a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#NotificacionCrearOperativa" role="tab" runat="server" id="A5"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspNotificaciones</span></a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#LVCrearOperativa" role="tab" runat="server" id="A6"><span class="hidden-sm-up"></span><span class="hidden-xs-down">&nbspCheck List</span></a></li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content" style="height: 400px; width: 600px;">
@@ -1224,10 +1240,10 @@
                                             <div class="col-4" runat="server">
                                                 <label class="control-label"></label>
                                                 <div style="text-align: center;">
-                                                    <asp:CheckBoxList ID="CkTiempoIlimitado" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green" AutoPostBack="true" OnSelectedIndexChanged="CkTiempoIlimitado_SelectedIndexChanged" >
+                                                    <asp:CheckBoxList ID="CkTiempoIlimitado" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green" AutoPostBack="true" OnSelectedIndexChanged="CkTiempoIlimitado_SelectedIndexChanged">
                                                         <asp:ListItem Value="1" Text="&nbspTarjeta Tiempo Ilimitado"></asp:ListItem>
                                                     </asp:CheckBoxList>
-                                                </div>                                          
+                                                </div>
                                             </div>
 
                                             <div class="col-4" runat="server">
@@ -1235,10 +1251,10 @@
                                                 <asp:TextBox ID="TxFechaSolicitudOperativa" AutoPostBack="true" ReadOnly="true" runat="server" class="form-control text-center"></asp:TextBox>
                                             </div>
 
-                                            <div class="col-4" runat="server" >
+                                            <div class="col-4" runat="server">
                                                 <label class="control-label">Fecha Fin Tarjeta:</label>
                                                 <asp:TextBox ID="TxFechaFinTarjeta" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control" Visible="false"></asp:TextBox>
-                                             <asp:TextBox ID="TxNoVence" Text="Nunca Vence" BackColor="Green" ForeColor="White"  AutoPostBack="true" runat="server"  ReadOnly="true" class="form-control text-center"></asp:TextBox>
+                                                <asp:TextBox ID="TxNoVence" Text="Nunca Vence" BackColor="Green" ForeColor="White" AutoPostBack="true" runat="server" ReadOnly="true" class="form-control text-center"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="row p-t-20">
@@ -1271,7 +1287,7 @@
                                             </div>
                                             <div class="col-1">
                                             </div>
-                                    
+
                                             <div class="col-1">
                                                 <asp:CheckBoxList ID="ckDomingo" runat="server" CssClass="check green" data-checkbox="icheckbox_flat-green">
                                                     <asp:ListItem Value="1" Text="Dom"></asp:ListItem>
@@ -1353,18 +1369,17 @@
                                             <div class="col-3">
 
                                                 <label class="control-label">Tipo Gestión:</label>
-                                             <%--   <asp:DropDownList runat="server" ID="DdlGestionOperativa" CssClass="select2 form-control custom-select  font-12" Style="width: 100%" AutoPostBack="true" Enabled="false"></asp:DropDownList>--%>
+                                                <%--   <asp:DropDownList runat="server" ID="DdlGestionOperativa" CssClass="select2 form-control custom-select  font-12" Style="width: 100%" AutoPostBack="true" Enabled="false"></asp:DropDownList>--%>
                                             </div>
                                             <div class="col-9">
                                                 <asp:DropDownList runat="server" ID="DdlGestionOperativa" CssClass="select2 form-control custom-select  font-12" Style="width: 100%" AutoPostBack="true" Enabled="false"></asp:DropDownList>
                                             </div>
                                         </div>
 
-<%--                                        <div class="form-group row" runat="server" id="div11">--%>
-                                            <!--Inicio Fila 1-->
+                                        <%--                                        <div class="form-group row" runat="server" id="div11">--%>
+                                        <!--Inicio Fila 1-->
 
-                                      <%--  </div>--%>
-
+                                        <%--  </div>--%>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                                 <div class="row p-t-20">
@@ -1385,10 +1400,10 @@
                                                 <label class="control-label">Comentario:</label>
                                             </div>
                                             <div class="col-8">
-                                                <asp:TextBox ID="TxComentarioOperativa" TextMode="MultiLine" Rows="1" AutoPostBack="true" runat="server" class="form-control text-uppercase" ></asp:TextBox>
+                                                <asp:TextBox ID="TxComentarioOperativa" TextMode="MultiLine" Rows="1" AutoPostBack="true" runat="server" class="form-control text-uppercase"></asp:TextBox>
                                             </div>
                                             <div class="col-2" style="text-align: center">
-                                                <asp:LinkButton ID="BtnAddComenOperativa" runat="server" Text="+" title="Añadir" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnAddComenOperativa_Click" ></asp:LinkButton>
+                                                <asp:LinkButton ID="BtnAddComenOperativa" runat="server" Text="+" title="Añadir" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnAddComenOperativa_Click"></asp:LinkButton>
                                             </div>
 
                                         </div>
@@ -1412,7 +1427,7 @@
                                                         RowStyle-CssClass="rows"
                                                         AutoGenerateColumns="false" OnRowCommand="GvComentariosOperativas_RowCommand"
                                                         AllowPaging="true" OnPageIndexChanging="GvComentariosOperativas_PageIndexChanging"
-                                                        GridLines="None" 
+                                                        GridLines="None"
                                                         PageSize="10">
                                                         <Columns>
                                                             <asp:BoundField DataField="idComentario" Visible="false" HeaderText="Usuario" ItemStyle-Width="35%" />
@@ -1426,7 +1441,7 @@
                                                                     </asp:LinkButton>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                        
+
                                                         </Columns>
                                                     </asp:GridView>
                                                 </div>
@@ -1445,10 +1460,10 @@
                                                 <label class="control-label">Personal a Notificar:</label>
                                             </div>
                                             <div class="col-7">
-                                               <asp:DropDownList runat="server" ID="DdlNotificar" CssClass="select2 form-control custom-select font-12" AutoPostBack="true" Style="width: 100%;" ></asp:DropDownList>
+                                                <asp:DropDownList runat="server" ID="DdlNotificar" CssClass="select2 form-control custom-select font-12" AutoPostBack="true" Style="width: 100%;"></asp:DropDownList>
                                             </div>
                                             <div class="col-2" style="text-align: center">
-                                                <asp:LinkButton ID="BtnPesonalAdd" runat="server" Text="+" title="Añadir" class="btn" Style="background-color: #00468c; color: #ffffff;"   OnClick="BtnPesonalAdd_Click"></asp:LinkButton>
+                                                <asp:LinkButton ID="BtnPesonalAdd" runat="server" Text="+" title="Añadir" class="btn" Style="background-color: #00468c; color: #ffffff;" OnClick="BtnPesonalAdd_Click"></asp:LinkButton>
                                             </div>
                                         </div>
 
@@ -1473,14 +1488,14 @@
                                                         RowStyle-CssClass="rows"
                                                         AutoGenerateColumns="false" OnRowCommand="GvNotificacion_RowCommand"
                                                         AllowPaging="true" OnPageIndexChanging="GvNotificacion_PageIndexChanging"
-                                                        GridLines="None" 
+                                                        GridLines="None"
                                                         PageSize="10">
                                                         <Columns>
                                                             <asp:BoundField DataField="idNotificacion" Visible="false" HeaderText="Id" ItemStyle-Width="5%" />
                                                             <asp:BoundField DataField="usuario" Visible="true" HeaderText="Usuario" ItemStyle-Width="15%" />
-                                                            <asp:BoundField DataField="nombre" HeaderText="Nombre" Visible="true" ItemStyle-Width="95%" ItemStyle-HorizontalAlign="center"  />
+                                                            <asp:BoundField DataField="nombre" HeaderText="Nombre" Visible="true" ItemStyle-Width="95%" ItemStyle-HorizontalAlign="center" />
 
-                                                             <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center" ItemStyle-Width="15%">                                                      
+                                                            <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center" ItemStyle-Width="15%">
                                                                 <ItemTemplate>
                                                                     <asp:LinkButton ID="BtnEliminarNoti" runat="server" title="Eliminar" class="btn btn-primary mr-2" CommandArgument='<%#Eval("idNotificacion")%>' CommandName="Eliminar">
                                                                         <i class="mdi mdi-delete" ></i>
@@ -1501,7 +1516,7 @@
                             <div class="tab-pane" id="LVCrearOperativa" role="tabpanel" style="height: 450px; width: 630px;">
                                 <asp:UpdatePanel runat="server" ID="UpdatePanel31" UpdateMode="Conditional">
                                     <ContentTemplate>
-       <%--                                 <div class="collapse m-t-15" id="pgr2">
+                                        <%--                                 <div class="collapse m-t-15" id="pgr2">
                                             <pre class="line-numbers language-javascript"><code>&lt;div class="progress"&gt;<br/>&lt;div class="progress-bar bg-success" role="progressbar" style="width: 75%;height:15px;" role="progressbar""&gt; 75% &lt;/div&gt;<br/>&lt;/div&gt;</code></pre>
                                         </div>
                                         <div class="progress m-t-20">
@@ -1546,14 +1561,14 @@
                                                         HeaderStyle-HorizontalAlign="center"
                                                         RowStyle-CssClass="rows"
                                                         AutoGenerateColumns="false"
-                                                        AllowPaging="true"  OnRowCommand="GvOpcionesLista_RowCommand"
+                                                        AllowPaging="true" OnRowCommand="GvOpcionesLista_RowCommand"
                                                         GridLines="None" OnPageIndexChanging="GvOpcionesLista_PageIndexChanging"
                                                         PageSize="10">
                                                         <Columns>
                                                             <asp:BoundField DataField="idOpcion" Visible="false" HeaderText="Id" ItemStyle-Width="3%" />
                                                             <asp:BoundField DataField="pregunta" HeaderText="Opción" Visible="true" ItemStyle-Width="95%" />
                                                             <asp:BoundField DataField="tipo" HeaderText="Tipo" Visible="true" ItemStyle-Width="95%" />
-                                                            <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center" ItemStyle-Width="15%">                                                      
+                                                            <asp:TemplateField HeaderText="Seleccione" ItemStyle-HorizontalAlign="center" ItemStyle-Width="15%">
                                                                 <ItemTemplate>
                                                                     <asp:LinkButton ID="BtnEliminarComen" runat="server" title="Eliminar" class="btn btn-primary mr-2" CommandArgument='<%#Eval("idOpcion")%>' CommandName="Eliminar">
                                                                         <i class="mdi mdi-delete" ></i>
@@ -1616,7 +1631,7 @@
                 <div class="modal-body">
                     <asp:UpdatePanel ID="UpdatePanel28" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
-<%--                            <h6 style="font-size: 15px;"><b>║Cargabilidad Minutos Diarios:</b></h6>
+                            <%--                            <h6 style="font-size: 15px;"><b>║Cargabilidad Minutos Diarios:</b></h6>
                             <div class="table-responsive">
                                 <asp:GridView ID="GVDistribucionOperativa" runat="server" Visible="true"
                                     CssClass="table table-hover table-sm"
@@ -1634,7 +1649,7 @@
                                 </asp:GridView>
                             </div>--%>
 
-                           <%-- <br />--%>
+                            <%-- <br />--%>
                             <h6 style="font-size: 15px;"><b>║Datos Generales:</b></h6>
                             <br />
                             <div class="form-group row">
@@ -1677,7 +1692,7 @@
                             </div>
 
 
- 
+
 
                         </ContentTemplate>
                     </asp:UpdatePanel>
@@ -1699,8 +1714,15 @@
         </div>
     </div>
 
+
+
+    <asp:HiddenField ID="TxCantImagenes" runat="server" />
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
+
+
+
     <%--    <script type="text/javascript">   
         var UpdatePanel1 = '<%=UpdatePanel1.ClientID%>';
         $(function () {
@@ -1727,7 +1749,17 @@
     <asp:Literal ID="LitAtrasados" runat="server"></asp:Literal>
     <asp:Literal ID="LitCompletadosHoy" runat="server"></asp:Literal>
     <asp:Literal ID="LitDetenidas" runat="server"></asp:Literal>
-
+<%--        <script type="text/javascript">  
+            function Calculation() {
+                var grid = document.getElementById("<%= GvCheckList.ClientID %>");
+                for (var i = 0; i < grid.rows.length - 1; i++) {
+                    var txtAmountReceive = $("input[id*=TxValidacion]")
+                    if (txtAmountReceive[i].value != '') {
+                        alert(txtAmountReceive[i].value);
+                    }
+                }
+            }
+    </script> --%>
 
     <%--COMBO BUSCADOR--%>
 

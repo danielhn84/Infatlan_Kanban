@@ -636,6 +636,15 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.GridView GvHistorial;
 
         /// <summary>
+        /// Control ckEscalacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList ckEscalacion;
+
+        /// <summary>
         /// Control div11.
         /// </summary>
         /// <remarks>
@@ -2074,6 +2083,15 @@ namespace Infatlan_Kanban.pages
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnEnviarOperativaConfirmar;
+
+        /// <summary>
+        /// Control TxCantImagenes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField TxCantImagenes;
 
         /// <summary>
         /// Control LitEnCola.

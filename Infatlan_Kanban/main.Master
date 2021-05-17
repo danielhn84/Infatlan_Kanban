@@ -16,6 +16,7 @@
     <link href="/dist/css/animate.min.css" rel="stylesheet" />
     <link href="/dist/css/style.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="/images/favicon.fw.png" />
+    
     <script type="text/javascript"> 
         infatlan = {
             showNotification: function (from, align, mensaje, tipo) {
