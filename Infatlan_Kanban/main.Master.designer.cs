@@ -33,24 +33,6 @@ namespace Infatlan_Kanban
         protected global::System.Web.UI.WebControls.Literal LitUsuario;
 
         /// <summary>
-        /// Control TxUser.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText TxUser;
-
-        /// <summary>
-        /// Control LitUser.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal LitUser;
-
-        /// <summary>
         /// Control LiDashboard.
         /// </summary>
         /// <remarks>
@@ -58,6 +40,15 @@ namespace Infatlan_Kanban
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiDashboard;
+
+        /// <summary>
+        /// Control LiMiDashboard.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiMiDashboard;
 
         /// <summary>
         /// Control LiTablero.
@@ -69,6 +60,15 @@ namespace Infatlan_Kanban
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiTablero;
 
         /// <summary>
+        /// Control LiMiTablero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiMiTablero;
+
+        /// <summary>
         /// Control LiTarjeta.
         /// </summary>
         /// <remarks>
@@ -78,13 +78,13 @@ namespace Infatlan_Kanban
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiTarjeta;
 
         /// <summary>
-        /// Control LiConfig.
+        /// Control LiMiTarjetas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiConfig;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiMiTarjetas;
 
         /// <summary>
         /// Control LiUsuario.

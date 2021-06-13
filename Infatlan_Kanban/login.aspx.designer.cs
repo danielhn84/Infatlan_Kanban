@@ -24,13 +24,13 @@ namespace Infatlan_Kanban
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl MyDiv;
 
         /// <summary>
-        /// Control loginform.
+        /// Control Form1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm loginform;
+        protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
 
         /// <summary>
         /// Control TxUsername.
@@ -58,15 +58,6 @@ namespace Infatlan_Kanban
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnLogin;
-
-        /// <summary>
-        /// Control HiddenField1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HiddenField1;
 
         /// <summary>
         /// Control LbMensaje.

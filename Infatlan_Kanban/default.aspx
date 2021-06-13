@@ -132,7 +132,7 @@
                  //vAxis: { title: 'Minutos' },
                  hAxis: { title: 'Días' },
                  seriesType: 'bars',
-                 width: 1200,
+                 width: 1000,
                  height: 500,
                  series: { 1: { type: 'line' } }
              };      
@@ -142,6 +142,7 @@
     </script>
 
 
+ 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
     <asp:UpdateProgress ID="UpdateProgress1" runat="server">
@@ -155,8 +156,7 @@
 
     <div class="row page-titles">
         <div class="col-md-12">
-            <%-- <h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>--%>
-            <img src="../images/bannerTexto.JPG" />
+            <img src="../images/TextoBlanco.png" height="20"/>
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb">
@@ -164,6 +164,7 @@
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
         </div>
+
     </div>
 
     <asp:UpdatePanel runat="server" ID="UpdatePanel8" UpdateMode="Conditional">
@@ -209,30 +210,23 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
-
-
-    <div class="row p-t-20" style="zoom:80%">
+    <div class="row p-t-20" style="zoom: 80%">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <br />
-
-
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel" aria-labelledby="nav-datos-tab">
                             <div class="form-body col-md-12">
-
                                 <br />
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="fa fa-calendar-minus-o"></i></span><span class="hidden-xs-down"> Tareas en Ejecución</span></a> </li>
-                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIP" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-bars"></i></span><span class="hidden-xs-down"> Tareas en Ejecución vrs WIP</span></a> </li>
-                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIPFinalizadas" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-archive"></i></span><span class="hidden-xs-down"> Tareas Finalizadas vrs WIP</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="fa fa-calendar-minus-o"></i></span><span class="hidden-xs-down">Tareas en Ejecución</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIP" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-bars"></i></span><span class="hidden-xs-down">Tareas en Ejecución vrs WIP</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIPFinalizadas" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-archive"></i></span><span class="hidden-xs-down">Tareas Finalizadas vrs WIP</span></a> </li>
                                 </ul>
-
                                 <div class="tab-content tabcontent-border">
                                     <!--PRIMER CONTENIDO-->
                                     <div class="tab-pane active p-20" id="home" role="tabpanel">
-
                                         <div class="col-md-12 m-t-30" runat="server" id="divGraficoApilado" visible="false">
                                             <center>
                                          <center>
@@ -249,8 +243,9 @@
                                     </div>
 
                                     <div class="tab-pane  p-20" id="tareasWIP" role="tabpanel">
-                                                  
-                                        <div class="col-md-12 m-t-30" runat="server" id="divGraficoCargabilidad" visible="false">                                            <center>
+
+                                        <div class="col-md-12 m-t-30" runat="server" id="divGraficoCargabilidad" visible="false">
+                                            <center>
                                          <center>  
                                          <div id="chart_div"  style="width: 1000px; height: 500px; align-items:center"></div>
                                              <center/>
@@ -261,15 +256,13 @@
                                             <img src="images/NoData.JPG"/>
                                         <center/>
                                         </div>
-
                                     </div>
-
                                     <div class="tab-pane  p-20" id="tareasWIPFinalizadas" role="tabpanel">
 
                                         <div class="col-md-12 m-t-30" runat="server" id="divGraficoFinalizada" visible="false">
                                             <center>
                                          <center>  
-                                         <div id="chart_Finalizado"  style="width: 1100px; height: 500px; align-items:center"></div>
+                                         <div id="chart_Finalizado"  style="width: 1000px; height: 500px; align-items:center"></div>
                                              <center/>
                                         </div>
                                         <div class="col-md-12 m-t-30" runat="server" id="divImagenFinalizado" visible="false">
@@ -284,7 +277,6 @@
 
 
                                 <div class="row">
-
                                     <div class="col-md-4 m-t-30" runat="server" id="divGraficoEstadosCerrados" visible="false">
                                         <center>
                                          <asp:Label ID="Label1" runat="server" Text="Tarjetas Cerradas" BackColor="#00468c" ForeColor="White"  width="400" height="20"></asp:Label>
@@ -298,7 +290,6 @@
                                         <center/>
                                     </div>
 
-
                                     <div class="col-md-4 m-t-30" runat="server" id="divGraficoEstados" visible="false">
                                         <center>
                                          <asp:Label ID="Label2" runat="server" Text="Estados Tarjetas" BackColor="#00468c" ForeColor="White"  width="400" height="20"></asp:Label>
@@ -311,8 +302,6 @@
                                             <img src="images/NoData.JPG"/>
                                         <center/>
                                     </div>
-
-
                                     <div class="col-md-4 m-t-30" runat="server" id="divGraficoGestiones" visible="false">
                                         <center>
                                          <asp:Label ID="Label5" runat="server" Text="Tipo Gestiones" BackColor="#00468c" ForeColor="White"  width="400" height="20"></asp:Label>
@@ -326,29 +315,14 @@
                                             <img src="images/NoData.JPG"/>
                                         <center/>
                                     </div>
-
-
-
-
-
-                                   
-
                                 </div>
-
                             </div>
                         </div>
-
-
-
-
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
-
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
 </asp:Content>

@@ -21,18 +21,26 @@ namespace Infatlan_Kanban.pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            select2();
-            if (!Page.IsPostBack)
+            try
             {
-                if (Convert.ToBoolean(Session["AUTH"]))
+                select2();
+                if (!Page.IsPostBack)
                 {
-                    cargarDatos();
-                }
-                else
-                {
-                    Response.Redirect("/login.aspx");
+                    if (Convert.ToBoolean(Session["AUTH"]))
+                    {
+                        cargarDatos();
+                    }
+                    else
+                    {
+                        Response.Redirect("/login.aspx");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+
         }
 
         private void select2()

@@ -1,7 +1,7 @@
 // Green colors
 .skin-purple {
     /*Theme Colors*/
-    $themecolor: #673AB7;
+    $themecolor: #6f42c1;
     $themecolor-alt: #26c6da;
     // Topbar
     .topbar {
@@ -15,25 +15,33 @@
         }
     }
     //Sidebar
-    .sidebar-nav {
-        ul li a {
-            &.active,
+    .side-mini-panel {
+        ul.mini-nav {
+            > li {
+                &:hover > a, &.selected > a {
+                    border-left: 3px solid $themecolor;
+                }
+                &.selected > a {
+                    color: $themecolor;
+                }
+            }
+        }
+    }
+    .togglediv #togglebtn i:hover,
+    .togglediv #togglebtn i:focus {
+        color: $themecolor;
+    }
+    .sidebar-menu {
+        a {
+            &.active {
+                color: $themecolor;
+            } 
+        }
+        > li > a {
             &:hover {
                 color: $themecolor;
-                i {
-                    color: $themecolor;
-                }
             }
-        }
-        > ul > li {
-            &.active > a {
-                color: $themecolor;
-                border-left: 3px solid $themecolor;
-                i {
-                    color: $themecolor;
-                }
-            }
-        }
+        } 
     }
     
     //Bread-crumb

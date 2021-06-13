@@ -39,7 +39,7 @@
 
     <div class="row page-titles">
         <div class="col-md-12">
-            <img src="../images/bannerTexto.JPG" />
+                         <img src="../images/TextoBlanco.png" height="20"/>
             <%--<h4 class=" text-dark">Kanban Board | Gestiones Técnicas</h4>--%>
         </div>
         <div class="col-md-6">

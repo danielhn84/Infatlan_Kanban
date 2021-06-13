@@ -4,15 +4,20 @@ Fixed -sidebar
 ******************/
 
 .fixed-sidebar{
-    .left-sidebar, .navbar-header{
+    .side-mini-panel {
         position: fixed;
     }
+    .navbar-header{
+        position: fixed;
+        width: 300px;
+        background: #4b505f;
+    }
     .navbar-collapse{
-        margin-left: 220px;
+        margin-left: 60px;
     }
     &.mini-sidebar{
         .navbar-collapse, .footer{
-            margin-left: 70px;
+            margin-left: 60px;
         }
         
     }
@@ -36,18 +41,22 @@ Fixed -Header
         width: 100%;
     }
     .page-wrapper{
-        padding-top: 67px;
+        padding-top: 66px;
     }
 }
 .fixed-layout{
-    .left-sidebar, .topbar{
+    .topbar{
         position: fixed;
+    }
+    .side-mini-panel {
+        position: fixed;
+        left: auto;
     }
     .topbar{
         width: 100%;
     }
     .page-wrapper{
-        padding-top: 67px;
+        padding-top: 66px;
     }
 }
 
@@ -56,14 +65,18 @@ Boxed
 ******************/
 .boxed #main-wrapper {  
     width: 100%;
+    position: relative;
     max-width: 1300px;
     margin: 0 auto;
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
-    .sidebar-footer {
-        position: absolute; 
-    }
     .topbar{
         max-width: 1300px;
+    }
+    .page-wrapper {
+        position: unset;
+    }
+    .right-sidebar {
+        position: absolute;
     }
     .footer {
         display: none;
@@ -74,7 +87,7 @@ Boxed
 Single Column
 ******************/
 .single-column {
-    .left-sidebar {
+    .side-mini-panel {
         display: none;
     }
     .page-wrapper {
@@ -88,32 +101,20 @@ Mini sidebar
 .mini-sidebar {
     .top-navbar {
         .navbar-header {
-            width: 70px;
+            width: 60px;
             text-align: center;
             flex-shrink: 0;
             padding-left: 0px;
         }
     }
     .page-wrapper, .footer {
-            margin-left: 70px;
-        } 
+            margin-left: 60px;
+        }
     /*Sidebar*/
-    .left-sidebar{
-            width: 70px;
+    .side-mini-panel{
+            width: 60px;
      }
-    .sidebar-nav .user-pro{
-        background-image:none;
-        > a{
-            padding: 15px 15px;
-
-        }
-        a{
-            color:$sidebar-text;
-
-        }
-
-    }
-
+    
     .scroll-sidebar {
             padding-bottom: 0px;
             position: absolute;
@@ -122,68 +123,13 @@ Mini sidebar
                 display: none;
             }
         }
-    .sidebar-nav{
-        background: transparent;
-        #sidebarnav{
-            li{
-                position: relative;
-            }
-            
-            > li > ul {
-                position: absolute;
-                left: 70px;
-                top: 46px;
-                width: 220px;
-                padding-bottom: 10px;
-                z-index: 1001;
-                background: $sidebar-alt;
-                display: none;
-                padding-left: 1px;
-            }
-            > li:hover > ul {
-                height: auto !important;
-                overflow: auto;
-            }
-            > li > a {
-                width: 70px;
-                padding: 15px 15px 15px 25px;
-            }
-            .user-pro > a{
-                 
-                  padding-left:18px;   
-                
-            }
-            > li:hover > a {
-                width: 290px;
-                background: $sidebar-alt;
-                .hide-menu {
-                    display: inline;
-                }
-                .label {
-                    display: none;
-                }
-            }
-            > li:hover > ul, > li:hover > ul.collapse {
-                display: block;
-            }
-            > li > a.has-arrow:after, .hide-menu, .nav-small-cap, .sidebar-footer, .user-profile .profile-text, >.label {
-                display: none;
-            }
-        }
     }
-}
 }
 @media(max-width:767px) {
     .mini-sidebar {
-        .left-sidebar,
-        .sidebar-footer {
-            left: -220px;
-        }
-        &.show-sidebar {
-            .left-sidebar,
-            .sidebar-footer {
-                left: 0px;
-            }
+        .page-wrapper,
+        .footer {
+            margin-left: 60px;
         }
     }
 }
@@ -197,6 +143,12 @@ Logo center
             left: 0;
             right: 0;
             margin: 0 auto;
+            background: transparent;
+            padding-left: 0;
+            text-align: center;
+        }
+        .logo-text {
+            display: none;
         }
     }
 }

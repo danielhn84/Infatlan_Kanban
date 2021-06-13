@@ -33,15 +33,6 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.UpdatePanel UpdatePanel18;
 
         /// <summary>
-        /// Control Label7.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label7;
-
-        /// <summary>
         /// Control BtnAddOperativa.
         /// </summary>
         /// <remarks>
@@ -105,6 +96,24 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl rowDetalle;
 
         /// <summary>
+        /// Control DivBusqueda.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivBusqueda;
+
+        /// <summary>
+        /// Control Label11.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label11;
+
+        /// <summary>
         /// Control DdlTipoBusqueda.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,24 @@ namespace Infatlan_Kanban.pages
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlTipoBusqueda;
+
+        /// <summary>
+        /// Control DivEquipoColaborador.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivEquipoColaborador;
+
+        /// <summary>
+        /// Control LbTipoSelecciono.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbTipoSelecciono;
 
         /// <summary>
         /// Control DdlEquipoTrabajo.
@@ -130,6 +157,33 @@ namespace Infatlan_Kanban.pages
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlColaborador;
+
+        /// <summary>
+        /// Control DivTipoTarjeta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivTipoTarjeta;
+
+        /// <summary>
+        /// Control Label12.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label12;
+
+        /// <summary>
+        /// Control DdlTarjeta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlTarjeta;
 
         /// <summary>
         /// Control UpdatePanel19.
@@ -642,7 +696,7 @@ namespace Infatlan_Kanban.pages
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList ckEscalacion;
+        protected global::System.Web.UI.WebControls.RadioButtonList ckEscalacion;
 
         /// <summary>
         /// Control div11.
@@ -661,6 +715,24 @@ namespace Infatlan_Kanban.pages
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GvCheckList;
+
+        /// <summary>
+        /// Control div13.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div13;
+
+        /// <summary>
+        /// Control GvCheckListLleno.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GvCheckListLleno;
 
         /// <summary>
         /// Control UpdatePanel5.
@@ -1671,13 +1743,13 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.DropDownList DdlResponsableOperativa;
 
         /// <summary>
-        /// Control DdlPrioridadOperativa.
+        /// Control DdlSuplente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlPrioridadOperativa;
+        protected global::System.Web.UI.WebControls.DropDownList DdlSuplente;
 
         /// <summary>
         /// Control DdlGestionOperativa.
@@ -1687,6 +1759,15 @@ namespace Infatlan_Kanban.pages
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlGestionOperativa;
+
+        /// <summary>
+        /// Control DdlPrioridadOperativa.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlPrioridadOperativa;
 
         /// <summary>
         /// Control Label8.
@@ -1941,22 +2022,22 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.UpdatePanel UpdatePanel25;
 
         /// <summary>
-        /// Control div8.
+        /// Control divAlertaGeneralOperativa.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div8;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAlertaGeneralOperativa;
 
         /// <summary>
-        /// Control Label10.
+        /// Control LbAdvertenciaOperativa.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label10;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LbAdvertenciaOperativa;
 
         /// <summary>
         /// Control UpdatePanel26.
@@ -1968,13 +2049,13 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.UpdatePanel UpdatePanel26;
 
         /// <summary>
-        /// Control Button1.
+        /// Control BtnCancelarOperativa.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button BtnCancelarOperativa;
 
         /// <summary>
         /// Control BtnEnviarOperativa.
@@ -2085,13 +2166,103 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.Button BtnEnviarOperativaConfirmar;
 
         /// <summary>
-        /// Control TxCantImagenes.
+        /// Control UpdatePanel32.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField TxCantImagenes;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel32;
+
+        /// <summary>
+        /// Control ImgPrevia.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage ImgPrevia;
+
+        /// <summary>
+        /// Control UpdateUsuarioBotones.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateUsuarioBotones;
+
+        /// <summary>
+        /// Control BtnCerrar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCerrar;
+
+        /// <summary>
+        /// Control UpdatePanel33.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel33;
+
+        /// <summary>
+        /// Control LbIdDoc.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LbIdDoc;
+
+        /// <summary>
+        /// Control UpdatePanel34.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel34;
+
+        /// <summary>
+        /// Control UpdatePanel35.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel35;
+
+        /// <summary>
+        /// Control Label9.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label9;
+
+        /// <summary>
+        /// Control UpdatePanel36.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel36;
+
+        /// <summary>
+        /// Control BtnDescargarArchivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnDescargarArchivo;
 
         /// <summary>
         /// Control LitEnCola.

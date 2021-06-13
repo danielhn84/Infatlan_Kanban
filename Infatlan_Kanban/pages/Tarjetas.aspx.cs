@@ -28,7 +28,25 @@ namespace Infatlan_Kanban.pages
    
             if (!Page.IsPostBack)
             {
-                
+
+               string vQuery = "GESTIONES_Solicitud 7,'" + Session["USUARIO"].ToString() + "'";
+                DataTable vDatosTeams = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vTeams = vDatosTeams.Rows[0]["idTeams"].ToString();
+
+                Session["TEAMS"] = vTeams;
+
+                DdlTipoGestion.Items.Clear();
+                vQuery = "GESTIONES_Generales 63,'" + vTeams + "'";
+                DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                DdlTipoGestion.Items.Add(new ListItem { Value = "0", Text = "Todas" });
+                if (vDatosTipo.Rows.Count > 0)
+                {
+                    foreach (DataRow item in vDatosTipo.Rows)
+                    {
+                        DdlTipoGestion.Items.Add(new ListItem { Value = item["idTipoGestion"].ToString(), Text = item["nombreGestion"].ToString() });
+                    }
+                }
+
 
 
                 if (Convert.ToBoolean(Session["AUTH"]))
@@ -37,18 +55,18 @@ namespace Infatlan_Kanban.pages
                     string vIdRol = Session["ID_ROL_USUARIO"].ToString();
                     if (vIdRol == "2")
                     {
-                        nav_Reasignar.Visible = false;
-                        nav_tarjetaDetenido_tab.Visible = false;
+                        //nav_Reasignar.Visible = false;
+                        //nav_tarjetaDetenido_tab.Visible = false;
                         nav_tarjetasCerradas_tab.Visible = true;
 
                     }
                     else
                     {
-                        nav_Reasignar.Visible = true;
-                        nav_tarjetaDetenido_tab.Visible = true;
+                        //nav_Reasignar.Visible = true;
+                        //nav_tarjetaDetenido_tab.Visible = true;
                         nav_tarjetasCerradas_tab.Visible = true;
                         nav_tarjetasCerradasColaborador_tab.Visible = true;
-                        nav_eliminarTarjeta_tab.Visible = true;
+                        //nav_eliminarTarjeta_tab.Visible = true;
                     }
 
 
@@ -67,11 +85,11 @@ namespace Infatlan_Kanban.pages
 
                     divIdTarjeta.Visible = false;
                     //divLbFechaInicio.Visible = false;
-                    divTxFechaInicio.Visible = false;
+                    //divTxFechaInicio.Visible = false;
                     //divLbFechaFin.Visible = false;
-                    divTxFechaFin.Visible = false;
-                    divOpciones.Visible = false;
-                    divBotonBusqueda.Visible = false;
+                    //divTxFechaFin.Visible = false;
+                    //divOpciones.Visible = false;
+                    //divBotonBusqueda.Visible = false;
 
                     UpdatePanel9.Update();
 
@@ -79,59 +97,59 @@ namespace Infatlan_Kanban.pages
                     if (vIdRol == "1")
                     {
 
-                        DdlEquipoTrabajo.Items.Clear();
-                        DdlEquipoTrabajo.Font.Size = 10;
-                        String vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString() + "'";
+                        //DdlEquipoTrabajo.Items.Clear();
+                        //DdlEquipoTrabajo.Font.Size = 10;
+                         vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString() + "'";
                         DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                        DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
-                        if (vDatos.Rows.Count > 0)
-                        {
-                            foreach (DataRow item in vDatos.Rows)
-                            {
-                                DdlEquipoTrabajo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
-                            }
-                        }
+                        //DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                        //if (vDatos.Rows.Count > 0)
+                        //{
+                        //    foreach (DataRow item in vDatos.Rows)
+                        //    {
+                        //        DdlEquipoTrabajo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                        //    }
+                        //}
 
 
-                        DdlColaborador.Items.Clear();
-                        vQuery = "GESTIONES_Solicitud 28,'" + Session["USUARIO"].ToString() + "'";
-                        vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                        DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
-                        if (vDatos.Rows.Count > 0)
-                        {
-                            foreach (DataRow item in vDatos.Rows)
-                            {
-                                DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
-                            }
-                        }
+                        //DdlColaborador.Items.Clear();
+                        //vQuery = "GESTIONES_Solicitud 28,'" + Session["USUARIO"].ToString() + "'";
+                        //vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                        //DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                        //if (vDatos.Rows.Count > 0)
+                        //{
+                        //    foreach (DataRow item in vDatos.Rows)
+                        //    {
+                        //        DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        //    }
+                        //}
 
                     }
                     else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
                     {
-                        DdlEquipoTrabajo.Items.Clear();
-                        String vQuery = "GESTIONES_Solicitud 25";
+                        //DdlEquipoTrabajo.Items.Clear();
+                        vQuery = "GESTIONES_Solicitud 25";
                         DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                        DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
-                        if (vDatos.Rows.Count > 0)
-                        {
-                            foreach (DataRow item in vDatos.Rows)
-                            {
-                                DdlEquipoTrabajo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
-                            }
-                        }
+                        //DdlEquipoTrabajo.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                        //if (vDatos.Rows.Count > 0)
+                        //{
+                        //    foreach (DataRow item in vDatos.Rows)
+                        //    {
+                        //        DdlEquipoTrabajo.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                        //    }
+                        //}
 
 
-                        DdlColaborador.Items.Clear();
-                        vQuery = "GESTIONES_Solicitud 26";
-                        vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                        DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
-                        if (vDatos.Rows.Count > 0)
-                        {
-                            foreach (DataRow item in vDatos.Rows)
-                            {
-                                DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
-                            }
-                        }
+                        //DdlColaborador.Items.Clear();
+                        //vQuery = "GESTIONES_Solicitud 26";
+                        //vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                        //DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                        //if (vDatos.Rows.Count > 0)
+                        //{
+                        //    foreach (DataRow item in vDatos.Rows)
+                        //    {
+                        //        DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        //    }
+                        //}
                     }
 
 
@@ -285,7 +303,59 @@ namespace Infatlan_Kanban.pages
             {
                 validacionReporteTarjetasCerradas();
 
-                String vQuery = "GESTIONES_Solicitud 19,'" + TxInicioBusqueda.Text + "','" + TxFinBusqueda.Text + "','" + Session["USUARIO"].ToString() + "'";
+                string vTipoTarjeta = DdlTarjeta.SelectedValue;
+                string vFiltradoTarjeta = "";
+                if (vTipoTarjeta == "0"){
+                    vFiltradoTarjeta = "Operativa,Tecnica";
+                }else if (vTipoTarjeta == "1"){
+                    vFiltradoTarjeta = "Tecnica";
+                }else{
+                    vFiltradoTarjeta = "Operativa";
+                }
+
+
+                string vTipoGestion = DdlTipoGestion.SelectedValue;
+                string vFiltradoGestion = "";
+                if (vTipoGestion == "0")
+                {
+                   string vTeams = Session["TEAMS"].ToString();
+                 
+                   string  vQueryGestiones = "GESTIONES_Generales 63,'" + vTeams + "'";
+                   DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQueryGestiones);
+
+                    if (vDatosTipo.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatosTipo.Rows)
+                        {
+                            vFiltradoGestion = vFiltradoGestion + item["idTipoGestion"].ToString() + ",";
+                           
+                        }
+                    }
+                }
+                else 
+                {
+                    vFiltradoGestion = DdlTipoGestion.SelectedValue;
+                }
+
+
+                
+
+                string vPrioridad = DdlPrioridad.SelectedValue;
+                string vFiltradoPrioridad = "";
+                if (vPrioridad == "0")
+                {
+                    vFiltradoPrioridad = "1,2,3,4";
+                }
+                else
+                {
+                    vFiltradoPrioridad = DdlPrioridad.SelectedValue;
+                }
+                
+
+
+
+
+                String vQuery = "GESTIONES_Solicitud 48,'" + TxInicioBusqueda.Text + "','" + TxFinBusqueda.Text + "','" + Session["USUARIO"].ToString() + "','"+ vFiltradoTarjeta+"','"+ vFiltradoGestion+"','"+ vFiltradoPrioridad+"'";
                 DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
                 Session["GESTIONES_MIS_SOLICITUDES"] = null;
@@ -300,6 +370,7 @@ namespace Infatlan_Kanban.pages
                     Session["GESTIONES_MIS_SOLICITUDES"] = vDatos;
                     divTarjetasCerradas.Visible = false;
                     UpdatePanel9.Update();
+                    divMisSolicitudes.Visible = true;
                 }
                 else
                 {
@@ -308,6 +379,8 @@ namespace Infatlan_Kanban.pages
                     UpMisSolicitudes.Update();
                     UpdatePanel9.Update();
                 }
+
+                UpMisSolicitudes.Update();
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
@@ -353,8 +426,52 @@ namespace Infatlan_Kanban.pages
             {
                 validacionReporteTarjetasCerradas();
 
-                String vQuery = "GESTIONES_Solicitud 19,'" + TxInicioBusqueda.Text + "','" + TxFinBusqueda.Text + "','" + Session["USUARIO"].ToString() + "'";
+                string vTipoTarjeta = DdlTarjeta.SelectedValue;
+                string vFiltradoTarjeta = "";
+                if (vTipoTarjeta == "0"){
+                    vFiltradoTarjeta = "Operativa,Tecnica";
+                }else if (vTipoTarjeta == "1"){
+                    vFiltradoTarjeta = "Tecnica";
+                } else {
+                    vFiltradoTarjeta = "Operativa";
+                }
+
+
+                string vTipoGestion = DdlTipoGestion.SelectedValue;
+                string vFiltradoGestion = "";
+                if (vTipoGestion == "0")
+                {
+                    string vTeams = Session["TEAMS"].ToString();
+
+                    string vQueryGestiones = "GESTIONES_Generales 63,'" + vTeams + "'";
+                    DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQueryGestiones);
+
+                    if (vDatosTipo.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatosTipo.Rows)
+                        {
+                            vFiltradoGestion = vFiltradoGestion + item["idTipoGestion"].ToString() + ",";
+
+                        }
+                    }
+                }
+                else
+                {
+                    vFiltradoGestion = DdlTipoGestion.SelectedValue;
+                }
+
+
+                string vPrioridad = DdlPrioridad.SelectedValue;
+                string vFiltradoPrioridad = "";
+                if (vPrioridad == "0"){
+                    vFiltradoPrioridad = "1,2,3,4";
+                }else{
+                    vFiltradoPrioridad = DdlPrioridad.SelectedValue;
+                }
+
+                String vQuery = "GESTIONES_Solicitud 48,'" + TxInicioBusqueda.Text + "','" + TxFinBusqueda.Text + "','" + Session["USUARIO"].ToString() + "','" + vFiltradoTarjeta + "','" + vFiltradoGestion + "','" + vFiltradoPrioridad + "'";
                 DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
 
                 Session["GESTIONES_MIS_SOLICITUDES"] = null;
                 GvSolicitudes.DataSource = null;
@@ -365,7 +482,9 @@ namespace Infatlan_Kanban.pages
                     string Parametro1 = TxInicioBusqueda.Text;
                     string Parametro2 = TxFinBusqueda.Text;
                     string Parametro3 = Session["USUARIO"].ToString();
-
+                    string Parametro4 = vFiltradoTarjeta;
+                    string Parametro5 = vFiltradoGestion;
+                    string Parametro6 = vFiltradoPrioridad;
 
                     ReportExecutionService.ReportExecutionService vRSE = new ReportExecutionService.ReportExecutionService();
                     vRSE.Credentials = new NetworkCredential("report_user", "kEbn2HUzd$Fs2T", "adbancat.hn");
@@ -373,12 +492,15 @@ namespace Infatlan_Kanban.pages
 
                     vRSE.ExecutionHeaderValue = new ReportExecutionService.ExecutionHeader();
                     var vEInfo = new ReportExecutionService.ExecutionInfo();
-                    vEInfo = vRSE.LoadReport("/GestionesTecnicas/GestionesTarjetasCerradas", null);
+                    vEInfo = vRSE.LoadReport("/GestionesTecnicas/Cerradas", null);
 
                     List<ReportExecutionService.ParameterValue> vParametros = new List<ReportExecutionService.ParameterValue>();
-                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAM1", Value = Parametro1 });
-                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAM2", Value = Parametro2 });
-                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAM3", Value = Parametro3 });
+                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAMETRO1", Value = Parametro1 });
+                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAMETRO2", Value = Parametro2 });
+                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAMETRO3", Value = Parametro3 });
+                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAMETRO4", Value = Parametro4 });
+                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAMETRO5", Value = Parametro5 });
+                    vParametros.Add(new ReportExecutionService.ParameterValue { Name = "PARAMETRO6", Value = Parametro6 });
 
                     vRSE.SetExecutionParameters(vParametros.ToArray(), "en-US");
                     String deviceinfo = "<DeviceInfo><Toolbar>false</Toolbar></DeviceInfo>";
@@ -533,7 +655,28 @@ namespace Infatlan_Kanban.pages
             DdlPrioridad_1.SelectedValue = vDatos.Rows[0]["prioridad"].ToString();
             TxSolucion.Text= vDatos.Rows[0]["detalleFinalizo"].ToString();
             string vEstadoTarjeta = vDatos.Rows[0]["idEstado"].ToString();
+            string idOperativa = vDatos.Rows[0]["idOperativa"].ToString();
+            string escalacion = vDatos.Rows[0]["escalacion"].ToString();
+            ckEscalacion.SelectedValue = escalacion;
 
+
+            if (idOperativa == null || idOperativa==""){
+                tabVerificacion.Visible = false;
+            }else{
+                tabVerificacion.Visible = true;
+                ckEscalacion.Enabled = false;
+                vQuery = "GESTIONES_SolicitudOperaciones 6,'" + vEx + "'";
+                DataTable vDatosVerificacionCompletada = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                if (vDatosVerificacionCompletada.Rows.Count > 0)
+                {
+                    GvCheckListLleno.DataSource = vDatosVerificacionCompletada;
+                    GvCheckListLleno.DataBind();
+                    Session["GESTIONES_VERIFICACION_COMPLETADA"] = vDatosVerificacionCompletada;
+
+                }
+            }
+         
             Session["GESTIONES_USUARIO_CREO"] = vDatos.Rows[0]["usuarioCreo"].ToString();
             vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable_1.SelectedValue + "'";
             DataTable vDatosTeams = vConexionGestiones.obtenerDataTableGestiones(vQuery);
@@ -711,9 +854,9 @@ namespace Infatlan_Kanban.pages
 
         protected void GvSolicitudes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                string vUsuarioCreo = e.Row.Cells[8].Text;
                 string vPrioridad = e.Row.Cells[9].Text;
                 string vEstado = e.Row.Cells[10].Text;
 
@@ -743,6 +886,19 @@ namespace Infatlan_Kanban.pages
                 {
                     e.Row.Cells[10].BackColor = Color.FromName("#76DE7E");
                 }
+
+                if (vUsuarioCreo.Equals("TARJETA OPERATIVA"))
+                {
+                    //e.Row.Cells[1].Visible = true;
+                    LinkButton button = e.Row.FindControl("BtnVerificacion") as LinkButton;
+                    button.Visible = true;
+                }
+                else
+                {
+                    LinkButton button = e.Row.FindControl("BtnVerificacion") as LinkButton;
+                    button.Visible = false;
+                }
+                    
             }
         }
 
@@ -757,26 +913,28 @@ namespace Infatlan_Kanban.pages
 
         protected void DdlTipoBusqueda_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //LbTipoSelecciono.Text = DdlTipoBusqueda.SelectedItem.Text + ":";
             if (DdlTipoBusqueda.SelectedValue == "1")
             {
                 divTXBusqueda.Visible = true;
-
-                //lbInicio.Visible = false;
                 divTxInicio.Visible = false;
-                //DivlbFin.Visible = false;
                 divFechaFin.Visible = false;
-            
+                divTipoTarjeta.Visible = false;
+                divGestion.Visible = false;
+                divPrioridad.Visible = false;
+                divBotones.Visible = false;
                 UpdatePanel9.Update();
             }
             else if(DdlTipoBusqueda.SelectedValue=="2")
             {
                 divTXBusqueda.Visible = false;
+            
 
-                //lbInicio.Visible = true;
                 divTxInicio.Visible = true;
-                //DivlbFin.Visible = true;
                 divFechaFin.Visible = true;
+                divTipoTarjeta.Visible = true;
+                divGestion.Visible = true;
+                divPrioridad.Visible = true;
                 divBotones.Visible = true;
                 UpdatePanel9.Update();
 
@@ -1787,75 +1945,75 @@ namespace Infatlan_Kanban.pages
         protected void ddlTipoBusquedaCerradas_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            TxFechaInicio.Text = string.Empty;
-            TxFechaFin.Text = string.Empty;
-            DdlColaborador.SelectedIndex = -1;
-            DdlEquipoTrabajo.SelectedIndex = -1;
+            //TxFechaInicio.Text = string.Empty;
+            //TxFechaFin.Text = string.Empty;
+            //DdlColaborador.SelectedIndex = -1;
+            //DdlEquipoTrabajo.SelectedIndex = -1;
             cargarInicialSolicitudesColaboradoresJefes();
 
-            if (ddlTipoBusquedaCerradas.SelectedValue == "1")
-            {
-                divIdTarjeta.Visible = true;
+            //if (ddlTipoBusquedaCerradas.SelectedValue == "1")
+            //{
+            //    divIdTarjeta.Visible = true;
 
-                //divLbFechaInicio.Visible = false;
-                divTxFechaInicio.Visible = false;
-                //divLbFechaFin.Visible = false;
-                divTxFechaFin.Visible = false;
-                divOpciones.Visible = false;
-                DdlEquipoTrabajo.Visible = false;
-                DdlColaborador.Visible = false;
-                divBotonBusqueda.Visible = false;
+            //    //divLbFechaInicio.Visible = false;
+            //    divTxFechaInicio.Visible = false;
+            //    //divLbFechaFin.Visible = false;
+            //    divTxFechaFin.Visible = false;
+            //    divOpciones.Visible = false;
+            //    DdlEquipoTrabajo.Visible = false;
+            //    DdlColaborador.Visible = false;
+            //    divBotonBusqueda.Visible = false;
 
-                UpdatePanel6.Update();
-            }
-            else if (ddlTipoBusquedaCerradas.SelectedValue == "2")
-            {
-                divIdTarjeta.Visible = false;
+            //    UpdatePanel6.Update();
+            //}
+            //else if (ddlTipoBusquedaCerradas.SelectedValue == "2")
+            //{
+            //    divIdTarjeta.Visible = false;
 
-                //divLbFechaInicio.Visible = true;
-                divTxFechaInicio.Visible = true;
-                //divLbFechaFin.Visible = true;
-                divTxFechaFin.Visible = true;
-                divOpciones.Visible = false;
-                divOpciones.Visible = true;
-                DdlEquipoTrabajo.Visible = false;
-                DdlColaborador.Visible = true;
-                divBotonBusqueda.Visible = true;
+            //    //divLbFechaInicio.Visible = true;
+            //    divTxFechaInicio.Visible = true;
+            //    //divLbFechaFin.Visible = true;
+            //    divTxFechaFin.Visible = true;
+            //    divOpciones.Visible = false;
+            //    divOpciones.Visible = true;
+            //    DdlEquipoTrabajo.Visible = false;
+            //    DdlColaborador.Visible = true;
+            //    divBotonBusqueda.Visible = true;
 
-                UpdatePanel6.Update();
-            }
-            else if (ddlTipoBusquedaCerradas.SelectedValue == "3")
-            {
-                divIdTarjeta.Visible = false;
+            //    UpdatePanel6.Update();
+            //}
+            //else if (ddlTipoBusquedaCerradas.SelectedValue == "3")
+            //{
+            //    divIdTarjeta.Visible = false;
 
-                //divLbFechaInicio.Visible = true;
-                divTxFechaInicio.Visible = true;
-                //divLbFechaFin.Visible = true;
-                divTxFechaFin.Visible = true;
-                divOpciones.Visible = true;
-                DdlEquipoTrabajo.Visible = true;
-                DdlColaborador.Visible = false;
-                divBotonBusqueda.Visible = true;
+            //    //divLbFechaInicio.Visible = true;
+            //    divTxFechaInicio.Visible = true;
+            //    //divLbFechaFin.Visible = true;
+            //    divTxFechaFin.Visible = true;
+            //    divOpciones.Visible = true;
+            //    DdlEquipoTrabajo.Visible = true;
+            //    DdlColaborador.Visible = false;
+            //    divBotonBusqueda.Visible = true;
 
-                UpdatePanel6.Update();
-            }
-            else if (ddlTipoBusquedaCerradas.SelectedValue == "4")
-            {
-                divIdTarjeta.Visible = false;
+            //    UpdatePanel6.Update();
+            //}
+            //else if (ddlTipoBusquedaCerradas.SelectedValue == "4")
+            //{
+            //    divIdTarjeta.Visible = false;
 
-                divTxFechaInicio.Visible = true;
-                divTxFechaFin.Visible = true;
-                divOpciones.Visible = true;
-                DdlEquipoTrabajo.Visible = false;
-                DdlColaborador.Visible = false;
-                divBotonBusqueda.Visible = true;
+            //    divTxFechaInicio.Visible = true;
+            //    divTxFechaFin.Visible = true;
+            //    divOpciones.Visible = true;
+            //    DdlEquipoTrabajo.Visible = false;
+            //    DdlColaborador.Visible = false;
+            //    divBotonBusqueda.Visible = true;
 
-                UpdatePanel6.Update();
-            }
-            else
-            {
-                Response.Redirect("/pages/Tarjetas.aspx");
-            }
+            //    UpdatePanel6.Update();
+            //}
+            //else
+            //{
+            //    Response.Redirect("/pages/Tarjetas.aspx");
+            //}
             UpdatePanel9.Update();
         }
 
@@ -1934,78 +2092,78 @@ namespace Infatlan_Kanban.pages
             try
             {
 
-                if (ddlTipoBusquedaCerradas.SelectedValue == "2")
-                {
-                    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
-                        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
+                //if (ddlTipoBusquedaCerradas.SelectedValue == "2")
+                //{
+                //    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
+                //        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
 
-                    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
-                        throw new Exception("Favor ingrese fecha final de la búsqueda.");
+                //    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
+                //        throw new Exception("Favor ingrese fecha final de la búsqueda.");
 
-                    if (DdlColaborador.SelectedValue.Equals("0"))
-                        throw new Exception("Falta que seleccione el colaborador.");
+                //    if (DdlColaborador.SelectedValue.Equals("0"))
+                //        throw new Exception("Falta que seleccione el colaborador.");
 
-                    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
-                    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
+                //    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+                //    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
 
-                    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
-                    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
+                //    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
+                //    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
 
-                    string vQuery = "GESTIONES_Solicitud 40,'"+ DdlColaborador.SelectedValue+"','"+ vFechaInicioSoli+"','"+ vFechaFinSoli+"'";
-                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                //    string vQuery = "GESTIONES_Solicitud 40,'"+ DdlColaborador.SelectedValue+"','"+ vFechaInicioSoli+"','"+ vFechaFinSoli+"'";
+                //    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     
-                    GvSolicitudesColaborador.DataSource = vDatos;
-                    GvSolicitudesColaborador.DataBind();
-                    UpSolicitudesColaboradores.Update();
-                    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
-                }
-                else if (ddlTipoBusquedaCerradas.SelectedValue == "3")
-                {
-                    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
-                        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
+                //    GvSolicitudesColaborador.DataSource = vDatos;
+                //    GvSolicitudesColaborador.DataBind();
+                //    UpSolicitudesColaboradores.Update();
+                //    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
+                //}
+                //else if (ddlTipoBusquedaCerradas.SelectedValue == "3")
+                //{
+                //    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
+                //        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
 
-                    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
-                        throw new Exception("Favor ingrese fecha final de la búsqueda.");
+                //    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
+                //        throw new Exception("Favor ingrese fecha final de la búsqueda.");
 
-                    if (DdlEquipoTrabajo.SelectedValue.Equals("0"))
-                        throw new Exception("Falta que seleccione el equipo de trabajo.");
+                //    if (DdlEquipoTrabajo.SelectedValue.Equals("0"))
+                //        throw new Exception("Falta que seleccione el equipo de trabajo.");
 
-                    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
-                    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
+                //    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+                //    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
 
-                    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
-                    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
+                //    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
+                //    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
 
-                    string vQuery = "GESTIONES_Solicitud 41,'" + DdlEquipoTrabajo.SelectedValue + "','" + vFechaInicioSoli + "','" + vFechaFinSoli + "'";
-                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                //    string vQuery = "GESTIONES_Solicitud 41,'" + DdlEquipoTrabajo.SelectedValue + "','" + vFechaInicioSoli + "','" + vFechaFinSoli + "'";
+                //    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
-                    GvSolicitudesColaborador.DataSource = vDatos;
-                    GvSolicitudesColaborador.DataBind();
-                    UpSolicitudesColaboradores.Update();
-                    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
-                }
-                else if (ddlTipoBusquedaCerradas.SelectedValue == "4")
-                {
-                    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
-                        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
+                //    GvSolicitudesColaborador.DataSource = vDatos;
+                //    GvSolicitudesColaborador.DataBind();
+                //    UpSolicitudesColaboradores.Update();
+                //    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
+                //}
+                //else if (ddlTipoBusquedaCerradas.SelectedValue == "4")
+                //{
+                //    if (TxFechaInicio.Text == "" || TxFechaInicio.Text == string.Empty)
+                //        throw new Exception("Favor ingrese fecha de inicio de la búsqueda.");
 
-                    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
-                        throw new Exception("Favor ingrese fecha final de la búsqueda.");
+                //    if (TxFechaFin.Text == "" || TxFechaFin.Text == string.Empty)
+                //        throw new Exception("Favor ingrese fecha final de la búsqueda.");
 
-                    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
-                    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
+                //    DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+                //    string vFechaInicioSoli = fecha_inicio.ToString("yyyy-MM-dd");
 
-                    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
-                    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
+                //    DateTime fecha_fin = DateTime.Parse(TxFechaFin.Text.ToString());
+                //    string vFechaFinSoli = fecha_fin.ToString("yyyy-MM-dd");
 
-                    string vQuery = "GESTIONES_Solicitud 42,'" + Session["USUARIO"].ToString() + "','" + vFechaInicioSoli + "','" + vFechaFinSoli + "'";
-                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                //    string vQuery = "GESTIONES_Solicitud 42,'" + Session["USUARIO"].ToString() + "','" + vFechaInicioSoli + "','" + vFechaFinSoli + "'";
+                //    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
-                    GvSolicitudesColaborador.DataSource = vDatos;
-                    GvSolicitudesColaborador.DataBind();
-                    UpSolicitudesColaboradores.Update();
-                    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
-                }
+                //    GvSolicitudesColaborador.DataSource = vDatos;
+                //    GvSolicitudesColaborador.DataBind();
+                //    UpSolicitudesColaboradores.Update();
+                //    Session["GESTIONES_SOLICITUDES_COLABORADORES"] = vDatos;
+                //}
 
             }
             catch (Exception ex)
@@ -2044,11 +2202,559 @@ namespace Infatlan_Kanban.pages
                         Mensaje(ex.Message, WarningType.Danger);
                     }
                 }
+                else if (e.CommandName == "Lista")
+                {
+                    LbTituloLista.Text = "Información Tarjeta Kanban: " + vIdTarjeta;
+                    UpdatePanel16.Update();
+
+                    //DATOS GENERALES
+                    vQuery = "GESTIONES_Solicitud 12,'" + vIdTarjeta + "'";
+                    DataTable vDatosGeneral = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string idOperativa = vDatosGeneral.Rows[0]["idOperativa"].ToString();
+                    string escalacion = vDatosGeneral.Rows[0]["escalacion"].ToString();
+                    RbEscalacion.SelectedValue = escalacion;
+
+                    vQuery = "GESTIONES_SolicitudOperaciones 6,'" + vIdTarjeta + "'";
+                    DataTable vDatosVerificacionCompletada = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                    if (vDatosVerificacionCompletada.Rows.Count > 0)
+                    {
+                        GvListaUnica.DataSource = vDatosVerificacionCompletada;
+                        GvListaUnica.DataBind();
+                        Session["GESTIONES_VERIFICACION_COMPLETADA"] = vDatosVerificacionCompletada;
+                    }
+
+
+                    GvSolicitudes.DataSource = (DataTable)Session["GESTIONES_MIS_SOLICITUDES"];
+                    GvSolicitudes.DataBind();
+                    UpMisSolicitudes.Update();
+                    UpdatePanel14.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalListaOpen();", true);
+
+                }
             }
             catch (Exception ex)
             {
                 Mensaje(ex.Message, WarningType.Danger);
             }
+        }
+
+        protected void GvCheckListLleno_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                DataRowView vData = (DataRowView)e.Row.DataItem;
+                DataRow vDataRow = (DataRow)vData.Row;
+                string vTipo = e.Row.Cells[2].Text;
+                string vRespuesta = e.Row.Cells[4].Text;
+
+                TextBox vPaso1 = (TextBox)e.Row.FindControl("TxRespuesta");
+                LinkButton vPaso2 = (LinkButton)e.Row.FindControl("BtnImagenVer");
+                LinkButton vPaso3 = (LinkButton)e.Row.FindControl("BtnDescargar");
+
+                switch (vTipo)
+                {
+                    case "Texto":
+                        vPaso1.Visible = true;
+                        vPaso1.Text = vRespuesta;
+                        vPaso1.Enabled = false;
+                        vPaso2.Visible = false;
+                        vPaso3.Visible = false;
+                        break;
+                    case "Imagen":
+                        vPaso1.Visible = false;
+                        vPaso2.Visible = true;
+                        vPaso3.Visible = true;
+                        break;
+                    case "Documento":
+                        vPaso1.Visible = false;
+                        vPaso2.Visible = false;
+                        vPaso3.Visible = true;
+                        break;
+
+                };
+                e.Row.Cells[2].Visible = false;
+                e.Row.Cells[4].Visible = false;
+            }
+        }
+
+        protected void GvCheckListLleno_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+                string vId = e.CommandArgument.ToString();
+                string vQuery = "GESTIONES_SolicitudOperaciones 8,'" + vId + "'";
+                DataTable vDatosRespuesta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string respuesta = vDatosRespuesta.Rows[0]["respuesta"].ToString();
+
+                if (e.CommandName == "Visualizar")
+                {
+                    ImgPrevia.Src = "data:image;base64," + respuesta;
+                    UpdatePanel32.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openModalImagen();", true);
+                }
+                else if (e.CommandName == "Descargar")
+                {
+                    Session["GESTIONES_DESCARGA_ARCHIVO_CREACION"] = "No";
+                    LbIdDoc.Text = vId;
+                    UpdatePanel33.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openDescargarModal();", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+
+        protected void BtnDescargarArchivo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string vId = LbIdDoc.Text;
+                string vArchivoPantallaCreacion = Session["GESTIONES_DESCARGA_ARCHIVO_CREACION"].ToString();
+
+                if (vArchivoPantallaCreacion == "Si")
+                {
+                    string vQuery = "GESTIONES_Solicitud 46,'" + vId + "'";
+                    DataTable vDatosRespuesta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string respuesta = vDatosRespuesta.Rows[0]["archivo"].ToString();
+                    string nombre = vDatosRespuesta.Rows[0]["nombre"].ToString();
+                    string cadenaRemplazada = nombre.Replace(',', '_');
+
+                    String vDocumento = "";
+                    if (!vDatosRespuesta.Rows[0]["archivo"].ToString().Equals(""))
+                        vDocumento = vDatosRespuesta.Rows[0]["archivo"].ToString();
+
+                    if (!vDocumento.Equals(""))
+                    {
+                        String vDocumentoArchivo = "ArchivoAdjunto-" + cadenaRemplazada;
+
+                        byte[] fileData = Convert.FromBase64String(vDocumento);
+                        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                        //GetExtension(vDatos.Rows[0]["extension"].ToString().ToLower());
+                        byte[] bytFile = fileData;
+                        Response.OutputStream.Write(bytFile, 0, bytFile.Length);
+                        Response.AddHeader("Content-disposition", "attachment;filename=" + vDocumentoArchivo);
+                        Response.End();
+                    }
+                }
+                else
+                {
+
+                    string vQuery = "GESTIONES_SolicitudOperaciones 8,'" + vId + "'";
+                    DataTable vDatosRespuesta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string respuesta = vDatosRespuesta.Rows[0]["respuesta"].ToString();
+                    string nombre = vDatosRespuesta.Rows[0]["nombreImagen"].ToString();
+                    string cadenaRemplazada = nombre.Replace(',', '_');
+
+                    String vDocumento = "";
+                    if (!vDatosRespuesta.Rows[0]["respuesta"].ToString().Equals(""))
+                        vDocumento = vDatosRespuesta.Rows[0]["respuesta"].ToString();
+
+                    if (!vDocumento.Equals(""))
+                    {
+
+                        String vDocumentoArchivo = "ArchivoAdjunto-" + cadenaRemplazada;
+                        byte[] fileData = Convert.FromBase64String(vDocumento);
+                        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                        //GetExtension(vDatos.Rows[0]["extension"].ToString().ToLower());
+                        byte[] bytFile = fileData;
+                        Response.OutputStream.Write(bytFile, 0, bytFile.Length);
+                        Response.AddHeader("Content-disposition", "attachment;filename=" + vDocumentoArchivo);
+                        Response.End();
+                    }
+                }
+
+            }
+
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+            finally
+            {
+                CerrarModal("DescargaModal");
+            }
+        }
+
+        public void CerrarModal(String vModal)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "Pop", "$('#" + vModal + "').modal('hide');", true);
+
+        }
+
+ 
+
+        protected void GvListaUnica_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                DataRowView vData = (DataRowView)e.Row.DataItem;
+                DataRow vDataRow = (DataRow)vData.Row;
+                string vTipo = e.Row.Cells[2].Text;
+                string vRespuesta = e.Row.Cells[4].Text;
+
+                TextBox vPaso1 = (TextBox)e.Row.FindControl("TxRespuesta");
+                LinkButton vPaso2 = (LinkButton)e.Row.FindControl("BtnImagenVer");
+                LinkButton vPaso3 = (LinkButton)e.Row.FindControl("BtnDescargar");
+
+                switch (vTipo)
+                {
+                    case "Texto":
+                        vPaso1.Visible = true;
+                        vPaso1.Text = vRespuesta;
+                        vPaso1.Enabled = false;
+                        vPaso2.Visible = false;
+                        vPaso3.Visible = false;
+                        break;
+                    case "Imagen":
+                        vPaso1.Visible = false;
+                        vPaso2.Visible = true;
+                        vPaso3.Visible = true;
+                        break;
+                    case "Documento":
+                        vPaso1.Visible = false;
+                        vPaso2.Visible = false;
+                        vPaso3.Visible = true;
+                        break;
+
+                };
+                e.Row.Cells[2].Visible = false;
+                e.Row.Cells[4].Visible = false;
+            }
+        }
+
+        protected void GvListaUnica_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+                string vId = e.CommandArgument.ToString();
+                string vQuery = "GESTIONES_SolicitudOperaciones 8,'" + vId + "'";
+                DataTable vDatosRespuesta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string respuesta = vDatosRespuesta.Rows[0]["respuesta"].ToString();
+
+                if (e.CommandName == "Visualizar")
+                {
+                    ImgPrevia.Src = "data:image;base64," + respuesta;
+                    UpdatePanel32.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openModalImagen();", true);
+                }
+                else if (e.CommandName == "Descargar")
+                {
+                    Session["GESTIONES_DESCARGA_ARCHIVO_CREACION"] = "No";
+                    LbIdDoc.Text = vId;
+                    UpdatePanel33.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openDescargarModal();", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+        }
+
+        protected void DdlBusquedaTarjetasColaborador_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DdlBusquedaTarjetasColaborador.SelectedValue == "1")
+            {
+                divIdTarjeta.Visible = true;
+                DivDetalleBusqueda.Visible = false;
+
+            }
+            else if (DdlBusquedaTarjetasColaborador.SelectedValue == "2")
+            {
+                divIdTarjeta.Visible = false;
+                DivDetalleBusqueda.Visible = true;
+
+            }
+            else
+            {
+                Response.Redirect("/pages/Tarjetas.aspx");
+            }
+
+            DdlGestionBA.Items.Clear();
+            string vQuery = "GESTIONES_Generales 82";
+            DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            DdlGestionBA.Items.Add(new ListItem { Value = "0", Text = "Todas" });
+            if (vDatosTipo.Rows.Count > 0)
+            {
+                foreach (DataRow item in vDatosTipo.Rows)
+                {
+                    DdlGestionBA.Items.Add(new ListItem { Value = item["idTipoGestion"].ToString(), Text = item["nombreGestion"].ToString() });
+                }
+            }
+
+        }
+
+        protected void DdlBusquedaPorTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DdlBusquedaPorTipo.SelectedValue == "0")
+            {
+                DivSeleccionBusqueda.Visible = false;
+
+                DdlGestionBA.Items.Clear();
+                string vQuery = "GESTIONES_Generales 82";
+                DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                DdlGestionBA.Items.Add(new ListItem { Value = "0", Text = "Todas" });
+                if (vDatosTipo.Rows.Count > 0)
+                {
+                    foreach (DataRow item in vDatosTipo.Rows)
+                    {
+                        DdlGestionBA.Items.Add(new ListItem { Value = item["idTipoGestion"].ToString(), Text = item["nombreGestion"].ToString() });
+                    }
+                }
+
+            }
+            else if (DdlBusquedaPorTipo.SelectedValue == "1") //Equipo
+            {
+                LbTituloOpcion.Text = DdlBusquedaPorTipo.SelectedItem.Text;
+                DivSeleccionBusqueda.Visible = true;
+                DdlEquipoBA.Visible = true;
+                DdlColaboradorBA.Visible = false;
+                string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+
+                if (vIdRol == "1")
+                {
+                    DdlEquipoBA.Items.Clear();
+                    DdlEquipoBA.Font.Size = 10;
+                    string vQuery = "GESTIONES_Solicitud 27,'" + Session["USUARIO"].ToString() + "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlEquipoBA.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlEquipoBA.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+
+
+                    //DdlColaborador.Items.Clear();
+                    //vQuery = "GESTIONES_Solicitud 28,'" + Session["USUARIO"].ToString() + "'";
+                    //vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    //DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    //if (vDatos.Rows.Count > 0)
+                    //{
+                    //    foreach (DataRow item in vDatos.Rows)
+                    //    {
+                    //        DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                    //    }
+                    //}
+
+                }
+                else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
+                {
+                    DdlEquipoBA.Items.Clear();
+                    string vQuery = "GESTIONES_Solicitud 25";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlEquipoBA.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlEquipoBA.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+
+
+                    //DdlColaborador.Items.Clear();
+                    //vQuery = "GESTIONES_Solicitud 26";
+                    //vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    //DdlColaborador.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    //if (vDatos.Rows.Count > 0)
+                    //{
+                    //    foreach (DataRow item in vDatos.Rows)
+                    //    {
+                    //        DdlColaborador.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                    //    }
+                    //}
+                }
+
+
+            }
+            else if (DdlBusquedaPorTipo.SelectedValue == "2")
+            {
+                LbTituloOpcion.Text = DdlBusquedaPorTipo.SelectedItem.Text;
+                DivSeleccionBusqueda.Visible = true;
+                DdlEquipoBA.Visible = false;
+                DdlColaboradorBA.Visible = true;
+
+                string vIdRol = Session["ID_ROL_USUARIO"].ToString();
+
+                if (vIdRol == "1")
+                {
+                    DdlColaboradorBA.Items.Clear();
+                    string vQuery = "GESTIONES_Solicitud 28,'" + Session["USUARIO"].ToString() + "'";
+                    DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlColaboradorBA.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDatos.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatos.Rows)
+                        {
+                            DdlColaboradorBA.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+
+                }
+                else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
+                {
+                    DdlColaboradorBA.Items.Clear();
+                    string vQuery = "GESTIONES_Solicitud 26";
+                    DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    DdlColaboradorBA.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    if (vDato.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDato.Rows)
+                        {
+                            DdlColaboradorBA.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                        }
+                    }
+                }
+            }
+                UpdatePanel11.Update();
+        }
+
+        protected void DdlEquipoBA_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //string vQuery = "GESTIONES_Solicitud 7,'" + Session["USUARIO"].ToString() + "'";
+            //DataTable vDatosTeams = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            //string vTeams = vDatosTeams.Rows[0]["idTeams"].ToString();
+
+            //Session["TEAMS"] = vTeams;
+
+            DdlGestionBA.Items.Clear();
+            string vQuery = "GESTIONES_Generales 63,'" + DdlEquipoBA.SelectedValue + "'";
+            DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            DdlGestionBA.Items.Add(new ListItem { Value = "0", Text = "Todas" });
+            if (vDatosTipo.Rows.Count > 0)
+            {
+                foreach (DataRow item in vDatosTipo.Rows)
+                {
+                    DdlGestionBA.Items.Add(new ListItem { Value = item["idTipoGestion"].ToString(), Text = item["nombreGestion"].ToString() });
+                }
+            }
+
+            UpdatePanel11.Update();
+        }
+
+        protected void DdlColaboradorBA_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string vQuery = "GESTIONES_Solicitud 7,'" + DdlColaboradorBA.SelectedValue+ "'";
+            DataTable vDatosTeams = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            string vTeams = vDatosTeams.Rows[0]["idTeams"].ToString();
+
+            DdlGestionBA.Items.Clear();
+            vQuery = "GESTIONES_Generales 63,'" + vTeams + "'";
+            DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            DdlGestionBA.Items.Add(new ListItem { Value = "0", Text = "Todas" });
+            if (vDatosTipo.Rows.Count > 0)
+            {
+                foreach (DataRow item in vDatosTipo.Rows)
+                {
+                    DdlGestionBA.Items.Add(new ListItem { Value = item["idTipoGestion"].ToString(), Text = item["nombreGestion"].ToString() });
+                }
+            }
+
+            UpdatePanel11.Update();
+        }
+
+        protected void BtnBuscarBA_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //validacionReporteTarjetasCerradas(); PENDIENTE
+
+                string vTipoTarjeta = DDLTipoTarjetaBA.SelectedValue;
+                string vFiltradoTarjeta = "";
+                if (vTipoTarjeta == "0")
+                {
+                    vFiltradoTarjeta = "Operativa,Tecnica";
+                }
+                else if (vTipoTarjeta == "1")
+                {
+                    vFiltradoTarjeta = "Tecnica";
+                }
+                else
+                {
+                    vFiltradoTarjeta = "Operativa";
+                }
+
+
+
+                string vTipoGestion = DdlGestionBA.SelectedValue;
+                string vFiltradoGestion = "";
+                if (vTipoGestion == "0")
+                {
+                    SSS
+
+
+
+                    string vTeams = Session["TEAMS"].ToString();
+
+                    string vQueryGestiones = "GESTIONES_Generales 63,'" + vTeams + "'";
+                    DataTable vDatosTipo = vConexionGestiones.obtenerDataTableGestiones(vQueryGestiones);
+
+                    if (vDatosTipo.Rows.Count > 0)
+                    {
+                        foreach (DataRow item in vDatosTipo.Rows)
+                        {
+                            vFiltradoGestion = vFiltradoGestion + item["idTipoGestion"].ToString() + ",";
+
+                        }
+                    }
+                }
+                else
+                {
+                    vFiltradoGestion = DdlGestionBA.SelectedValue;
+                }
+
+
+
+
+                string vPrioridad = DdlPrioridad.SelectedValue;
+                string vFiltradoPrioridad = "";
+                if (vPrioridad == "0")
+                {
+                    vFiltradoPrioridad = "1,2,3,4";
+                }
+                else
+                {
+                    vFiltradoPrioridad = DdlPrioridad.SelectedValue;
+                }
+
+
+
+
+
+                String vQuery = "GESTIONES_Solicitud 48,'" + TxInicioBusqueda.Text + "','" + TxFinBusqueda.Text + "','" + Session["USUARIO"].ToString() + "','" + vFiltradoTarjeta + "','" + vFiltradoGestion + "','" + vFiltradoPrioridad + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+                Session["GESTIONES_MIS_SOLICITUDES"] = null;
+                GvSolicitudes.DataSource = null;
+                GvSolicitudes.DataBind();
+
+                if (vDatos.Rows.Count > 0)
+                {
+                    GvSolicitudes.DataSource = vDatos;
+                    GvSolicitudes.DataBind();
+                    UpMisSolicitudes.Update();
+                    Session["GESTIONES_MIS_SOLICITUDES"] = vDatos;
+                    divTarjetasCerradas.Visible = false;
+                    UpdatePanel9.Update();
+                    divMisSolicitudes.Visible = true;
+                }
+                else
+                {
+                    divMisSolicitudes.Visible = false;
+                    divTarjetasCerradas.Visible = true;
+                    UpMisSolicitudes.Update();
+                    UpdatePanel9.Update();
+                }
+
+                UpMisSolicitudes.Update();
+            }
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
         }
     }
 }

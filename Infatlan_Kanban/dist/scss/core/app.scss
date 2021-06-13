@@ -24,13 +24,12 @@
 *******************/
 
 .page-titles {
-    background: $white;
-    padding: 14px 10px;
-    box-shadow: $shadow;
+    background: url(../../../assets/images/heading-title-bg.jpg) no-repeat center center /cover;
+    padding: 14px 15px;
     margin: 0 -25px 25px -25px;
     h4 {
-        margin-bottom: 0px;
-        margin-top: 0px;
+        margin: 15px 0 0 0;
+        font-size: 23px;
     }
     .breadcrumb {
         padding: 0px;
@@ -40,7 +39,7 @@
         li {
             
             a{
-                color:$body-color;
+                color:$white;
             }
         }
         .breadcrumb-item+.breadcrumb-item::before {

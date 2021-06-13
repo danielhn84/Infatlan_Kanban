@@ -30,7 +30,7 @@ File: scss
 @import url(../../../assets/icons/material-design-iconic-font/css/materialdesignicons.min.css);
 @import url(https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700);
 .skin-default .topbar {
-    background: #6f42c1;
+    background: #035198;
 }
 
 .skin-green {
@@ -100,35 +100,47 @@ File: scss
 
 .skin-blue {
   /*Theme Colors*/ }
-  .skin-blue .topbar {
-    background: #03a9f3; }
-  .skin-blue .sidebar-nav ul li a.active, .skin-blue .sidebar-nav ul li a:hover {
-    color: #03a9f3; }
-    .skin-blue .sidebar-nav ul li a.active i, .skin-blue .sidebar-nav ul li a:hover i {
-      color: #03a9f3; }
-  .skin-blue .sidebar-nav > ul > li.active > a {
-    color: #03a9f3;
-    border-left: 3px solid #03a9f3; }
-    .skin-blue .sidebar-nav > ul > li.active > a i {
-      color: #03a9f3; }
-  .skin-blue .page-titles .breadcrumb .breadcrumb-item.active {
-    color: #03a9f3; }
+    .skin-blue .topbar {
+        background: #035198;
+    }
+    .skin-blue .sidebar-nav ul li a.active, .skin-blue .sidebar-nav ul li a:hover {
+        color: #035198;
+    }
+        .skin-blue .sidebar-nav ul li a.active i, .skin-blue .sidebar-nav ul li a:hover i {
+            color: #035198;
+        }
+    .skin-blue .sidebar-nav > ul > li.active > a {
+        color: #035198;
+        border-left: 3px solid #03a9f3;
+    }
+        .skin-blue .sidebar-nav > ul > li.active > a i {
+            color: #035198;
+        }
+    .skin-blue .page-titles .breadcrumb .breadcrumb-item.active {
+        color: #035198;
+    }
 
 .skin-blue-dark {
   /*Theme Colors*/ }
-  .skin-blue-dark .topbar {
-    background: #03a9f3; }
-  .skin-blue-dark .sidebar-nav ul li a.active, .skin-blue-dark .sidebar-nav ul li a:hover {
-    color: #03a9f3; }
-    .skin-blue-dark .sidebar-nav ul li a.active i, .skin-blue-dark .sidebar-nav ul li a:hover i {
-      color: #03a9f3; }
-  .skin-blue-dark .sidebar-nav > ul > li.active > a {
-    color: #03a9f3;
-    border-left: 3px solid #03a9f3; }
-    .skin-blue-dark .sidebar-nav > ul > li.active > a i {
-      color: #03a9f3; }
-  .skin-blue-dark .page-titles .breadcrumb .breadcrumb-item.active {
-    color: #03a9f3; }
+    .skin-blue-dark .topbar {
+        background: #035198;
+    }
+    .skin-blue-dark .sidebar-nav ul li a.active, .skin-blue-dark .sidebar-nav ul li a:hover {
+        color: #035198;
+    }
+        .skin-blue-dark .sidebar-nav ul li a.active i, .skin-blue-dark .sidebar-nav ul li a:hover i {
+            color: #035198;
+        }
+    .skin-blue-dark .sidebar-nav > ul > li.active > a {
+        color: #035198;
+        border-left: 3px solid #03a9f3;
+    }
+        .skin-blue-dark .sidebar-nav > ul > li.active > a i {
+            color: #035198;
+        }
+    .skin-blue-dark .page-titles .breadcrumb .breadcrumb-item.active {
+        color: #035198;
+    }
   .skin-blue-dark .topbar .top-navbar .navbar-header {
     background: #2b2b2b; }
   .skin-blue-dark .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
@@ -146,8 +158,9 @@ File: scss
 
 .skin-default-dark {
   /*Theme Colors*/ }
-  .skin-default-dark .topbar {
-    background: #fb9678; }
+    .skin-default-dark .topbar {
+        background: #035198;
+    }
   .skin-default-dark .sidebar-nav ul li a.active, .skin-default-dark .sidebar-nav ul li a:hover {
     color: #fb9678; }
     .skin-default-dark .sidebar-nav ul li a.active i, .skin-default-dark .sidebar-nav ul li a:hover i {

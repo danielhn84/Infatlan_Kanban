@@ -20,7 +20,7 @@
             background: rgba(0,0,0,0.05);
             line-height: 65px; 
             padding-left: 10px;
-            min-width: 70px;
+            min-width: 60px;
             .navbar-brand {
                 margin-right: 0px;
                 padding-bottom: 0px;
@@ -159,13 +159,15 @@ Notify
 }
 
 .app-search {
-    line-height: 60px;
+    line-height: 40px;
+    margin-top: -20px;
     .form-control{
-        
+        background: rgba(255,255,255,.9);
         border-radius: 60px;
         border-color: transparent;
         transition: 0.2s ease-in;
         width: 180px;
+        height: 30px;
         &:focus{
             width: 300px;
         }

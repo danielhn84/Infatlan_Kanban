@@ -19,26 +19,17 @@ namespace Infatlan_Kanban.pages
         {
             ScriptManager.RegisterStartupScript(this.Page, typeof(Page), "text", "infatlan.showNotification('top','center','" + vMensaje + "','" + type.ToString().ToLower() + "')", true);
         }
-
-
-        //protected void Page_Init(object sender, EventArgs e)
-        //{
-        //    Page.Form.Attributes.Add("enctype", "multipart/form-data");
-        //}
-
-            protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            //Page.Form.Attributes.Add("enctype", "multipart/form-data");
             select2();
-            String request = Request.QueryString["et"];
+            String request = Request.QueryString["et"];//Item del equipo a buscar
             String requestColaborador = Request.QueryString["vColaborador"];
+            String requestAsignadasPorMi = Request.QueryString["vUsuario"];
             if (!Page.IsPostBack)
             {
-
                 String vEx = Request.QueryString["ex"];
                 if (Convert.ToBoolean(Session["AUTH"]))
                 {
-
                     string vIdRol = Session["ID_ROL_USUARIO"].ToString();
 
                     if (vIdRol == "2")
@@ -52,18 +43,15 @@ namespace Infatlan_Kanban.pages
                         BtnBusqueda.Visible = true;
                     }
                     
-
                     Session["GESTIONES_ID_TARJETA_CERRAR"] = null;
                     if (!String.IsNullOrEmpty(request))
-                    {
-                        cargarDataEquipoTrabajo(request);
-                        //cargarDataTareasAsignadas(request);
+                    {                                  
                         tipoBusqueda();
                         DivBusquedaReportes.Visible = true;
                         DdlTipoBusqueda.SelectedValue = "2";
-  
                         if (DdlTipoBusqueda.SelectedValue == "2")//Reporte Equipo Trabajo
                         {
+                            cargarDataEquipoTrabajo(request);
                             DdlEquipoTrabajo.Visible = true;
                             DdlColaborador.Visible = false;
 
@@ -98,6 +86,9 @@ namespace Infatlan_Kanban.pages
                         }
                         select2();
                         DdlEquipoTrabajo.SelectedValue = request;
+                        LbTipoSelecciono.Text = DdlTipoBusqueda.SelectedItem.Text;
+                        DivTipoTarjeta.Visible = true;
+                        DivEquipoColaborador.Visible = true;
                         UpdatePanel17.Update();
                     }
                     else
@@ -107,6 +98,17 @@ namespace Infatlan_Kanban.pages
                         tipoBusqueda();
                     }
 
+
+                    
+                    if (!String.IsNullOrEmpty(requestAsignadasPorMi))
+                    {
+                        cargarDataTareasAsignadas(requestAsignadasPorMi);
+                        DivBusqueda.Visible = true;
+                        DdlTipoBusqueda.SelectedValue = "4";
+                        DivBusquedaReportes.Visible = true;
+                        UpdatePanel17.Update();
+                    }
+          
 
 
                     if (!String.IsNullOrEmpty(requestColaborador))
@@ -151,42 +153,21 @@ namespace Infatlan_Kanban.pages
                             }
                         }
                         DdlColaborador.SelectedValue = requestColaborador;
+                        LbTipoSelecciono.Text = DdlTipoBusqueda.SelectedItem.Text;
+                        DivTipoTarjeta.Visible = true;
+                        DivEquipoColaborador.Visible = true;
                         UpdatePanel17.Update();
 
                     }
-                    }
+
+                    //LbTipoSelecciono.Text = DdlTipoBusqueda.SelectedItem.Text + ":";
+                }
                 else
                 {
                     Response.Redirect("/login.aspx");
                 }
             }
-          
-            //if (!Page.IsPostBack)
-            //{
-
-
-                //    //if (vEx == null)
-                //    //{
-                //    //    cargarData();
-                //    //    string vMensaje = "Tarjeta creado con éxito";
-                //    //    Mensaje(vMensaje, WarningType.Success);
-                //    //}
-                //    //else if (vEx.Equals("1"))
-                //    //{
-                //    //    String vRe = "Tarjeta finalizada con éxito.";
-                //    //    ScriptManager.RegisterClientScriptBlock(this.Page, this.Page.GetType(), "Pop", "window.alert('" + vRe + "')", true);
-                //    //    cargarData();
-                //    //}
-                //    //else if (vEx.Equals("2"))
-                //    //{
-                //    //    string  vMensaje = "Tarjeta creado con éxito";
-                //    //    Mensaje(vMensaje, WarningType.Success);
-                //    //    cargarData();
-                //    //}
-
-                //}
-
-
+  
         }
         private void select2()
         {
@@ -226,7 +207,6 @@ namespace Infatlan_Kanban.pages
         }
         void cargarData()
         {
-
             string vQuery = "GESTIONES_Generales 2,'" + Session["USUARIO"].ToString() + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vEnCola = vDatos.Rows[0]["cantCola"].ToString();
@@ -313,15 +293,14 @@ namespace Infatlan_Kanban.pages
 
                 //style = 'zoom: 60%;'
                 vString += "<div class='card' >" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                vRibon +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
 
@@ -409,15 +388,14 @@ namespace Infatlan_Kanban.pages
                 //style = 'zoom: 60%;'
                 vString += "<div class='card' >" +
                 //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                vRibon+
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'><br>" +
@@ -512,15 +490,14 @@ namespace Infatlan_Kanban.pages
                 //style = 'zoom: 60%;'
                 vString += "<div class='card' >" +
                 //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                vRibon +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'><br>" +
@@ -617,17 +594,16 @@ namespace Infatlan_Kanban.pages
                     vColorPrioridad = "info";
                 }
                 //style = 'zoom: 60%;'
-                vString += "<div class='card' >" +
+                vString += "<div class='card'>" +
                 //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                vRibon +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'><br>" +
@@ -718,15 +694,14 @@ namespace Infatlan_Kanban.pages
                 //style = 'zoom: 75%;'
                 vString += "<div class='card' >" +
                 //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                vRibon +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
                 "<div class='col-12 text-center'><br>" +
@@ -762,8 +737,6 @@ namespace Infatlan_Kanban.pages
                     DdlTipoBusqueda.Items.Add(new ListItem { Value = item["nombre"].ToString(), Text = item["reporte"].ToString() });
                 }
             }
-
-
 
             DdlNotificar.Items.Clear();
             vQuery = "GESTIONES_Solicitud 26";
@@ -1166,7 +1139,7 @@ namespace Infatlan_Kanban.pages
                 throw new Exception("Falta que seleccione tipo de gestión.");
 
             if (TxFechaEntrega.Text.Equals(""))
-                throw new Exception("Falta que ingrese la fecha de entrega.");
+                throw new Exception("Falta que ingrese la fecha de  FIN.");
 
             if (DdlPrioridad.SelectedValue.Equals("0"))
                 throw new Exception("Falta que seleccione tipo de prioridad.");
@@ -1250,11 +1223,10 @@ namespace Infatlan_Kanban.pages
             //    throw new Exception("Favor cambiar la hora de inicio de la tarjeta, está superando la hora de inicio establecido " + vThrInicioTeams);
 
             //if (vThrFinSoli > vThrFinTeams && DdlTipoGestion.SelectedValue != "4" && fecha_fin.DayOfWeek != DayOfWeek.Saturday && fecha_fin.DayOfWeek != DayOfWeek.Sunday)
-            //    throw new Exception("Favor cambiar la hora de entrega de la tarjeta, está superando la hora de fin establecido " + vThrFinTeams);
+            //    throw new Exception("Favor cambiar la hora de  FIN de la tarjeta, está superando la hora de fin establecido " + vThrFinTeams);
 
 
             DateTime fecha_actual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
-
             TimeSpan fecha_actual_resta10min = new TimeSpan(Convert.ToDateTime(fecha_actual).Ticks);
             fecha_actual_resta10min = fecha_actual_resta10min.Add(new TimeSpan(0, -10, 0));
             String fecha_actual_resta = Convert.ToString(fecha_actual_resta10min); //Original Text
@@ -1278,10 +1250,10 @@ namespace Infatlan_Kanban.pages
                 throw new Exception("Nota: El tipo de gestión que seleccionó no permite ingresar tarjetas cuando la fecha actual del sistema es mayor que la fecha de inicio de la tarjeta. Tarjeta tenia que ser debidamente programada");
 
             if (fecha_actualIngreso > fecha_actualEntrega)
-                throw new Exception("Favor verificar la fecha de inicio, no puede ser mayor que la fecha de entrega");
+                throw new Exception("Favor verificar la fecha de inicio, no puede ser mayor que la fecha de  FIN");
 
             if (fecha_actualEntrega < fecha_actualIngreso)
-                throw new Exception("Favor verificar la fecha de entrega, no puede ser menor que la fecha de inicio");
+                throw new Exception("Favor verificar la fecha de  FIN, no puede ser menor que la fecha de inicio");
         }
         private void cargarModal()
         {
@@ -1353,8 +1325,6 @@ namespace Infatlan_Kanban.pages
         }
         void calculoDias()
         {
-
-
             DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
             DateTime fecha_fin = DateTime.Parse(TxFechaEntrega.Text.ToString());
 
@@ -1486,7 +1456,7 @@ namespace Infatlan_Kanban.pages
                         businessDays -= fullWeekCount + fullWeekCount;
                     }
                     int vDias = businessDays + 1;
-                    Session["GESTIONES_DIAS"] = vDias;
+                    Session["GESTIONES_DIAS"] = vDias ;
                     vMinDiarios = Convert.ToInt32(TxMinProductivo.Text) / vDias;
 
                     int vCount = 0;
@@ -1592,7 +1562,7 @@ namespace Infatlan_Kanban.pages
                     }
 
                     if (vMinsFaltante != 0)
-                        throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                        throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
 
                 }
                 else if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday || vFechaInicio.DayOfWeek == DayOfWeek.Sunday)
@@ -1714,7 +1684,7 @@ namespace Infatlan_Kanban.pages
                             }
 
                             if (vMinsFaltante != 0)
-                                throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                                throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
                         }
                     }
                     else
@@ -1818,7 +1788,7 @@ namespace Infatlan_Kanban.pages
                         }
 
                         if (vMinsFaltante != 0)
-                            throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                            throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
 
                     }
 
@@ -1895,13 +1865,6 @@ namespace Infatlan_Kanban.pages
             GVDistribucion.DataSource = (DataTable)Session["GESTIONES_TAREAS_MIN_DIARIOS"];
             GVDistribucion.DataBind();
         }
-
-        //protected void BtnBusqueda_Click(object sender, EventArgs e)
-        //{
-        //    DivBusqueda.Visible = true;
-        //    UpdatePanel8.Update();
-        //}
-
         private void validacionesCerrarTarea()
         {
             if (DdlAccion.SelectedValue.Equals("0"))
@@ -1909,10 +1872,6 @@ namespace Infatlan_Kanban.pages
 
             if (TxDetalle.Text.Equals(""))
                 throw new Exception("Falta que ingrese ingrese detalle de la acción.");
-
-
-
-
 
             String vEx = null;
             vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
@@ -1922,18 +1881,15 @@ namespace Infatlan_Kanban.pages
         {
             try
             {
-                //ccc
                 //TAREA A  DETENER
                 if (DdlAccion.SelectedValue == "2")
                 {
-                    
-
                     string vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
                     string vResponsable= Session["GESTIONES_RESPONSABLE_TARJETA_CERRAR"].ToString();
                     string vidEstadoDetener = "3";
                     string vidEstadoTextoDetener = "Solicitud Detenida";
                     string  vEstadoCargabilidadDetener = "0";
-                    string vCambioDetener = vidEstadoTextoDetener + ", Detalle: Nueva Fecha Inicio- " + TxNewFechaInicio.Text + ", Nueva Fecha Entrega-" + TxNewFechaEntrega.Text+ ", Motivo: "+ TxDetalle.Text;
+                    string vCambioDetener = vidEstadoTextoDetener + ", Detalle: Nueva Fecha Inicio- " + TxNewFechaInicio.Text + ", Nueva Fecha  FIN-" + TxNewFechaEntrega.Text+ ", Motivo: "+ TxDetalle.Text;
 
                     DateTime vdateActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
                     string vdateActualCambio = vdateActual.ToString("dd/MM/yyyy");
@@ -2058,7 +2014,7 @@ namespace Infatlan_Kanban.pages
                 }
                 vCambio = "Creación de tarjeta, Estado: " + vidEstadoTexto + ", Prioridad: " + DdlPrioridad.SelectedItem;
 
-                String vQuery1 = "GESTIONES_Solicitud 1,'" + TxTitulo_1.Text
+                String vQuery1 = "GESTIONES_Solicitud 45,'" + TxTitulo_1.Text
                        + "','" + TxDescripcion.Text
                        + "','" + DdlTipoGestion.SelectedValue
                        + "','" + DdlResponsable.SelectedValue
@@ -2071,7 +2027,7 @@ namespace Infatlan_Kanban.pages
                        + "','" + vFechaEntrega
                        + "','" + vFechaInicio
                        + "','" + Convert.ToString(vfechaActualCorta)
-                       + "'";
+                       + "','Tecnica'";
                 DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery1);
                 string idSolicitud = vDatos.Rows[0]["idSolicitud"].ToString();
 
@@ -2251,7 +2207,6 @@ namespace Infatlan_Kanban.pages
             }
 
         }
-
         void camposDeshabilitados()
         {
             TxFechaSolicitud_1.ReadOnly = true;
@@ -2263,10 +2218,8 @@ namespace Infatlan_Kanban.pages
             TxFechaEntrega_1.ReadOnly = true;
             DdlPrioridad_1.Enabled = false;
             DdlTipoGestion_1.Enabled = false;
-
-
+            //GvCheckList.Enabled = false;
         }
-
         void cargarDatosTarjeta()
         {
             camposDeshabilitados();
@@ -2296,8 +2249,9 @@ namespace Infatlan_Kanban.pages
             DdlPrioridad_1.SelectedValue = vDatos.Rows[0]["prioridad"].ToString();
             string vEstadoTarjeta = vDatos.Rows[0]["idEstado"].ToString();
             string idOperativa= vDatos.Rows[0]["idOperativa"].ToString();
+            string escalacion = vDatos.Rows[0]["escalacion"].ToString();
+            ckEscalacion.SelectedValue = escalacion;
             
-
             Session["GESTIONES_USUARIO_CREO"] = vDatos.Rows[0]["usuarioCreo"].ToString();
 
             vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable_1.SelectedValue + "'";
@@ -2371,6 +2325,19 @@ namespace Infatlan_Kanban.pages
 
 
 
+            //DATOS LISTA DE VERIFICACION
+            vQuery = "GESTIONES_SolicitudOperaciones 5,'" + idOperativa  + "'";
+            DataTable vDatosLista = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+
+            if (vDatosLista.Rows.Count > 0)
+            {
+                GvCheckList.DataSource = vDatosLista;
+                GvCheckList.DataBind();
+                Session["GESTIONES_VERIFICACION"] = vDatosLista;
+            }
+
+
+
             if (vEstadoTarjeta == "5" || vEstadoTarjeta == "6")
             {
                 DdlAccion.SelectedValue = "1";
@@ -2382,12 +2349,53 @@ namespace Infatlan_Kanban.pages
                 BtnConfirmarTarea_1.Visible = false;
                 //UpdatePanel14.Update();
 
+                div11.Visible = false;
+                div13.Visible = true;
+                //GvCheckListLleno.Enabled = false;
+                //DATOS CHECKLIST
+                ckEscalacion.Enabled = false;
+                vQuery = "GESTIONES_SolicitudOperaciones 6,'" + vEx + "'";
+                DataTable vDatosVerificacionCompletada = vConexionGestiones.obtenerDataTableGestiones(vQuery);
 
+                if (vDatosVerificacionCompletada.Rows.Count > 0)
+                {
+                    GvCheckListLleno.DataSource = vDatosVerificacionCompletada;
+                    GvCheckListLleno.DataBind();
+                    Session["GESTIONES_VERIFICACION_COMPLETADA"] = vDatosVerificacionCompletada;
+                    
+                }
+
+                int num = 0;
+                //foreach (GridViewRow row in GvCheckListLleno.Rows)
+                //{
+                //    string tipo = vDatosVerificacionCompletada.Rows[num]["tipo"].ToString();
+                //    string respuesta= vDatosVerificacionCompletada.Rows[num]["respuesta"].ToString();
+
+                //   TextBox vTexto = (TextBox)row.FindControl("TxRespuesta");
+                   
+                //   Image vImagen = (Image)row.FindControl("ImgPreview");
+                   
+
+                //    vTexto.Text = respuesta;
+                //    vImagen.ImageUrl = "data:image;base64,"+ respuesta;
+
+
+                //    if (tipo == "Texto")
+                //    {
+                //        vTexto.Visible = true;
+                //        //vTexto.Enabled = false;
+                //        vImagen.Visible = false;
+                //    }
+                //    else
+                //    {
+                //        vTexto.Visible = false;
+                //        vImagen.Visible = true;
+                //    }
+                //    num = num + 1;
+                //}
                 LbTitulo.Text = "Tarjeta Kanban Cerrada: " + Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
                 UpTitulo.Update();
             }
-
-
 
             DdlMotivoEliminar.Items.Clear();
             vQuery = "GESTIONES_Solicitud 30";
@@ -2401,20 +2409,6 @@ namespace Infatlan_Kanban.pages
                     DdlMotivoEliminar.Items.Add(new ListItem { Value = item["idMotivo"].ToString(), Text = item["motivo"].ToString() });
                 }
             }
-
-
-            //DATOS CHECKLIST
-            vQuery = "GESTIONES_SolicitudOperaciones 5,'" + idOperativa + "'";
-            DataTable vDatosVerificacion = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-
-            if (vDatosVerificacion.Rows.Count > 0)
-            {
-                GvCheckList.DataSource = vDatosVerificacion;
-                GvCheckList.DataBind();
-                Session["GESTIONES_VERIFICACION"] = vDatosVerificacion;
-            }
-
-
         }
         protected void TxTitulo_TextChanged(object sender, EventArgs e)
         {
@@ -2454,11 +2448,9 @@ namespace Infatlan_Kanban.pages
 
             UPFormulario.Update();
         }
-
         protected void TxTituloVer_TextChanged(object sender, EventArgs e)
         {
             string vidTarjeta = TxTitulo.Text;
-
         }
         protected void GvComentarioLectura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -2499,7 +2491,6 @@ namespace Infatlan_Kanban.pages
                 Mensaje(ex.Message, WarningType.Danger);
             }
         }
-
         protected void BtnCancelarTarjeta_Click(object sender, EventArgs e)
         {
             limpiarCreacionTarea();
@@ -2508,8 +2499,6 @@ namespace Infatlan_Kanban.pages
             cargarData();
             Response.Redirect("/pages/miTablero.aspx");
         }
-
-
         private void limpiarCreacionTarea()
         {
             TxTitulo_1.Text = string.Empty;
@@ -2533,7 +2522,6 @@ namespace Infatlan_Kanban.pages
             //divAdjunto.Visible = false;
             divComentario.Visible = false;
         }
-
         protected void BtnAddComentario_1_Click(object sender, EventArgs e)
         {
             try
@@ -2634,7 +2622,6 @@ namespace Infatlan_Kanban.pages
                 divAlertaComentario_1.Visible = true;
             }
         }
-
         protected void TxComentario_1_TextChanged(object sender, EventArgs e)
         {
             divAlertaComentario_1.Visible = false;
@@ -2680,14 +2667,17 @@ namespace Infatlan_Kanban.pages
                                 TextBox vValidacionTexto = (TextBox)row.Cells[2].FindControl("TxRespuesta");
                                 string vContenidoValidacionTexto = vValidacionTexto.Text;
 
-                                TextBox vValidacionImagen = (TextBox)row.Cells[3].FindControl("txtEvtTo");
-                                string vContenidoValidacionImagen = vValidacionImagen.Text;
+                                TextBox vValidacionImagenDoc = (TextBox)row.Cells[3].FindControl("txtEvtTo");
+                                string vContenidoValidacionImagenDoc = vValidacionImagenDoc.Text;
 
 
                                 if (tipo == "Texto" && vContenidoValidacionTexto == "")
                                     throw new Exception("Favor completar todas las preguntas de la lista de verificacion");
 
-                                if (tipo == "Imagen" && vContenidoValidacionImagen == "No")
+                                if (tipo == "Imagen" && vContenidoValidacionImagenDoc == "No")
+                                    throw new Exception("Favor completar todas las preguntas de la lista de verificacion");
+
+                                if (tipo == "Documento" && vContenidoValidacionImagenDoc == "No")
                                     throw new Exception("Favor completar todas las preguntas de la lista de verificacion");
 
                                 num = num + 1;
@@ -2921,7 +2911,7 @@ namespace Infatlan_Kanban.pages
                             }
 
                             if (vMinsFaltante != 0)
-                                throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                                throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
 
                         }
                         else if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday || vFechaInicio.DayOfWeek == DayOfWeek.Sunday)
@@ -3075,7 +3065,7 @@ namespace Infatlan_Kanban.pages
                                     }
 
                                     if (vMinsFaltante != 0)
-                                        throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                                        throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
                                 }
                             }
                             else
@@ -3179,7 +3169,7 @@ namespace Infatlan_Kanban.pages
                                 }
 
                                 if (vMinsFaltante != 0)
-                                    throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                                    throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
 
                             }
 
@@ -3208,10 +3198,7 @@ namespace Infatlan_Kanban.pages
                         UpdatePanel14.Update();
                         ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
                     }
-
                 }
-
-
                 //OpenModalLoad();
 
             }
@@ -3235,12 +3222,14 @@ namespace Infatlan_Kanban.pages
 
         protected void DdlTipoBusqueda_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LbTipoSelecciono.Text = DdlTipoBusqueda.SelectedItem.Text +":";
             string vIdRol = Session["ID_ROL_USUARIO"].ToString();
             if (DdlTipoBusqueda.SelectedValue == "2")//Reporte Equipo Trabajo
             {
                 DdlEquipoTrabajo.Visible = true;
                 DdlColaborador.Visible = false;
-
+                DivEquipoColaborador.Visible = true;
+                DivTipoTarjeta.Visible = true;
                 if (vIdRol == "1")
                 {
                     DdlEquipoTrabajo.Items.Clear();
@@ -3274,6 +3263,8 @@ namespace Infatlan_Kanban.pages
             {
                 DdlEquipoTrabajo.Visible = false;
                 DdlColaborador.Visible = true;
+                DivEquipoColaborador.Visible = true;
+                DivTipoTarjeta.Visible = true;
 
                 if (vIdRol == "1")
                 {
@@ -3305,9 +3296,14 @@ namespace Infatlan_Kanban.pages
                 }
 
             }
-            else if (DdlTipoBusqueda.SelectedValue == "4")
+            else if (DdlTipoBusqueda.SelectedValue == "4")//Asignadas por Mi
             {
-                Response.Redirect("miTablero.aspx?et=" + Session["USUARIO"].ToString());
+                DdlEquipoTrabajo.Visible = false;
+                DdlColaborador.Visible = false;
+                DivEquipoColaborador.Visible = false;
+                DivTipoTarjeta.Visible = false;
+                DivBusqueda.Visible = true;
+                Response.Redirect("miTablero.aspx?vUsuario=" + Session["USUARIO"].ToString());
             }
             else
             {
@@ -3319,7 +3315,7 @@ namespace Infatlan_Kanban.pages
 
         protected void DdlEquipoTrabajo_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            LbTipoSelecciono.Text = DdlTipoBusqueda.SelectedItem.Text + ":";
             Response.Redirect("miTablero.aspx?et=" + DdlEquipoTrabajo.SelectedValue);
 
 
@@ -3328,7 +3324,6 @@ namespace Infatlan_Kanban.pages
         }
         void cargarDataEquipoTrabajo(String et)
         {
-
             String equipoTrabajo = et;
 
             string vQuery = "GESTIONES_Generales 44,'" + equipoTrabajo + "'";
@@ -3365,7 +3360,8 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -3374,6 +3370,21 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -3402,19 +3413,19 @@ namespace Infatlan_Kanban.pages
 
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
-                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+               "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
@@ -3445,7 +3456,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -3454,6 +3465,22 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -3481,19 +3508,19 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
-                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
@@ -3524,8 +3551,8 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "";
-                ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -3534,6 +3561,23 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
+
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
                     vColor = "badge-danger";
@@ -3561,19 +3605,19 @@ namespace Infatlan_Kanban.pages
 
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
-                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
@@ -3604,7 +3648,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
 
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
@@ -3616,6 +3660,22 @@ namespace Infatlan_Kanban.pages
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vEstadoNombre == "Realizado a Tiempo")
                 { vColorEstado = "success";
@@ -3655,17 +3715,18 @@ namespace Infatlan_Kanban.pages
                 }
 
                 vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<h5><span class='label label-" + vColorEstado + "'>" + vEstadoNombre + "</span></h5><br>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
@@ -3701,7 +3762,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -3710,6 +3771,22 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -3737,19 +3814,19 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
-                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+               "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
@@ -3810,7 +3887,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -3819,6 +3896,21 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -3847,19 +3939,19 @@ namespace Infatlan_Kanban.pages
 
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
-                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
@@ -3890,7 +3982,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -3899,6 +3991,21 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -3926,19 +4033,19 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
-                //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
@@ -3969,7 +4076,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 ;
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
@@ -3979,6 +4086,23 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
+
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
                     vColor = "badge-danger";
@@ -4006,18 +4130,19 @@ namespace Infatlan_Kanban.pages
 
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
@@ -4049,7 +4174,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "";
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
 
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
@@ -4061,6 +4186,24 @@ namespace Infatlan_Kanban.pages
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vEstadoNombre == "Realizado a Tiempo")
                 {
@@ -4100,18 +4243,19 @@ namespace Infatlan_Kanban.pages
                     vColorPrioridad = "info";
                 }
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<h5><span class='label label-" + vColorEstado + "'>" + vEstadoNombre + "</span></h5><br>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
@@ -4147,7 +4291,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -4156,6 +4300,22 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vEmpleado = vDatos.Rows[i]["empleado"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -4183,18 +4343,19 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
@@ -4219,6 +4380,7 @@ namespace Infatlan_Kanban.pages
 
         protected void DdlColaborador_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LbTipoSelecciono.Text = DdlTipoBusqueda.SelectedItem.Text + ":";
             Response.Redirect("miTablero.aspx?vColaborador=" + DdlColaborador.SelectedValue);
 
             //cargarDataColaborador();
@@ -4262,7 +4424,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -4270,6 +4432,22 @@ namespace Infatlan_Kanban.pages
                 vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -4296,18 +4474,19 @@ namespace Infatlan_Kanban.pages
                     vColorPrioridad = "info";
                 }
 
-                vString += "<div class='card'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "</div>" +
@@ -4338,7 +4517,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -4346,6 +4525,22 @@ namespace Infatlan_Kanban.pages
                 vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -4373,18 +4568,19 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-                vString += "<div class='card'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "</div>" +
@@ -4414,7 +4610,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -4422,6 +4618,22 @@ namespace Infatlan_Kanban.pages
                 vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -4449,18 +4661,19 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-                vString += "<div class='card'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "</div>" +
@@ -4490,7 +4703,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -4499,6 +4712,22 @@ namespace Infatlan_Kanban.pages
                 vEstadoNombre = vDatos.Rows[i]["estado"].ToString();
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vEstadoNombre == "Realizado a Tiempo")
                 { vColorEstado = "success";
@@ -4535,18 +4764,19 @@ namespace Infatlan_Kanban.pages
                     vColorPrioridad = "info";
                 }
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<h5><span class='label label-" + vColorEstado + "'>" + vEstadoNombre + "</span></h5><br>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
@@ -4579,7 +4809,7 @@ namespace Infatlan_Kanban.pages
                 String vColor = "";
                 String vColorBoton = "";
                 String vColorPrioridad = "";
-                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = ""; ;
+                String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
@@ -4587,6 +4817,22 @@ namespace Infatlan_Kanban.pages
                 vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA OPERATIVA";
+                    vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                    //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                }
+                else
+                {
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vTipoTarjeta = " TARJETA TECNICA";
+                    vRibon = "";
+                }
+
 
                 if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
                 {
@@ -4614,18 +4860,19 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-                vString += "<div class='card'>" +
-                //"<div class='card-header " + vColor + " text-white'>" +
-                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" +
+                vString += "<div class='card' >" +
+                "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
                 "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
                 "</div>" +
                 "<div class='card-body'>" +
                 "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
                 "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
                 "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
-                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  ENTREGA: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
                 "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
-                "<div class='col-12 text-center'>" +
+                "<div class='col-12 text-center'><br>" +
+                "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
                 "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
                 "</div>" +
@@ -4697,9 +4944,11 @@ namespace Infatlan_Kanban.pages
             string vEstadoTarjeta = vDatosEstado.Rows[0]["idEstado"].ToString();
             string vIdOperativa = vDatosEstado.Rows[0]["idOperativa"].ToString();
 
+                string vOperativaEscalacion = "0";
                 int num = 0;
                 if (vIdOperativa != null && vIdOperativa != "")
                 {
+                    vOperativaEscalacion = ckEscalacion.SelectedValue;
                     DataTable vDatosCheckListVerificar = (DataTable)Session["GESTIONES_VERIFICACION"];
                     if (vDatosCheckListVerificar != null)
                     {
@@ -4719,7 +4968,7 @@ namespace Infatlan_Kanban.pages
                                 vArchivo = vValidacionTexto.Text;
                             }else if (tipo == "Imagen")
                             {
-                                FileUpload vFuRespuesta = (FileUpload)row.Cells[2].FindControl("FuRespuesta");                               
+                                FileUpload vFuRespuesta = (FileUpload)row.Cells[3].FindControl("FuRespuesta");                               
                                 HttpPostedFile bufferDeposito1T = vFuRespuesta.PostedFile;
                                 byte[] vFileDeposito1 = null;
                                 
@@ -4736,8 +4985,27 @@ namespace Infatlan_Kanban.pages
                                 if (vFileDeposito1 != null)
                                     vArchivo = Convert.ToBase64String(vFileDeposito1);
                             }
+                            else if (tipo == "Documento")
+                            {
+                                FileUpload vFuRespuesta = (FileUpload)row.Cells[3].FindControl("FuRespuestaDoc");
+                                HttpPostedFile bufferDeposito1T = vFuRespuesta.PostedFile;
+                                byte[] vFileDeposito1 = null;
 
-                            string vQueryCheckList = "GESTIONES_Solicitud 43,'" + vEx + "','" + vIdOperativa + "','" + pregunta + "','" + vArchivo + "','" + idPregunta + "','"+ vNombreDepot1+"','"+ vExtension+"'";
+
+                                if (bufferDeposito1T != null)
+                                {
+                                    vNombreDepot1 = vFuRespuesta.FileName;
+                                    Stream vStream = bufferDeposito1T.InputStream;
+                                    BinaryReader vReader = new BinaryReader(vStream);
+                                    vFileDeposito1 = vReader.ReadBytes((int)vStream.Length);
+                                    vExtension = System.IO.Path.GetExtension(vFuRespuesta.FileName);
+                                }
+
+                                if (vFileDeposito1 != null)
+                                    vArchivo = Convert.ToBase64String(vFileDeposito1);
+                            }
+
+                            string vQueryCheckList = "GESTIONES_Solicitud 43,'" + vEx + "','" + vIdOperativa + "','" + pregunta + "','" + vArchivo + "','" + idPregunta + "','"+ vNombreDepot1+"','"+ vExtension+"','"+ tipo+"'";
                             Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQueryCheckList);
                             num = num + 1;
                         }
@@ -4763,7 +5031,7 @@ namespace Infatlan_Kanban.pages
 
             //string vFechaEntrega_60Mins = Convert.ToDateTime(vFechaEntrega).AddMinutes(60).ToString("yyyy-MM-dd HH:mm");
 
-            string vFechaEntregaFinDia = Convert.ToDateTime(vFechaEntrega).AddDays(3).ToString("yyyy-MM-dd");
+            string vFechaEntregaFinDia = Convert.ToDateTime(vFechaEntrega).AddDays(2).ToString("yyyy-MM-dd");
             string vFechaEntregaTarjeta = Convert.ToDateTime(vFechaEntrega).ToString("yyyy-MM-dd");
             string vFechaActualConvertida = DateTime.Now.ToString("yyyy-MM-dd");
             DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
@@ -4960,16 +5228,6 @@ namespace Infatlan_Kanban.pages
             string vMensaje = "";
             if (DdlAccion.SelectedValue == "1")
             {
-                    string escalacion = "";
-                    if (ckEscalacion.SelectedValue == "")
-                    {
-                        escalacion = "No";
-                    }
-                    else
-                    {
-                        escalacion = "Si";
-                    }
-
 
                 string vNombreDepot1 = String.Empty;
                 HttpPostedFile bufferDeposito1T = FuSolucion.PostedFile;
@@ -4989,7 +5247,7 @@ namespace Infatlan_Kanban.pages
                     vArchivo = Convert.ToBase64String(vFileDeposito1);
 
                 //ACTUALIZAR LA SOLICITUD
-                string vQuery = "GESTIONES_Solicitud 44,'" + vEx + "','" + vidEstado + "','" + TxDetalle.Text + "','" + Session["USUARIO"].ToString() + "','" + vArchivo + "','"+ escalacion+"'";
+                string vQuery = "GESTIONES_Solicitud 44,'" + vEx + "','" + vidEstado + "','" + TxDetalle.Text + "','" + Session["USUARIO"].ToString() + "','" + vArchivo + "','"+ vOperativaEscalacion + "'";
                 Int32 vInfo1 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
                 //GUARDAR HISTORIAL
@@ -5017,22 +5275,44 @@ namespace Infatlan_Kanban.pages
                 + "','" + vCorreosCopia + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
                 Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
 
-               
-                //if (vMinRestante != 0 )
-                //{
-                //    vQuery = "GESTIONES_Generales 67,'" + vEx + "','" + vFechaEntregaBusqueda + "'";
-                //    Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                if (ckEscalacion.SelectedValue == "1")
+                {
+                vQuery = "GESTIONES_SolicitudOperaciones 7,'" + vIdOperativa+ "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vNotificacionesPersonal = "";
 
-                //    vQuery = "GESTIONES_Generales 66,'" + vidCargabilidadMin + "','" + vFechaCierraTarea + "','"+ vResponsableTarjeta+"','"+ vSumMinutos+"'";
-                //    Int32 vInfoUpdateFechaActual = vConexionGestiones.ejecutarSqlGestiones(vQuery);
-                //}
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                     vNotificacionesPersonal = vNotificacionesPersonal + vDatos.Rows[i]["email"].ToString() + ";";
+                }
 
-                //CAMBIAR EL ESTADO DE LA CARGABILIDAD
-                //CAMBIO vQuery = "GESTIONES_Solicitud 22,'" + vEx + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
-                //vQuery = "GESTIONES_Solicitud 35,'" + vidCargabilidadMin + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
-                //Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                    //GUARDAR EN LA SUSCRIPCION PARA MANDAR ALERTA         
+                   string vAsuntoAlerta = "¡ALERTA!. Tarjeta Kanban Operativa, Gestiones Técnicas: " + vEx;
+                        string vCorreosCopiaAlerta = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString() + ";" + Session["GESTIONES_CORREO_RESPONSABLE"].ToString();
 
-                if (vInfo2 == 1)
+                        string vQuery6 = "GESTIONES_Solicitud 5,'¡ALERTA!. Tarjeta Kanban Operativa','"
+                         + vNotificacionesPersonal
+                        + "','" + vCorreosCopiaAlerta + "','" + vAsuntoAlerta + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
+                        Int32 vInfo6 = vConexionGestiones.ejecutarSqlGestiones(vQuery6);
+                    }
+
+
+
+                    //if (vMinRestante != 0 )
+                    //{
+                    //    vQuery = "GESTIONES_Generales 67,'" + vEx + "','" + vFechaEntregaBusqueda + "'";
+                    //    Int32 vInfoActualizar = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                    //    vQuery = "GESTIONES_Generales 66,'" + vidCargabilidadMin + "','" + vFechaCierraTarea + "','"+ vResponsableTarjeta+"','"+ vSumMinutos+"'";
+                    //    Int32 vInfoUpdateFechaActual = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+                    //}
+
+                    //CAMBIAR EL ESTADO DE LA CARGABILIDAD
+                    //CAMBIO vQuery = "GESTIONES_Solicitud 22,'" + vEx + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
+                    //vQuery = "GESTIONES_Solicitud 35,'" + vidCargabilidadMin + "','" + Session["USUARIO"].ToString() + "','" + vEstadoCargabilidad + "'";
+                    //Int32 vInfo = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                    if (vInfo2 == 1)
                 {
 
                     TxDetalle.Text = "";
@@ -5161,7 +5441,7 @@ namespace Infatlan_Kanban.pages
                 throw new Exception("Falta que ingrese la nueva fecha de inicio.");
 
             if (TxNewFechaEntrega.Text.Equals(""))
-                throw new Exception("Falta que ingrese la nueva fecha de entrega.");
+                throw new Exception("Falta que ingrese la nueva fecha de  FIN.");
 
             DateTime fecha_inicio = DateTime.Parse(TxNewFechaInicio.Text.ToString());
             DateTime fecha_fin = DateTime.Parse(TxNewFechaEntrega.Text.ToString());
@@ -5175,10 +5455,10 @@ namespace Infatlan_Kanban.pages
 
 
             if (fecha_actualIngreso > fecha_actualEntrega)
-                throw new Exception("Favor verificar la nueva fecha de inicio, no puede ser mayor que la nueva fecha de entrega");
+                throw new Exception("Favor verificar la nueva fecha de inicio, no puede ser mayor que la nueva fecha de  FIN");
 
             if (fecha_actualEntrega < fecha_actualIngreso)
-                throw new Exception("Favor verificar la nueva fecha de entrega, no puede ser menor que la nueva fecha de inicio");
+                throw new Exception("Favor verificar la nueva fecha de  FIN, no puede ser menor que la nueva fecha de inicio");
         }
 
         protected void DdlAccion_SelectedIndexChanged(object sender, EventArgs e)
@@ -5247,15 +5527,17 @@ namespace Infatlan_Kanban.pages
                 if (vIdRol == "1")
                 {
                     DdlResponsableOperativa.Items.Clear();
-                    DdlResponsableOperativa.Items.Clear();
+                    DdlSuplente.Items.Clear();
                     vQuery = "GESTIONES_Solicitud 28,'" + Session["USUARIO"].ToString() + "'";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     DdlResponsableOperativa.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    DdlSuplente.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
                     if (vDatos.Rows.Count > 0)
                     {
                         foreach (DataRow item in vDatos.Rows)
                         {
-                            DdlResponsableOperativa.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });                           
+                            DdlResponsableOperativa.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                            DdlSuplente.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
                         }
                     }
 
@@ -5263,52 +5545,83 @@ namespace Infatlan_Kanban.pages
                 else if (vIdRol == "3" || vIdRol == "4" || vIdRol == "5")
                 {
                     DdlResponsableOperativa.Items.Clear();
+                    DdlSuplente.Items.Clear();
                     vQuery = "GESTIONES_Solicitud 26";
                     DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     DdlResponsableOperativa.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    DdlSuplente.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
                     if (vDatos.Rows.Count > 0)
                     {
                         foreach (DataRow item in vDatos.Rows)
                         {
-                            DdlResponsableOperativa.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });                          
+                            DdlResponsableOperativa.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                            DdlSuplente.Items.Add(new ListItem { Value = item["CodEmpleado"].ToString(), Text = item["nombre"].ToString() });
                         }
                     }
                 }
                 else if (vIdRol == "2")
                 {
                     DdlResponsableOperativa.Items.Clear();
+                    DdlSuplente.Items.Clear();
                     vQuery = "GESTIONES_Generales 38,'" + Session["USUARIO"].ToString() + "'";
                     DataTable vDatosResponsables = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                     DdlResponsableOperativa.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+                    DdlSuplente.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
                     if (vDatosResponsables.Rows.Count > 0)
                     {
                         foreach (DataRow item in vDatosResponsables.Rows)
                         {
                             DdlResponsableOperativa.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
+                            DdlSuplente.Items.Add(new ListItem { Value = item["codEmpleado"].ToString(), Text = item["nombre"].ToString() });
                         }
                     }
                 }
-
-
-                //DdlMotivoEliminar.Items.Clear();
-                //vQuery = "GESTIONES_Solicitud 29";
-                //DataTable vDatosEliminarTarjeta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                //DdlMotivoEliminar.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
-
-                //if (vDatosEliminarTarjeta.Rows.Count > 0)
-                //{
-                //    foreach (DataRow item in vDatosEliminarTarjeta.Rows)
-                //    {
-                //        DdlMotivoEliminar.Items.Add(new ListItem { Value = item["idMotivo"].ToString(), Text = item["motivo"].ToString() });
-                //    }
-                //}
             }
             catch (Exception ex)
             {
                 Mensaje(ex.Message, WarningType.Danger);
             }
         }
-        void validacionesCrearSolicitudOperativa() { }
+        void validacionesCrearSolicitudOperativa() {
+            if (DdlFrecuencia.SelectedValue.Equals("0"))
+                throw new Exception("Falta que seleccione la frecuencia de la tarjeta operativa.");
+
+            if (TxFechaInicioOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese la fecha de inicio de la tarjeta operativa.");
+
+            if (TxDiasEntregaOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese los días de plazo para finalizar la tarjeta.");
+
+            if (TxTituloOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese el titulo de la tarjeta operativa.");
+
+            if (TxDescripcionOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese la descripción de la tarea.");
+
+            if (TxMinProductivoOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese el tiempo productivo en minutos.");
+
+            if (DdlResponsableOperativa.SelectedValue.Equals("0"))
+                throw new Exception("Falta que seleccione el responsable.");
+
+            if (DdlSuplente.SelectedValue.Equals("0"))
+                throw new Exception("Falta que seleccione el suplente.");
+
+            if (DdlPrioridadOperativa.SelectedValue.Equals("0"))
+                throw new Exception("Falta que seleccione la prioridad");
+
+            if (Session["GESTIONES_NOTIFICACION_LISTA"] == null)
+                throw new Exception("Falta que seleccione personal a notificar en el item de Notificaciones.");
+
+            if (Session["GESTIONES_OPCIONES_LISTA"] == null)
+                throw new Exception("Falta que ingrese Check List que debe responder el responsable.");
+
+            DateTime fecha_inicio = DateTime.Parse(TxFechaInicioOperativa.Text.ToString());
+            DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+            DateTime fechaIncioConver = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
+            if(vfechaActual> fechaIncioConver)
+                throw new Exception("La fecha actual del sistema es mayor que la fecha de inicializacion de la tarjeta.");
+        }
         protected void DdlFrecuencia_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (DdlFrecuencia.SelectedValue == "1")
@@ -5356,56 +5669,14 @@ namespace Infatlan_Kanban.pages
             try
             {
                 validacionesCrearSolicitudOperativa();//PENDIENTE no se ha creado
-
-                //GVDistribucionOperativa.DataSource = null;
-                //GVDistribucionOperativa.DataBind();
-                //Session["GESTIONES_TAREAS_MIN_DIARIOS"] = null;
-                //DateTime fecha_inicio = DateTime.Parse(TxFechaInicioOperativa.Text.ToString());
-                ////DateTime fecha_fin = DateTime.Parse(TxFechaEntregaOperativa.Text.ToString());
-
-                //String vFormato = "dd/MM/yyyy"; //"dd/MM/yyyy HH:mm:ss"
-                //String vFecha1 = Convert.ToDateTime(fecha_inicio).ToString(vFormato);
-                ////String vFecha2 = Convert.ToDateTime(fecha_fin).ToString(vFormato);
-
-                //DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
-                //DateTime vFechaInicio = DateTime.Parse(vFecha1);
-
-                //double vMinDiarios = 0;
-                //double vWip = Convert.ToInt32(Session["GESTIONES_WIP"].ToString());
-
-                //DataTable vData = new DataTable();
-                //DataTable vDatosMin = (DataTable)Session["GESTIONES_TAREAS_MIN_DIARIOS"];
-                //vData.Columns.Add("id");
-                //vData.Columns.Add("fecha");
-                //vData.Columns.Add("min");
-                //string vFechaInicioSoli = fecha_inicio.ToString("dd/MM/yyyy");
-                ////string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
-                //DateTime vFechaInicioConver = DateTime.Parse(vFechaInicioSoli);
-                ////DateTime vFechaFinConver = DateTime.Parse(vFechaFinSoli);
-
-                //string vHrInicialSoli = fecha_inicio.ToString("HH:mm");
-                ////string vHrFinalSoli = fecha_fin.ToString("HH:mm");
-
-                //TimeSpan vHrInicialSoliConver = TimeSpan.Parse(vHrInicialSoli);
-                ////TimeSpan vHrFinSoliConver = TimeSpan.Parse(vHrFinalSoli);
-
-
-
-
-                //Session["GESTIONES_TAREAS_MIN_DIARIOS"] = vDatosMin;
-                //GVDistribucionOperativa.DataSource = vDatosMin;
-                //GVDistribucionOperativa.DataBind();
-
-
                 cargarModalOperativa();
-          
                 ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCrearOpeOpenConfirmar();", true);
 
             }
             catch (Exception ex)
             {
-                LbAdvertencia.InnerText = ex.Message;
-                divAlertaGeneral.Visible = true;
+                LbAdvertenciaOperativa.InnerText = ex.Message;
+                divAlertaGeneralOperativa.Visible = true;
             }
         }
 
@@ -5830,12 +6101,10 @@ namespace Infatlan_Kanban.pages
                 string vSabado = "";
                 string vDomingo = "";
 
-
                 if (CkTiempoIlimitado.SelectedValue == "1")
                     vIlimitado = "Si";
                 else
                     vIlimitado = "No";
-
 
                 vDomingo = ckDomingo.SelectedValue == "1" ? "Si" : "No";
                 vLunes = ckLunes.SelectedValue == "1" ? "Si" : "No";
@@ -5844,8 +6113,6 @@ namespace Infatlan_Kanban.pages
                 vJueves = ckJueves.SelectedValue == "1" ? "Si" : "No";
                 vViernes = ckViernes.SelectedValue == "1" ? "Si" : "No";
                 vSabado = ckSabado.SelectedValue == "1" ? "Si" : "No";
-
-
 
                 DateTime fecha_inicio = DateTime.Parse(TxFechaInicioOperativa.Text.ToString());
                 DateTime vFechaInicio = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
@@ -5865,10 +6132,9 @@ namespace Infatlan_Kanban.pages
                                    + "','" + TxFechaSolicitudOperativa.Text
                                    + "','" + TxFechaFinTarjeta.Text
                                    + "','" + DdlFrecuencia.SelectedValue
-                                   + "','" + vFechaInicio + "',1,'" + vDomingo +"','"+ vLunes + "','" + vMartes + "','" + vMiercoles + "','" + vJueves + "','" + vViernes + "','" + vSabado+"'";
+                                   + "','" + vFechaInicio + "',1,'" + vDomingo +"','"+ vLunes + "','" + vMartes + "','" + vMiercoles + "','" + vJueves + "','" + vViernes + "','" + vSabado+"','"+ DdlSuplente .SelectedValue+ "'";
                 DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery1);
                 string idSolicitud = vDatos.Rows[0]["idOperativa"].ToString();
-
 
 
                 DataTable vDatosComentariosOperativas = (DataTable)Session["GESTIONES_TAREAS_COMENTARIOS_OPERATIVAS"];
@@ -5917,6 +6183,35 @@ namespace Infatlan_Kanban.pages
                 }
 
 
+                string vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsableOperativa.SelectedValue + "'";
+                DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vTeams = vDato.Rows[0]["idTeams"].ToString();
+                Session["GESTIONES_CORREO_RESPONSABLE"] = vDato.Rows[0]["email"].ToString();
+
+                vQuery = "GESTIONES_Solicitud 8,'" + vTeams + "'";
+                vDato = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                Session["GESTIONES_CORREO_JEFE"] = vDato.Rows[0]["correoJefe"].ToString();
+                Session["GESTIONES_CORREO_SUPLENTE"] = vDato.Rows[0]["correoSuplente"].ToString();
+                Session["GESTIONES_NOMBRE_JEFE"] = vDato.Rows[0]["nombreJefe"].ToString();
+                Session["GESTIONES_NOMBRE_SUPLENTE"] = vDato.Rows[0]["nombreSuplente"].ToString();
+
+                //CORREO DEL SUPLENTE
+                vQuery = "GESTIONES_Solicitud 47,'" + DdlSuplente.SelectedValue + "'";
+                vDato = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vEmailSuplente= vDato.Rows[0]["email"].ToString();
+
+
+                //GUARDAR EN LA SUSCRIPCION CREACION TARJETA OPERATIVA (NOTIFICACION)
+
+                string vAsunto = "¡Aviso! Asignación Tarjeta Operativa, Gestiones Técnicas: " + idSolicitud;
+                string vBody = "Asignación Tarjeta Operativa, Gestiones Técnicas: " + idSolicitud;
+                string vCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString()+";"+vEmailSuplente;
+                string vQuery5 = "GESTIONES_Solicitud 5,'¡Aviso! Asignación Tarjeta Operativa','" 
+                                + Session["GESTIONES_CORREO_RESPONSABLE"].ToString()
+                                + "','" + vCopia
+                                + "','" + vAsunto + "','" + vBody + "', '0','" + idSolicitud + "'";
+                Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
+
 
                 if (vInfo1 == 1)
                 {
@@ -5946,6 +6241,7 @@ namespace Infatlan_Kanban.pages
                 TextBox vPaso1 = (TextBox)e.Row.FindControl("TxRespuesta");
                 //HtmlInputFile vPaso2 = (HtmlInputFile)e.Row.FindControl("FuRespuesta");
                 FileUpload vPaso2 = (FileUpload)e.Row.FindControl("FuRespuesta");
+                FileUpload vPaso3 = (FileUpload)e.Row.FindControl("FuRespuestaDoc");
 
                 switch (vTipo)
                 {
@@ -5953,44 +6249,21 @@ namespace Infatlan_Kanban.pages
                     case "Texto":
                         vPaso1.Visible = true;
                         vPaso2.Visible = false;
+                        vPaso3.Visible = false;
                         break;
                     case "Imagen":
                         vPaso1.Visible = false;
                         vPaso2.Visible = true;
+                        vPaso3.Visible = false;
                         break;
-                   
+                    case "Documento":
+                        vPaso1.Visible = false;
+                        vPaso2.Visible = false;
+                        vPaso3.Visible = true;
+                        break;
+
                 };
-
-
                 e.Row.Cells[1].Visible = false;
-
-
-
-
-
-
-
-
-
-
-
-                //string vTipo = e.Row.Cells[0].Text;
-
-                //if (vTipo.Equals("Texto"))
-                //{
-                //    e.Row.Cells[2].Controls[0].Visible= true;
-                //    e.Row.Cells[2].Controls[1].Visible = false;
-                //    UpdatePanel32.Update();
-                //}      
-                //else 
-                //{
-                //    e.Row.Cells[2].Controls[0].Visible = false;
-                //    e.Row.Cells[2].Controls[1].Visible = true;
-                //    UpdatePanel32.Update();
-
-                //}
-
-
             }
             
         }
@@ -6264,7 +6537,7 @@ namespace Infatlan_Kanban.pages
                             }
 
                             if (vMinsFaltante != 0)
-                                throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                                throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
 
                         }
                         else if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday || vFechaInicio.DayOfWeek == DayOfWeek.Sunday)
@@ -6418,7 +6691,7 @@ namespace Infatlan_Kanban.pages
                                     }
 
                                     if (vMinsFaltante != 0)
-                                        throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                                        throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
                                 }
                             }
                             else
@@ -6522,12 +6795,9 @@ namespace Infatlan_Kanban.pages
                                 }
 
                                 if (vMinsFaltante != 0)
-                                    throw new Exception("Nota:Debe extender la fecha de entrega debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+                                    throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
 
                             }
-
-
-
 
                         }
 
@@ -6554,10 +6824,7 @@ namespace Infatlan_Kanban.pages
 
                 }
 
-
-
                 BtnConfirmarTarea_1.Visible = true;
-
             }
             catch (Exception ex)
             {
@@ -6565,6 +6832,1271 @@ namespace Infatlan_Kanban.pages
                 divAlertaGuardar.Visible = true;
                 //OpenModalLoad();
             }
+        }
+
+
+
+
+
+
+        protected void GvCheckListLleno_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+           
+            try
+            {
+                string vId = e.CommandArgument.ToString();
+                string vQuery = "GESTIONES_SolicitudOperaciones 8,'" + vId + "'";
+                DataTable vDatosRespuesta= vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string respuesta = vDatosRespuesta.Rows[0]["respuesta"].ToString();
+       
+                if (e.CommandName == "Visualizar")
+                {
+                    ImgPrevia.Src= "data:image;base64,"+ respuesta;
+                    UpdatePanel32.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openModalImagen();", true);
+                }else if (e.CommandName == "Descargar")
+                {
+                    Session["GESTIONES_DESCARGA_ARCHIVO_CREACION"] = "No";
+                    LbIdDoc.Text = vId;
+                    UpdatePanel33.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openDescargarModal();", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Mensaje(ex.Message, WarningType.Danger);
+            }
+
+        }
+
+        protected void GvCheckListLleno_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                DataRowView vData = (DataRowView)e.Row.DataItem;
+                DataRow vDataRow = (DataRow)vData.Row;
+                string vTipo = e.Row.Cells[2].Text;
+                string vRespuesta = e.Row.Cells[4].Text;
+
+                TextBox vPaso1 = (TextBox)e.Row.FindControl("TxRespuesta");
+                LinkButton vPaso2 =(LinkButton)e.Row.FindControl("BtnImagenVer");
+                LinkButton vPaso3 = (LinkButton)e.Row.FindControl("BtnDescargar");
+
+                switch (vTipo)
+                {
+                    case "Texto":
+                        vPaso1.Visible = true;
+                        vPaso1.Text = vRespuesta;
+                        vPaso1.Enabled = false;
+                        vPaso2.Visible = false;
+                        vPaso3.Visible = false;
+                        break;
+                    case "Imagen":
+                        vPaso1.Visible = false;
+                        vPaso2.Visible = true;
+                        vPaso3.Visible = true;
+                        break;
+                    case "Documento":
+                        vPaso1.Visible = false;
+                        vPaso2.Visible = false;
+                        vPaso3.Visible = true;
+                        break;
+
+                };
+                e.Row.Cells[2].Visible = false;
+                e.Row.Cells[4].Visible = false;
+            }
+        }
+
+        protected void BtnDescargarArchivo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string vId = LbIdDoc.Text;
+                string vArchivoPantallaCreacion= Session["GESTIONES_DESCARGA_ARCHIVO_CREACION"].ToString();
+
+                if (vArchivoPantallaCreacion == "Si")
+                {
+                    string vQuery = "GESTIONES_Solicitud 46,'" + vId + "'";
+                    DataTable vDatosRespuesta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string respuesta = vDatosRespuesta.Rows[0]["archivo"].ToString();
+                    string nombre = vDatosRespuesta.Rows[0]["nombre"].ToString();
+                    string cadenaRemplazada = nombre.Replace(',', '_');
+
+                    String vDocumento = "";
+                    if (!vDatosRespuesta.Rows[0]["archivo"].ToString().Equals(""))
+                        vDocumento = vDatosRespuesta.Rows[0]["archivo"].ToString();
+
+                    if (!vDocumento.Equals(""))
+                    {
+                        String vDocumentoArchivo = "ArchivoAdjunto-" + cadenaRemplazada;
+
+                        byte[] fileData = Convert.FromBase64String(vDocumento);
+                        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                        //GetExtension(vDatos.Rows[0]["extension"].ToString().ToLower());
+                        byte[] bytFile = fileData;
+                        Response.OutputStream.Write(bytFile, 0, bytFile.Length);
+                        Response.AddHeader("Content-disposition", "attachment;filename=" + vDocumentoArchivo);
+                        Response.End();
+                    }
+                }
+                else
+                {
+                    
+                    string vQuery = "GESTIONES_SolicitudOperaciones 8,'" + vId + "'";
+                    DataTable vDatosRespuesta = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string respuesta = vDatosRespuesta.Rows[0]["respuesta"].ToString();
+                    string nombre = vDatosRespuesta.Rows[0]["nombreImagen"].ToString();
+                    string cadenaRemplazada = nombre.Replace(',', '_');
+
+                    String vDocumento = "";
+                    if (!vDatosRespuesta.Rows[0]["respuesta"].ToString().Equals(""))
+                        vDocumento = vDatosRespuesta.Rows[0]["respuesta"].ToString();
+
+                    if (!vDocumento.Equals(""))
+                    {
+   
+                        String vDocumentoArchivo = "ArchivoAdjunto-" + cadenaRemplazada;
+                        byte[] fileData = Convert.FromBase64String(vDocumento);
+                        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                        //GetExtension(vDatos.Rows[0]["extension"].ToString().ToLower());
+                        byte[] bytFile = fileData;
+                        Response.OutputStream.Write(bytFile, 0, bytFile.Length);
+                        Response.AddHeader("Content-disposition", "attachment;filename=" + vDocumentoArchivo);
+                        Response.End();
+                    }
+                }
+
+            }
+
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+            finally {
+                CerrarModal("DescargaModal");
+            }
+        }
+        public void CerrarModal(String vModal)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "Pop", "$('#" + vModal + "').modal('hide');", true);
+
+        }
+
+        protected void GvAdjuntoLectura_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+                string vId = e.CommandArgument.ToString();
+                if (e.CommandName == "Descargar")
+                {
+                    Session["GESTIONES_DESCARGA_ARCHIVO_CREACION"] = "Si";
+                    LbIdDoc.Text = vId;
+                    UpdatePanel33.Update();
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openDescargarModal();", true);
+
+
+ 
+                }
+            }
+
+            catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }
+            finally
+            {
+                CerrarModal("DescargaModal");
+
+            }
+        }
+
+        protected void DdlTarjeta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            String request = Request.QueryString["et"];//Item del equipo a buscar
+            String requestColaborador = Request.QueryString["vColaborador"]; //Item del Colaborador
+
+            string vTipoTarjetaSeleccionada = DdlTarjeta.SelectedValue;
+            string vFiltrado1 = "";
+            string vFiltrado2 = "";
+            if (vTipoTarjetaSeleccionada == "0")
+            {
+                vFiltrado1 = "Operativa";
+                vFiltrado2 = "Tecnica";
+            }
+            else if (vTipoTarjetaSeleccionada == "1")
+            {
+                vFiltrado1 = "";
+                vFiltrado2 = "Tecnica";
+            }
+            else if (vTipoTarjetaSeleccionada == "2")
+            {
+                vFiltrado1 = "Operativa";
+                vFiltrado2 = "";
+            }
+
+
+            if (DdlTipoBusqueda.SelectedValue=="2")
+            {
+                string vQuery = "GESTIONES_Generales_Busquedas 1,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vEnCola = vDatos.Rows[0]["cantCola"].ToString();
+
+                vQuery = "GESTIONES_Generales_Busquedas 2,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vEnEjecucion = vDatos.Rows[0]["cantEjecucion"].ToString();
+
+                vQuery = "GESTIONES_Generales_Busquedas 3,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vCompletadasHoy = vDatos.Rows[0]["cantCompletadasHoy"].ToString();
+
+                vQuery = "GESTIONES_Generales_Busquedas 4,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vAtrasado = vDatos.Rows[0]["cantAtrasado"].ToString();
+
+                vQuery = "GESTIONES_Generales_Busquedas 5,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vDetenidas = vDatos.Rows[0]["cantDetenidas"].ToString();
+
+                LbEnCola.Text = vEnCola;
+                LbEjecucion.Text = vEnEjecucion;
+                LbCompletados.Text = vCompletadasHoy;
+                LbAtrasados.Text = vAtrasado;
+                LbDetenidas.Text = vDetenidas;
+
+
+                string vString = "";
+                string vTest = "";
+                vQuery = "GESTIONES_Generales_Busquedas 6,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                                             "$(function () {" + Environment.NewLine +
+                                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                                             "document.getElementById('" + TxTitulo.ClientID + "').value =$(this).data('titulo');" + Environment.NewLine +
+                                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                                             "});" + Environment.NewLine +
+                                             "});" + Environment.NewLine +
+                                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesEnCola.Text = vString;
+                LitEnCola.Text = vTest;
+
+
+                //SOLICITUDES EN EJECUCIÓN
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales_Busquedas 7,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesEjecucion.Text = vString;
+                LitEnEjecucion.Text = vTest;
+
+
+                //SOLICITUDES ATRASADAS
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales_Busquedas 8,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                    ;
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesAtrasadas.Text = vString;
+                LitAtrasados.Text = vTest;
+
+                //SOLICITUDES COMPLETADOS HOY
+                vString = "";
+                vTest = "";
+                DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+                vQuery = "GESTIONES_Generales_Busquedas 9,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vEstadoNombre = vDatos.Rows[i]["estado"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+                    if (vEstadoNombre == "Realizado a Tiempo")
+                    {
+                        vColorEstado = "success";
+                        //BtnConfirmarTarea_1.Visible = false;
+                    }
+                    else
+                    {
+
+                        vColorEstado = "danger";
+                        //BtnConfirmarTarea_1.Visible = false;
+                    }
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    "<h5><span class='label label-" + vColorEstado + "'>" + vEstadoNombre + "</span></h5><br>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+
+                }
+                LitNotificacionesCompletadosHoy.Text = vString;
+                LitCompletadosHoy.Text = vTest;
+
+
+
+                //SOLICITUDES DETENIDAS
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales_Busquedas 10,'" + request + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesDetenidas.Text = vString;
+                LitDetenidas.Text = vTest;
+
+            }
+            else if (DdlTipoBusqueda.SelectedValue == "3")
+            {
+                string vQuery = "GESTIONES_Generales_Busquedas 11,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vEnCola = vDatos.Rows[0]["cantCola"].ToString();
+
+                vQuery = "GESTIONES_Generales_Busquedas 12,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vEnEjecucion = vDatos.Rows[0]["cantEjecucion"].ToString();
+
+                vQuery = "GESTIONES_Generales_Busquedas 13,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vCompletadasHoy = vDatos.Rows[0]["cantCompletadasHoy"].ToString();
+
+                vQuery = "GESTIONES_Generales_Busquedas 14,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vAtrasado = vDatos.Rows[0]["cantAtrasado"].ToString();
+
+                vQuery = "GESTIONES_Generales_Busquedas 15,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vDetenidas = vDatos.Rows[0]["cantDetenidas"].ToString();
+
+                LbEnCola.Text = vEnCola;
+                LbEjecucion.Text = vEnEjecucion;
+                LbCompletados.Text = vCompletadasHoy;
+                LbAtrasados.Text = vAtrasado;
+                LbDetenidas.Text = vDetenidas;
+
+
+                string vString = "";
+                string vTest = "";
+                vQuery = "GESTIONES_Generales_Busquedas 16,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                                             "$(function () {" + Environment.NewLine +
+                                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                                             "document.getElementById('" + TxTitulo.ClientID + "').value =$(this).data('titulo');" + Environment.NewLine +
+                                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                                             "});" + Environment.NewLine +
+                                             "});" + Environment.NewLine +
+                                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesEnCola.Text = vString;
+                LitEnCola.Text = vTest;
+
+
+                //SOLICITUDES EN EJECUCIÓN
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales_Busquedas 17,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesEjecucion.Text = vString;
+                LitEnEjecucion.Text = vTest;
+
+
+                //SOLICITUDES ATRASADAS
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales_Busquedas 18,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                    
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesAtrasadas.Text = vString;
+                LitAtrasados.Text = vTest;
+
+                //SOLICITUDES COMPLETADOS HOY
+                vString = "";
+                vTest = "";
+                DateTime vfechaActualCorta = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+                vQuery = "GESTIONES_Generales_Busquedas 19,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vEstadoNombre = vDatos.Rows[i]["estado"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+
+                    if (vEstadoNombre == "Realizado a Tiempo")
+                    {
+                        vColorEstado = "success";
+                        //BtnConfirmarTarea_1.Visible = false;
+                    }
+                    else
+                    {
+
+                        vColorEstado = "danger";
+                        //BtnConfirmarTarea_1.Visible = false;
+                    }
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    "<h5><span class='label label-" + vColorEstado + "'>" + vEstadoNombre + "</span></h5><br>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+
+                }
+                LitNotificacionesCompletadosHoy.Text = vString;
+                LitCompletadosHoy.Text = vTest;
+
+
+
+                //SOLICITUDES DETENIDAS
+                vString = "";
+                vTest = "";
+                vQuery = "GESTIONES_Generales_Busquedas 20,'" + requestColaborador + "','" + vFiltrado1 + "','" + vFiltrado2 + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                for (int i = 0; i < vDatos.Rows.Count; i++)
+                {
+                    String vColor = "";
+                    String vColorBoton = "";
+                    String vColorPrioridad = "";
+                    String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vEmpleado = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
+                    vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
+                    vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                    vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
+                    vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
+                    vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                    vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+                    vEmpleado = vDatos.Rows[i]["empleado"].ToString();
+                    vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                    vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+
+                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA OPERATIVA";
+                        vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP</div>";
+                        //vRibon = " <div class='ribbon ribbon-info ribbon-vertical-r'>OP<i class='fa fa-check-circle'></i></div>";
+                    }
+                    else
+                    {
+                        vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
+                        vTipoTarjeta = " TARJETA TECNICA";
+                        vRibon = "";
+                    }
+
+
+                    if (vDatos.Rows[i]["prioridad"].ToString() == "Máxima Prioridad")
+                    {
+                        vColor = "badge-danger";
+                        vColorBoton = "btn-danger";
+                        vColorPrioridad = "danger";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Alta")
+                    {
+                        vColor = "bg-primary";
+                        vColorBoton = "btn-primary";
+                        vColorPrioridad = "primary";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Normal")
+                    {
+                        vColor = "bg-warning";
+                        vColorBoton = "btn-warning";
+                        vColorPrioridad = "warning";
+                    }
+                    else if (vDatos.Rows[i]["prioridad"].ToString() == "Baja")
+                    {
+                        vColor = "badge-info";
+                        vColorBoton = "btn-info";
+                        vColorPrioridad = "info";
+                    }
+
+
+                    vString += "<div class='card' >" +
+                    "<div class='card-header text-white' style='background-color:" + vColorHeader + ";'>" + vRibon +
+                    "<h6 class='m-b-0 text-white'>ID TARJETA: " + vTicket + "</h6>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<h5 class='card-title mb-2'>" + vTitulo + "</h5>" +
+                    "<h6 class='card-subtitle mb-2 text-dark' style='font-size:9px'><b>" + vGestion + "</b></h6><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>  INICIO:  " + vFechaInicio + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-calendar'></i>   FIN: " + vFecha + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:11px'><i class='fa fa-clock-o'></i>  MINUTOS: " + vMin + "</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> PRIORIDAD: <span class='label label-" + vColorPrioridad + "'>" + vPrioridad + "</span></h6>" +
+                    "<div class='col-12 text-center'><br>" +
+                    "<h6 class='card-subtitle mb-2 text-muted' style='font-size:13px'>" + vTipoTarjeta + "</h6>" +
+                    //"<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn " + vColorBoton + " btn-circle fa fa-clipboard'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<button id=\"btnModal" + vTicket + "\"  type=\"button\" class='btn btn-circle fa fa-clipboard' style='background-color: " + vColorHeader + "; color: #ffffff;'" + " \" data-toggle=\"modal\" data-target=\"#ModalTarjeta\" data-titulo=\"" + vTicket + "\"></button>" +
+                    "<br><br><h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'> RESPONSABLE:</h6>" +
+                    "<h6 class='card-subtitle mb-2 text-muted'style='font-size:11px'><strong>" + vEmpleado + "</strong></h6>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
+                    vTest += "<script type=\"text/javascript\" >" + Environment.NewLine +
+                             "$(function () {" + Environment.NewLine +
+                             "$(\"#btnModal" + vTicket + "\").click(function () {" + Environment.NewLine +
+                             "document.getElementById('" + TxTitulo.ClientID + "').value = $(this).data('titulo');" + Environment.NewLine +
+                             "__doPostBack('" + TxTitulo.ClientID + "', '');" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "});" + Environment.NewLine +
+                             "</script>" + Environment.NewLine;
+                }
+                LitNotificacionesDetenidas.Text = vString;
+                LitDetenidas.Text = vTest;
+            }
+            UpdatePanel19.Update();
+        }
+
+        protected void BtnCancelarOperativa_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/pages/miTablero.aspx");
         }
     }
 }

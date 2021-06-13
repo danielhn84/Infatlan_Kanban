@@ -1,7 +1,7 @@
 // Green colors
 .skin-red-dark {
     /*Theme Colors*/
-    $themecolor: #d04f5b;
+    $themecolor: #e46a76;
     $themecolor-alt: #26c6da;
     $sidebar: #2b2b2b;
     $sidebar-alt:#1f2023;
@@ -12,25 +12,33 @@
         background: $themecolor;
     }
     //Sidebar
-    .sidebar-nav {
-        ul li a {
-            &.active,
+    .side-mini-panel {
+        ul.mini-nav {
+            > li {
+                &:hover > a, &.selected > a {
+                    border-left: 3px solid $themecolor;
+                }
+                &.selected > a {
+                    color: $themecolor;
+                }
+            }
+        }
+    }
+    .togglediv #togglebtn i:hover,
+    .togglediv #togglebtn i:focus {
+        color: $themecolor;
+    }
+    .sidebar-menu {
+        a {
+            &.active {
+                color: $themecolor;
+            } 
+        }
+        > li > a {
             &:hover {
                 color: $themecolor;
-                i {
-                    color: $themecolor;
-                }
             }
-        }
-        > ul > li {
-            &.active > a {
-                color: $themecolor;
-                border-left: 3px solid $themecolor;
-                i {
-                    color: $themecolor;
-                }
-            }
-        }
+        } 
     }
     
     //Bread-crumb
@@ -49,19 +57,34 @@
             color: rgba(255, 255, 255, 0.8);
         }
     }    
-    .left-sidebar {
-        background: $sidebar;
-        .user-pro-body{
-            a.link{
-                color:$sidebar-text;
+    
+    .side-mini-panel {
+        background: $sidebar-alt;
+        ul.mini-nav {
+            > li {
+                > a {
+                    border-top: 1px solid $black;
+                }
+                &.selected > a {
+                    background: $sidebar;
+                }
+                .sidebarmenu {
+                    background: $sidebar;
+                }
             }
         }
     }
-    @media (min-width: 768px){
-        &.mini-sidebar .sidebar-nav #sidebarnav > li > ul, &.mini-sidebar .sidebar-nav #sidebarnav > li:hover > a{
-            background: $sidebar-alt;
-        }
-        
+    .menu-title,
+    .togglediv #togglebtn i {
+        color: $white;
     }
-    
+    .menu-search {
+        .form-control {
+            background: $sidebar;
+            border: 1px solid $black;
+            &:focus {
+                border-color: $black;
+            } 
+        }
+    }
 }

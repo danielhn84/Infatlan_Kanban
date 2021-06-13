@@ -274,10 +274,10 @@ namespace Infatlan_Kanban
 
         }
 
-        protected void BtnBusqueda_Click(object sender, EventArgs e)
-        {
-            DivBusqueda.Visible = true;
-            UpdatePanel8.Update();
-        }
+        //protected void BtnBusqueda_Click(object sender, EventArgs e)
+        //{
+        //    DivBusqueda.Visible = true;
+        //    UpdatePanel8.Update();
+        //}
     }
 }

@@ -5,144 +5,201 @@
 <head runat="server">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.fw.png">
-    <title>Infatlan | Kanban Board</title>
-    <link rel="stylesheet" href="css/animate.min.css" />
-    <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
-    <link href="/assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
-    <link href="/dist/css/animate.min.css" rel="stylesheet" />
-    <link href="/dist/css/style.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/images/favicon.fw.png" />
-    
-    <script type="text/javascript"> 
-        infatlan = {
-            showNotification: function (from, align, mensaje, tipo) {
-                color = Math.floor((Math.random() * 4) + 1);
-                $.notify({
-                    icon: "pe - 7s - gift",
-                    message: mensaje
-                }, {
-                    type: tipo,
-                    timer: 4000,
-                    placement: { from: from, align: align }
-                });
-            }
-        }
-    </script>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+    <title>Kanban Board | Infatlan</title>
+    <link href="dist/css/style.min.css" rel="stylesheet">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
     <asp:ContentPlaceHolder ID="Head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body class="skin-default fixed-layout">
+
+
+
+<body class="skin-blue fixed-layout">
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Kanban Board | Infatlan</p>
+        </div>
+    </div>
+
+
+    <!-- ======================ANA CAROLINA======================================== -->
+
     <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
         <header class="topbar">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-<%--                <div class="navbar-header">
-                    <a class="navbar-brand" href="/default.aspx">
-                        <span>
-                            <img src="../images/logo_texto_blanco_INFA.png" width="200" height="38" alt="homepage" />
-                        </span>
-                    </a>
-                </div>--%>
-
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/default.aspx">
-                        <%--<b style="margin-left: 10px">--%>
-                            <img src="/assets/images/favicon_blanco.fw.png" width="30"  height="25" alt="homepage" class="light-logo" />
-                       <%-- </b>--%>
-                        <span>
-                            <img src="../assets/images/logo_texto_blanco_INFA.png"" width="145" height="35" class="light-logo " alt="homepage" />
-                        </span>
-                        
+                    <a class="navbar-brand" href="default.aspx">
+                        <!-- Logo icon -->
+                        <b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="../assets/images/favicon_blanco.fw.png" alt="homepage"  width="35" height="35" class="dark-logo" />
+  
+                            <!-- Light Logo icon -->
+                            <img src="../assets/images/favicon_blanco.fw.png" alt="homepage" width="35" height="35" class="light-logo" />
+                        </b>
+                        <!--End Logo icon -->
                     </a>
                 </div>
-
-
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
                 <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link nav-toggler d-block d-sm-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a></li>
-                        <li class="nav-item"><a class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark" href="javascript:void(0)"><i class="icon-menu"></i></a></li>
+                        <li class="d-none d-md-block d-lg-block">
+                            <a href="javascript:void(0)" class="p-l-15">
+                                <!--This is logo text-->
+                                <img src="../assets/images/infatlan_blanco.fw.png" alt="home"  width="200" height="25" class="light-logo" alt="home" />
+                            </a>
+                        </li>
                     </ul>
-
-                    <ul class="navbar-nav my-lg-0">
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">  
                         <li class="nav-item dropdown u-pro">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="/assets/images/users/face5.jpg" alt="user" class="">
-                                <span class="hidden-md-down">
-                                    <asp:Literal Text="" ID="LitUsuario" runat="server" />
+                                <img src="../assets/images/users/userLogin1.png" alt="user" class="">
+                                <span class="hidden-md-down"> 
+                                    <asp:Literal Text="" ID="LitUsuario" runat="server"  />
                                     &nbsp;<i class="fa fa-angle-down"></i>
-                                </span>
+                                </span> 
                             </a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
-                                <a href="/login.aspx" class="dropdown-item"><i class="fa fa-power-off"></i>Logout</a>
-                                <a class="dropdown-item" style="display: none">
-                                    <input class="dropdown-item" type="Text" id="TxUser" value="" runat="server" clientidmode="AutoID" />
-                                    <asp:Literal Text="" ID="LitUser" ClientIDMode="AutoID" runat="server" />
-                                </a>
+                                <a href="../login.aspx" class="dropdown-item"><i class="fa fa-power-off"></i>&nbsp Logout</a>
                             </div>
-                        </li>
+                        </li>                      
                     </ul>
                 </div>
             </nav>
         </header>
 
-        <aside class="left-sidebar">
-            <div class="scroll-sidebar">
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li runat="server" id="LiDashboard" visible="false"><a class="waves-effect waves-dark" href="/default.aspx" aria-expanded="false"><i class="fa fa-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
-                        <li runat="server" id="LiTablero" visible="false"><a class="waves-effect waves-dark" href="/pages/miTablero.aspx" aria-expanded="false"><i class="fa fa-trello"></i><span class="hide-menu">Mi Tablero</span></a></li>
-                        <li runat="server" id="LiTarjeta" visible="false"><a class="waves-effect waves-dark" href="/pages/Tarjetas.aspx" aria-expanded="false"><i class="fa fa-file-text"></i><span class="hide-menu">Tarjeta</span></a></li>
-                        <li runat="server" id="LiConfig" visible="false"><a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Configuración<span class="badge badge-pill badge-cyan ml-auto">3</span></span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li runat="server" id="LiUsuario" visible="false"><a href="/pages/usuarios.aspx">Usuarios</a></li>
-                                <li runat="server" id="LiGestiones" visible="false"><a href="/pages/gestiones.aspx">Gestiones</a></li>
-                                <li runat="server" id="LiEquipos" visible="false"><a href="/pages/teams.aspx">Equipos</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
+    </div>
 
-        <form id="FormaPrincipal" runat="server">
-            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-            <div class="page-wrapper">
-                <div class="container-fluid">
-                    <div>
-                        <asp:ContentPlaceHolder ID="Content" runat="server">
-                        </asp:ContentPlaceHolder>
+
+    <!-- ======================ANA CAROLINA======================================== -->
+
+  <div class="side-mini-panel">
+            <ul class="mini-nav">
+                <div class="togglediv"><a href="javascript:void(0)" id="togglebtn"><i class="ti-menu"></i></a></div>
+            <!-- .Dashboard -->
+          
+                <li runat="server" id="LiDashboard" visible="true">
+                    <a href="javascript:void(0)"><i class="icon-speedometer"></i></a>
+                    <div class="sidebarmenu">
+                        <!-- Left navbar-header -->
+                        <h3 class="menu-title">Dashboard</h3>                       
+                        <ul class="sidebar-menu">
+                            <li runat="server" id="LiMiDashboard" visible="true"><a href="../../default.aspx">Mi Dashboard  </a></li>
+                        </ul>
+                        <!-- Left navbar-header end -->
                     </div>
+                </li>
+            <!-- /.Dashboard -->
+            <!-- .Apps -->
+            <li runat="server" id="LiTablero" visible="true">
+                <a href="javascript:void(0)"><i class="ti-layout-grid2"></i></a>
+                <div class="sidebarmenu">
+                    <!-- Left navbar-header -->
+                    <h3 class="menu-title">Tablero</h3>
+                    <ul class="sidebar-menu">
+                        <li runat="server" id="LiMiTablero" visible="true"><a href="../../pages/miTablero.aspx">Mi Tablero</a></li>
+                                                       
+                    </ul>
+            
+                    <!-- Left navbar-header end -->
+                </div>
+            </li>
+               
+            <!-- /.Apps -->
+            <!-- .Inbox -->
+            <li runat="server" id="LiTarjeta" visible="true">
+                <a href="javascript:void(0)"><i class="ti-agenda"></i></a>
+                <div class="sidebarmenu">
+                    <!-- Left navbar-header -->
+                    <h3 class="menu-title">Tarjetas</h3>
+                    <ul class="sidebar-menu">
+                        <li runat="server" id="LiMiTarjetas" visible="true"><a href="../../pages/Tarjetas.aspx">Tarjetas Cerradas</a></li>
+                        <li><a href="app-email-detail.html">Tarjetas Operativas</a></li>
+                        <li><a href="app-compose.html">Tarjetas a Eliminar</a></li>
+                        <li><a href="app-compose.html">Tarjetas a Reasignar</a></li>
+                        <li><a href="app-compose.html">Tarjetas a Detener</a></li>
+                    </ul>
+                    <!-- Left navbar-header end -->
+                </div>
+            </li>
+               
+            <!-- /.Inbox -->
+            <!-- .Ui Elemtns -->
+            <li><a href="javascript:void(0)"><i class="ti-settings"></i></a>
+                <div class="sidebarmenu">
+                    <!-- Left navbar-header -->
+                    <h3 class="menu-title">Configuraciones</h3>
+                    <ul class="sidebar-menu">
+                        <li runat="server" id="LiUsuario" visible="true"><a href="../../pages/usuarios.aspx">Usuarios</a></li>
+                        <li runat="server" id="LiGestiones" visible="true"><a href="../../pages/gestiones.aspx">Gestiones</a></li>
+                        <li runat="server" id="LiEquipos" visible="true"><a href="../../pages/teams.aspx">Equipos</a></li>    
+                    </ul>
+                    <!-- Left navbar-header end -->
+                </div>
+            </li>
+                  
+        </ul>
+    </div>
+    <form id="FormaPrincipal" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <div>
+                    <asp:ContentPlaceHolder ID="Content" runat="server">
+                    </asp:ContentPlaceHolder>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
 
-        <footer class="footer">
+     <footer class="footer">
             © 2021 Infatlan
         </footer>
-    </div>
-    <script src="/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
-    <script src="/assets/node_modules/popper/popper.min.js"></script>
-    <script src="/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/dist/js/perfect-scrollbar.jquery.min.js"></script>
-    <script src="/dist/js/waves.js"></script>
-    <script src="/dist/js/sidebarmenu.js"></script>
-    <script src="/dist/js/custom.min.js"></script>
-    <script src="/assets/node_modules/raphael/raphael-min.js"></script>
-    <script src="/assets/node_modules/morrisjs/morris.min.js"></script>
-    <script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="/js/dashboard1.js"></script>
-    <script src="/assets/node_modules/toast-master/js/jquery.toast.js"></script>
-    <script src="/js/off-canvas.js"></script>
-    <script src="/js/hoverable-collapse.js"></script>
-    <script src="/js/template.js"></script>
-    <script src="/js/dashboard.js"></script>
-    <script src="/js/data-table.js"></script>
-    <script src="/js/jquery.dataTables.js"></script>
-    <script src="/js/dataTables.bootstrap4.js"></script>
-    <script src="/js/bootstrap-notify.js"></script>
+
+    <script src="../../assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../../assets/node_modules/popper/popper.min.js"></script>
+    <script src="../../assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="../../dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="../../dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="../../dist/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="../../assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="../../assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="../../dist/js/custom.min.js"></script>
     <asp:ContentPlaceHolder ID="Script" runat="server">
     </asp:ContentPlaceHolder>
 </body>
