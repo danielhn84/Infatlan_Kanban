@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.fw.png">
     <title>Kanban Board | Infatlan</title>
     <link href="dist/css/style.min.css" rel="stylesheet">
 
@@ -143,10 +143,10 @@
                     <h3 class="menu-title">Tarjetas</h3>
                     <ul class="sidebar-menu">
                         <li runat="server" id="LiMiTarjetas" visible="true"><a href="../../pages/Tarjetas.aspx">Tarjetas Cerradas</a></li>
-                        <li><a href="app-email-detail.html">Tarjetas Operativas</a></li>
-                        <li><a href="app-compose.html">Tarjetas a Eliminar</a></li>
-                        <li><a href="app-compose.html">Tarjetas a Reasignar</a></li>
-                        <li><a href="app-compose.html">Tarjetas a Detener</a></li>
+                        <li runat="server" id="LiOperativas" visible="true"><a href="app-email-detail.html">Tarjetas Operativas</a></li>
+                        <li runat="server" id="LiEliminar" visible="true"><a href="app-compose.html">Tarjetas a Eliminar</a></li>
+                        <li runat="server" id="LiReasignar" visible="true"><a href="app-compose.html">Tarjetas a Reasignar</a></li>
+                        <li runat="server" id="LiDetener" visible="true"><a href="app-compose.html">Tarjetas a Detener</a></li>
                     </ul>
                     <!-- Left navbar-header end -->
                 </div>
@@ -154,7 +154,7 @@
                
             <!-- /.Inbox -->
             <!-- .Ui Elemtns -->
-            <li><a href="javascript:void(0)"><i class="ti-settings"></i></a>
+            <li runat="server" id="LiConfig" visible="true"><a href="javascript:void(0)"><i class="ti-settings"></i></a>
                 <div class="sidebarmenu">
                     <!-- Left navbar-header -->
                     <h3 class="menu-title">Configuraciones</h3>

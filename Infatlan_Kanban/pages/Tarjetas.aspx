@@ -288,7 +288,7 @@
 
                                               <div class="col-md-2" runat="server" id="Div4" visible="true">
                                                 <asp:Label ID="Label13" runat="server" Text="Asignadas por Mi:" class="control-label" Style="margin-left: auto; margin-right: auto"></asp:Label>
-                                                <asp:DropDownList ID="DropDownList7" runat="server" Font-Size="80%" CssClass="select2 form-control custom-select">
+                                                <asp:DropDownList ID="DdlAsignadasYo" runat="server" Font-Size="80%" CssClass="select2 form-control custom-select">
                                                     <asp:ListItem Value="0" Text="No"></asp:ListItem>
                                                     <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                                 </asp:DropDownList>
@@ -329,7 +329,7 @@
 
                                             <div class="col-md-2" runat="server" id="DivPrioridadBA" visible="true">
                                                 <asp:Label ID="Label19" runat="server" Text="Prioridad" class="control-label" Style="margin-left: auto; margin-right: auto"></asp:Label>
-                                                <asp:DropDownList ID="DropDownList6" runat="server"  Font-Size="80%" CssClass="select2 form-control custom-select" >
+                                                <asp:DropDownList ID="DdlPrioridadBA" runat="server"  Font-Size="80%" CssClass="select2 form-control custom-select" >
                                                     <asp:ListItem Value="0" Text="Todas"></asp:ListItem>
                                                     <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
                                                     <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
@@ -343,8 +343,8 @@
                                             <div class="col-md-2" runat="server" id="divBotonesBA" visible="true">
                                                 <br />
                                              <asp:LinkButton ID="BtnBuscarBA" runat="server" title="Buscar" class="btn btn-primary" OnClick="BtnBuscarBA_Click"><i class="mdi mdi-search-web text-white"></i></asp:LinkButton>
-                                             <asp:LinkButton ID="LinkButton5" runat="server" title="Restablecer" Style="background-color: #0F71F5" class="btn" OnClick="BtnLimpiar_Click"><i class="mdi mdi-refresh text-white"></i></asp:LinkButton>
-                                             <asp:LinkButton ID="LinkButton6" runat="server" title="Descargar" Style="background-color: #059500" class="btn" OnClick="BtnDescargar_Click"><i class="mdi mdi-download text-white"></i></asp:LinkButton>
+                                             <asp:LinkButton ID="BtnLimoiarBA" runat="server" title="Restablecer" Style="background-color: #0F71F5" class="btn"  OnClick="BtnLimoiarBA_Click"><i class="mdi mdi-refresh text-white"></i></asp:LinkButton>
+                                             <%--<asp:LinkButton ID="LinkButton6" runat="server" title="Descargar" Style="background-color: #059500" class="btn" OnClick="BtnDescargar_Click"><i class="mdi mdi-download text-white"></i></asp:LinkButton>--%>
                                          </div>
                                         </div>
 

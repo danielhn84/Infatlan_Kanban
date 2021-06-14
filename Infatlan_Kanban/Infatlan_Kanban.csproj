@@ -398,6 +398,7 @@
     <Content Include="assets\images\custom-select.png" />
     <Content Include="assets\images\eliteadmin-logo.png" />
     <Content Include="assets\images\eliteadmin-small-text.png" />
+    <Content Include="assets\images\favicon.fw.png" />
     <Content Include="assets\images\favicon.png" />
     <Content Include="assets\images\favicon_blanco.fw.png" />
     <Content Include="assets\images\gallery\chair.jpg" />

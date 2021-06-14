@@ -31,8 +31,8 @@ namespace Infatlan_Kanban
             {
                 generales vGenerales = new generales();
                 LdapService vLdap = new LdapService();
-                //Boolean vLogin = vLdap.ValidateCredentials("ADBancat.hn", TxUsername.Text, TxPassword.Text);
-                Boolean vLogin = true;
+                Boolean vLogin = vLdap.ValidateCredentials("ADBancat.hn", TxUsername.Text, TxPassword.Text);
+                //Boolean vLogin = true;
 
                 if (vLogin)
                 {

@@ -492,13 +492,13 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.Label Label13;
 
         /// <summary>
-        /// Control DropDownList7.
+        /// Control DdlAsignadasYo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList7;
+        protected global::System.Web.UI.WebControls.DropDownList DdlAsignadasYo;
 
         /// <summary>
         /// Control divFechaInicioBA.
@@ -654,13 +654,13 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.Label Label19;
 
         /// <summary>
-        /// Control DropDownList6.
+        /// Control DdlPrioridadBA.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList6;
+        protected global::System.Web.UI.WebControls.DropDownList DdlPrioridadBA;
 
         /// <summary>
         /// Control divBotonesBA.
@@ -681,22 +681,13 @@ namespace Infatlan_Kanban.pages
         protected global::System.Web.UI.WebControls.LinkButton BtnBuscarBA;
 
         /// <summary>
-        /// Control LinkButton5.
+        /// Control BtnLimoiarBA.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton5;
-
-        /// <summary>
-        /// Control LinkButton6.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton6;
+        protected global::System.Web.UI.WebControls.LinkButton BtnLimoiarBA;
 
         /// <summary>
         /// Control div22.

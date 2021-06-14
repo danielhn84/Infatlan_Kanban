@@ -36,11 +36,13 @@ namespace Infatlan_Kanban.pages
                     {
                         DdlTipoBusqueda.Visible = false;
                         BtnBusqueda.Visible = false;
+                        BtnAddOperativa.Visible = false;
                     }
                     else
                     {
                         DdlTipoBusqueda.Visible = true;
                         BtnBusqueda.Visible = true;
+                        BtnAddOperativa.Visible = true;
                     }
                     
                     Session["GESTIONES_ID_TARJETA_CERRAR"] = null;
@@ -5031,7 +5033,7 @@ namespace Infatlan_Kanban.pages
 
             //string vFechaEntrega_60Mins = Convert.ToDateTime(vFechaEntrega).AddMinutes(60).ToString("yyyy-MM-dd HH:mm");
 
-            string vFechaEntregaFinDia = Convert.ToDateTime(vFechaEntrega).AddDays(2).ToString("yyyy-MM-dd");
+            string vFechaEntregaFinDia = Convert.ToDateTime(vFechaEntrega).AddDays(1).ToString("yyyy-MM-dd");
             string vFechaEntregaTarjeta = Convert.ToDateTime(vFechaEntrega).ToString("yyyy-MM-dd");
             string vFechaActualConvertida = DateTime.Now.ToString("yyyy-MM-dd");
             DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
@@ -5046,7 +5048,7 @@ namespace Infatlan_Kanban.pages
             double vMinActual = 0;
             string vidCargabilidadMin = "";
 
-            string vFechaEntregaBusqueda = Convert.ToDateTime(vfechaActualCorta).AddDays(2).ToString("dd/MM/yyyy");
+            string vFechaEntregaBusqueda = Convert.ToDateTime(vfechaActualCorta).AddDays(1).ToString("dd/MM/yyyy");
             string vFechaCierraTarea = Convert.ToDateTime(vfechaActualCorta).ToString("dd/MM/yyyy");
 
             string vFechaRealEntrega = Convert.ToDateTime(fecha_entrega).ToString("dd/MM/yyyy");
