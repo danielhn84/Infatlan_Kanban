@@ -2842,9 +2842,6 @@ namespace Infatlan_Kanban.pages
                 }
 
 
-
-
-
                     UpSolicitudesColaboradores.Update();
             }
             catch (Exception Ex) { Mensaje(Ex.Message, WarningType.Danger); }

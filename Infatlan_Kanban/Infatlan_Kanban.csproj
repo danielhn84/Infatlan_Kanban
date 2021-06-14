@@ -3241,7 +3241,6 @@
     <Content Include="bin\Infatlan_Kanban.dll" />
     <Content Include="bin\Infatlan_Kanban.pdb" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
     <Content Include="bin\roslyn\csc.exe" />
     <Content Include="bin\roslyn\csi.exe" />
     <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
@@ -4638,6 +4637,7 @@
     <Content Include="assets\node_modules\typeahead.js-master\typeahead.js.jquery.json" />
     <Content Include="assets\package.json" />
     <Content Include="assets\README.md" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1.nupkg" />
     <None Include="packages.config" />
     <Content Include="scss\colors\blue-dark.scss" />
     <Content Include="scss\colors\blue.scss" />
