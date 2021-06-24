@@ -43,6 +43,11 @@
 
     <script type="text/javascript">
         function openDescargarModal() { $('#DescargaModal').modal('show'); }
+        
+
+        function closeModalCargaMasivaOp() { $('#CargaMasiva').modal('show'); }
+        function openModalCargaMasivaOp() { $('#CargaMasiva').modal('show'); }
+
 
         function closeModal() { $('#VisualizarImagen').modal('show'); }
         function openModalImagen() { $('#VisualizarImagen').modal('show'); }
@@ -129,17 +134,21 @@
                     </div>
 
                     <div class="row col-12">
-                        <div class="col-3">
+                        <div class="col-2">
                             <h6 class="card-subtitle">Listado de tarjetas.</h6>
                         </div>
 
-                        <div class="col-9 text-right" style="zoom: 75%">
-                            <asp:Label ID="Label6" runat="server" Text="Prioridades:" ForeColor="Black"></asp:Label>
+                        <div class=" col-10 text-right" style="zoom: 80%; text-align:left">                          
+                            <label class="control-label">Prioridades</label>
+                            
                             <span class="label label-danger">Máxima</span>
                             <span class="label label-primary">Alta</span>
                             <span class="label label-warning">Normal</span>
                             <span class="label label-info">Baja</span>
                         </div>
+               
+
+
                     </div>
 
                          
@@ -323,7 +332,7 @@
 
                                                     <div class="col-4">
                                                         <label class="control-label">Tiempo (min):</label>
-                                                        <asp:TextBox ID="TxMinProductivo_1" AutoPostBack="true" runat="server" class="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="TxMinProductivo_1"  runat="server" class="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
 
@@ -331,17 +340,17 @@
                                                 <div class="row">
                                                     <div class="col-4">
                                                         <label class="control-label">Fecha Solicitud:</label>
-                                                        <asp:TextBox ID="TxFechaSolicitud_1" AutoPostBack="true" ReadOnly="true" runat="server" class="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="TxFechaSolicitud_1" ReadOnly="true" runat="server" class="form-control"></asp:TextBox>
                                                     </div>
 
                                                     <div class="col-4">
                                                         <label class="control-label">Fecha Inicio:</label>
-                                                        <asp:TextBox ID="TxFechaInicio_1" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="TxFechaInicio_1" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
                                                     </div>
 
                                                     <div class="col-4">
                                                         <label class="control-label">Fecha Entrega:</label>
-                                                        <asp:TextBox ID="TxFechaEntrega_1" AutoPostBack="true" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="TxFechaEntrega_1" runat="server" TextMode="DateTimeLocal" class="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
                                                 <br />
@@ -373,7 +382,7 @@
                                                                 <label class="control-label">Descripción:</label>
                                                             </div>
                                                             <div class="col-10">
-                                                                <asp:TextBox ID="TxDescripcion_1" AutoPostBack="true" TextMode="MultiLine" Rows="2" ReadOnly="true" runat="server" class="form-control"></asp:TextBox>
+                                                                <asp:TextBox ID="TxDescripcion_1" TextMode="MultiLine" Rows="2" ReadOnly="true" runat="server" class="form-control"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -431,7 +440,7 @@
                                                                 <label class="control-label">Detalle:</label>
                                                             </div>
                                                             <div class="col-10">
-                                                                <asp:TextBox ID="TxDetalle" AutoPostBack="true" TextMode="MultiLine" Rows="2" runat="server" class="form-control"></asp:TextBox>
+                                                                <asp:TextBox ID="TxDetalle"  TextMode="MultiLine" Rows="2" runat="server" class="form-control"></asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -598,16 +607,20 @@
                                         <%--<asp:UpdatePanel runat="server" ID="UpdatePanel32">
                                             <ContentTemplate>--%>
                                         <div class="row p-t-20">
-                                            <div class="col-6">
-                                                <label class="control-label">¿Tarjeta Operativa Requiere Escalación? </label>
-                                            </div>
-
                                             <div class="col-4">
-                                                <asp:RadioButtonList ID="ckEscalacion" RepeatDirection="Horizontal" Width="90px" runat="server">
+                                                <label class="control-label">¿Requiere Escalación? </label>
+                                            </div>
+                                            <div class="col-2">
+                                                <asp:RadioButtonList ID="ckEscalacion" RepeatDirection="Horizontal" Width="90px" runat="server" >
                                                     <asp:ListItem Value="1">Si</asp:ListItem>
                                                     <asp:ListItem Value="0">No</asp:ListItem>
                                                 </asp:RadioButtonList>
                                             </div>
+
+                                            <div class="col-6">
+                                                <asp:DropDownList runat="server" ID="DdlEquipos" CssClass="select2 form-control custom-select" Style="width: 100%" AutoPostBack="true" Visible="true"></asp:DropDownList>
+                                            </div>
+
 
                                         </div>
                                         <div class="row p-t-20" runat="server" id="div11" visible="true">
@@ -883,6 +896,17 @@
                             <h4 class="modal-title">
                                 <strong>
                                     <asp:Label ID="LbTituloCrear" runat="server" Text="" Style="margin-left: auto; margin-right: auto"></asp:Label></strong></h4>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
+
+                    <asp:UpdatePanel ID="UpdatePanel38" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+
+                            <asp:LinkButton ID="BtnCancelarTecnica" runat="server" title="Cerrar" Style="background-color: white; color: #003e7f;" class="btn"  OnClick="BtnCancelarTecnica_Click">
+                                        <i class="fa  fa-close"></i>
+                            </asp:LinkButton>
+
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -1283,6 +1307,20 @@
                             <h4 class="modal-title">
                                 <strong>
                                     <asp:Label ID="LbTituloCrearOperativa" runat="server" Text="" Style="margin-left: auto; margin-right: auto"></asp:Label></strong></h4>
+           
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                    <asp:UpdatePanel ID="UpdatePanel37" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+
+                            <%--<asp:LinkButton ID="BtnCargaMasiva" runat="server" title="Carga Masiva" Text="Carga Masiva" Style="background-color: white; color: #003e7f;" class="btn" OnClick="BtnCargaMasiva_Click">
+                                        <i class="fa  fa-upload"></i>
+                            </asp:LinkButton>--%>
+
+                            <asp:LinkButton ID="BtnCerrarOp" runat="server" title="Cerrar" Style="background-color: white; color: #003e7f;" class="btn" OnClick="BtnCerrarOp_Click">
+                                        <i class="fa  fa-close"></i>
+                            </asp:LinkButton>
+
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -1840,7 +1878,60 @@
         </div>
     </div>
 
+    <%--    MODAL CARGA MASIVA OPERATIVA--%>
+    <div class="modal fade" id="CargaMasiva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 600px; top: 320px; left: 50%; transform: translate(-50%, -50%);">
+                <div class="modal-header">
+                    <h4 class="modal-title">Carga Masiva Operativa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
 
+                    <div class="col-md-12" runat="server">
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label">Descargue la plantilla:</label>
+                            <div class="col-md-8">
+                               <a href="../plantilla/plantillaCargaMasiva.xlsx">Plantilla</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" runat="server">
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label class="control-label">Cargar Plantilla:</label>
+                            </div>
+                            <div class="col-8">
+                                <asp:FileUpload ID="FuCargaOP" AllowMultiple="false" ClientIDMode="AutoID" runat="server" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <asp:UpdatePanel ID="UpdatePanel39" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="form-group row">
+                                <asp:Label ID="LbError" runat="server" Text="" Class="col-sm-12" Style="color: indianred; text-align: center;"></asp:Label>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+                    <asp:UpdatePanel ID="UpdatePanel40" runat="server">
+                        <ContentTemplate>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <asp:Button ID="BtnCargar" runat="server" Text="Cargar" class="btn btn-success" OnClick="BtnCargar_Click" />
+                        </ContentTemplate>
+
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="BtnCargar" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Script" runat="server">
 

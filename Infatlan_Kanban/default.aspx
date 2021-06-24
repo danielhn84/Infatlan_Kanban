@@ -132,7 +132,7 @@
                  //vAxis: { title: 'Minutos' },
                  hAxis: { title: 'Días' },
                  seriesType: 'bars',
-                 width: 1000,
+                 width: 1250,
                  height: 500,
                  series: { 1: { type: 'line' } }
              };      
@@ -220,9 +220,9 @@
                             <div class="form-body col-md-12">
                                 <br />
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="fa fa-calendar-minus-o"></i></span><span class="hidden-xs-down">Tareas en Ejecución</span></a> </li>
-                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIP" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-bars"></i></span><span class="hidden-xs-down">Tareas en Ejecución vrs WIP</span></a> </li>
-                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIPFinalizadas" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-archive"></i></span><span class="hidden-xs-down">Tareas Finalizadas vrs WIP</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="fa fa-calendar-minus-o"></i></span><span class="hidden-xs-down">&nbspTareas en Ejecución</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIP" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-bars"></i></span><span class="hidden-xs-down">&nbspTareas en Ejecución vrs WIP</span></a> </li>
+                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tareasWIPFinalizadas" runat="server" role="tab"><span class="hidden-sm-up"><i class="fa fa-archive"></i></span><span class="hidden-xs-down">&nbspTareas Finalizadas vrs WIP</span></a> </li>
                                 </ul>
                                 <div class="tab-content tabcontent-border">
                                     <!--PRIMER CONTENIDO-->
@@ -247,7 +247,7 @@
                                         <div class="col-md-12 m-t-30" runat="server" id="divGraficoCargabilidad" visible="false">
                                             <center>
                                          <center>  
-                                         <div id="chart_div"  style="width: 1000px; height: 500px; align-items:center"></div>
+                                         <div id="chart_div"  style="width: 1100px; height: 500px; align-items:center"></div>
                                              <center/>
                                         </div>
                                         <div class="col-md-12 m-t-30" runat="server" id="divImagenCragabilidad" visible="false">
@@ -257,12 +257,12 @@
                                         <center/>
                                         </div>
                                     </div>
-                                    <div class="tab-pane  p-20" id="tareasWIPFinalizadas" role="tabpanel">
+                                    <div class="tab-pane  p-20" id="tareasWIPFinalizadas" role="tabpanel"  style="zoom:90%">
 
                                         <div class="col-md-12 m-t-30" runat="server" id="divGraficoFinalizada" visible="false">
                                             <center>
                                          <center>  
-                                         <div id="chart_Finalizado"  style="width: 1000px; height: 500px; align-items:center"></div>
+                                         <div id="chart_Finalizado"></div>
                                              <center/>
                                         </div>
                                         <div class="col-md-12 m-t-30" runat="server" id="divImagenFinalizado" visible="false">
@@ -276,7 +276,7 @@
                                 </div>
 
 
-                                <div class="row">
+                                <div class="row"  style="zoom:90%">
                                     <div class="col-md-4 m-t-30" runat="server" id="divGraficoEstadosCerrados" visible="false">
                                         <center>
                                          <asp:Label ID="Label1" runat="server" Text="Tarjetas Cerradas" BackColor="#00468c" ForeColor="White"  width="400" height="20"></asp:Label>

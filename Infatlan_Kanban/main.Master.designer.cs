@@ -69,6 +69,24 @@ namespace Infatlan_Kanban
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiMiTablero;
 
         /// <summary>
+        /// Control LiCargaMasiva.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LiCargaMasiva;
+
+        /// <summary>
+        /// Control Li2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Li2;
+
+        /// <summary>
         /// Control LiTarjeta.
         /// </summary>
         /// <remarks>

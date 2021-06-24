@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head runat="server">
+
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -15,14 +17,26 @@
     <link href="dist/css/style.min.css" rel="stylesheet">
 
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+ 
     <asp:ContentPlaceHolder ID="Head" runat="server">
     </asp:ContentPlaceHolder>
+
+     <script type="text/javascript"> 
+         infatlan = {
+             showNotification: function (from, align, mensaje, tipo) {
+                 color = Math.floor((Math.random() * 4) + 1);
+                 $.notify({
+                     icon: "pe - 7s - gift",
+                     message: mensaje
+                 }, {
+                     type: tipo,
+                     timer: 4000,
+                     placement: { from: from, align: align }
+                 });
+             }
+         }
+    </script>
+
 </head>
 
 
@@ -102,40 +116,49 @@
 
     <!-- ======================ANA CAROLINA======================================== -->
 
-  <div class="side-mini-panel">
-            <ul class="mini-nav">
-                <div class="togglediv"><a href="javascript:void(0)" id="togglebtn"><i class="ti-menu"></i></a></div>
+    <div class="side-mini-panel">
+        <ul class="mini-nav">
+
+            <div class="togglediv"><a href="javascript:void(0)" id="togglebtn"><i class="ti-menu"></i></a></div>
             <!-- .Dashboard -->
-          
-                <li runat="server" id="LiDashboard" visible="true">
-                    <a href="javascript:void(0)"><i class="icon-speedometer"></i></a>
-                    <div class="sidebarmenu">
-                        <!-- Left navbar-header -->
-                        <h3 class="menu-title">Dashboard</h3>                       
-                        <ul class="sidebar-menu">
-                            <li runat="server" id="LiMiDashboard" visible="true"><a href="../../default.aspx">Mi Dashboard  </a></li>
-                        </ul>
-                        <!-- Left navbar-header end -->
-                    </div>
-                </li>
+
+            <li runat="server" id="LiDashboard" visible="true">
+                <a href="javascript:void(0)"><i class="icon-speedometer"></i></a>
+                <div class="sidebarmenu">
+                    <!-- Left navbar-header -->
+                    <h3 class="menu-title">Dashboard</h3>
+                    <ul class="sidebar-menu">
+                        <li runat="server" id="LiMiDashboard" visible="true"><a href="../../default.aspx">Mi Dashboard  </a></li>
+                    </ul>
+                    <!-- Left navbar-header end -->
+                </div>
+            </li>
             <!-- /.Dashboard -->
             <!-- .Apps -->
             <li runat="server" id="LiTablero" visible="true">
                 <a href="javascript:void(0)"><i class="ti-layout-grid2"></i></a>
                 <div class="sidebarmenu">
-                    <!-- Left navbar-header -->
                     <h3 class="menu-title">Tablero</h3>
                     <ul class="sidebar-menu">
                         <li runat="server" id="LiMiTablero" visible="true"><a href="../../pages/miTablero.aspx">Mi Tablero</a></li>
-                             
+                        <%-- <li runat="server" id="Lidd1" visible="true"><a href="../../pages/cargaMasivaOP.aspx">Carga Masiva OP</a></li>--%>
                     </ul>
-            
-                    <!-- Left navbar-header end -->
                 </div>
             </li>
-               
-            <!-- /.Apps -->
-            <!-- .Inbox -->
+
+            <li runat="server" id="LiCargaMasiva" visible="true">
+                <a href="javascript:void(0)"><i class="ti-upload"></i></a>
+                <div class="sidebarmenu">
+                    <h3 class="menu-title">Carga Masiva</h3>
+                    <ul class="sidebar-menu">
+                        <li runat="server" id="Li2" visible="true"><a href="../../pages/cargaMasivaOP.aspx">Tarjetas Operativas</a></li>
+
+              
+                    </ul>
+                </div>
+            </li>
+
+
             <li runat="server" id="LiTarjeta" visible="true">
                 <a href="javascript:void(0)"><i class="ti-agenda"></i></a>
                 <div class="sidebarmenu">
@@ -151,7 +174,7 @@
                     <!-- Left navbar-header end -->
                 </div>
             </li>
-               
+
             <!-- /.Inbox -->
             <!-- .Ui Elemtns -->
             <li runat="server" id="LiConfig" visible="true"><a href="javascript:void(0)"><i class="ti-settings"></i></a>
@@ -161,13 +184,15 @@
                     <ul class="sidebar-menu">
                         <li runat="server" id="LiUsuario" visible="true"><a href="../../pages/usuarios.aspx">Usuarios</a></li>
                         <li runat="server" id="LiGestiones" visible="true"><a href="../../pages/gestiones.aspx">Gestiones</a></li>
-                        <li runat="server" id="LiEquipos" visible="true"><a href="../../pages/teams.aspx">Equipos</a></li>    
+                        <li runat="server" id="LiEquipos" visible="true"><a href="../../pages/teams.aspx">Equipos</a></li>
                     </ul>
                     <!-- Left navbar-header end -->
                 </div>
             </li>
-                  
+
         </ul>
+
+
     </div>
     <form id="FormaPrincipal" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
@@ -180,10 +205,10 @@
             </div>
         </div>
     </form>
-
-     <footer class="footer">
-            © 2021 Infatlan
-        </footer>
+                               
+    <footer class="footer">
+        © 2021 Infatlan
+    </footer>
 
     <script src="../../assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
@@ -200,6 +225,7 @@
     <script src="../../assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="../../dist/js/custom.min.js"></script>
+        <script src="/js/bootstrap-notify.js"></script>
     <asp:ContentPlaceHolder ID="Script" runat="server">
     </asp:ContentPlaceHolder>
 </body>

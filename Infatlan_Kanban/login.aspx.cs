@@ -17,6 +17,7 @@ namespace Infatlan_Kanban
         {
             try
             {
+                LbHoraFecha.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss");
 
             }
             catch (Exception ex)

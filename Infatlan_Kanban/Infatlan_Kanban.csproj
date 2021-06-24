@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Excel.4.5">
+      <HintPath>..\..\Infatlan_STEI\Infatlan_STEI_Comunicacion\bin\Excel.4.5.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader">
+      <HintPath>..\..\Infatlan_STEI\Infatlan_STEI_Agencias\bin\ExcelDataReader.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
@@ -3373,6 +3379,7 @@
     <Content Include="images\z.gif" />
     <Content Include="images\zz.gif" />
     <Content Include="js\zz.gif" />
+    <Content Include="pages\cargaMasivaOP.aspx" />
     <Content Include="pages\creacionTareas.aspx" />
     <Content Include="css\animate.min.css" />
     <Content Include="css\fstdropdown.css" />
@@ -3450,6 +3457,13 @@
     <Compile Include="classes\LdapService.cs" />
     <Compile Include="classes\SmtpService.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\cargaMasivaOP.aspx.cs">
+      <DependentUpon>cargaMasivaOP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\cargaMasivaOP.aspx.designer.cs">
+      <DependentUpon>cargaMasivaOP.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\creacionTareas.aspx.cs">
       <DependentUpon>creacionTareas.aspx</DependentUpon>
@@ -4719,6 +4733,7 @@
     <Content Include="scss\widgets\topbar-mail.scss" />
     <Content Include="scss\widgets\weather-widget.scss" />
     <Content Include="scss\widgets\widgets.scss" />
+    <Content Include="plantilla\plantillaCargaMasiva.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -63,12 +63,14 @@ namespace Infatlan_Kanban
                 LiUsuario.Visible = false;
                 LiGestiones.Visible = false;
                 LiEquipos.Visible = false;
+                LiCargaMasiva.Visible = false;
             }
             else if (vRol == 1)//JEFE/SUPLENTE
             {
                 LiDashboard.Visible = true;
                 LiTablero.Visible = true;
                 LiTarjeta.Visible = true;
+                LiCargaMasiva.Visible = true;
 
                 LiOperativas.Visible = false;
                 LiEliminar.Visible = false;
@@ -85,6 +87,7 @@ namespace Infatlan_Kanban
                 LiDashboard.Visible = true;
                 LiTablero.Visible = true;
                 LiTarjeta.Visible = true;
+                LiCargaMasiva.Visible = false;
 
                 LiOperativas.Visible = false;
                 LiEliminar.Visible = false;
@@ -105,6 +108,7 @@ namespace Infatlan_Kanban
                 LiUsuario.Visible = true;
                 LiGestiones.Visible = true;
                 LiEquipos.Visible = true;
+                LiCargaMasiva.Visible = true;
 
                 LiOperativas.Visible = false;
                 LiEliminar.Visible = false;
@@ -114,6 +118,7 @@ namespace Infatlan_Kanban
             }
             else if (vRol == 4)//REPORTE
             {
+                LiCargaMasiva.Visible = false;
                 LiDashboard.Visible = false;
                 LiTablero.Visible = true;
                 LiTarjeta.Visible = false;

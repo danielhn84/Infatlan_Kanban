@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/main.Master" AutoEventWireup="true" CodeBehind="Tarjetas.aspx.cs" Inherits="Infatlan_Kanban.pages.Tarjetas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-        <script type="text/javascript">
+    <script type="text/javascript">
         var updateProgress = null;
         function postbackButtonClick() {
             updateProgress = $find("<%= UpdateProgress1.ClientID %>");
@@ -188,14 +188,9 @@
                                                                         <asp:LinkButton ID="BtnVerificacion"  Title="Lista Verificación" Visible="true" runat="server" class="btn" Style="background-color: #1CC8FF; color: #ffffff;" CommandArgument='<%# Eval("idSolicitud") %>' CommandName="Lista">
                                                                          <i class=" icon-list" ></i>
                                                                         </asp:LinkButton>
+                                                                    </ItemTemplate>                                                                   
                                                                     </ItemTemplate>
-
-                                                                    
-                                                                    </ItemTemplate>
-                                                                </asp:TemplateField>
-
-                                                              
-                                                                
+                                                                </asp:TemplateField>                                                                                                                   
                                                                 <asp:BoundField DataField="idSolicitud" Visible="true" ItemStyle-HorizontalAlign="center" HeaderText="Id Tarjeta" />
                                                                 <asp:BoundField DataField="titulo" HeaderText="Titulo" Visible="true" />
                                                                 <asp:BoundField DataField="minSolicitud" ItemStyle-HorizontalAlign="center" HeaderText="Mins" Visible="true" />
@@ -344,69 +339,18 @@
                                                 <br />
                                              <asp:LinkButton ID="BtnBuscarBA" runat="server" title="Buscar" class="btn btn-primary" OnClick="BtnBuscarBA_Click"><i class="mdi mdi-search-web text-white"></i></asp:LinkButton>
                                              <asp:LinkButton ID="BtnLimoiarBA" runat="server" title="Restablecer" Style="background-color: #0F71F5" class="btn"  OnClick="BtnLimoiarBA_Click"><i class="mdi mdi-refresh text-white"></i></asp:LinkButton>
-                                             <%--<asp:LinkButton ID="LinkButton6" runat="server" title="Descargar" Style="background-color: #059500" class="btn" OnClick="BtnDescargar_Click"><i class="mdi mdi-download text-white"></i></asp:LinkButton>--%>
+                                             <asp:LinkButton ID="BtnDescargaBA" runat="server" title="Descargar" Style="background-color: #059500" class="btn"  OnClick="BtnDescargaBA_Click"><i class="mdi mdi-download text-white"></i></asp:LinkButton>
                                          </div>
                                         </div>
-
-
-                                   <%--     <div class="row col-12 font-12" runat="server" id="Div14">
-
-                                            <div class="col-md-2" runat="server" id="divTxFechaInicio" visible="false">
-                                                <asp:Label ID="Label10" runat="server" Text="Fecha Inicio" class="control-label" Style="margin-left: auto; margin-right: auto"></asp:Label>
-                                                <asp:TextBox ID="TxFechaInicio" Font-Size="Smaller" AutoPostBack="true" runat="server" TextMode="Date" class="form-control"></asp:TextBox>
-                                            </div>
-
-                                            <div class="col-md-2" runat="server" id="divTxFechaFin" visible="false">
-                                                <asp:Label ID="Label11" runat="server" Text="Fecha Fin" class="control-label" Style="margin-left: auto; margin-right: auto"></asp:Label>
-                                                <asp:TextBox ID="TxFechaFin" AutoPostBack="true" runat="server" Font-Size="Smaller" TextMode="Date" class="form-control"></asp:TextBox>
-                                            </div>
-
-                                            <div class="col-md-2" runat="server" id="div17" visible="false">
-                                                <asp:Label ID="Label12" runat="server" Text="Tipo Tarjeta" class="control-label" Style="margin-left: auto; margin-right: auto"></asp:Label>
-                                                <asp:DropDownList ID="DropDownList2" Font-Size="Smaller" runat="server" CssClass="select2 form-control custom-select">
-                                                    <asp:ListItem Value="0" Text="Todas"></asp:ListItem>
-                                                    <asp:ListItem Value="1" Text="Técnicas"></asp:ListItem>
-                                                    <asp:ListItem Value="2" Text="Operativas"></asp:ListItem>
-                                                </asp:DropDownList>
-                                            </div>
-
-                                            <div class="col-md-2" runat="server" id="div19" visible="false">
-                                                <asp:Label ID="Label13" runat="server" Text="Gestión" class="control-label" Style="margin-left: auto; margin-right: auto"></asp:Label>
-                                                <asp:DropDownList runat="server" ID="DropDownList3" Font-Size="80%" CssClass="select2 form-control custom-select" AutoPostBack="true"></asp:DropDownList>
-                                            </div>
-
-                                            <div class="col-md-2" runat="server" id="div20" visible="false">
-                                                <asp:Label ID="Label14" runat="server" Text="Prioridad" class="control-label" Style="margin-left: auto; margin-right: auto"></asp:Label>
-                                                <asp:DropDownList ID="DropDownList4" runat="server" Font-Size="80%" CssClass="select2 form-control custom-select">
-                                                    <asp:ListItem Value="0" Text="Todas"></asp:ListItem>
-                                                    <asp:ListItem Value="1" Text="Máxima Prioridad"></asp:ListItem>
-                                                    <asp:ListItem Value="2" Text="Alta"></asp:ListItem>
-                                                    <asp:ListItem Value="3" Text="Normal"></asp:ListItem>
-                                                    <asp:ListItem Value="4" Text="Baja"></asp:ListItem>
-                                                </asp:DropDownList>
-                                            </div>
-
-                                            <div class="col-md-2" runat="server" id="div21" visible="false">
-                                                <br />
-                                                <asp:LinkButton ID="LinkButton1" runat="server" title="Buscar" class="btn btn-primary" OnClick="BtnBuscar_Click"><i class="mdi mdi-search-web text-white"></i></asp:LinkButton>
-                                                <asp:LinkButton ID="LinkButton2" runat="server" title="Restablecer" Style="background-color: #0F71F5" class="btn" OnClick="BtnLimpiar_Click"><i class="mdi mdi-refresh text-white"></i></asp:LinkButton>
-                                                <asp:LinkButton ID="LinkButton3" runat="server" title="Descargar" Style="background-color: #059500" class="btn" OnClick="BtnDescargar_Click"><i class="mdi mdi-download text-white"></i></asp:LinkButton>
-                                            </div>
-                                        </div>--%>
-
-
                                     </div>
                                     <div class="col-md-12" runat="server" id="div22" visible="false" style="text-align: center">
                                         <p><b><code>No cuenta con tarjetas cerradas en el rango de fechas establecidas.</code></b></p>
                                     </div>
                                 </ContentTemplate>
                                 <Triggers>
-                                    <asp:PostBackTrigger ControlID="BtnDescargar" />
+                                    <asp:PostBackTrigger ControlID="BtnDescargaBA" />
                                 </Triggers>
                             </asp:UpdatePanel>
-
-
-
 
 
                             <asp:UpdatePanel runat="server" ID="UpSolicitudesColaboradores" UpdateMode="Conditional">
@@ -422,17 +366,23 @@
                                                             PagerStyle-CssClass="pgr"
                                                             HeaderStyle-CssClass="table"
                                                             HeaderStyle-HorizontalAlign="center"
-                                                            RowStyle-CssClass="rows" 
+                                                            RowStyle-CssClass="rows"
                                                             AutoGenerateColumns="false" OnRowCommand="GvSolicitudesColaborador_RowCommand"
-                                                            AllowPaging="true"  OnPageIndexChanging="GvSolicitudesColaborador_PageIndexChanging"
-                                                            GridLines="None"  OnRowDataBound="GvSolicitudesColaborador_RowDataBound"
+                                                            AllowPaging="true" OnPageIndexChanging="GvSolicitudesColaborador_PageIndexChanging"
+                                                            GridLines="None" OnRowDataBound="GvSolicitudesColaborador_RowDataBound"
                                                             PageSize="10">
                                                             <Columns>
-                                                                <asp:TemplateField HeaderText="Acción" HeaderStyle-Width="6%" ItemStyle-HorizontalAlign="center">
+                                                                <asp:TemplateField HeaderText="Detalle" HeaderStyle-Width="8%" ItemStyle-HorizontalAlign="center">
                                                                     <ItemTemplate>
-                                                                        <asp:LinkButton ID="BtnVer" Title="Ver Tarjeta" Visible="true" runat="server" class="btn" Style="background-color: #F1961B; color: #ffffff;" CommandArgument='<%# Eval("idSolicitud") %>' CommandName="Ver">
+                                                                        <asp:LinkButton ID="BtnVer" Title="Ver Tarjeta" Visible="true" runat="server"  class="btn" Style="background-color: #F1961B; color: #ffffff;" CommandArgument='<%#Eval("idSolicitud") %>' CommandName="Ver">
                                                                          <i class="icon-pencil" ></i>
                                                                         </asp:LinkButton>
+
+                                                                         <ItemTemplate>
+                                                                        <asp:LinkButton ID="BtnVerificacion"  Title="Lista Verificación" Visible="true" runat="server" class="btn" Style="background-color: #1CC8FF; color: #ffffff;" CommandArgument='<%#Eval("idSolicitud") %>' CommandName="Lista">
+                                                                         <i class=" icon-list" ></i>
+                                                                        </asp:LinkButton>
+                                                                    </ItemTemplate>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:BoundField DataField="idSolicitud" Visible="true" ItemStyle-HorizontalAlign="center" HeaderText="Tarjeta" />
@@ -443,8 +393,10 @@
                                                                 <asp:BoundField DataField="fechaFinalizoTarjeta" ItemStyle-HorizontalAlign="center" HeaderText="Finalizó" Visible="true" />
                                                                 <asp:BoundField DataField="nombreGestion" HeaderText="Gestión" Visible="true" />
                                                                 <asp:BoundField DataField="nombreResponsable" HeaderText="Responsable" Visible="true"  ItemStyle-HorizontalAlign="center"/>
+                                                                <asp:BoundField DataField="nombreUsuarioCreo" HeaderText="Usuario Creo" Visible="true"  ItemStyle-HorizontalAlign="center" />      
                                                                 <asp:BoundField DataField="prioridad" HeaderText="Prioridad" Visible="true" ItemStyle-ForeColor="White" ItemStyle-HorizontalAlign="center" />
                                                                 <asp:BoundField DataField="nombreestado" HeaderText="Estado" Visible="true" ItemStyle-ForeColor="White" ItemStyle-HorizontalAlign="center" />
+                                                                                                                    
                                                             </Columns>
                                                         </asp:GridView>
                                                     </div>

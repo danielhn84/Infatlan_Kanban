@@ -8,6 +8,8 @@ using Infatlan_Kanban.classes;
 using System.Data;
 using System.IO;
 using System.Web.UI.HtmlControls;
+using Excel;
+using System.Configuration;
 
 
 namespace Infatlan_Kanban.pages
@@ -252,7 +254,7 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -347,7 +349,7 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -438,7 +440,6 @@ namespace Infatlan_Kanban.pages
                 String vColorPrioridad = "";
                 String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
-                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
                 vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
@@ -448,7 +449,7 @@ namespace Infatlan_Kanban.pages
 
                 //vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -535,7 +536,6 @@ namespace Infatlan_Kanban.pages
                 String vColorPrioridad = "";
                 String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vEstadoNombre = "", vColorEstado = "", vFechaInicio = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
-                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
                 vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
@@ -545,7 +545,7 @@ namespace Infatlan_Kanban.pages
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
                 //vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -645,7 +645,6 @@ namespace Infatlan_Kanban.pages
                 String vColorPrioridad = "";
                 String vTicket = "", vTitulo = "", vGestion = "", vFecha = "", vPrioridad = "", vFechaInicio = "", vColorHeader = "", vTipoTarjeta = "", vRibon = "", vMin = "";
                 vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
-                vTicket = vDatos.Rows[i]["idSolicitud"].ToString();
                 vTitulo = vDatos.Rows[i]["titulo"].ToString();
                 vGestion = vDatos.Rows[i]["nombreGestion"].ToString();
                 vFecha = vDatos.Rows[i]["fechaEntrega"].ToString();
@@ -653,7 +652,7 @@ namespace Infatlan_Kanban.pages
                 vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
                 //vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -1982,7 +1981,6 @@ namespace Infatlan_Kanban.pages
                 DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
                 DateTime vFechaInicio = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
 
-
                 DateTime fecha_entrega = DateTime.Parse(TxFechaEntrega.Text.ToString());
                 DateTime vFechaEntrega = Convert.ToDateTime(fecha_entrega.ToString("dd/MM/yyyy HH:mm"));
 
@@ -2083,15 +2081,30 @@ namespace Infatlan_Kanban.pages
                 if (vArchivoAdjunto != "")
                 {
                     String vQuery3 = "GESTIONES_Solicitud 3,'" + idSolicitud +
-    "','" + vArchivoAdjunto +
-    "','" + vNombreArchivo + "'";
+                    "','" + vArchivoAdjunto +
+                    "','" + vNombreArchivo + "'";
                     Int32 vInfo3 = vConexionGestiones.ejecutarSqlGestiones(vQuery3);
                 }
 
-                string vQuery4 = "GESTIONES_Solicitud 4,'" + idSolicitud + "','" + vCambio + "','" + Session["USUARIO_AD"].ToString() + "'";
-                Int32 vInfo4 = vConexionGestiones.ejecutarSqlGestiones(vQuery4);
 
-                string vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+                    string vQuery4 = "GESTIONES_Solicitud 4,'" + idSolicitud + "','" + vCambio + "','" + Session["USUARIO_AD"].ToString() + "'";
+                    Int32 vInfo4 = vConexionGestiones.ejecutarSqlGestiones(vQuery4);
+                    //xx
+                    string vQuery = "GESTIONES_Solicitud 7,'" + Session["USUARIO"].ToString() + "'";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string vCorreoAdministrador= vDatos.Rows[0]["email"].ToString();
+
+                    
+                    if(Session["USUARIO"].ToString()!= Session["GESTIONES_CORREO_JEFE"].ToString() || Session["USUARIO"].ToString() != Session["GESTIONES_CORREO_SUPLENTE"].ToString())
+                    {
+                        vCorreoAdministrador = vCorreoAdministrador;
+                    }
+                    else
+                    {
+                        vCorreoAdministrador="";
+                    }
+
+                string vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString()+";"+ vCorreoAdministrador;
 
                 string vAsunto = "Creación Tarjeta Kanban, Gestiones Técnicas: " + idSolicitud;
                 string vQuery5 = "GESTIONES_Solicitud 5,'Creacion Tarjeta Kanban','"
@@ -2135,8 +2148,9 @@ namespace Infatlan_Kanban.pages
                     String vArchivo = String.Empty;
                     if (vFileDeposito1 != null)
                         vArchivo = Convert.ToBase64String(vFileDeposito1);
+
                     //ACTUALIZAR LA SOLICITUD
-                    string vQuery = "GESTIONES_Solicitud 16,'" + idSolicitud + "','" + vidEstado + "','" + vsolucion + "','" + Session["USUARIO"].ToString() + "','" + vArchivo + "'";
+                     vQuery = "GESTIONES_Solicitud 16,'" + idSolicitud + "','" + vidEstado + "','" + vsolucion + "','" + Session["USUARIO"].ToString() + "','" + vArchivo + "'";
                     Int32 vInfo1 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
 
                     //GUARDAR HISTORIAL
@@ -2156,8 +2170,23 @@ namespace Infatlan_Kanban.pages
                     Session["GESTIONES_NOMBRE_SUPLENTE"] = vDatos.Rows[0]["nombreSuplente"].ToString();
 
                     //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
+
+                    vQuery = "GESTIONES_Solicitud 7,'" + Session["USUARIO"].ToString() + "'";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string vCorreoAdmin = vDatos.Rows[0]["email"].ToString();
+
+                    if (Session["USUARIO"].ToString() != Session["GESTIONES_CORREO_JEFE"].ToString() || Session["USUARIO"].ToString() != Session["GESTIONES_CORREO_SUPLENTE"].ToString())
+                    {
+                            vCorreoAdmin = vCorreoAdmin;
+                    }
+                    else
+                    {
+                            vCorreoAdmin = "";
+                    }
+
+
                     vAsunto = "Tarjeta Kanban Finalizada, Gestiones Técnicas: " + idSolicitud;
-                    vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+                    vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString()+";"+ vCorreoAdmin;
 
                     vQuery5 = "GESTIONES_Solicitud 5,'Tarjeta Kanban Finalizada','"
                         + Session["GESTIONES_CORREO_RESPONSABLE"].ToString()
@@ -3374,7 +3403,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -3469,7 +3498,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -3565,7 +3594,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -3664,7 +3693,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -3775,7 +3804,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -3900,7 +3929,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -3995,7 +4024,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -4090,7 +4119,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -4192,7 +4221,7 @@ namespace Infatlan_Kanban.pages
 
 
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -4304,7 +4333,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -4436,7 +4465,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -4529,7 +4558,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -4622,7 +4651,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -4716,7 +4745,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -4821,7 +4850,7 @@ namespace Infatlan_Kanban.pages
                 vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                 vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                 {
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vTipoTarjeta = " TARJETA OPERATIVA";
@@ -5268,9 +5297,21 @@ namespace Infatlan_Kanban.pages
                 Session["GESTIONES_NOMBRE_JEFE"] = vDatos.Rows[0]["nombreJefe"].ToString();
                 Session["GESTIONES_NOMBRE_SUPLENTE"] = vDatos.Rows[0]["nombreSuplente"].ToString();
 
+                vQuery = "GESTIONES_Solicitud 7,'" + Session["GESTIONES_USUARIO_CREO"].ToString() + "'";
+                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                string vCorreoAdministrador = vDatos.Rows[0]["email"].ToString();
+                if (Session["GESTIONES_USUARIO_CREO"].ToString() != Session["GESTIONES_CORREO_JEFE"].ToString() || Session["GESTIONES_USUARIO_CREO"].ToString() != Session["GESTIONES_CORREO_SUPLENTE"].ToString())
+                {
+                    vCorreoAdministrador = vCorreoAdministrador;
+                }
+                else
+                {
+                    vCorreoAdministrador = "";
+                }
+
                 //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
                 string vAsunto = "Tarjeta Kanban Finalizada, Gestiones Técnicas: " + vEx;
-                string vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+                string vCorreosCopia = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString()+";"+vCorreoAdministrador;
 
                 string vQuery5 = "GESTIONES_Solicitud 5,'Tarjeta Kanban Finalizada','"
                  + Session["GESTIONES_CORREO_RESPONSABLE"].ToString()
@@ -5329,8 +5370,6 @@ namespace Infatlan_Kanban.pages
             }
             if (DdlAccion.SelectedValue == "3")
             {
-               
-
                 string vQuery = "GESTIONES_Solicitud 32,'" + vEx + "'";
                 DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
                 string vidEstadoActual = vDatos.Rows[0]["idEstado"].ToString();
@@ -5355,9 +5394,23 @@ namespace Infatlan_Kanban.pages
                 Session["GESTIONES_NOMBRE_JEFE"] = vDatos.Rows[0]["nombreJefe"].ToString();
                 Session["GESTIONES_NOMBRE_SUPLENTE"] = vDatos.Rows[0]["nombreSuplente"].ToString();
 
-                //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
-                string vAsunto = "Solicitud Tarjeta a Eliminar, Gestiones Técnicas: " + vEx;
-                string vCorreo = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+                    //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
+
+                    vQuery = "GESTIONES_Solicitud 7,'" + Session["GESTIONES_USUARIO_CREO"].ToString() + "'";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string vCorreoAdministrador = vDatos.Rows[0]["email"].ToString();
+                    if (Session["GESTIONES_USUARIO_CREO"].ToString() != Session["GESTIONES_CORREO_JEFE"].ToString() || Session["GESTIONES_USUARIO_CREO"].ToString() != Session["GESTIONES_CORREO_SUPLENTE"].ToString())
+                    {
+                        vCorreoAdministrador = vCorreoAdministrador;
+                    }
+                    else
+                    {
+                        vCorreoAdministrador = "";
+                    }
+
+
+                    string vAsunto = "Solicitud Tarjeta a Eliminar, Gestiones Técnicas: " + vEx;
+                string vCorreo = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString()+";"+ vCorreoAdministrador;
 
                 string vQuery5 = "GESTIONES_Solicitud 5,'Solicitud Tarjeta Kanban a Eliminar','"
                  + vCorreo
@@ -5377,7 +5430,6 @@ namespace Infatlan_Kanban.pages
                     Mensaje(vMensaje, WarningType.Success);
                     Response.Redirect("/pages/miTablero.aspx");
                 }
-
 
             }
             else
@@ -5405,9 +5457,23 @@ namespace Infatlan_Kanban.pages
 
 
 
-                //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
-                string vAsunto = "Solicitud Tarjeta Kanban a Estado Detenida, Gestiones Técnicas: " + vEx;
-                string vCorreo = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString();
+                    //GUARDAR EN LA SUSCRIPCION TARJETA FINALIZADA
+                    vQuery = "GESTIONES_Solicitud 7,'" + Session["GESTIONES_USUARIO_CREO"].ToString() + "'";
+                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+                    string vCorreoAdministrador = vDatos.Rows[0]["email"].ToString();
+
+
+                    if (Session["USUARIO"].ToString() != Session["GESTIONES_CORREO_JEFE"].ToString() || Session["USUARIO"].ToString() != Session["GESTIONES_CORREO_SUPLENTE"].ToString())
+                    {
+                        vCorreoAdministrador = vCorreoAdministrador;
+                    }
+                    else
+                    {
+                        vCorreoAdministrador = "";
+                    }
+
+                    string vAsunto = "Solicitud Tarjeta Kanban a Estado Detenida, Gestiones Técnicas: " + vEx;
+                string vCorreo = Session["GESTIONES_CORREO_JEFE"].ToString() + ";" + Session["GESTIONES_CORREO_SUPLENTE"].ToString()+";"+ vCorreoAdministrador;
 
                 string vQuery5 = "GESTIONES_Solicitud 5,'Solicitud Tarjeta Kanban a Detenido','"
                  + vCorreo
@@ -7082,7 +7148,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -7179,7 +7245,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -7275,7 +7341,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -7375,7 +7441,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -7487,7 +7553,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -7611,7 +7677,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -7708,7 +7774,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -7806,7 +7872,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -7906,7 +7972,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -8019,7 +8085,7 @@ namespace Infatlan_Kanban.pages
                     vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                     vMin = vDatos.Rows[i]["minSolicitud"].ToString();
 
-                    if (vDatos.Rows[i]["usuarioCreo"].ToString() == "00000")
+                    if (vDatos.Rows[i]["tarjeta"].ToString() == "Operativa")
                     {
                         vColorHeader = vDatos.Rows[i]["colorTarjeta"].ToString();
                         vTipoTarjeta = " TARJETA OPERATIVA";
@@ -8100,5 +8166,236 @@ namespace Infatlan_Kanban.pages
         {
             Response.Redirect("/pages/miTablero.aspx");
         }
+
+        protected void BtnCargaMasiva_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openModalCargaMasivaOp();", true);
+        }
+
+        protected void BtnCargar_Click(object sender, EventArgs e)
+        {
+            string archivoLog = string.Format("{0}_{1}", Convert.ToString(Session["USUARIO"]), DateTime.Now.ToString("yyyyMMdd"));
+            try
+            {    
+                String vDireccionCarga = ConfigurationManager.AppSettings["RUTA_SERVER"].ToString();
+                if (FuCargaOP.HasFile)
+                {
+                    String vNombreArchivo = FuCargaOP.FileName;
+                    vDireccionCarga += "/" + archivoLog + "_" + vNombreArchivo;
+                    FuCargaOP.SaveAs(vDireccionCarga);
+                    String vTipoPermiso = "TARJETAS_OPERATIVAS_MASIVO";
+                    Boolean vCargado = false;
+                    int vSuccess = 0, vError = 0;
+                    if (File.Exists(vDireccionCarga))
+                        vCargado = cargarArchivo(vDireccionCarga, ref vSuccess, ref vError, Convert.ToString(Session["USUARIO"]), vTipoPermiso);
+
+                    //if (vSuccess == 0)
+                    //{
+                    //    if (Session["AG_CMA_COD_AGENCIA_SUBIDO"].ToString() != "Completo")
+                    //        LbMensaje.Text = LbMensaje.Text + "Código: " + Session["AG_CMA_COD_AGENCIA_SUBIDO"].ToString() + " no existe, favor verificar que este agregado en la seccion de agencias." + "&emsp;";
+
+                    //    if (Session["AG_CMA_FECHA_SUBIDO"].ToString() != "Completo")
+                    //        LbMensaje.Text = LbMensaje.Text + "Código " + Session["AG_CMA_FECHA_SUBIDO"].ToString() + " fechas erroneas, favor verificar que sean fechas del año actual." + "&emsp;";
+
+                    //    if (Session["AG_CMA_AREA_SUBIDO"].ToString() != "Completo")
+                    //        LbMensaje.Text = LbMensaje.Text + "Area " + Session["AG_CMA_AREA_SUBIDO"].ToString() + " tipo area no existe, favor verificar que esten ingresadas y activas." + "&emsp;";
+                    //    DivAlerta.Visible = true;
+
+                    //}
+                    //else
+                    //{
+                    //    LbMensajeSuccsess.Text = "Archivo de mantenimientos preventivos cargados con exito." + "<br>" + "<b style='color:white;'>Success:</b> " + vSuccess.ToString() + "&emsp;";
+                    //    Div1.Visible = true;
+                    //}
+                }
+                else
+                {
+                    LbError.Text = "No se encontró ningún archivo a cargar.";
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "openModalCargaMasivaOp();", true);
+                    //UpdatePanel39.Update();
+                }
+            }
+            catch (Exception ex)
+            {
+                LbError.Text = ex.Message;
+                UpdatePanel39.Update();
+            }
+
+        }
+
+
+        public Boolean cargarArchivo(String DireccionCarga, ref int vSuccess, ref int vError, String vUsuario, String TipoProceso)
+        {
+            Boolean vResultado = false;
+
+            try
+            {
+                FileStream stream = File.Open(DireccionCarga, FileMode.Open, FileAccess.Read);
+                IExcelDataReader excelReader;
+                if (DireccionCarga.Contains("xlsx"))
+                    excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);   //2007
+                else
+                    excelReader = ExcelReaderFactory.CreateBinaryReader(stream);    //97-2003
+
+                excelReader.IsFirstRowAsColumnNames = true;
+                DataSet vDatosExcel = excelReader.AsDataSet();
+                excelReader.Close();
+
+                DataSet vDatosVerificacion = vDatosExcel.Copy();
+                for (int i = 0; i < vDatosVerificacion.Tables[0].Rows.Count; i++)
+                {
+                    if (verificarRow(vDatosVerificacion.Tables[0].Rows[i]))
+                        vDatosExcel.Tables[0].Rows[i].Delete();
+                }
+                vDatosExcel.Tables[0].AcceptChanges();
+
+                procesarArchivo(vDatosExcel, ref vSuccess, DireccionCarga, TipoProceso);
+
+                vResultado = true;
+
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.ToString());
+            }
+            return vResultado;
+        }
+
+
+        private bool verificarRow(DataRow dr)
+        {
+            int contador = 0;
+            foreach (var value in dr.ItemArray)
+            {
+                if (value.ToString() != "")
+                {
+                    contador++;
+                }
+            }
+
+            if (contador > 0)
+                return false;
+            else
+                return true;
+        }
+
+        void validacionesCargaMasivaOP()
+        {
+            if (DdlFrecuencia.SelectedValue.Equals("0"))
+                throw new Exception("Falta que seleccione la frecuencia de la tarjeta operativa.");
+
+            if (TxFechaInicioOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese la fecha de inicio de la tarjeta operativa.");
+
+            if (TxDiasEntregaOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese los días de plazo para finalizar la tarjeta.");
+
+            if (TxTituloOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese el titulo de la tarjeta operativa.");
+
+            if (TxDescripcionOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese la descripción de la tarea.");
+
+            if (TxMinProductivoOperativa.Text.Equals(""))
+                throw new Exception("Falta que ingrese el tiempo productivo en minutos.");
+
+            if (DdlResponsableOperativa.SelectedValue.Equals("0"))
+                throw new Exception("Falta que seleccione el responsable.");
+
+            if (DdlSuplente.SelectedValue.Equals("0"))
+                throw new Exception("Falta que seleccione el suplente.");
+
+            if (DdlPrioridadOperativa.SelectedValue.Equals("0"))
+                throw new Exception("Falta que seleccione la prioridad");
+
+            if (Session["GESTIONES_NOTIFICACION_LISTA"] == null)
+                throw new Exception("Falta que seleccione personal a notificar en el item de Notificaciones.");
+
+            if (Session["GESTIONES_OPCIONES_LISTA"] == null)
+                throw new Exception("Falta que ingrese Check List que debe responder el responsable.");
+
+            DateTime fecha_inicio = DateTime.Parse(TxFechaInicioOperativa.Text.ToString());
+            DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+            DateTime fechaIncioConver = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
+            if (vfechaActual > fechaIncioConver)
+                throw new Exception("La fecha actual del sistema es mayor que la fecha de inicializacion de la tarjeta.");
+        }
+        public void procesarArchivo(DataSet vArchivo, ref int vSuccess, string DireccionCarga, string TipoProceso)
+        {
+            try
+            {
+                if (vArchivo.Tables[0].Rows.Count > 0)
+                {
+                    DataTable vDatos = vArchivo.Tables[0];
+                    string vQuery = "";
+
+                    for (int i = 0; i < vDatos.Rows.Count; i++)
+                    {
+                       
+                        string vTitulo = vDatos.Rows[i]["titulo"].ToString();
+                        String vMin = vDatos.Rows[i]["minSolicitud"].ToString();
+                        string vDias = vDatos.Rows[i]["dias"].ToString();
+                        string vDescripcion = vDatos.Rows[i]["descripcion"].ToString();
+                        string vResponsable = vDatos.Rows[i]["responsable"].ToString();
+                        string vPrioridad = vDatos.Rows[i]["prioridad"].ToString();
+                        string vGestion = vDatos.Rows[i]["idTipoGestion"].ToString();
+                        string vTeams = vDatos.Rows[i]["idTeams"].ToString();
+                        string vIlimitado = vDatos.Rows[i]["ilimitado"].ToString(); 
+                        string vFinTarjeta = vDatos.Rows[i]["fechaFinTarjeta"].ToString();
+                        string vFrecuencia = vDatos.Rows[i]["frecuencia"].ToString();
+                        string vLunes = vDatos.Rows[i]["Lunes"].ToString();
+                        string vMartes = vDatos.Rows[i]["Martes"].ToString();
+                        string vMiercoles = vDatos.Rows[i]["Miercoles"].ToString();
+                        string vJueves = vDatos.Rows[i]["Jueves"].ToString();
+                        string vViernes = vDatos.Rows[i]["Viernes"].ToString();
+                        string vSabado = vDatos.Rows[i]["Sabado"].ToString();
+                        string vDomingo = vDatos.Rows[i]["Domingo"].ToString();
+                        string vFechaInicio = vDatos.Rows[i]["fechaInicio"].ToString();
+
+                        if(vTitulo.Equals(""))
+                            throw new Exception("Falta que ingrese el titulo de la tarjeta operativa, para el registro número: "+ i);
+
+
+                    }
+                }
+                else
+                    throw new Exception("No contiene ninguna hoja de excel.");
+            }
+            catch (Exception ex)
+            {
+                LbError.Text = ex.Message;
+            }
+        }
+
+        protected void BtnCerrar_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaClose();", true);
+            Response.Redirect("/pages/miTablero.aspx");
+            cargarInicialTarjeta();
+            cargarData();
+            limpiarCreacionTarea();
+        }
+
+        protected void BtnCerrarOp_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCrearOpeClose();", true);
+            Response.Redirect("/pages/miTablero.aspx");
+            cargarInicialTarjeta();
+            cargarData();
+            limpiarCreacionTarea();
+        }
+
+        protected void BtnCancelarTecnica_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaClose();", true);
+            Response.Redirect("/pages/miTablero.aspx");
+            cargarInicialTarjeta();
+            cargarData();
+            limpiarCreacionTarea();
+        }
+
+       
+
+ 
     }
 }

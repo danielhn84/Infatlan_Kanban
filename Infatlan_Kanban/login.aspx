@@ -14,59 +14,62 @@
     <link href="/css/pages/login-register-lock.css" rel="stylesheet">
     <link href="/css/style.min.css" rel="stylesheet">
 </head>
+     
 <body>
-    <div id="MyDiv" runat="server"   ></div>
-    <section id="wrapper" class="login-register " style="  background-image:url('../images/fondo9.png');">
+        
+    <section id="wrapper" class="login-register " style="background-image: url('../images/fondo9.png');">
+     
         <div class="align-content-end">
-      
-   <%--    <div class="login-box card"   style="border-radius: 20px; box-shadow:5px 5px 0px #00468c" >--%>
-            <div class="login-box card"   style="border-radius: 20px;" >
-                <div class="card-body" ">
+                <%--<div class="login-box card"   style="border-radius: 20px; box-shadow:5px 5px 0px #00468c" >--%>
+            <div class="login-box card" style="border-radius: 20px;">
+                
+                <div class="card-body">
+                    <form class="form-horizontal" id="Form1" runat="server">
+                        <div align="center">
+                            <img src="../assets/images/INFATLAN.png" width="210" height="40" alt="Home" />
+                        </div>
 
-                      <form class="form-horizontal"  id="Form1" runat="server"   >
-                            <div align="center"><img src="../assets/images/INFATLAN.png" width="210"  height="40" alt="Home"  /></div>
-                        
                         <h3 class="m-t-20  text-center"><b>Bienvenidos | Kanban Board</b></h3>
                         <h6 class="font-weight-light  text-center">Ingrese sus credenciales.</h6>
                         <br />
-                                <div class="form-group">
-                                    <label for="exampleInputEmail" style="text-align:center">Usuario</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend bg-transparent">
-                                            <span class="input-group-text bg-transparent border-right-0">
-                                                <i class="mdi mdi-account-outline text-primary"></i>
-                                            </span>
-                                        </div>
-                                        <asp:TextBox ID="TxUsername" class="form-control form-control-lg border-left-0" placeholder="Username"  runat="server"></asp:TextBox>
-                                    </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail" style="text-align: center">Usuario</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend bg-transparent">
+                                    <span class="input-group-text bg-transparent border-right-0">
+                                        <i class="mdi mdi-account-outline text-primary"></i>
+                                    </span>
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword">Password</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend bg-transparent">
-                                            <span class="input-group-text bg-transparent border-right-0">
-                                                <i class="mdi mdi-lock-outline text-primary"></i>
-                                            </span>
-                                        </div>
-                                        <asp:TextBox ID="TxPassword" TextMode="Password" class="form-control form-control-lg border-left-0" placeholder="Password"  runat="server"></asp:TextBox>
-                                    </div>
+                                <asp:TextBox ID="TxUsername" class="form-control form-control-lg border-left-0" placeholder="Username" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword">Password</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend bg-transparent">
+                                    <span class="input-group-text bg-transparent border-right-0">
+                                        <i class="mdi mdi-lock-outline text-primary"></i>
+                                    </span>
                                 </div>
-                                <div class="my-2 d-flex justify-content-between align-items-center">
-                                </div>
-                                <div class="my-3">
-                                    <asp:Button ID="BtnLogin" class="btn btn-block btn-lg font-weight-medium auth-form-btn" style="background-color:#00468c;  color: #ffffff;" runat="server" Text="Ingresar"   OnClick="BtnLogin_Click" />                              
-   
-                                
-                                </div>
+                                <asp:TextBox ID="TxPassword" TextMode="Password" class="form-control form-control-lg border-left-0" placeholder="Password" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="my-2 d-flex justify-content-between align-items-center">
+                        </div>
+                        <div class="my-3">
+                            <asp:Button ID="BtnLogin" class="btn btn-block btn-lg font-weight-medium auth-form-btn" Style="background-color: #00468c; color: #ffffff;" runat="server" Text="Ingresar" OnClick="BtnLogin_Click" />
 
-                                <div class="my-2 d-flex justify-content-center align-center" style="color:indianred;">
-                                    <asp:Label ID="LbMensaje" runat="server" Text=""></asp:Label>
-                                </div>
 
-                            </form>
+                        </div>
 
-                    
-             <%--       <form class="form-horizontal form-material m-t-40 text-center"  id="loginform" runat="server"   >
+                        <div class="my-2 d-flex justify-content-center align-center" style="color: indianred;">
+                            <asp:Label ID="LbMensaje" runat="server" Text=""></asp:Label>
+                        </div>
+
+                    </form>
+
+
+                    <%--       <form class="form-horizontal form-material m-t-40 text-center"  id="loginform" runat="server"   >
                         <a class="db"><img src="../assets/images/texto_logo_azul.png" width="210"  height="35" alt="Home" /></a>
                         <h3 class="m-t-20"><b>Bienvenidos | Kanban Board</b></h3>
                         <h6 class="font-weight-light">Ingrese sus credenciales.</h6>
@@ -93,18 +96,14 @@
                                 <asp:Label ID="LbMensaje" runat="server" Text=""></asp:Label>
                             </div>
                     </form>--%>
-
-    
                 </div>
             </div>
 
-                </div>
-            </section>
-
-
-                        
-
-
+             <div style="text-align:center;"><asp:Label ID="Label2" runat="server" Text="© 2021 Informática Atlántida. Todos los Derechos Reservados." ForeColor="White"></asp:Label></div>
+           <div style="text-align:center;"><asp:Label ID="LbHoraFecha" runat="server" Text="" ForeColor="White"></asp:Label></div>
+        </div>
+    </section>
+            
 
     <script src="/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
     <script src="/assets/node_modules/popper/popper.min.js"></script>
@@ -112,14 +111,8 @@
 
 
 
-     
-
-
-<%--    <script src="/vendors/base/vendor.bundle.base.js"></script>
-    <script src="/js/off-canvas.js"></script>
-    <script src="/js/hoverable-collapse.js"></script>
-    <script src="/js/template.js"></script>--%>
-
+  
     
 </body>
+
 </html>
