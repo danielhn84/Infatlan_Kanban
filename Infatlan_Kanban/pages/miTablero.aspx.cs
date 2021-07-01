@@ -1145,10 +1145,30 @@ namespace Infatlan_Kanban.pages
             if (DdlPrioridad.SelectedValue.Equals("0"))
                 throw new Exception("Falta que seleccione tipo de prioridad.");
 
+            DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
+            DateTime fecha_fin = DateTime.Parse(TxFechaEntrega.Text.ToString());
+            string vWip = Session["GESTIONES_WIP"].ToString();
 
+            string vFechaInicioSoli = fecha_inicio.ToString("dd/MM/yyyy");
+            string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
+            string vFechaInicioSoliPermiso = fecha_inicio.ToString("yyyy-MM-dd");
+          
+            string vHrInicioSoli = fecha_inicio.ToString("HH:mm");
+            string vHrFinSolic = fecha_fin.ToString("HH:mm");
+            string vFechaHrPermiso = vFechaInicioSoliPermiso + " " + vHrInicioSoli;
 
-            string vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable.SelectedValue + "'";
+            string vQuery = "GESTIONES_Generales 83,'" + DdlResponsable.SelectedValue + "','"+ vFechaHrPermiso + "'";
             DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            if (vDatos.Rows.Count >= 1 )
+            {
+                string vPermiso = vDatos.Rows[0]["idTipoPermiso"].ToString() + "-" + vDatos.Rows[0]["descripcion"].ToString() +", Inicio: "+ vDatos.Rows[0]["fechaInicio"].ToString() + ", Fin: " + vDatos.Rows[0]["fechaRegreso"].ToString();
+                throw new Exception("No se puede asignar tarjetas Kanban, el colaborador tiene ingresado en el portal de Talento Humano permiso: " + vPermiso);
+            }
+
+
+
+            vQuery = "GESTIONES_Solicitud 7,'" + DdlResponsable.SelectedValue + "'";
+             vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
             string vTeams = vDatos.Rows[0]["idTeams"].ToString();
             Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
             Session["GESTIONES_TEAMS"] = vDatos.Rows[0]["idTeams"].ToString();
@@ -1191,15 +1211,7 @@ namespace Infatlan_Kanban.pages
             Session["GESTIONES_WIP"] = vDatos.Rows[0]["wip"].ToString();
 
 
-            DateTime fecha_inicio = DateTime.Parse(TxFechaInicio.Text.ToString());
-            DateTime fecha_fin = DateTime.Parse(TxFechaEntrega.Text.ToString());
-            string vWip = Session["GESTIONES_WIP"].ToString();
 
-            string vFechaInicioSoli = fecha_inicio.ToString("dd/MM/yyyy");
-            string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
-
-            string vHrInicioSoli = fecha_inicio.ToString("HH:mm");
-            string vHrFinSolic = fecha_fin.ToString("HH:mm");
 
             string vHrIniTeams = Session["GESTIONES_HR_INICIO"].ToString();
             string[] valuesIniTeams = vHrIniTeams.Split(':');
@@ -2280,8 +2292,8 @@ namespace Infatlan_Kanban.pages
             DdlPrioridad_1.SelectedValue = vDatos.Rows[0]["prioridad"].ToString();
             string vEstadoTarjeta = vDatos.Rows[0]["idEstado"].ToString();
             string idOperativa= vDatos.Rows[0]["idOperativa"].ToString();
-            string escalacion = vDatos.Rows[0]["escalacion"].ToString();
-            ckEscalacion.SelectedValue = escalacion;
+            //string escalacion = vDatos.Rows[0]["escalacion"].ToString();
+            //ddlEscalacion.SelectedIndex =Convert.ToInt32(escalacion);
             
             Session["GESTIONES_USUARIO_CREO"] = vDatos.Rows[0]["usuarioCreo"].ToString();
 
@@ -2301,6 +2313,21 @@ namespace Infatlan_Kanban.pages
                     DdlTipoGestion_1.Items.Add(new ListItem { Value = item["idTipoGestion"].ToString(), Text = item["nombreGestion"].ToString() });
                 }
             }
+
+
+            DdlEquipos.Items.Clear();
+            DdlEquipos.Enabled = true;
+            vQuery = "GESTIONES_Generales 84";
+            DataTable vDatosEquipos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+            DdlEquipos.Items.Add(new ListItem { Value = "0", Text = "Seleccione una opción" });
+            if (vDatosEquipos.Rows.Count > 0)
+            {
+                foreach (DataRow item in vDatosEquipos.Rows)
+                {
+                    DdlEquipos.Items.Add(new ListItem { Value = item["idTeams"].ToString(), Text = item["nombre"].ToString() });
+                }
+            }
+
 
 
             DdlTipoGestion_1.SelectedValue = vDatos.Rows[0]["idTipoGestion"].ToString();
@@ -2395,35 +2422,7 @@ namespace Infatlan_Kanban.pages
                     Session["GESTIONES_VERIFICACION_COMPLETADA"] = vDatosVerificacionCompletada;
                     
                 }
-
-                int num = 0;
-                //foreach (GridViewRow row in GvCheckListLleno.Rows)
-                //{
-                //    string tipo = vDatosVerificacionCompletada.Rows[num]["tipo"].ToString();
-                //    string respuesta= vDatosVerificacionCompletada.Rows[num]["respuesta"].ToString();
-
-                //   TextBox vTexto = (TextBox)row.FindControl("TxRespuesta");
-                   
-                //   Image vImagen = (Image)row.FindControl("ImgPreview");
-                   
-
-                //    vTexto.Text = respuesta;
-                //    vImagen.ImageUrl = "data:image;base64,"+ respuesta;
-
-
-                //    if (tipo == "Texto")
-                //    {
-                //        vTexto.Visible = true;
-                //        //vTexto.Enabled = false;
-                //        vImagen.Visible = false;
-                //    }
-                //    else
-                //    {
-                //        vTexto.Visible = false;
-                //        vImagen.Visible = true;
-                //    }
-                //    num = num + 1;
-                //}
+ 
                 LbTitulo.Text = "Tarjeta Kanban Cerrada: " + Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
                 UpTitulo.Update();
             }
@@ -2689,6 +2688,14 @@ namespace Infatlan_Kanban.pages
                     //Validar si el checkList esta vacio
                     if (vidOperativa != null && vidOperativa != "")
                     {
+
+                        if (ckEscalacion.SelectedValue == "")
+                            throw new Exception("Favor seleccionar opción si la tarjeta Operativa requiere escalación");
+
+                        if(ckEscalacion.SelectedValue == "1" && DdlEquipos.SelectedValue == "0")
+                            throw new Exception("Favor seleccionar equipo de trabajo que se requiere escalación.");
+
+
                         DataTable vDatosCheckListVerificar = (DataTable)Session["GESTIONES_VERIFICACION"];
                         if (vDatosCheckListVerificar != null)
                         {
@@ -4975,11 +4982,28 @@ namespace Infatlan_Kanban.pages
             string vEstadoTarjeta = vDatosEstado.Rows[0]["idEstado"].ToString();
             string vIdOperativa = vDatosEstado.Rows[0]["idOperativa"].ToString();
 
-                string vOperativaEscalacion = "0";
+                string vOperativaEscalacion = "";
                 int num = 0;
                 if (vIdOperativa != null && vIdOperativa != "")
                 {
                     vOperativaEscalacion = ckEscalacion.SelectedValue;
+
+                    if (vOperativaEscalacion == "1")
+                    {
+                        string vCambioEscalacion = "Tarjeta Operativa requiere escalación, se creo un ticket en la plataforma de SysAid para el equipo de trabajo: "+ DdlEquipos.SelectedItem.Text;
+                        //GUARDAR HISTORIAL
+                        string vQuery = "GESTIONES_Solicitud 4,'" + vEx + "','" + vCambioEscalacion + "','" + Session["USUARIO"].ToString() + "'";
+                        Int32 vInfo2 = vConexionGestiones.ejecutarSqlGestiones(vQuery);
+
+                        //GUARDAR SUSCRIPCION CREACION DEL TICKET EN SYSAID
+                        string vQuery5 = "GESTIONES_Solicitud 5,'Crear Ticket SysAid','"+ "solicitudes_coms_sysaid@bancatlan.hn','','"+ DdlEquipos.SelectedItem.Text+"','"+ DdlEquipos.SelectedItem.Text+"','0','" + vEx + "'";
+//+ "','" + Session["GESTIONES_CORREO_RESPONSABLE"].ToString() + "','" + vAsunto + "','" + "Datos Generales Tarjeta', '0','" + vEx + "'";
+                        Int32 vInfo5 = vConexionGestiones.ejecutarSqlGestiones(vQuery5);
+                    }
+
+
+
+
                     DataTable vDatosCheckListVerificar = (DataTable)Session["GESTIONES_VERIFICACION"];
                     if (vDatosCheckListVerificar != null)
                     {
@@ -5692,13 +5716,20 @@ namespace Infatlan_Kanban.pages
         }
         protected void DdlFrecuencia_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (DdlFrecuencia.SelectedValue == "1")
+            if (DdlFrecuencia.SelectedValue == "1" || DdlFrecuencia.SelectedValue == "2")
             {
                 DivFrecuenciaDiaria.Visible = true;
+                DivMeses.Visible = false;
+            }
+            else if (DdlFrecuencia.SelectedValue == "3" || DdlFrecuencia.SelectedValue == "4")
+            {
+                DivFrecuenciaDiaria.Visible = false;
+                DivMeses.Visible = true;
             }
             else
             {
                 DivFrecuenciaDiaria.Visible = false;
+                DivMeses.Visible = false;
             }
         }
 
@@ -6169,8 +6200,9 @@ namespace Infatlan_Kanban.pages
                 string vSabado = "";
                 string vDomingo = "";
 
-                if (CkTiempoIlimitado.SelectedValue == "1")
-                    vIlimitado = "Si";
+                string vEnero, vFebrero, vMarzo, vAbril, vMayo, vJunio, vJulio, vAgosto, vSeptiembre, vOctubre, vNoviembre, vDiciembre  = "";
+
+                if (CkTiempoIlimitado.SelectedValue == "1")vIlimitado = "Si";
                 else
                     vIlimitado = "No";
 
@@ -6182,11 +6214,25 @@ namespace Infatlan_Kanban.pages
                 vViernes = ckViernes.SelectedValue == "1" ? "Si" : "No";
                 vSabado = ckSabado.SelectedValue == "1" ? "Si" : "No";
 
+                vEnero = ckEnero.SelectedValue == "1" ? "Si" : "No";
+                vFebrero = ckFebrero.SelectedValue == "1" ? "Si" : "No";
+                vMarzo = ckMarzo.SelectedValue == "1" ? "Si" : "No";
+                vAbril = ckAbril.SelectedValue == "1" ? "Si" : "No";
+                vMayo = ckMayo.SelectedValue == "1" ? "Si" : "No";
+                vJunio = ckJunio.SelectedValue == "1" ? "Si" : "No";
+                vJulio = ckJulio.SelectedValue == "1" ? "Si" : "No";
+                vAgosto = ckAgosto.SelectedValue == "1" ? "Si" : "No";
+                vSeptiembre = ckSeptiembre.SelectedValue == "1" ? "Si" : "No";
+                vOctubre = ckOctubre.SelectedValue == "1" ? "Si" : "No";
+                vNoviembre = ckNoviembre.SelectedValue == "1" ? "Si" : "No";
+                vDiciembre = ckDiciembre.SelectedValue == "1" ? "Si" : "No";
+
+
                 DateTime fecha_inicio = DateTime.Parse(TxFechaInicioOperativa.Text.ToString());
                 DateTime vFechaInicio = Convert.ToDateTime(fecha_inicio.ToString("dd/MM/yyyy HH:mm"));
 
                 int vInfo1 = 1;
-                String vQuery1 = "GESTIONES_SolicitudOperaciones 1,'" 
+                String vQuery1 = "GESTIONES_SolicitudOperaciones 10,'" 
                                    + TxTituloOperativa.Text
                                    + "','" + TxMinProductivoOperativa.Text
                                    + "','" + TxDiasEntregaOperativa.Text
@@ -6200,7 +6246,8 @@ namespace Infatlan_Kanban.pages
                                    + "','" + TxFechaSolicitudOperativa.Text
                                    + "','" + TxFechaFinTarjeta.Text
                                    + "','" + DdlFrecuencia.SelectedValue
-                                   + "','" + vFechaInicio + "',1,'" + vDomingo +"','"+ vLunes + "','" + vMartes + "','" + vMiercoles + "','" + vJueves + "','" + vViernes + "','" + vSabado+"','"+ DdlSuplente .SelectedValue+ "'";
+                                   + "','" + vFechaInicio + "',1,'" + vDomingo +"','"+ vLunes + "','" + vMartes + "','" + vMiercoles + "','" + vJueves + "','" + vViernes + "','" + vSabado+"','"+ DdlSuplente .SelectedValue+ "','"+
+                                   vEnero + "','" + vFebrero + "','" + vMarzo + "','" + vAbril + "','" + vMayo + "','" + vJunio + "','" + vJulio + "','" + vAgosto + "','" + vSeptiembre + "','" + vOctubre+ "','" + vNoviembre + "','" + vDiciembre + "'" ;
                 DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery1);
                 string idSolicitud = vDatos.Rows[0]["idOperativa"].ToString();
 
@@ -6336,571 +6383,574 @@ namespace Infatlan_Kanban.pages
             
         }
 
-        protected void BtnValidar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                String vEx = null;
-                vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
-
-                string vQuery = "GESTIONES_Solicitud 12,'" + vEx + "'";
-                DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                string vResponsableTarjeta = vDatos.Rows[0]["responsable"].ToString();
-                string vNombreResponsableTarjeta = vDatos.Rows[0]["nombre"].ToString();
-                string vidOperativa = vDatos.Rows[0]["idOperativa"].ToString();
-
-                Session["GESTIONES_RESPONSABLE_TARJETA_CERRAR"] = vResponsableTarjeta;
-                Session["GESTIONES_NOMBRE_RESPONSABLE_TARJETA_CERRAR"] = vNombreResponsableTarjeta;
-
-
-                if (DdlAccion.SelectedValue == "1")
-                {
-                    validacionesCerrarTarea();
-
-                    //Validar si el checkList esta vacio
-                    int num = 0;
-
-                    if (vidOperativa != null && vidOperativa != "")
-                    {
-                        DataTable vDatosCheckListVerificar = (DataTable)Session["GESTIONES_VERIFICACION"];
-                        if (vDatosCheckListVerificar != null)
-                        {
-                            foreach (GridViewRow row in GvCheckList.Rows)
-                            {
-                                string tipo = vDatosCheckListVerificar.Rows[num]["tipo"].ToString();
-                                TextBox vValidacionTexto = (TextBox)row.Cells[2].FindControl("TxRespuesta");
-                                string vContenidoValidacionTexto = vValidacionTexto.Text;
-
-                                TextBox vValidacionImagen = (TextBox)row.Cells[3].FindControl("txtEvtTo");
-                                string vContenidoValidacionImagen = vValidacionImagen.Text;
-
-
-                                if (tipo == "Texto" && vContenidoValidacionTexto == "")
-                                    throw new Exception("Favor completar todas las preguntas de la lista de verificacion");
-
-                                if (tipo == "Imagen" && vContenidoValidacionImagen == "No")
-                                    throw new Exception("Favor completar todas las preguntas de la lista de verificacion");
-
-                                num = num + 1;
-                            }
-                        }
-                    }
-
-                    LbTituloCerrar.Text = "Está seguro de " + DdlAccion.SelectedItem.Text + ": " + vEx;
-                    UpdatePanel14.Update();
-                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
-
-                }
-                else if (DdlAccion.SelectedValue == "3")
-                {
-                    validacionesCerrarTarea();
-                    if (DdlMotivoEliminar.SelectedValue.Equals("0"))
-                        throw new Exception("Falta que seleccione motivo por el cúal solicita eliminar la tarjeta.");
-                }
-                else
-                {
-
-                    validacionesCerrarTarea();
-                    vQuery = "GESTIONES_Solicitud 12,'" + vEx + "'";
-                    vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                    string vUsuarioCreo = vDatos.Rows[0]["usuarioCreo"].ToString();
-                    string vResponsable = Session["USUARIO"].ToString();
-
-                    if (vUsuarioCreo == vResponsable)
-                    {
-                        validacionesDetenerTarjeta();
-                        cargarModalDetener();
-
-                        GVDistribucion.DataSource = null;
-                        GVDistribucion.DataBind();
-                        Session["GESTIONES_TAREAS_MIN_DIARIOS"] = null;
-                        DateTime fecha_inicio = DateTime.Parse(TxNewFechaInicio.Text.ToString());
-                        DateTime fecha_fin = DateTime.Parse(TxNewFechaEntrega.Text.ToString());
-
-                        String vFormato = "dd/MM/yyyy"; //"dd/MM/yyyy HH:mm:ss"
-                        String vFecha1 = Convert.ToDateTime(fecha_inicio).ToString(vFormato);
-                        String vFecha2 = Convert.ToDateTime(fecha_fin).ToString(vFormato);
-
-                        DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
-                        DateTime vFechaInicio = DateTime.Parse(vFecha1);
-
-
-                        vQuery = "GESTIONES_Solicitud 7,'" + vResponsableTarjeta + "'";
-                        vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                        string vTeams = vDatos.Rows[0]["idTeams"].ToString();
-                        Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
-                        Session["GESTIONES_TEAMS"] = vDatos.Rows[0]["idTeams"].ToString();
-
-                        vQuery = "GESTIONES_Solicitud 8,'" + vTeams + "'";
-                        vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                        Session["GESTIONES_CORREO_JEFE"] = vDatos.Rows[0]["correoJefe"].ToString();
-                        Session["GESTIONES_WIP"] = vDatos.Rows[0]["wip"].ToString();
-
-                        double vMinDiarios = 0;
-                        double vWip = Convert.ToInt32(Session["GESTIONES_WIP"].ToString());
-
-                        DataTable vData = new DataTable();
-                        DataTable vDatosMin = (DataTable)Session["GESTIONES_TAREAS_MIN_DIARIOS"];
-                        vData.Columns.Add("id");
-                        vData.Columns.Add("fecha");
-                        vData.Columns.Add("min");
-                        string vFechaInicioSoli = fecha_inicio.ToString("dd/MM/yyyy");
-                        string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
-                        DateTime vFechaInicioConver = DateTime.Parse(vFechaInicioSoli);
-                        DateTime vFechaFinConver = DateTime.Parse(vFechaFinSoli);
-
-                        string vHrInicialSoli = fecha_inicio.ToString("HH:mm");
-                        string vHrFinalSoli = fecha_fin.ToString("HH:mm");
-
-                        TimeSpan vHrInicialSoliConver = TimeSpan.Parse(vHrInicialSoli);
-                        TimeSpan vHrFinSoliConver = TimeSpan.Parse(vHrFinalSoli);
-
-
-                        DateTime vfechaActualDetener = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
-                        string vfechaActualDetenerEvaluar = vfechaActualDetener.ToString("dd/MM/yyyy");
-
-
-
-                        vQuery = "GESTIONES_Generales 62,'" + vResponsableTarjeta + "','" + vEx + "'";
-                        vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
-                        string vMinFaltantesDetener = vDatos.Rows[0]["minDiariosFaltantes"].ToString();
-
-                        if (vFechaInicio.DayOfWeek != DayOfWeek.Saturday && vFechaInicio.DayOfWeek != DayOfWeek.Sunday)
-                        {
-                            TimeSpan span = Convert.ToDateTime(vFechaFinConver) - Convert.ToDateTime(vFechaInicioConver);
-                            int businessDays = span.Days;
-                            int fullWeekCount = businessDays / 7;
-
-                            if (businessDays == 7)
-                            {
-                                businessDays = businessDays - 2;
-                            }
-                            else if (businessDays == 6)
-                            {
-                                businessDays = businessDays - 1;
-                            }
-                            else if (businessDays > fullWeekCount * 7)
-                            {
-                                int firstDayOfWeek = (int)vFechaInicioConver.DayOfWeek;
-                                int lastDayOfWeek = (int)vFechaFinConver.DayOfWeek;
-                                if (lastDayOfWeek < firstDayOfWeek)
-                                    lastDayOfWeek += 7;
-                                if (firstDayOfWeek <= 6)
-                                {
-                                    if (lastDayOfWeek >= 7)
-                                        businessDays -= 2;
-                                    else if (lastDayOfWeek >= 6)
-                                        businessDays -= 1;
-                                }
-                                else if (firstDayOfWeek <= 7 && lastDayOfWeek >= 7)// Only Sunday is in the remaining time interval
-                                    businessDays -= 1;
-
-                                //subtract the weekends during the full weeks in the interval
-                                businessDays -= fullWeekCount + fullWeekCount;
-                            }
-                            int vDias = businessDays + 1;
-                            Session["GESTIONES_DIAS"] = vDias;
-                            vMinDiarios = Convert.ToInt32(vMinFaltantesDetener) / vDias;
-
-                            int vCount = 0;
-                            int vResta = 0;
-
-                            double vMinsFaltante = 0;
-
-                            if (vDias == 1)
-                            {
-                                if (vDatosMin == null)
-                                    vDatosMin = vData.Clone();
-                                if (vDatosMin != null)
-                                {
-                                    vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
-                                    vDatosMin.Rows.Add("1", vFechaInicioSoli, vMinDiarios);
-                                }
-                            }
-                            else
-                            {
-
-                                //VALIDACION INICIO TAREA SI TIENE MIN DISPNIBLES
-                                string vCantMinSolicitudes = "";
-                                string vQuerys = "GESTIONES_Solicitud 9,'" + vResponsableTarjeta + "','" + vFechaInicioSoli + "'";
-                                DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
-                                vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
-
-                                if (vCantMinSolicitudes != "")
-                                {
-                                    if (Convert.ToDouble(vCantMinSolicitudes) >= Convert.ToDouble(vWip))
-                                        throw new Exception("Nota: La fecha seleccionada inicio de la tarjeta ya no cuenta con mins disponibles, su WIP está al limite, favor cambiar la fecha de inicio para poder realizar una mejor distribución de su cargabilidad. Minutos registrados de cargabilidad: " + vCantMinSolicitudes + ", WIP límite establecido: " + vWip);
-                                }
-
-
-                                for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
-                                {
-                                    if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
-                                    {
-                                        vCount = vCount + 1;
-                                        vResta = (vDias - vCount) + 1;
-
-                                        if (vMinsFaltante != 0)
-                                        {
-                                            vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
-                                            vMinsFaltante = 0;
-                                        }
-
-                                        string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
-                                        vQuerys = "GESTIONES_Solicitud 9,'" + vResponsableTarjeta + "','" + vFechaEvaluar + "'";
-                                        vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
-                                        vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
-                                        double vSobranteWIPCreacion = 0;
-
-                                        if (vCantMinSolicitudes.Equals(""))
-                                        {
-                                            vSobranteWIPCreacion = vWip;
-                                        }
-                                        else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
-                                        {
-                                            vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
-                                        }
-                                        else
-                                        {
-                                            vSobranteWIPCreacion = 0;
-                                        }
-
-
-                                        if (vMinDiarios <= vSobranteWIPCreacion)
-                                        {
-                                            if (vDatosMin == null)
-                                                vDatosMin = vData.Clone();
-                                            if (vDatosMin != null)
-                                            {
-                                                if (vDatosMin.Rows.Count < 1)
-                                                {
-                                                    vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                                }
-                                                else
-                                                {
-                                                    vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
-                                            vMinDiarios = vSobranteWIPCreacion;
-                                            if (vDatosMin == null)
-                                                vDatosMin = vData.Clone();
-                                            if (vDatosMin != null)
-                                            {
-                                                if (vDatosMin.Rows.Count < 1)
-                                                {
-                                                    vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                                }
-                                                else
-                                                {
-                                                    vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (vMinsFaltante != 0)
-                                throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
-
-                        }
-                        else if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday || vFechaInicio.DayOfWeek == DayOfWeek.Sunday)
-                        {
-                            TimeSpan span = Convert.ToDateTime(vFechaFinConver) - Convert.ToDateTime(vFechaInicioConver);
-                            int businessDays = span.Days;
-                            int fullWeekCount = businessDays / 7;
-
-                            if (businessDays == 7)
-                            {
-                                businessDays = businessDays - 2;
-                            }
-                            else if (businessDays == 6)
-                            {
-                                businessDays = businessDays - 1;
-                            }
-                            else if (businessDays > fullWeekCount * 7)
-                            {
-                                int firstDayOfWeek = (int)vFechaInicioConver.DayOfWeek;
-                                int lastDayOfWeek = (int)vFechaFinConver.DayOfWeek;
-                                if (lastDayOfWeek < firstDayOfWeek)
-                                    lastDayOfWeek += 7;
-                                if (firstDayOfWeek <= 6)
-                                {
-                                    if (lastDayOfWeek >= 7)
-                                        businessDays -= 2;
-                                    else if (lastDayOfWeek >= 6)
-                                        businessDays -= 1;
-                                }
-                                else if (firstDayOfWeek <= 7 && lastDayOfWeek >= 7)// Only Sunday is in the remaining time interval
-                                    businessDays -= 1;
-
-                                //subtract the weekends during the full weeks in the interval
-                                businessDays -= fullWeekCount + fullWeekCount;
-                            }
-                            int vDias = businessDays + 1;
-                            Session["GESTIONES_DIAS"] = vDias;
-
-                            LbDiaNoHabil.Text = "Se debe iniciar a trabajar en la tarjeta un día de trabajo no hábil";
-                            divDiaNoHabil.Visible = true;
-                            if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday)
-                            {
-                                if (vDias == 1)
-                                {
-                                    if (vDatosMin == null)
-                                        vDatosMin = vData.Clone();
-                                    if (vDatosMin != null)
-                                    {
-                                        vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
-                                        vDatosMin.Rows.Add("1", vFechaInicioSoli, vMinFaltantesDetener);
-                                    }
-                                }
-                                else
-                                {
-                                    vDias = vDias + 2;
-                                    vMinDiarios = Convert.ToInt32(vMinFaltantesDetener) / vDias;
-                                    DateTime vFechaFinConverDomingo = vFechaInicioConver.AddDays(1);
-                                    DateTime vFechaInicioSemana = vFechaFinConverDomingo.AddDays(1);
-                                    int vCount = 0;
-                                    int vResta = 0;
-                                    double vMinsFaltante = 0;
-
-                                    for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConverDomingo; fecha = fecha.AddDays(1))
-                                    {
-                                        string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
-                                        if (vDatosMin == null)
-                                            vDatosMin = vData.Clone();
-                                        if (vDatosMin != null)
-                                        {
-                                            if (vDatosMin.Rows.Count < 1)
-                                            {
-                                                vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                            }
-                                            else
-                                            {
-                                                vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                            }
-                                        }
-
-                                    }
-
-                                    for (DateTime fecha = vFechaInicioSemana; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
-                                    {
-                                        if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
-                                        {
-                                            vCount = vCount + 1;
-                                            vResta = (vDias - vCount) + 1;
-
-                                            if (vMinsFaltante != 0)
-                                            {
-                                                vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
-                                                vMinsFaltante = 0;
-                                            }
-
-                                            string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
-                                            string vCantMinSolicitudes = "";
-                                            string vQuerys = "GESTIONES_Solicitud 9,'" + vResponsableTarjeta + "','" + vFechaEvaluar + "'";
-                                            DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
-                                            vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
-                                            double vSobranteWIPCreacion = 0;
-
-                                            if (vCantMinSolicitudes.Equals(""))
-                                            {
-                                                vSobranteWIPCreacion = vWip;
-                                            }
-                                            else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
-                                            {
-                                                vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
-                                            }
-                                            else
-                                            {
-                                                vSobranteWIPCreacion = 0;
-                                            }
-
-
-                                            if (vMinDiarios <= vSobranteWIPCreacion)
-                                            {
-                                                if (vDatosMin == null)
-                                                    vDatosMin = vData.Clone();
-                                                if (vDatosMin != null)
-                                                {
-                                                    if (vDatosMin.Rows.Count < 1)
-                                                    {
-                                                        vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                                    }
-                                                    else
-                                                    {
-                                                        vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
-                                                vMinDiarios = vSobranteWIPCreacion;
-                                                if (vDatosMin == null)
-                                                    vDatosMin = vData.Clone();
-                                                if (vDatosMin != null)
-                                                {
-                                                    if (vDatosMin.Rows.Count < 1)
-                                                    {
-                                                        vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                                    }
-                                                    else
-                                                    {
-                                                        vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    if (vMinsFaltante != 0)
-                                        throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
-                                }
-                            }
-                            else
-                            {
-                                vDias = vDias;
-                                vMinDiarios = Convert.ToInt32(vMinFaltantesDetener) / vDias;
-                                DateTime vFechaFinConverDomingo = vFechaInicioConver;
-                                DateTime vFechaInicioSemana = vFechaFinConverDomingo.AddDays(1);
-                                int vCount = 0;
-                                int vResta = 0;
-                                double vMinsFaltante = 0;
-
-                                for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConverDomingo; fecha = fecha.AddDays(1))
-                                {
-                                    string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
-                                    if (vDatosMin == null)
-                                        vDatosMin = vData.Clone();
-                                    if (vDatosMin != null)
-                                    {
-                                        if (vDatosMin.Rows.Count < 1)
-                                        {
-                                            vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                        }
-                                        else
-                                        {
-                                            vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                        }
-                                    }
-
-                                }
-
-                                for (DateTime fecha = vFechaInicioSemana; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
-                                {
-                                    if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
-                                    {
-                                        vCount = vCount + 1;
-                                        vResta = (vDias - vCount) + 1;
-
-                                        if (vMinsFaltante != 0)
-                                        {
-                                            vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
-                                            vMinsFaltante = 0;
-                                        }
-
-                                        string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
-                                        string vCantMinSolicitudes = "";
-                                        string vQuerys = "GESTIONES_Solicitud 9,'" + vResponsableTarjeta + "','" + vFechaEvaluar + "'";
-                                        DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
-                                        vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
-                                        double vSobranteWIPCreacion = 0;
-
-                                        if (vCantMinSolicitudes.Equals(""))
-                                        {
-                                            vSobranteWIPCreacion = vWip;
-                                        }
-                                        else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
-                                        {
-                                            vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
-                                        }
-                                        else
-                                        {
-                                            vSobranteWIPCreacion = 0;
-                                        }
-
-
-                                        if (vMinDiarios <= vSobranteWIPCreacion)
-                                        {
-                                            if (vDatosMin == null)
-                                                vDatosMin = vData.Clone();
-                                            if (vDatosMin != null)
-                                            {
-                                                if (vDatosMin.Rows.Count < 1)
-                                                {
-                                                    vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                                }
-                                                else
-                                                {
-                                                    vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
-                                            vMinDiarios = vSobranteWIPCreacion;
-                                            if (vDatosMin == null)
-                                                vDatosMin = vData.Clone();
-                                            if (vDatosMin != null)
-                                            {
-                                                if (vDatosMin.Rows.Count < 1)
-                                                {
-                                                    vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
-                                                }
-                                                else
-                                                {
-                                                    vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (vMinsFaltante != 0)
-                                    throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
-
-                            }
-
-                        }
-
-
-                        Session["GESTIONES_TAREAS_MIN_DIARIOS"] = vDatosMin;
-                        GVDistribucion.DataSource = vDatosMin;
-                        GVDistribucion.DataBind();
-
-
-                        TxTimeModal.Text = vMinFaltantesDetener + " Mins";
-                        TxEntregaModal.Text = TxNewFechaEntrega.Text;
-                        TxInicioModal.Text = TxNewFechaInicio.Text;
-                        UpdatePanel6.Update();
-
-                        ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaConfirmarOpen();", true);
-                    }
-                    else
-                    {
-                        validacionesCerrarTarea();
-                        LbTituloCerrar.Text = "Está seguro de la " + DdlAccion.SelectedItem.Text + ": " + vEx;
-                        UpdatePanel14.Update();
-                        ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
-                    }
-
-                }
-
-                BtnConfirmarTarea_1.Visible = true;
-            }
-            catch (Exception ex)
-            {
-                LbAlertaGuardar.InnerText = ex.Message;
-                divAlertaGuardar.Visible = true;
-                //OpenModalLoad();
-            }
-        }
+        //protected void BtnValidar_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        String vEx = null;
+        //        vEx = Session["GESTIONES_ID_TARJETA_CERRAR"].ToString();
+
+        //        string vQuery = "GESTIONES_Solicitud 12,'" + vEx + "'";
+        //        DataTable vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+        //        string vResponsableTarjeta = vDatos.Rows[0]["responsable"].ToString();
+        //        string vNombreResponsableTarjeta = vDatos.Rows[0]["nombre"].ToString();
+        //        string vidOperativa = vDatos.Rows[0]["idOperativa"].ToString();
+
+        //        Session["GESTIONES_RESPONSABLE_TARJETA_CERRAR"] = vResponsableTarjeta;
+        //        Session["GESTIONES_NOMBRE_RESPONSABLE_TARJETA_CERRAR"] = vNombreResponsableTarjeta;
+
+
+        //        if (DdlAccion.SelectedValue == "1")
+        //        {
+        //            validacionesCerrarTarea();
+
+        //            //Validar si el checkList esta vacio
+        //            int num = 0;
+
+        //            if (vidOperativa != null && vidOperativa != "")
+        //            {
+
+
+
+        //                DataTable vDatosCheckListVerificar = (DataTable)Session["GESTIONES_VERIFICACION"];
+        //                if (vDatosCheckListVerificar != null)
+        //                {
+        //                    foreach (GridViewRow row in GvCheckList.Rows)
+        //                    {
+        //                        string tipo = vDatosCheckListVerificar.Rows[num]["tipo"].ToString();
+        //                        TextBox vValidacionTexto = (TextBox)row.Cells[2].FindControl("TxRespuesta");
+        //                        string vContenidoValidacionTexto = vValidacionTexto.Text;
+
+        //                        TextBox vValidacionImagen = (TextBox)row.Cells[3].FindControl("txtEvtTo");
+        //                        string vContenidoValidacionImagen = vValidacionImagen.Text;
+
+
+        //                        if (tipo == "Texto" && vContenidoValidacionTexto == "")
+        //                            throw new Exception("Favor completar todas las preguntas de la lista de verificacion");
+
+        //                        if (tipo == "Imagen" && vContenidoValidacionImagen == "No")
+        //                            throw new Exception("Favor completar todas las preguntas de la lista de verificacion");
+
+        //                        num = num + 1;
+        //                    }
+        //                }
+        //            }
+
+        //            LbTituloCerrar.Text = "Está seguro de " + DdlAccion.SelectedItem.Text + ": " + vEx;
+        //            UpdatePanel14.Update();
+        //            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
+
+        //        }
+        //        else if (DdlAccion.SelectedValue == "3")
+        //        {
+        //            validacionesCerrarTarea();
+        //            if (DdlMotivoEliminar.SelectedValue.Equals("0"))
+        //                throw new Exception("Falta que seleccione motivo por el cúal solicita eliminar la tarjeta.");
+        //        }
+        //        else
+        //        {
+
+        //            validacionesCerrarTarea();
+        //            vQuery = "GESTIONES_Solicitud 12,'" + vEx + "'";
+        //            vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+        //            string vUsuarioCreo = vDatos.Rows[0]["usuarioCreo"].ToString();
+        //            string vResponsable = Session["USUARIO"].ToString();
+
+        //            if (vUsuarioCreo == vResponsable)
+        //            {
+        //                validacionesDetenerTarjeta();
+        //                cargarModalDetener();
+
+        //                GVDistribucion.DataSource = null;
+        //                GVDistribucion.DataBind();
+        //                Session["GESTIONES_TAREAS_MIN_DIARIOS"] = null;
+        //                DateTime fecha_inicio = DateTime.Parse(TxNewFechaInicio.Text.ToString());
+        //                DateTime fecha_fin = DateTime.Parse(TxNewFechaEntrega.Text.ToString());
+
+        //                String vFormato = "dd/MM/yyyy"; //"dd/MM/yyyy HH:mm:ss"
+        //                String vFecha1 = Convert.ToDateTime(fecha_inicio).ToString(vFormato);
+        //                String vFecha2 = Convert.ToDateTime(fecha_fin).ToString(vFormato);
+
+        //                DateTime vfechaActual = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+        //                DateTime vFechaInicio = DateTime.Parse(vFecha1);
+
+
+        //                vQuery = "GESTIONES_Solicitud 7,'" + vResponsableTarjeta + "'";
+        //                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+        //                string vTeams = vDatos.Rows[0]["idTeams"].ToString();
+        //                Session["GESTIONES_CORREO_RESPONSABLE"] = vDatos.Rows[0]["email"].ToString();
+        //                Session["GESTIONES_TEAMS"] = vDatos.Rows[0]["idTeams"].ToString();
+
+        //                vQuery = "GESTIONES_Solicitud 8,'" + vTeams + "'";
+        //                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+        //                Session["GESTIONES_CORREO_JEFE"] = vDatos.Rows[0]["correoJefe"].ToString();
+        //                Session["GESTIONES_WIP"] = vDatos.Rows[0]["wip"].ToString();
+
+        //                double vMinDiarios = 0;
+        //                double vWip = Convert.ToInt32(Session["GESTIONES_WIP"].ToString());
+
+        //                DataTable vData = new DataTable();
+        //                DataTable vDatosMin = (DataTable)Session["GESTIONES_TAREAS_MIN_DIARIOS"];
+        //                vData.Columns.Add("id");
+        //                vData.Columns.Add("fecha");
+        //                vData.Columns.Add("min");
+        //                string vFechaInicioSoli = fecha_inicio.ToString("dd/MM/yyyy");
+        //                string vFechaFinSoli = fecha_fin.ToString("dd/MM/yyyy");
+        //                DateTime vFechaInicioConver = DateTime.Parse(vFechaInicioSoli);
+        //                DateTime vFechaFinConver = DateTime.Parse(vFechaFinSoli);
+
+        //                string vHrInicialSoli = fecha_inicio.ToString("HH:mm");
+        //                string vHrFinalSoli = fecha_fin.ToString("HH:mm");
+
+        //                TimeSpan vHrInicialSoliConver = TimeSpan.Parse(vHrInicialSoli);
+        //                TimeSpan vHrFinSoliConver = TimeSpan.Parse(vHrFinalSoli);
+
+
+        //                DateTime vfechaActualDetener = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+        //                string vfechaActualDetenerEvaluar = vfechaActualDetener.ToString("dd/MM/yyyy");
+
+
+
+        //                vQuery = "GESTIONES_Generales 62,'" + vResponsableTarjeta + "','" + vEx + "'";
+        //                vDatos = vConexionGestiones.obtenerDataTableGestiones(vQuery);
+        //                string vMinFaltantesDetener = vDatos.Rows[0]["minDiariosFaltantes"].ToString();
+
+        //                if (vFechaInicio.DayOfWeek != DayOfWeek.Saturday && vFechaInicio.DayOfWeek != DayOfWeek.Sunday)
+        //                {
+        //                    TimeSpan span = Convert.ToDateTime(vFechaFinConver) - Convert.ToDateTime(vFechaInicioConver);
+        //                    int businessDays = span.Days;
+        //                    int fullWeekCount = businessDays / 7;
+
+        //                    if (businessDays == 7)
+        //                    {
+        //                        businessDays = businessDays - 2;
+        //                    }
+        //                    else if (businessDays == 6)
+        //                    {
+        //                        businessDays = businessDays - 1;
+        //                    }
+        //                    else if (businessDays > fullWeekCount * 7)
+        //                    {
+        //                        int firstDayOfWeek = (int)vFechaInicioConver.DayOfWeek;
+        //                        int lastDayOfWeek = (int)vFechaFinConver.DayOfWeek;
+        //                        if (lastDayOfWeek < firstDayOfWeek)
+        //                            lastDayOfWeek += 7;
+        //                        if (firstDayOfWeek <= 6)
+        //                        {
+        //                            if (lastDayOfWeek >= 7)
+        //                                businessDays -= 2;
+        //                            else if (lastDayOfWeek >= 6)
+        //                                businessDays -= 1;
+        //                        }
+        //                        else if (firstDayOfWeek <= 7 && lastDayOfWeek >= 7)// Only Sunday is in the remaining time interval
+        //                            businessDays -= 1;
+
+        //                        //subtract the weekends during the full weeks in the interval
+        //                        businessDays -= fullWeekCount + fullWeekCount;
+        //                    }
+        //                    int vDias = businessDays + 1;
+        //                    Session["GESTIONES_DIAS"] = vDias;
+        //                    vMinDiarios = Convert.ToInt32(vMinFaltantesDetener) / vDias;
+
+        //                    int vCount = 0;
+        //                    int vResta = 0;
+
+        //                    double vMinsFaltante = 0;
+
+        //                    if (vDias == 1)
+        //                    {
+        //                        if (vDatosMin == null)
+        //                            vDatosMin = vData.Clone();
+        //                        if (vDatosMin != null)
+        //                        {
+        //                            vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
+        //                            vDatosMin.Rows.Add("1", vFechaInicioSoli, vMinDiarios);
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+
+        //                        //VALIDACION INICIO TAREA SI TIENE MIN DISPNIBLES
+        //                        string vCantMinSolicitudes = "";
+        //                        string vQuerys = "GESTIONES_Solicitud 9,'" + vResponsableTarjeta + "','" + vFechaInicioSoli + "'";
+        //                        DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
+        //                        vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
+
+        //                        if (vCantMinSolicitudes != "")
+        //                        {
+        //                            if (Convert.ToDouble(vCantMinSolicitudes) >= Convert.ToDouble(vWip))
+        //                                throw new Exception("Nota: La fecha seleccionada inicio de la tarjeta ya no cuenta con mins disponibles, su WIP está al limite, favor cambiar la fecha de inicio para poder realizar una mejor distribución de su cargabilidad. Minutos registrados de cargabilidad: " + vCantMinSolicitudes + ", WIP límite establecido: " + vWip);
+        //                        }
+
+
+        //                        for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
+        //                        {
+        //                            if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
+        //                            {
+        //                                vCount = vCount + 1;
+        //                                vResta = (vDias - vCount) + 1;
+
+        //                                if (vMinsFaltante != 0)
+        //                                {
+        //                                    vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
+        //                                    vMinsFaltante = 0;
+        //                                }
+
+        //                                string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+        //                                vQuerys = "GESTIONES_Solicitud 9,'" + vResponsableTarjeta + "','" + vFechaEvaluar + "'";
+        //                                vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
+        //                                vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
+        //                                double vSobranteWIPCreacion = 0;
+
+        //                                if (vCantMinSolicitudes.Equals(""))
+        //                                {
+        //                                    vSobranteWIPCreacion = vWip;
+        //                                }
+        //                                else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
+        //                                {
+        //                                    vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
+        //                                }
+        //                                else
+        //                                {
+        //                                    vSobranteWIPCreacion = 0;
+        //                                }
+
+
+        //                                if (vMinDiarios <= vSobranteWIPCreacion)
+        //                                {
+        //                                    if (vDatosMin == null)
+        //                                        vDatosMin = vData.Clone();
+        //                                    if (vDatosMin != null)
+        //                                    {
+        //                                        if (vDatosMin.Rows.Count < 1)
+        //                                        {
+        //                                            vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+        //                                        }
+        //                                        else
+        //                                        {
+        //                                            vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+        //                                        }
+        //                                    }
+        //                                }
+        //                                else
+        //                                {
+        //                                    vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
+        //                                    vMinDiarios = vSobranteWIPCreacion;
+        //                                    if (vDatosMin == null)
+        //                                        vDatosMin = vData.Clone();
+        //                                    if (vDatosMin != null)
+        //                                    {
+        //                                        if (vDatosMin.Rows.Count < 1)
+        //                                        {
+        //                                            vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+        //                                        }
+        //                                        else
+        //                                        {
+        //                                            vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+
+        //                    if (vMinsFaltante != 0)
+        //                        throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+
+        //                }
+        //                else if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday || vFechaInicio.DayOfWeek == DayOfWeek.Sunday)
+        //                {
+        //                    TimeSpan span = Convert.ToDateTime(vFechaFinConver) - Convert.ToDateTime(vFechaInicioConver);
+        //                    int businessDays = span.Days;
+        //                    int fullWeekCount = businessDays / 7;
+
+        //                    if (businessDays == 7)
+        //                    {
+        //                        businessDays = businessDays - 2;
+        //                    }
+        //                    else if (businessDays == 6)
+        //                    {
+        //                        businessDays = businessDays - 1;
+        //                    }
+        //                    else if (businessDays > fullWeekCount * 7)
+        //                    {
+        //                        int firstDayOfWeek = (int)vFechaInicioConver.DayOfWeek;
+        //                        int lastDayOfWeek = (int)vFechaFinConver.DayOfWeek;
+        //                        if (lastDayOfWeek < firstDayOfWeek)
+        //                            lastDayOfWeek += 7;
+        //                        if (firstDayOfWeek <= 6)
+        //                        {
+        //                            if (lastDayOfWeek >= 7)
+        //                                businessDays -= 2;
+        //                            else if (lastDayOfWeek >= 6)
+        //                                businessDays -= 1;
+        //                        }
+        //                        else if (firstDayOfWeek <= 7 && lastDayOfWeek >= 7)// Only Sunday is in the remaining time interval
+        //                            businessDays -= 1;
+
+        //                        //subtract the weekends during the full weeks in the interval
+        //                        businessDays -= fullWeekCount + fullWeekCount;
+        //                    }
+        //                    int vDias = businessDays + 1;
+        //                    Session["GESTIONES_DIAS"] = vDias;
+
+        //                    LbDiaNoHabil.Text = "Se debe iniciar a trabajar en la tarjeta un día de trabajo no hábil";
+        //                    divDiaNoHabil.Visible = true;
+        //                    if (vFechaInicio.DayOfWeek == DayOfWeek.Saturday)
+        //                    {
+        //                        if (vDias == 1)
+        //                        {
+        //                            if (vDatosMin == null)
+        //                                vDatosMin = vData.Clone();
+        //                            if (vDatosMin != null)
+        //                            {
+        //                                vFechaInicioSoli = vFechaInicio.ToString("dd/MM/yyyy");
+        //                                vDatosMin.Rows.Add("1", vFechaInicioSoli, vMinFaltantesDetener);
+        //                            }
+        //                        }
+        //                        else
+        //                        {
+        //                            vDias = vDias + 2;
+        //                            vMinDiarios = Convert.ToInt32(vMinFaltantesDetener) / vDias;
+        //                            DateTime vFechaFinConverDomingo = vFechaInicioConver.AddDays(1);
+        //                            DateTime vFechaInicioSemana = vFechaFinConverDomingo.AddDays(1);
+        //                            int vCount = 0;
+        //                            int vResta = 0;
+        //                            double vMinsFaltante = 0;
+
+        //                            for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConverDomingo; fecha = fecha.AddDays(1))
+        //                            {
+        //                                string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+        //                                if (vDatosMin == null)
+        //                                    vDatosMin = vData.Clone();
+        //                                if (vDatosMin != null)
+        //                                {
+        //                                    if (vDatosMin.Rows.Count < 1)
+        //                                    {
+        //                                        vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                        vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+        //                                    }
+        //                                }
+
+        //                            }
+
+        //                            for (DateTime fecha = vFechaInicioSemana; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
+        //                            {
+        //                                if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
+        //                                {
+        //                                    vCount = vCount + 1;
+        //                                    vResta = (vDias - vCount) + 1;
+
+        //                                    if (vMinsFaltante != 0)
+        //                                    {
+        //                                        vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
+        //                                        vMinsFaltante = 0;
+        //                                    }
+
+        //                                    string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+        //                                    string vCantMinSolicitudes = "";
+        //                                    string vQuerys = "GESTIONES_Solicitud 9,'" + vResponsableTarjeta + "','" + vFechaEvaluar + "'";
+        //                                    DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
+        //                                    vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
+        //                                    double vSobranteWIPCreacion = 0;
+
+        //                                    if (vCantMinSolicitudes.Equals(""))
+        //                                    {
+        //                                        vSobranteWIPCreacion = vWip;
+        //                                    }
+        //                                    else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
+        //                                    {
+        //                                        vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                        vSobranteWIPCreacion = 0;
+        //                                    }
+
+
+        //                                    if (vMinDiarios <= vSobranteWIPCreacion)
+        //                                    {
+        //                                        if (vDatosMin == null)
+        //                                            vDatosMin = vData.Clone();
+        //                                        if (vDatosMin != null)
+        //                                        {
+        //                                            if (vDatosMin.Rows.Count < 1)
+        //                                            {
+        //                                                vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+        //                                            }
+        //                                            else
+        //                                            {
+        //                                                vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+        //                                            }
+        //                                        }
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                        vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
+        //                                        vMinDiarios = vSobranteWIPCreacion;
+        //                                        if (vDatosMin == null)
+        //                                            vDatosMin = vData.Clone();
+        //                                        if (vDatosMin != null)
+        //                                        {
+        //                                            if (vDatosMin.Rows.Count < 1)
+        //                                            {
+        //                                                vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+        //                                            }
+        //                                            else
+        //                                            {
+        //                                                vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+        //                                            }
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+
+        //                            if (vMinsFaltante != 0)
+        //                                throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        vDias = vDias;
+        //                        vMinDiarios = Convert.ToInt32(vMinFaltantesDetener) / vDias;
+        //                        DateTime vFechaFinConverDomingo = vFechaInicioConver;
+        //                        DateTime vFechaInicioSemana = vFechaFinConverDomingo.AddDays(1);
+        //                        int vCount = 0;
+        //                        int vResta = 0;
+        //                        double vMinsFaltante = 0;
+
+        //                        for (DateTime fecha = vFechaInicioConver; fecha <= vFechaFinConverDomingo; fecha = fecha.AddDays(1))
+        //                        {
+        //                            string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+        //                            if (vDatosMin == null)
+        //                                vDatosMin = vData.Clone();
+        //                            if (vDatosMin != null)
+        //                            {
+        //                                if (vDatosMin.Rows.Count < 1)
+        //                                {
+        //                                    vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+        //                                }
+        //                                else
+        //                                {
+        //                                    vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+        //                                }
+        //                            }
+
+        //                        }
+
+        //                        for (DateTime fecha = vFechaInicioSemana; fecha <= vFechaFinConver; fecha = fecha.AddDays(1))
+        //                        {
+        //                            if (fecha.DayOfWeek != DayOfWeek.Sunday && fecha.DayOfWeek != DayOfWeek.Saturday)
+        //                            {
+        //                                vCount = vCount + 1;
+        //                                vResta = (vDias - vCount) + 1;
+
+        //                                if (vMinsFaltante != 0)
+        //                                {
+        //                                    vMinDiarios = (((vMinDiarios + vMinsFaltante) * vResta) + vMinsFaltante) / vResta;
+        //                                    vMinsFaltante = 0;
+        //                                }
+
+        //                                string vFechaEvaluar = Convert.ToDateTime(fecha).ToString(vFormato);
+        //                                string vCantMinSolicitudes = "";
+        //                                string vQuerys = "GESTIONES_Solicitud 9,'" + vResponsableTarjeta + "','" + vFechaEvaluar + "'";
+        //                                DataTable vDato = vConexionGestiones.obtenerDataTableGestiones(vQuerys);
+        //                                vCantMinSolicitudes = vDato.Rows[0]["minDiarios"].ToString();
+        //                                double vSobranteWIPCreacion = 0;
+
+        //                                if (vCantMinSolicitudes.Equals(""))
+        //                                {
+        //                                    vSobranteWIPCreacion = vWip;
+        //                                }
+        //                                else if (Convert.ToDouble(vCantMinSolicitudes) <= vWip)
+        //                                {
+        //                                    vSobranteWIPCreacion = vWip - Convert.ToDouble(vDato.Rows[0]["minDiarios"].ToString());
+        //                                }
+        //                                else
+        //                                {
+        //                                    vSobranteWIPCreacion = 0;
+        //                                }
+
+
+        //                                if (vMinDiarios <= vSobranteWIPCreacion)
+        //                                {
+        //                                    if (vDatosMin == null)
+        //                                        vDatosMin = vData.Clone();
+        //                                    if (vDatosMin != null)
+        //                                    {
+        //                                        if (vDatosMin.Rows.Count < 1)
+        //                                        {
+        //                                            vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+        //                                        }
+        //                                        else
+        //                                        {
+        //                                            vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+        //                                        }
+        //                                    }
+        //                                }
+        //                                else
+        //                                {
+        //                                    vMinsFaltante = vMinDiarios - vSobranteWIPCreacion;
+        //                                    vMinDiarios = vSobranteWIPCreacion;
+        //                                    if (vDatosMin == null)
+        //                                        vDatosMin = vData.Clone();
+        //                                    if (vDatosMin != null)
+        //                                    {
+        //                                        if (vDatosMin.Rows.Count < 1)
+        //                                        {
+        //                                            vDatosMin.Rows.Add("1", vFechaEvaluar, vMinDiarios);
+        //                                        }
+        //                                        else
+        //                                        {
+        //                                            vDatosMin.Rows.Add((vDatosMin.Rows.Count) + 1, vFechaEvaluar, vMinDiarios);
+        //                                        }
+        //                                    }
+        //                                }
+        //                            }
+        //                        }
+
+        //                        if (vMinsFaltante != 0)
+        //                            throw new Exception("Nota:Debe extender la fecha de  FIN debido que la distribución de la cargabilidad de los minutos hay un faltante de: " + vMinsFaltante);
+
+        //                    }
+
+        //                }
+
+
+        //                Session["GESTIONES_TAREAS_MIN_DIARIOS"] = vDatosMin;
+        //                GVDistribucion.DataSource = vDatosMin;
+        //                GVDistribucion.DataBind();
+
+
+        //                TxTimeModal.Text = vMinFaltantesDetener + " Mins";
+        //                TxEntregaModal.Text = TxNewFechaEntrega.Text;
+        //                TxInicioModal.Text = TxNewFechaInicio.Text;
+        //                UpdatePanel6.Update();
+
+        //                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaConfirmarOpen();", true);
+        //            }
+        //            else
+        //            {
+        //                validacionesCerrarTarea();
+        //                LbTituloCerrar.Text = "Está seguro de la " + DdlAccion.SelectedItem.Text + ": " + vEx;
+        //                UpdatePanel14.Update();
+        //                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Pop", "ModalTarjetaCerrarOpen();", true);
+        //            }
+
+        //        }
+
+        //        BtnConfirmarTarea_1.Visible = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LbAlertaGuardar.InnerText = ex.Message;
+        //        divAlertaGuardar.Visible = true;
+        //        //OpenModalLoad();
+        //    }
+        //}
 
 
 
@@ -8393,9 +8443,17 @@ namespace Infatlan_Kanban.pages
             cargarData();
             limpiarCreacionTarea();
         }
-
-       
-
- 
+        protected void ckEscalacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ckEscalacion.SelectedValue == "1")
+            {
+                DdlEquipos.Visible = true;
+           }
+            else
+            {
+                DdlEquipos.Visible = false;
+            }
+            UpdatePanel41.Update();
+        }
     }
 }
